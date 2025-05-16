@@ -1,9 +1,7 @@
 services:
-  postgres:
-    image: 'postgres:latest'
-    environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+  couchbase-server:
+    build: ./couchbase-server
+    image: couchbase:enterprise
     ports:
-      - '5432'
+      - 8091-8096:8091-8096
+      - 11210:11210
