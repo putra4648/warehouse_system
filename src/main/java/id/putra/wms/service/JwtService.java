@@ -6,7 +6,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Objects;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +28,8 @@ public class JwtService {
         return Jwts.builder().signWith(privateKey()).subject(username).compact();
     }
 
-    public boolean verifyToken(String token) throws Exception {
-        Jws<Claims> claimsJws = Jwts.parser().verifyWith(publicKey()).build().parseSignedClaims(token);
-        return claimsJws != null;
+    public Jws<Claims> claimsJws(String token) throws Exception {
+        return Jwts.parser().verifyWith(publicKey()).build().parseSignedClaims(token);
     }
 
 

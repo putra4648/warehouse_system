@@ -24,6 +24,6 @@ class JWTUtilTest {
     @Test
     void whenTokenProvided_tokenShouldVerifiedTrue() throws Exception {
         String token = "eyJhbGciOiJFZERTQSJ9.eyJzdWIiOiJhZG1pbiJ9.tkd3OM8efNd24ClPUy82pdR-mrd3yUG6zmPHUbE3o33olxuD8qf142PDq9mOV7P9ON8IwNNq_9x3WiHQyXAGAQ";
-        assertTrue(jwtService.verifyToken(token));
+        assertNotNull(jwtService.claimsJws(token).getPayload().getSubject());
     }
 }
