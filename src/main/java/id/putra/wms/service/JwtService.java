@@ -1,0 +1,64 @@
+package id.putra.wms.service;
+
+import java.io.FileReader;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Objects;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import lombok.RequiredArgsConstructor;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.util.io.pem.PemObject;
+import org.bouncycastle.util.io.pem.PemReader;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class JwtService {
+
+    private final ResourceLoader resourceLoader;
+
+
+    public String generateToken(String username) throws Exception {
+        return Jwts.builder().signWith(privateKey()).subject(username).compact();
+    }
+
+    public boolean verifyToken(String token) throws Exception {
+        Jws<Claims> claimsJws = Jwts.parser().verifyWith(publicKey()).build().parseSignedClaims(token);
+        return claimsJws != null;
+    }
+
+
+    private PrivateKey privateKey() throws Exception {
+        KeyFactory kf = KeyFactory.getInstance("Ed25519");
+        System.out.println(resourceLoader.getResource("classpath:public.pem").getFile());
+
+        try (FileReader fr = new FileReader(resourceLoader.getResource("classpath:private.pem").getFile()); PemReader pr = new PemReader(fr)) {
+            PemObject pemObject = pr.readPemObject();
+            byte[] content = pemObject.getContent();
+
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(content, BouncyCastleProvider.PROVIDER_NAME);
+            return kf.generatePrivate(keySpec);
+        }
+    }
+
+    private PublicKey publicKey() throws Exception {
+        KeyFactory factory = KeyFactory.getInstance("Ed25519");
+
+        try (FileReader fr = new FileReader(resourceLoader.getResource("classpath:public.pem").getFile());
+             PemReader pemReader = new PemReader(fr)) {
+
+            PemObject pemObject = pemReader.readPemObject();
+            byte[] content = pemObject.getContent();
+            X509EncodedKeySpec pubKeySpec = new X509EncodedKeySpec(content);
+            return factory.generatePublic(pubKeySpec);
+        }
+    }
+}
