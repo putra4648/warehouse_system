@@ -25,7 +25,7 @@ public class SecurityConfig {
     @Order(1)
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         return http.csrf(Customizer.withDefaults())
-                .securityMatcher("/api/**")
+                .securityMatcher("/**")
                 .authorizeHttpRequests(request -> request.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(Customizer.withDefaults())
