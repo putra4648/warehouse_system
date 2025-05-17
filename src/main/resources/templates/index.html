@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/index}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<p th:text="${roles}"></p>
+<div layout:decorate="content">
+    <h2>Welcome <span sec:authentication="name"></span></h2>
+    <div sec:authorize="isAuthenticated()">
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
 </body>
 </html>

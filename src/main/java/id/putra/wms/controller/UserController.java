@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Map;
 
@@ -31,9 +32,14 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public String post(@ModelAttribute("registerForm") RegisterForm form, Model model) throws Exception {
+    public String post(@ModelAttribute("registerForm") RegisterForm form, RedirectAttributes attributes, Model model) {
         model.addAttribute("registerForm", form);
-        authService.register(form);
-        return "redirect:/login";
+        try {
+            authService.register(form);
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:register";
+        }
+        return "redirect:login";
     }
 }

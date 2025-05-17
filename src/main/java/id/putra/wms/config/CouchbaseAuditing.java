@@ -20,13 +20,14 @@ public class CouchbaseAuditing {
         return new AuditorAware<User>() {
             @Override
             public Optional<User> getCurrentAuditor() {
-                System.out.println(SecurityContextHolder.getContext().getAuthentication().isAuthenticated());
-//                return Optional.ofNullable(SecurityContextHolder.getContext())
-//                        .map(SecurityContext::getAuthentication)
-//                        .filter(Authentication::isAuthenticated)
-//                        .map(Authentication::getPrincipal)
-//                        .map(User.class::cast);
-                return Optional.empty();
+                return Optional.ofNullable(SecurityContextHolder.getContext())
+                        .map(SecurityContext::getAuthentication)
+                        .filter(Authentication::isAuthenticated)
+                        .map(Authentication::getPrincipal)
+                        .map(principal -> {
+                            if (principal instanceof User) return (User) principal;
+                            return null;
+                        });
             }
         };
     }
