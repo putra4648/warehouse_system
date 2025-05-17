@@ -6,6 +6,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,23 +23,23 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(1)
+    @Order(2)
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
-        return http.csrf(Customizer.withDefaults())
-                .securityMatcher("/**")
+        return http
+                .securityMatcher("/api/**")
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(Customizer.withDefaults())
-                .logout(Customizer.withDefaults())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
-    @Order(2)
+    @Order(1)
     SecurityFilterChain webjarsFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/webjars/**", "/error/**")
-                .authorizeHttpRequests(request -> request.requestMatchers("/webjars/**", "/error").permitAll()).build();
+                .securityMatcher("/error/**", "/api/register", "/api/login")
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(request -> request.requestMatchers("/error", "/api/register", "api/login").permitAll()).build();
     }
 }

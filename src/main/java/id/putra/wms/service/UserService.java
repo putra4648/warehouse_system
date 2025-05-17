@@ -1,5 +1,6 @@
 package id.putra.wms.service;
 
+import id.putra.wms.entity.Role;
 import id.putra.wms.entity.User;
 import id.putra.wms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
