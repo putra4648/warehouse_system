@@ -3,7 +3,6 @@ package id.putra.wms.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,7 +27,7 @@ public class SecurityConfig {
         return http
                 .securityMatcher("/api/**")
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.anyRequest().authenticated())
+                .authorizeHttpRequests(request -> request.requestMatchers("/api/roles").hasRole("ADMIN").anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -36,7 +35,7 @@ public class SecurityConfig {
 
     @Bean
     @Order(1)
-    SecurityFilterChain webjarsFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain allowedSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher("/error/**", "/api/register", "/api/login")
                 .csrf(AbstractHttpConfigurer::disable)

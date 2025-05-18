@@ -7,7 +7,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;
+import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
+import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
+import org.springframework.data.couchbase.repository.Collection;
+import org.springframework.data.couchbase.repository.Scope;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Document
@@ -15,10 +20,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Role {
+@Scope("user")
+@Collection("role-collection")
+public class Role implements Serializable {
     @Id
-    @Field
-    private UUID id;
+    @GeneratedValue(strategy = GenerationStrategy.UNIQUE)
+    private String id;
 
     @Field
     private String role;
