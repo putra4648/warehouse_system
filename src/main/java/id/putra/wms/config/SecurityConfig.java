@@ -27,7 +27,12 @@ public class SecurityConfig {
         return http
                 .securityMatcher("/api/**")
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/roles").hasRole("ADMIN").anyRequest().authenticated())
+                .authorizeHttpRequests(request ->
+                        request
+                                .requestMatchers("/api/admin/**")
+                                .hasRole("ADMIN")
+                                .anyRequest()
+                                .authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
