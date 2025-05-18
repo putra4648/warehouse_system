@@ -1,13 +1,9 @@
 package id.putra.wms.controller;
 
 import id.putra.wms.dto.response.AppErrorResponse;
-import id.putra.wms.exception.RolesException;
-import id.putra.wms.exception.TokenException;
-import id.putra.wms.exception.UserException;
-import jakarta.validation.ValidationException;
+import id.putra.wms.exception.AdminException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,8 +17,8 @@ import java.util.Map;
 @Slf4j
 public class GlobalControllerAdvice {
 
-    @ExceptionHandler({UserException.class, TokenException.class, RolesException.class})
-    public ResponseEntity<AppErrorResponse> handleUserException(RuntimeException ex) {
+    @ExceptionHandler(AdminException.class)
+    public ResponseEntity<AppErrorResponse> handleAdminException(AdminException ex) {
         var response = new AppErrorResponse();
         response.setMessage(ex.getMessage());
 
