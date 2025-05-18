@@ -13,7 +13,7 @@ import org.springframework.data.couchbase.repository.Collection;
 import org.springframework.data.couchbase.repository.Scope;
 
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.Set;
 
 @Document
 @Getter
@@ -32,4 +32,9 @@ public class Role implements Serializable {
 
     @Field
     private String description;
+
+    @Field("permission_ids")
+    private Set<Permission> permissionIds;
+
+
 }
