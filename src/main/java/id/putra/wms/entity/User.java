@@ -9,6 +9,7 @@ import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
+import org.springframework.data.couchbase.core.query.N1qlJoin;
 import org.springframework.data.couchbase.repository.Collection;
 import org.springframework.data.couchbase.repository.Scope;
 
@@ -43,8 +44,11 @@ public class User extends BaseEntity implements Serializable {
     private String lastname;
 
     @Field("role_ids")
-    private Set<String> roles;
+    private Set<String> roleIds;
 
     @Field("cached_permissions")
     private Set<String> cachedPermissions;
+
+    @N1qlJoin(on = "rks.id in lks.role_ids")
+    private Set<Role> roles;
 }

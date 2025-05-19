@@ -8,6 +8,9 @@ spring:
   data:
     couchbase:
       bucket-name: warehouse
+    web:
+      pageable:
+        one-indexed-parameters: true
   jpa:
     show-sql: true
     properties:
