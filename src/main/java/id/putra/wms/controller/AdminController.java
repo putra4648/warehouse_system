@@ -2,7 +2,8 @@ package id.putra.wms.controller;
 
 import id.putra.wms.dto.UserDto;
 import id.putra.wms.dto.param.AdminParam;
-import id.putra.wms.dto.response.AppSuccessResponse;
+import id.putra.wms.dto.param.PageableAndSortParam;
+import id.putra.wms.dto.response.AppResponse;
 import id.putra.wms.service.AdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,14 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("manage")
-    public ResponseEntity<AppSuccessResponse> roles(@Valid @RequestParam AdminParam param, @Valid @RequestBody UserDto body) {
+    public ResponseEntity<AppResponse.WithMessageOnly> roles(@Valid @RequestParam AdminParam param, @Valid @RequestBody UserDto body) {
         adminService.manageUser(param, body);
-        return ResponseEntity.ok().body(new AppSuccessResponse("Success"));
+        return ResponseEntity.ok().body(new AppResponse.WithMessageOnly("Success"));
+    }
+
+    @GetMapping("users")
+    public ResponseEntity<AppResponse.WithPaging<UserDto>> users(@Valid PageableAndSortParam pageableAndSortParam) {
+        return ResponseEntity.ok().body(adminService.getUsers(pageableAndSortParam));
     }
 
 

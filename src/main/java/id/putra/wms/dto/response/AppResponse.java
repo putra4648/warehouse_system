@@ -30,7 +30,7 @@ public class AppResponse {
      * @param results
      * @param <T>
      */
-    public record WithPaging<T>(int page, int size, long total, String message, List<T> results) {
+    public record WithPaging<T>(long page, long size, long total, String message, List<T> results) {
     }
 
     /**
