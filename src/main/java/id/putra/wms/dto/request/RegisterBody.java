@@ -1,9 +1,6 @@
 package id.putra.wms.dto.request;
 
-import lombok.*;
+import jakarta.validation.constraints.NotBlank;
 
-@Data
-public class RegisterBody {
-    private String username;
-    private String password;
+public record RegisterBody(@NotBlank String username, @NotBlank String password) {
 }

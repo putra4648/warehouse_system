@@ -1,6 +1,6 @@
 package id.putra.wms.dto.request;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
 
-public record LoginBody(String username, String password) {
+public record LoginBody(@NotBlank String username, @NotBlank String password) {
 }

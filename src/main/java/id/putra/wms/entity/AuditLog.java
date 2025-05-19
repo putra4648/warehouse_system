@@ -1,7 +1,6 @@
 package id.putra.wms.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
@@ -9,46 +8,41 @@ import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.Field;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
-import org.springframework.data.couchbase.core.query.N1qlJoin;
+import org.springframework.data.couchbase.core.mapping.id.IdPrefix;
 import org.springframework.data.couchbase.repository.Collection;
 import org.springframework.data.couchbase.repository.Scope;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Date;
 
 @Document
+@Collection("user-audit-collection")
+@Scope("user")
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Scope("user")
-@Collection("user-collection")
-public class User extends BaseEntity implements Serializable {
+public class AuditLog extends BaseEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationStrategy.UNIQUE)
+    @GeneratedValue(strategy = GenerationStrategy.USE_ATTRIBUTES, delimiter = "-")
     private String id;
 
-    @Field
-    private String username;
+    @Field("user_id")
+    @IdPrefix
+    private String userId;
 
     @Field
-    private String password;
+    private String action;
 
     @Field
-    private String email;
+    private final Date timestamp = new Date();
 
     @Field
-    private String firstname;
+    private String ipAddress;
 
-    @Field
-    private String lastname;
+    @Field("old_value")
+    private String oldValue;
 
-    @Field("role_ids")
-    private Set<String> roleIds;
+    @Field("new_value")
+    private String newValue;
 
-    @Field("cached_permissions")
-    private Set<String> cachedPermissions;
-
-    @N1qlJoin(on = "rks.id in lks.role_ids")
-    private Set<Role> roles;
 }
