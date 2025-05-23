@@ -8,11 +8,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final ClientRegistrationRepository clientRegistrationRepository;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -23,19 +31,25 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .oauth2Login(Customizer.withDefaults()) // Enables OAuth2 login
-                // Configures logout settings
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/") // Redirects to the root URL on successful logout
-                        .invalidateHttpSession(true) // Invalidates session to clear session data
-                        .clearAuthentication(true) // Clears authentication details
-                        .deleteCookies("JSESSIONID") // Deletes the session cookie
-                )
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/error/**").permitAll()
+                        .requestMatchers("/error/**", "/logout").permitAll()
                         .anyRequest()
                         .authenticated())
+                .oauth2Login(Customizer.withDefaults())
+                .logout(logout -> logout
+                        .logoutSuccessHandler(oidcLogoutSuccessHandler()))
                 .build();
+    }
+
+    private LogoutSuccessHandler oidcLogoutSuccessHandler() {
+        OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler = new OidcClientInitiatedLogoutSuccessHandler(
+                this.clientRegistrationRepository);
+
+        // Sets the location that the End-User's User Agent will be redirected to
+        // after the logout has been performed at the Provider
+        oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}");
+
+        return oidcLogoutSuccessHandler;
     }
 
 }
