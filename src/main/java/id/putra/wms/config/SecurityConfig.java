@@ -2,15 +2,13 @@ package id.putra.wms.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -22,28 +20,22 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(2)
-    SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/api/**")
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request ->
-                        request
-                                .requestMatchers("/api/admin/**")
-                                .hasRole("ADMIN")
-                                .anyRequest()
-                                .authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(Customizer.withDefaults()) // Enables OAuth2 login
+                // Configures logout settings
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/") // Redirects to the root URL on successful logout
+                        .invalidateHttpSession(true) // Invalidates session to clear session data
+                        .clearAuthentication(true) // Clears authentication details
+                        .deleteCookies("JSESSIONID") // Deletes the session cookie
+                )
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("/error/**").permitAll()
+                        .anyRequest()
+                        .authenticated())
                 .build();
     }
 
-    @Bean
-    @Order(1)
-    SecurityFilterChain allowedSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .securityMatcher("/error/**", "/api/register", "/api/login")
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/error", "/api/register", "api/login").permitAll()).build();
-    }
 }

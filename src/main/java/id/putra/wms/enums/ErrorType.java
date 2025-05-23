@@ -8,7 +8,8 @@ public enum ErrorType {
     ROLE_NOT_FOUND("Required role not found"),
     PERMISSION_NOT_GRANTED("Required permission not granted"),
     TOKEN_MALFORMED("Malformed authentication token"),
-    UNAUTHORIZED_ACCESS("Unauthorized access attempt");
+    UNAUTHORIZED_ACCESS("Unauthorized access attempt"),
+    USERNAME_ALREADY_EXISTS("Username already exists");
 
     private final String message;
 
@@ -19,6 +20,5 @@ public enum ErrorType {
     public String getMessage() {
         return message;
     }
-
 
 }

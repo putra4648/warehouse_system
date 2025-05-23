@@ -2,17 +2,12 @@ package id.putra.wms.dto.param;
 
 import id.putra.wms.enums.ParamActionEnum;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
+@Data
 public class AdminParam {
-    @NotBlank
+    @NotNull
     private ParamActionEnum action;
 
     @NotBlank
