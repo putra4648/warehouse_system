@@ -1,22 +1,30 @@
 spring:
   application:
     name: wms
-  couchbase:
-    connection-string: couchbase://127.0.0.1
-    username: Administrator
-    password: admin123
-  data:
-    couchbase:
-      bucket-name: warehouse
-    web:
-      pageable:
-        one-indexed-parameters: true
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:8000/wms_db
   jpa:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
+        "[format_sql]": true
 
+  security:
+    oauth2:
+      client:
+        provider:
+          "[wms_provider]":
+            issuer-uri: http://localhost:9000/realms/wms
+        registration:
+          "[wms_realm]":
+            client-id: wms-client
+            client-secret: F1CZoPYlGsD6GnT9DPQNKQADl2BJ6JAB
+            scope: openid,profile,basic,roles
+            authorization-grant-type: authorization_code
+            client-name: WMS Client
+            provider: wms_provider
 logging:
   level:
-    org.springframework.security: debug
+    "[org.springframework.security]": debug
