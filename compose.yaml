@@ -7,7 +7,9 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=wms_db
+      - POSTGRES_MULTIPLE_DATABASES=wms_keycloak,wms_db
+    volumes:
+      - ./postgres-multiple-db.sh:/docker-entrypoint-initdb.d/postgres-multiple-db.sh
     networks:
       - wms-network
 
@@ -24,7 +26,7 @@ services:
       - KC_HEALTH_ENABLED=true
       - KC_LOG_LEVEL=info
       - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://wms_db:5432/wms_db
+      - KC_DB_URL=jdbc:postgresql://wms_db:5432/wms_keycloak
       - KC_DB_USERNAME=postgres
       - KC_DB_PASSWORD=postgres
     command: ["start-dev", "--http-port=8080"]
