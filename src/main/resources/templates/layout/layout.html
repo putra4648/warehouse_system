@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link
+      rel="stylesheet"
+      th:href="@{/webjars/AdminLTE/plugins/fontawesome-free/css/all.min.css}"
+    />
     <link
       rel="stylesheet"
       th:href="@{/webjars/AdminLTE/dist/css/adminlte.min.css}"
@@ -17,7 +20,8 @@
       Warehouse Management System
     </title>
   </head>
-  <body class="layout-top-nav">
-    <div layout:fragment="content"></div>
+  <body>
+    <div layout:replace="~{layout/navbar}"></div>
+    <div layout:fragment="content" class="content-wrapper"></div>
   </body>
 </html>

@@ -11,7 +11,12 @@ public class PageController {
     @GetMapping("/")
     public String index(@AuthenticationPrincipal OidcUser user, Model model) {
         model.addAttribute("name", user.getUserInfo().getGivenName());
-        return "index";
+        return "pages/index";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "pages/dashboard";
     }
 
 }

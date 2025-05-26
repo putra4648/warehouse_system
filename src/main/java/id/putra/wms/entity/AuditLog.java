@@ -6,10 +6,12 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.Setter;
 
-@SuperBuilder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuditLog extends BaseEntity implements Serializable {
