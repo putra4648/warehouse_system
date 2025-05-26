@@ -15,16 +15,16 @@ spring:
     oauth2:
       client:
         provider:
-          "[wms_provider]":
+          wms-provider:
             issuer-uri: http://localhost:9000/realms/wms
         registration:
-          "[wms_realm]":
+          wms-client:
             client-id: wms-client
-            client-secret: F1CZoPYlGsD6GnT9DPQNKQADl2BJ6JAB
+            client-secret: I7ufO4qr6UjIfOXxiLWww28hOAdOCxqj
             scope: openid,profile,basic,roles
             authorization-grant-type: authorization_code
             client-name: WMS Client
-            provider: wms_provider
+            provider: wms-provider
 logging:
   level:
     "[org.springframework.security]": debug
