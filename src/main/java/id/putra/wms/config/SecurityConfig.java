@@ -45,7 +45,10 @@ public class SecurityConfig {
                         .authenticated())
                 .oauth2Client(Customizer.withDefaults())
                 .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo -> userInfo.userAuthoritiesMapper(userAuthoritiesMapper())))
+                        .userInfoEndpoint(userInfo -> userInfo.userAuthoritiesMapper(
+                                userAuthoritiesMapper()))
+                        .defaultSuccessUrl("/", true) // Redirect to dashboard after login
+                )
                 .logout(logout -> logout
                         .logoutSuccessHandler(oidcLogoutSuccessHandler()))
                 .build();
