@@ -13,7 +13,9 @@
       th:src="@{/webjars/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js}"
     ></script>
     <script th:src="@{/webjars/AdminLTE/dist/js/adminlte.min.js}"></script>
-    <title>Document</title>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">
+      Warehouse Management System
+    </title>
   </head>
   <body class="layout-top-nav">
     <div layout:fragment="content"></div>
