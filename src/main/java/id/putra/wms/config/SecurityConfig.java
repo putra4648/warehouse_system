@@ -40,7 +40,7 @@ public class SecurityConfig {
         return http
                 .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/webjars/**", "/error/**", "/logout").permitAll()
+                        .requestMatchers("/error/**", "/logout").permitAll()
                         .anyRequest()
                         .authenticated())
                 .oauth2Client(Customizer.withDefaults())
