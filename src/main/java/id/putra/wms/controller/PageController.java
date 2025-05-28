@@ -15,16 +15,16 @@ public class PageController {
         return "pages/index";
     }
 
-    @GetMapping("/logistic")
+    @GetMapping("/outbound")
     public String logistic(Model model) {
-        model.addAttribute("title", "Logistic");
-        return "pages/logistic";
+        model.addAttribute("title", "Outbound");
+        return "pages/outbound";
     }
 
-    @GetMapping("/order")
+    @GetMapping("/inbound")
     public String order(Model model) {
-        model.addAttribute("title", "Order");
-        return "pages/order";
+        model.addAttribute("title", "Inbound");
+        return "pages/inbound";
     }
 
     @GetMapping("/inventory")
@@ -33,6 +33,11 @@ public class PageController {
         return "pages/inventory";
     }
 
+    @GetMapping("/supplier")
+    public String supplier(Model model) {
+        model.addAttribute("title", "Supplier");
+        return "pages/supplier";
+    }
 
     @GetMapping("/report_and_analysis")
     public String reportAndAnalysis(Model model) {
