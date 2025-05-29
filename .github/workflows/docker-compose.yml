@@ -10,9 +10,33 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      # - name: Run docker compose
-      #   run: docker compose up -d
-      - name: Build app
-        run: mvn clean package
-      - name: Run App
-        run: java -jar target/*.jar & sleep 5 
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+    
+    # - name: Run tests
+    #   run: mvn clean test
+    
+    - name: Build application
+      run: mvn clean package -DskipTests
+
+  deploy:
+    runs-on: self-hosted
+    needs: build
+
+    steps:
+      - name: deploy
+        run: nohup java -jar target/*.jar > app.log 2>&1 &
+    
