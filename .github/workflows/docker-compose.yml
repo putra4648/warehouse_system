@@ -37,6 +37,8 @@ jobs:
     needs: build
 
     steps:
+      - name: check folder
+        run: ls -a
       - name: deploy
         run: nohup java -jar target/*.jar > app.log 2>&1 &
     
