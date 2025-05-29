@@ -15,4 +15,4 @@ jobs:
       - name: Build app
         run: mvn clean package
       - name: Run App
-        run: mvn spring-boot:run
+        run: java -jar target/*.jar
