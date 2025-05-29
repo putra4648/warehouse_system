@@ -58,8 +58,6 @@ public class SecurityConfig {
         OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler = new OidcClientInitiatedLogoutSuccessHandler(
                 this.clientRegistrationRepository);
 
-        // Sets the location that the End-User's User Agent will be redirected to
-        // after the logout has been performed at the Provider
         oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}");
 
         return oidcLogoutSuccessHandler;
