@@ -11,5 +11,11 @@ jobs:
         run: docker --version
       - name: Check Docker Compose
         run: docker compose --version
+      - name: Stop app
+        run: docker compose stop
       - name: Run docker compose
         run: docker compose up -d
+      - name: Build app
+        run: mvn clean package
+      - name: Run App
+        run: mvn spring-boot:run
