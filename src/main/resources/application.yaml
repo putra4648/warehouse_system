@@ -20,7 +20,7 @@ spring:
         registration:
           wms-client:
             client-id: wms-client
-            client-secret: I7ufO4qr6UjIfOXxiLWww28hOAdOCxqj
+            client-secret: ${CLIENT_SECRET}
             scope: openid,profile,basic,roles
             authorization-grant-type: authorization_code
             client-name: WMS Client
