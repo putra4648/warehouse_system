@@ -21,7 +21,7 @@ services:
     environment:
       - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
-      - KC_HOSTNAME=localhost
+      - KC_HOSTNAME=${KC_HOSTNAME}
       - KC_HOSTNAME_PORT=8080
       - KC_HEALTH_ENABLED=true
       - KC_LOG_LEVEL=info
