@@ -1,6 +1,9 @@
 name: Docker Compose Action
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 env:
   KC_HOSTNAME: 192.168.0.16
