@@ -10,8 +10,8 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Run docker compose
-        run: docker compose up -d
+      # - name: Run docker compose
+      #   run: docker compose up -d
       - name: Build app
         run: mvn clean package
       - name: Run App
