@@ -5,9 +5,6 @@ on:
     branches:
       - master
 
-env:
-  KC_HOSTNAME: 192.168.0.16
-
 jobs:
   build:
     runs-on: self-hosted
