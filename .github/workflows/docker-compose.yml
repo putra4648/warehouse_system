@@ -2,17 +2,14 @@ name: Docker Compose Action
 
 on: [push]
 
+env:
+  KC_HOSTNAME: 192.168.0.16
+
 jobs:
   build:
     runs-on: self-hosted
 
     steps:
-      - name: Check Docker
-        run: docker --version
-      - name: Check Docker Compose
-        run: docker compose --version
-      - name: Stop app
-        run: docker compose stop
       - name: Run docker compose
         run: docker compose up -d
       - name: Build app
