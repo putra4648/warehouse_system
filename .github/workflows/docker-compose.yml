@@ -15,4 +15,4 @@ jobs:
       - name: Build app
         run: mvn clean package
       - name: Run App
-        run: java -jar target/*.jar
+        run: java -jar target/*.jar & sleep 5 
