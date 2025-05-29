@@ -7,5 +7,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Check Docker
+        run: docker --version
+      - name: Check Docker Compose
+        run: docker compose --version
       - name: Run docker compose
-        run: docker-compose up -d
+        run: docker compose up -d
