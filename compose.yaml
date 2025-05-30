@@ -23,13 +23,14 @@ services:
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
       - KC_HEALTH_ENABLED=true
       - KC_LOG_LEVEL=info
+      - KC_HTTP_ENABLED=true
       - KC_DB=postgres
       - KC_DB_URL=jdbc:postgresql://wms_db:5432/wms_keycloak
       - KC_DB_USERNAME=postgres
       - KC_DB_PASSWORD=postgres
     volumes:
       - ./keycloak:/opt/keycloak/data/import
-    command: ["start-dev", "--http-port=8080"]
+    command: ["start-dev", "--import-realm", "--http-port=8080"]
     networks:
       - wms-network
     depends_on:
@@ -41,6 +42,9 @@ services:
     build:
       context: .
     container_name: app
+    environment:
+      - DB_URL=jdbc:postgresql://wms_db:5432/wms_db
+      - WMS_PROVIDER_URI=http://192.168.0.16:9000/realms/wms
 
 networks:
   wms-network:
