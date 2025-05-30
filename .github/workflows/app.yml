@@ -1,0 +1,17 @@
+name: Docker Compose Action
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-run:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Docker compose run
+        run: docker compose up -d
