@@ -1,10 +1,13 @@
+server:
+  port: 7000
+
 spring:
   application:
     name: wms
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://localhost:8000/wms_db
+    url: ${DB_URL}
   jpa:
     show-sql: true
     properties:
@@ -16,7 +19,7 @@ spring:
       client:
         provider:
           wms-provider:
-            issuer-uri: http://192.168.0.16:9000/realms/wms
+            issuer-uri: ${WMS_PROVIDER_URI}
         registration:
           wms-client:
             client-id: wms-client
