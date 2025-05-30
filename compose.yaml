@@ -43,7 +43,7 @@ services:
       context: .
     container_name: app
     environment:
-      - DB_URL=jdbc:postgresql://wms_db:5432/wms_db
+      - DB_URL=jdbc:postgresql://localhost:8000/wms_db
       - WMS_PROVIDER_URI=http://192.168.0.16:9000/realms/wms
 
 networks:
