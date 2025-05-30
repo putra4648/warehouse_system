@@ -7,8 +7,6 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17 AS main
-COPY --from=build /app /
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} application.jar
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 7000
-ENTRYPOINT ["java", "-jar", "/application.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
