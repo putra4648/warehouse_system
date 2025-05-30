@@ -17,13 +17,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 10s
 
   keycloak:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:26.2.2
     ports:
-      - 9000:8080
+      - 9000:8080 # Main Keycloak port
+      - 9001:9000 # Management/Health port
     environment:
       # - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       # - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
@@ -45,11 +45,14 @@ services:
         condition: service_healthy
     healthcheck:
       test:
-        ["CMD-SHELL", "curl -f http://localhost:8080/health/ready || exit 1"]
+        [
+          "CMD-SHELL",
+          '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { java.net.URI uri = java.net.URI.create(args[0]); System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)uri.toURL().openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:9000/health/live',
+        ]
       interval: 15s
       timeout: 10s
       retries: 10
-      start_period: 90s
+
   app:
     depends_on:
       wms_db:
