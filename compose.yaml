@@ -22,7 +22,7 @@ services:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:26.2.2
     ports:
-      - 9000:8080 # Main Keycloak port
+      - 9000:8080
       - 9001:9000 # Management/Health port
     environment:
       # - KC_BOOTSTRAP_ADMIN_USERNAME=admin
