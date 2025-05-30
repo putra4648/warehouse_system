@@ -9,4 +9,6 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17 AS main
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 7000
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:7000/actuator/health || exit 1
 ENTRYPOINT ["java", "-jar", "app.jar"]
