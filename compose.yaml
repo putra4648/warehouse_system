@@ -27,11 +27,20 @@ services:
       - KC_DB_URL=jdbc:postgresql://wms_db:5432/wms_keycloak
       - KC_DB_USERNAME=postgres
       - KC_DB_PASSWORD=postgres
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
     command: ["start-dev", "--http-port=8080"]
     networks:
       - wms-network
     depends_on:
       - wms_db
+  app:
+    depends_on:
+      - wms_db
+      - keycloak
+    build:
+      context: .
+    container_name: app
 
 networks:
   wms-network:
