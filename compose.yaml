@@ -51,7 +51,7 @@ services:
         ]
       interval: 15s
       timeout: 10s
-      retries: 10
+      retries: 30
 
   app:
     depends_on:
@@ -66,7 +66,7 @@ services:
       - 7000:7000
     environment:
       - DB_URL=jdbc:postgresql://wms_db:5432/wms_db
-      - WMS_PROVIDER_URI=http://keycloak:8080/realms/wms
+      - WMS_PROVIDER_URI=http://192.168.0.16:9000/realms/wms
     networks:
       - wms-network
 
