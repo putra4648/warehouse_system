@@ -7,43 +7,18 @@
   </head>
   <body>
     <div layout:fragment="content">
-      <h1><strong>Inventory Management</strong></h1>
-      <h6>Track and manage your warehouse inventory</h6>
-      <div class="card">
-        <div class="card-body">
-          <form class="d-flex" action="">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text">
-                  <i class="fas fa-search"></i>
-                </div>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search items"
-              />
-            </div>
-            <div class="dropdown ml-2">
-              <button
-                class="btn btn-secondary dropdown-toggle"
-                type="button"
-                data-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown button
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </div>
-          </form>
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1><strong>Inventory Management</strong></h1>
+          <h6>Track and manage your warehouse inventory</h6>
         </div>
+        <button class="btn btn-primary">
+          <i class="fas fa-plus"></i>
+          <span>New Inbound</span>
+        </button>
       </div>
 
-      <div class="row row-cols-3">
+      <div class="row row-cols-md-3">
         <div class="col">
           <div class="card">
             <div class="row align-items-center card-body">
@@ -86,29 +61,79 @@
       </div>
 
       <div class="card">
-        <table id="example-table"></table>
+        <div class="card-body">
+          <form class="d-flex" action="">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <i class="fas fa-search"></i>
+                </div>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search items"
+              />
+            </div>
+            <div class="dropdown ml-2">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fas fa-filter"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <div id="inventory-table"></div>
         <script>
-          $("#example-table").tabulator({
+          $("#inventory-table").tabulator({
             layout: "fitColumns",
+            placeholder: "No Data Available", //display message to user on empty table
+            responsiveLayout: true, // enable responsive layouts
             columns: [
               {
-                title: "Name",
-                field: "name",
+                title: "ID",
+                field: "id",
+                minWidth: 50,
               },
               {
-                title: "Category",
+                title: "Date",
+                minWidth: 100,
               },
               {
-                title: "Quantity",
+                title: "Supplier",
+                minWidth: 200,
               },
               {
-                title: "Price",
+                title: "Expected/Received",
+                minWidth: 100,
               },
               {
-                title: "Location",
+                title: "Reference",
+                minWidth: 100,
               },
               {
                 title: "Status",
+                minWidth: 100,
+              },
+              {
+                title: "Actions",
+                headerSort: false,
+                frozen: true,
+                responsive: 0,
+                minWidth: 100,
+
               },
             ],
           });
