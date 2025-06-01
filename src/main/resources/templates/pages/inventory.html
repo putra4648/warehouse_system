@@ -7,8 +7,16 @@
   </head>
   <body>
     <div layout:fragment="content">
-      <h1><strong>Inventory Management</strong></h1>
-      <h6>Track and manage your warehouse inventory</h6>
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1><strong>Inventory Management</strong></h1>
+          <h6>Track and manage your warehouse inventory</h6>
+        </div>
+        <button class="btn btn-primary">
+          <i class="fas fa-plus"></i>
+          <span>New Inbound</span>
+        </button>
+      </div>
       <div class="card">
         <div class="card-body">
           <form class="d-flex" action="">
@@ -92,23 +100,26 @@
             layout: "fitColumns",
             columns: [
               {
-                title: "Name",
-                field: "name",
+                title: "ID",
+                field: "id",
               },
               {
-                title: "Category",
+                title: "Date",
               },
               {
-                title: "Quantity",
+                title: "Supplier",
               },
               {
-                title: "Price",
+                title: "Expected/Received",
               },
               {
-                title: "Location",
+                title: "Reference",
               },
               {
                 title: "Status",
+              },
+              {
+                title: "Actions",
               },
             ],
           });
