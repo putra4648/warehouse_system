@@ -7,7 +7,113 @@
   </head>
   <body>
     <div layout:fragment="content">
-      <h1>ini adalah Logistic</h1>
+      <h1><strong>Inventory Management</strong></h1>
+      <h6>Track and manage your warehouse inventory</h6>
+      <div class="card">
+        <div class="card-body">
+          <form class="d-flex" action="">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <i class="fas fa-search"></i>
+                </div>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search items"
+              />
+            </div>
+            <div class="dropdown ml-2">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dropdown button
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="row row-cols-3">
+        <div class="col">
+          <div class="card">
+            <div class="row align-items-center card-body">
+              <div class="col-2 text-center text-primary text-xl">
+                <i class="fas fa-cubes"></i>
+              </div>
+              <div>
+                <div class="card-subtitle text-muted">Total Items</div>
+                <div class="card-title"><strong>2</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="row align-items-center card-body">
+              <div class="col-2 text-center text-warning text-xl">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <div>
+                <div class="card-subtitle text-muted">Low Stocks</div>
+                <div class="card-title"><strong>2</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="row align-items-center card-body">
+              <div class="col-2 text-center text-danger text-xl">
+                <i class="fas fa-cubes"></i>
+              </div>
+              <div>
+                <div class="card-subtitle text-muted">Out of Stocks</div>
+                <div class="card-title"><strong>2</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <table id="example-table"></table>
+        <script>
+          $("#example-table").tabulator({
+            layout: "fitColumns",
+            columns: [
+              {
+                title: "Name",
+                field: "name",
+              },
+              {
+                title: "Category",
+              },
+              {
+                title: "Quantity",
+              },
+              {
+                title: "Price",
+              },
+              {
+                title: "Location",
+              },
+              {
+                title: "Status",
+              },
+            ],
+          });
+        </script>
+      </div>
     </div>
   </body>
 </html>

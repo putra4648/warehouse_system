@@ -11,13 +11,25 @@
       rel="stylesheet"
       th:href="@{/webjars/AdminLTE/dist/css/adminlte.min.css}"
     />
+    <link rel="stylesheet" th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" />
+    <link
+      rel="stylesheet"
+      th:href="@{/webjars/tabulator-tables/dist/css/tabulator_bootstrap4.min.css}"
+    />
     <script th:src="@{/webjars/AdminLTE/plugins/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
     <script
       th:src="@{/webjars/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js}"
     ></script>
     <script th:src="@{/webjars/AdminLTE/dist/js/adminlte.min.js}"></script>
     <script
       th:src="@{/webjars/AdminLTE/plugins/chart.js/Chart.bundle.min.js}"
+    ></script>
+    <script
+      th:src="@{/webjars/tabulator-tables/dist/js/tabulator.min.js}"
+    ></script>
+    <script
+      th:src="@{/webjars/tabulator-tables/dist/js/jquery_wrapper.js}"
     ></script>
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">
       Warehouse Management System
