@@ -1,5 +1,7 @@
 package id.putra.wms.controller;
 
+import java.util.stream.IntStream;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,7 @@ public class PageController {
 
     @GetMapping("/supplier")
     public String supplier(Model model) {
+        model.addAttribute("results", IntStream.range(0, 100).toArray());
 
         return "pages/supplier";
     }

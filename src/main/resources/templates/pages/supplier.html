@@ -18,15 +18,17 @@
         </button>
       </div>
 
-      <div class="row row-cols-3">
+      <div class="row row-cols-md-3">
         <div class="col">
           <div class="card">
             <div class="row align-items-center card-body">
               <div class="col-2 text-center text-primary text-xl">
-                <i class="fas fa-cubes"></i>
+                <i class="fas fa-square-full"></i>
               </div>
               <div>
-                <div class="card-subtitle text-muted">Pending Shipments</div>
+                <div class="card-subtitle text-muted">
+                  <strong>Total Suppliers</strong>
+                </div>
                 <div class="card-title"><strong>2</strong></div>
               </div>
             </div>
@@ -36,10 +38,12 @@
           <div class="card">
             <div class="row align-items-center card-body">
               <div class="col-2 text-center text-green text-xl">
-                <i class="fas fa-exclamation-triangle"></i>
+                <i class="fas fa-square-full"></i>
               </div>
               <div>
-                <div class="card-subtitle text-muted">Completed Today</div>
+                <div class="card-subtitle text-muted">
+                  <strong>Active Suppliers</strong>
+                </div>
                 <div class="card-title"><strong>2</strong></div>
               </div>
             </div>
@@ -49,10 +53,12 @@
           <div class="card">
             <div class="row align-items-center card-body">
               <div class="col-2 text-center text-warning text-xl">
-                <i class="fas fa-cubes"></i>
+                <i class="fas fa-square-full"></i>
               </div>
               <div>
-                <div class="card-subtitle text-muted">Expected Today</div>
+                <div class="card-subtitle text-muted">
+                  <strong>Total Month Orders</strong>
+                </div>
                 <div class="card-title"><strong>2</strong></div>
               </div>
             </div>
@@ -79,40 +85,59 @@
         </div>
       </div>
 
-      <div class="card">
-        <table id="outbound-table"></table>
-        <script>
-          $("#outbound-table").tabulator({
-            layout: "fitColumns",
-            columns: [
-              {
-                title: "ID",
-                field: "id",
-              },
-              {
-                title: "Date",
-              },
-              {
-                title: "Customer",
-              },
-              {
-                title: "Items",
-              },
-              {
-                title: "Priority",
-              },
-              {
-                title: "Status",
-              },
-              {
-                title: "Tracking",
-              },
-              {
-                title: "Actions",
-              },
-            ],
-          });
-        </script>
+      <div class="row row-cols-md-4">
+        <div th:each="res: ${results}" class="col">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="card-title w-100"><strong>Jun Corp</strong></h4>
+                  <p class="card-subtitle mb-2 text-muted">Supp001</p>
+                </div>
+                <span class="badge badge-success">Active</span>
+              </div>
+              <div class="d-flex flex-column justify-content-" style="gap: 6px">
+                <div class="d-flex align-items-center text-muted">
+                  <div style="width: 12px">
+                    <i class="fas fa-circle"></i>
+                  </div>
+                  <div class="ml-2">Jun Tralala</div>
+                </div>
+                <div class="d-flex align-items-center text-muted">
+                  <div style="width: 12px">
+                    <i class="far fa-envelope"></i>
+                  </div>
+                  <div class="ml-2">Jun Tralala</div>
+                </div>
+                <div class="d-flex align-items-center text-muted">
+                  <div style="width: 12px">
+                    <i class="fas fa-phone"></i>
+                  </div>
+                  <div class="ml-2">(+62) 812 9999 9999</div>
+                </div>
+                <div class="d-flex align-items-center text-muted">
+                  <div style="width: 12px">
+                    <i class="fas fa-map-marker-alt"></i>
+                  </div>
+                  <div class="ml-2">Jalan Nichiyobi Gacor No 777</div>
+                </div>
+                <hr class="w-100 border-2" />
+                <div class="row row-cols-2">
+                  <div class="col text-muted">Last Order</div>
+                  <div class="col text-right">21/05/2025</div>
+                  <div class="col text-muted">Total Order</div>
+                  <div class="col text-right">2025</div>
+                </div>
+                <div class="d-flex justify-content-between" style="gap: 12px">
+                  <button class="w-100 btn btn-primary">View Details</button>
+                  <button class="w-100 btn btn btn-outline-primary">
+                    Edit
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </body>

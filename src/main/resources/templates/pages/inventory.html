@@ -18,7 +18,7 @@
         </button>
       </div>
 
-      <div class="row row-cols-3">
+      <div class="row row-cols-md-3">
         <div class="col">
           <div class="card">
             <div class="row align-items-center card-body">
@@ -82,7 +82,7 @@
                 data-toggle="dropdown"
                 aria-expanded="false"
               >
-                Dropdown button
+                <i class="fas fa-filter"></i>
               </button>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="#">Action</a>
@@ -95,32 +95,44 @@
       </div>
 
       <div class="card">
-        <table id="example-table"></table>
+        <div id="inventory-table"></div>
         <script>
-          $("#example-table").tabulator({
+          $("#inventory-table").tabulator({
             layout: "fitColumns",
+            placeholder: "No Data Available", //display message to user on empty table
+            responsiveLayout: true, // enable responsive layouts
             columns: [
               {
                 title: "ID",
                 field: "id",
+                minWidth: 50,
               },
               {
                 title: "Date",
+                minWidth: 100,
               },
               {
                 title: "Supplier",
+                minWidth: 200,
               },
               {
                 title: "Expected/Received",
+                minWidth: 100,
               },
               {
                 title: "Reference",
+                minWidth: 100,
               },
               {
                 title: "Status",
+                minWidth: 100,
               },
               {
                 title: "Actions",
+                headerSort: false,
+                frozen: true,
+                responsive: 0,
+                minWidth: 100,
               },
             ],
           });
