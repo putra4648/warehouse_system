@@ -12,7 +12,7 @@
           <h1><strong>Inventory Management</strong></h1>
           <h6>Track and manage your warehouse inventory</h6>
         </div>
-        <button class="btn btn-primary">
+        <button class="btn btn-primary" onclick="newInbound()">
           <i class="fas fa-plus"></i>
           <span>New Inbound</span>
         </button>
@@ -94,17 +94,6 @@
         </div>
       </div>
 
-      <form
-        action="/"
-        th:action="@{/inventory}"
-        th:object="${form}"
-        method="post"
-      >
-        <label for="name">Name</label>
-        <input type="text" th:field="*{name}" />
-        <button type="submit">Save</button>
-      </form>
-
       <div class="card">
         <div id="inventory-table"></div>
         <script>
@@ -149,6 +138,73 @@
           });
         </script>
       </div>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModalCenter"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">
+                Inbound Item
+              </h5>
+            </div>
+            <form
+              action="/"
+              th:action="@{/inventory}"
+              th:object="${form}"
+              method="post"
+            >
+              <div class="modal-body">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control" th:field="*{date}" />
+                <label for="supplier" class="form-label">Supplier</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{supplier}"
+                />
+                <label for="received_date" class="form-label"
+                  >Received Date</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  th:field="*{received_date}"
+                />
+                <label for="ref" class="form-label">Reference</label>
+                <input type="text" class="form-control" th:field="*{ref}" />
+                <label for="status" class="form-label">Status</label>
+                <input type="text" class="form-control" th:field="*{status}" />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">Add</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        function newInbound() {
+          $("#exampleModalCenter").modal({
+            backdrop: "static",
+          });
+        }
+      </script>
     </div>
   </body>
 </html>

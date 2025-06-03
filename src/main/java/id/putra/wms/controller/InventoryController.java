@@ -1,15 +1,19 @@
 package id.putra.wms.controller;
 
-import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import id.putra.wms.dto.InventoryDto;
 import id.putra.wms.service.InventoryService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -20,22 +24,22 @@ public class InventoryController {
 
     @GetMapping("inventory")
     public String inventory(Model model) {
-        model.addAttribute("form", new InventoryForm());
+        model.addAttribute("form", new InventoryDto());
         return "pages/inventory";
     }
 
     @PostMapping("inventory")
-    public String addInventory(@ModelAttribute InventoryForm form) {
-        var body = new HashMap<String, Object>();
-        body.put("name", form.getName());
-        inventoryService.addInventory(body);
-
+    public String addInventory(@ModelAttribute InventoryDto form) {
+        inventoryService.addInventory(form);
         return "redirect:/inventory";
     }
 
-    @Data
-    class InventoryForm {
-        private String name;
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
 }

@@ -29,6 +29,12 @@ public class Inventory extends BaseEntity implements Serializable {
 
     private String name;
 
+    private String supplier;
+
+    private String reference;
+
+    private String status;
+
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
