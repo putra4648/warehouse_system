@@ -101,6 +101,10 @@
             layout: "fitColumns",
             placeholder: "No Data Available", //display message to user on empty table
             responsiveLayout: true, // enable responsive layouts
+            ajaxURL: "/show-inventory", //ajax URL
+            ajaxParams: function () {
+              return { key1: "value1", key2: "value2" };
+            },
             columns: [
               {
                 title: "ID",
@@ -109,22 +113,27 @@
               },
               {
                 title: "Date",
+                field: "date",
                 minWidth: 100,
               },
               {
                 title: "Supplier",
+                field: "date",
                 minWidth: 200,
               },
               {
                 title: "Expected/Received",
+                field: "received_date",
                 minWidth: 100,
               },
               {
                 title: "Reference",
+                field: "ref",
                 minWidth: 100,
               },
               {
                 title: "Status",
+                field: "status",
                 minWidth: 100,
               },
               {

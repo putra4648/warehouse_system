@@ -1,5 +1,8 @@
 package id.putra.wms.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import id.putra.wms.dto.InventoryDto;
@@ -26,5 +29,23 @@ public class InventoryService {
         inventory.setStatus(form.getStatus());
 
         inventoryRepository.save(inventory);
+    }
+
+    public List<InventoryDto> getAll() {
+        final var result = new ArrayList<InventoryDto>();
+        inventoryRepository.findAll().forEach(data -> {
+            var dto = new InventoryDto();
+
+            dto.setId(data.getId());
+            dto.setName(data.getName());
+            dto.setDate(data.getDate());
+            dto.setSupplier(data.getSupplier());
+            dto.setReceived_date(data.getReceivedDate());
+            dto.setRef(data.getReference());
+            dto.setStatus(data.getStatus());
+
+            result.add(dto);
+        });
+        return result;
     }
 }
