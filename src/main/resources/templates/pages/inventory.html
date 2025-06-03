@@ -94,6 +94,17 @@
         </div>
       </div>
 
+      <form
+        action="/"
+        th:action="@{/inventory}"
+        th:object="${form}"
+        method="post"
+      >
+        <label for="name">Name</label>
+        <input type="text" th:field="*{name}" />
+        <button type="submit">Save</button>
+      </form>
+
       <div class="card">
         <div id="inventory-table"></div>
         <script>

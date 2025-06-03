@@ -29,12 +29,6 @@ public class PageController {
         return "pages/inbound";
     }
 
-    @GetMapping("/inventory")
-    public String inventory(Model model) {
-
-        return "pages/inventory";
-    }
-
     @GetMapping("/supplier")
     public String supplier(Model model) {
         model.addAttribute("results", IntStream.range(0, 100).toArray());
@@ -59,4 +53,5 @@ public class PageController {
 
         return "pages/setting";
     }
+
 }
