@@ -35,7 +35,6 @@ public class Inventory extends BaseEntity implements Serializable {
 
     private String status;
 
-    @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
 

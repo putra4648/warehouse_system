@@ -38,11 +38,12 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(Customizer.withDefaults())
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/*"))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/error/**", "/logout").permitAll()
                         .anyRequest()
                         .authenticated())
+                .exceptionHandling(Customizer.withDefaults())
                 .oauth2Client(Customizer.withDefaults())
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo.userAuthoritiesMapper(

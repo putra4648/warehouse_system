@@ -2,6 +2,12 @@ server:
   port: 7000
 
 spring:
+  thymeleaf:
+    cache: false
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
   application:
     name: wms
   datasource:

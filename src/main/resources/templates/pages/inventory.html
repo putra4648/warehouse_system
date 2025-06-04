@@ -62,90 +62,24 @@
 
       <div class="card">
         <div class="card-body">
-          <form class="d-flex" action="">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text bg-transparent">
-                  <i class="fas fa-search"></i>
-                </div>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search items"
-              />
-            </div>
-            <div class="dropdown ml-2">
-              <button
-                class="btn btn-outline-secondary dropdown-toggle"
-                type="button"
-                data-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="fas fa-filter"></i>
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text bg-transparent">
+                <i class="fas fa-search"></i>
               </div>
             </div>
-          </form>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search items"
+              onchange="handleTableChange(event)"
+            />
+          </div>
         </div>
       </div>
 
       <div class="card">
         <div id="inventory-table"></div>
-        <script>
-          $("#inventory-table").tabulator({
-            layout: "fitColumns",
-            placeholder: "No Data Available", //display message to user on empty table
-            responsiveLayout: true, // enable responsive layouts
-            ajaxURL: "/show-inventory", //ajax URL
-            ajaxParams: function () {
-              return { key1: "value1", key2: "value2" };
-            },
-            columns: [
-              {
-                title: "ID",
-                field: "id",
-                minWidth: 50,
-              },
-              {
-                title: "Date",
-                field: "date",
-                minWidth: 100,
-              },
-              {
-                title: "Supplier",
-                field: "date",
-                minWidth: 200,
-              },
-              {
-                title: "Expected/Received",
-                field: "received_date",
-                minWidth: 100,
-              },
-              {
-                title: "Reference",
-                field: "ref",
-                minWidth: 100,
-              },
-              {
-                title: "Status",
-                field: "status",
-                minWidth: 100,
-              },
-              {
-                title: "Actions",
-                headerSort: false,
-                frozen: true,
-                responsive: 0,
-                minWidth: 100,
-              },
-            ],
-          });
-        </script>
       </div>
 
       <!-- Modal -->
@@ -187,8 +121,12 @@
                   class="form-control"
                   th:field="*{received_date}"
                 />
-                <label for="ref" class="form-label">Reference</label>
-                <input type="text" class="form-control" th:field="*{ref}" />
+                <label for="reference" class="form-label">Reference</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  th:field="*{reference}"
+                />
                 <label for="status" class="form-label">Status</label>
                 <input type="text" class="form-control" th:field="*{status}" />
               </div>
@@ -208,10 +146,68 @@
       </div>
 
       <script>
+        const table = new Tabulator("#inventory-table", {
+          layout: "fitColumns",
+          placeholder: "No Data Available",
+          responsiveLayout: true,
+          ajaxURL: "/api/inventory",
+          pagination: true,
+          paginationMode: "remote",
+          paginationSize: 10,
+          sortMode: "remote",
+          ajaxConfig: "POST",
+          ajaxContentType: "json",
+          filterMode: "remote",
+          initialSort: [{ column: "date", dir: "desc" }],
+          columns: [
+            {
+              title: "ID",
+              field: "id",
+              minWidth: 50,
+            },
+            {
+              title: "Date",
+              field: "date",
+              minWidth: 100,
+            },
+            {
+              title: "Supplier",
+              field: "supplier",
+              minWidth: 200,
+            },
+            {
+              title: "Expected/Received",
+              field: "received_date",
+              minWidth: 100,
+            },
+            {
+              title: "Reference",
+              field: "reference",
+              minWidth: 100,
+            },
+            {
+              title: "Status",
+              field: "status",
+              minWidth: 100,
+            },
+            {
+              title: "Actions",
+              headerSort: false,
+              frozen: true,
+              responsive: 0,
+              minWidth: 100,
+            },
+          ],
+        });
+
         function newInbound() {
           $("#exampleModalCenter").modal({
             backdrop: "static",
           });
+        }
+
+        function handleTableChange(event) {
+          table.setFilter("supplier", "starts", event.target.value);
         }
       </script>
     </div>

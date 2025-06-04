@@ -2,7 +2,7 @@ package id.putra.wms.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import id.putra.wms.dto.InventoryDto;
+import id.putra.wms.dto.param.SearchParam;
 import id.putra.wms.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 
@@ -31,10 +33,10 @@ public class InventoryController {
         return "pages/inventory";
     }
 
-    @GetMapping("show-inventory")
+    @PostMapping("api/inventory")
     @ResponseBody
-    public ResponseEntity<List<?>> getMethodName() {
-        return ResponseEntity.ok().body(inventoryService.getAll());
+    public ResponseEntity<Map<String, Object>> showInventory(@RequestBody SearchParam param) {
+        return ResponseEntity.ok().body(inventoryService.getAll(param));
     }
 
     @PostMapping("inventory")

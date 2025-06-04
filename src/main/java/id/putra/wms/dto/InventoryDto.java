@@ -10,7 +10,7 @@ public class InventoryDto {
     private String name;
     private Date date;
     private Date received_date;
-    private String ref;
+    private String reference;
     private String supplier;
     private String status;
 }

@@ -11,7 +11,7 @@ public class DataSourceConfig {
 
     @Bean
     DataSource getDataSource() {
-        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+        DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.url("jdbc:postgresql://localhost:8000/wms_db");
         dataSourceBuilder.username("postgres");
         dataSourceBuilder.password("postgres");
