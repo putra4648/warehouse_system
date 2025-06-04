@@ -2,14 +2,22 @@ server:
   port: 7000
 
 spring:
+  thymeleaf:
+    cache: false
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
   application:
     name: wms
   datasource:
     username: postgres
     password: postgres
-    url: ${DB_URL}
+    url: jdbc:postgresql://localhost:8000/wms_db
   jpa:
     show-sql: true
+    # hibernate:
+    #   ddl-auto: create-drop
     properties:
       hibernate:
         "[format_sql]": true
@@ -19,7 +27,7 @@ spring:
       client:
         provider:
           wms-provider:
-            issuer-uri: ${WMS_PROVIDER_URI}
+            issuer-uri: http://localhost:9000/realms/wms
         registration:
           wms-client:
             client-id: wms-client
