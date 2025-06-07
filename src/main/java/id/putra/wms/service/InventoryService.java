@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import id.putra.wms.dto.InventoryDto;
 import id.putra.wms.dto.param.SearchParam;
-import id.putra.wms.entity.Inventory;
+import id.putra.wms.entity.InventoryItem;
 import id.putra.wms.repository.InventoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +25,13 @@ public class InventoryService {
 
     @Transactional
     public void addInventory(InventoryDto form) {
-        var inventory = new Inventory();
+        var inventory = new InventoryItem();
 
-        inventory.setName(form.getName());
-        inventory.setDate(form.getDate());
-        inventory.setSupplier(form.getSupplier());
-        inventory.setReceivedDate(form.getReceived_date());
-        inventory.setReference(form.getReference());
+        // inventory.setName(form.getName());
+        // inventory.setDate(form.getDate());
+        // inventory.setSupplier(form.getSupplier());
+        // inventory.setReceivedDate(form.getReceived_date());
+        // inventory.setReference(form.getReference());
         inventory.setStatus(form.getStatus());
 
         inventoryRepository.save(inventory);
@@ -57,8 +57,9 @@ public class InventoryService {
                         return Order.desc(field);
                     }
                 }).toList()) : Sort.unsorted());
-        var entity = new Inventory();
-        entity.setSupplier(param.getFilter().isEmpty() ? "" : (String) param.getFilter().get(0).getValue());
+        var entity = new InventoryItem();
+        // entity.setSupplier(param.getFilter().isEmpty() ? "" : (String)
+        // param.getFilter().get(0).getValue());
         ExampleMatcher example = ExampleMatcher.matching().withMatcher("supplier",
                 (matcher) -> matcher.ignoreCase().startsWith());
         var page = inventoryRepository.findAll(Example.of(entity, example), newPageable);
@@ -66,11 +67,11 @@ public class InventoryService {
             var dto = new InventoryDto();
 
             dto.setId(data.getId());
-            dto.setName(data.getName());
-            dto.setDate(data.getDate());
-            dto.setSupplier(data.getSupplier());
-            dto.setReceived_date(data.getReceivedDate());
-            dto.setReference(data.getReference());
+            // dto.setName(data.getName());
+            // dto.setDate(data.getDate());
+            // dto.setSupplier(data.getSupplier());
+            // dto.setReceived_date(data.getReceivedDate());
+            // dto.setReference(data.getReference());
             dto.setStatus(data.getStatus());
 
             return dto;
