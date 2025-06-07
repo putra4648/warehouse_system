@@ -10,10 +10,10 @@ spring:
         one-indexed-parameters: true
   application:
     name: wms
-  datasource:
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:8000/wms_db
+  # datasource:
+  #   username: postgres
+  #   password: postgres
+  #   url: jdbc:postgresql://localhost:8000/wms_db
   jpa:
     show-sql: true
     # hibernate:
