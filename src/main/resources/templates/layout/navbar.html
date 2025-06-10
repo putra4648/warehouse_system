@@ -92,7 +92,7 @@
             <a
               th:href="@{/}"
               class="nav-link"
-              th:classappend="${title} == 'Dashboard' ? 'active' : ''"
+              th:classappend="${path} == '/' ? 'active' : ''"
             >
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>Dashboard</p>
@@ -102,7 +102,7 @@
             <a
               th:href="@{/inventory}"
               class="nav-link"
-              th:classappend="${title} == 'Inventory' ? 'active' : ''"
+              th:classappend="${path} == '/inventory' ? 'active' : ''"
             >
               <i class="nav-icon fas fa-pallet"></i>
               <p>
@@ -115,7 +115,7 @@
             <a
               th:href="@{/inbound}"
               class="nav-link"
-              th:classappend="${title} == 'Order' ? 'active' : ''"
+              th:classappend="${path} == '/inbound' ? 'active' : ''"
             >
               <i class="nav-icon fas fa-arrow-circle-down"></i>
               <p>
@@ -128,7 +128,7 @@
             <a
               th:href="@{/outbound}"
               class="nav-link"
-              th:classappend="${title} == 'Logistic' ? 'active' : ''"
+              th:classappend="${path} == '/outbound' ? 'active' : ''"
             >
               <i class="nav-icon fas fa-arrow-circle-up"></i>
               <p>
@@ -141,7 +141,7 @@
             <a
               th:href="@{/supplier}"
               class="nav-link"
-              th:classappend="${title} == 'Logistic' ? 'active' : ''"
+              th:classappend="${path} == '/supplier' ? 'active' : ''"
             >
               <i class="nav-icon fas fa-truck-loading"></i>
               <p>
@@ -154,17 +154,60 @@
             <a
               th:href="@{/report_and_analysis}"
               class="nav-link"
-              th:classappend="${title} == 'Report & Analysis' ? 'active' : ''"
+              th:classappend="${path} == '/report_and_analysis' ? 'active' : ''"
             >
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>Report & Analysis</p>
             </a>
           </li>
+          <li
+            class="nav-item"
+            th:classappend="${path.contains('/master')} ? 'menu-is-opening menu-open' : ''"
+          >
+            <a class="nav-link" href="#">
+              <i class="nav-icon fas fa-database"></i>
+              <p>Master Data</p>
+            </a>
+            <ul class="nav nav-treeview" data-widget="treeview">
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/master/product}"
+                  th:classappend="${path} == '/master/product' ? 'active' : ''"
+                  >Product</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/master/location}"
+                  th:classappend="${path} == '/master/location' ? 'active' : ''"
+                  >Location</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/master/supplier}"
+                  th:classappend="${path} == '/master/supplier' ? 'active' : ''"
+                  >Supplier</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/master/configuration}"
+                  th:classappend="${path} == '/master/configuration' ? 'active' : ''"
+                  >Configuration</a
+                >
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
             <a
               th:href="@{/user}"
               class="nav-link"
-              th:classappend="${title} == 'User' ? 'active' : ''"
+              th:classappend="${path} == '/user' ? 'active' : ''"
             >
               <i class="nav-icon fas fa-users-cog"></i>
               <p>User</p>
@@ -174,7 +217,7 @@
             <a
               th:href="@{/setting}"
               class="nav-link"
-              th:classappend="${title} == 'Setting' ? 'active' : ''"
+              th:classappend="${path} == '/setting' ? 'active' : ''"
             >
               <i class="nav-icon fas fa-cogs"></i>
               <p>Settings</p>

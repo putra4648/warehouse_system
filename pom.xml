@@ -13,7 +13,7 @@
     <artifactId>wms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>wms</name>
-    <description>wms</description>
+    <description>Warehouse Management System</description>
     <url />
     <licenses>
         <license />
