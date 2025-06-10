@@ -10,6 +10,7 @@
       <h1><strong>Master Product</strong></h1>
       <h6>Manage your product</h6>
       <hr />
+      <h4 th:if="${error}" th:text="${error}"></h4>
       <div class="d-flex mb-3" style="gap: 6px">
         <button class="btn btn-primary" onclick="addProduct()">
           <i class="fas fa-plus"></i>
@@ -42,7 +43,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLongTitle">
-                Inbound Item
+                Add Product
               </h5>
             </div>
             <form
@@ -51,7 +52,6 @@
               th:object="${productForm}"
               method="post"
             >
-              <p th:text="${#fields.hasErrors('sku')}"></p>
               <div class="modal-body">
                 <div class="form-group">
                   <label for="sku">SKU</label>
