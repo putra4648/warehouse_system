@@ -1,5 +1,3 @@
 # Warehouse Management System
 
-🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧
-🚧🚧🚧IN PROGRESS🚧🚧🚧
-🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧🚧
+🚧IN PROGRESS🚧
