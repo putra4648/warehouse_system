@@ -1,10 +1,10 @@
 package id.putra.wms.service;
 
-import java.util.List;
-
 public interface CRUDService<Form, AppException extends RuntimeException> {
 
-    public List<Form> getAll() throws AppException;
+    // public List<Form> getAll() throws AppException;
+
+    public Form getProductById(String id);
 
     public void add(Form form) throws AppException;
 

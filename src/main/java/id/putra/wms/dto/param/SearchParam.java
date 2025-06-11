@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class SearchParam {
+@EqualsAndHashCode(callSuper = false)
+public class SearchParam extends ActionsParam {
     private Integer page;
     private Integer size;
     private List<FilterParam> filter = new ArrayList<>();
