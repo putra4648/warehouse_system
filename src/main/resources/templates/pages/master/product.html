@@ -7,27 +7,23 @@
   </head>
   <body>
     <div layout:fragment="content">
+      <!-- Error dialog -->
+      <div th:utext="${messageHTML}"></div>
+      <div id="message"></div>
+
       <h1><strong>Master Product</strong></h1>
       <h6>Manage your product</h6>
       <hr />
-      <h4 th:if="${error}" th:text="${error}"></h4>
+      <h4 th:if="${message}" th:text="${message}"></h4>
       <div class="d-flex mb-3" style="gap: 6px">
         <button class="btn btn-primary" onclick="addProduct()">
           <i class="fas fa-plus"></i>
           <span>Add Product</span>
         </button>
-        <button class="btn btn-secondary">
-          <i class="fas fa-edit"></i>
-          <span>Edit Product</span>
-        </button>
-        <button class="btn btn-danger">
-          <i class="fas fa-trash"></i>
-          <span>Delete Product</span>
-        </button>
       </div>
 
       <div class="card">
-        <table id="master-product-table"></table>
+        <div id="master-product-table"></div>
       </div>
 
       <!-- Modal -->
@@ -47,8 +43,9 @@
               </h5>
             </div>
             <form
+              id="product-form"
               action="#"
-              th:action="@{/master/product}"
+              th:action="@{/master/product(action='add')}"
               th:object="${productForm}"
               method="post"
             >
@@ -138,33 +135,91 @@
         </div>
       </div>
 
-      <script>
+      <script th:inline="javascript">
         $("#master-product-table").tabulator({
           layout: "fitColumns",
+          placeholder: "No Data Available",
+          responsiveLayout: true,
+          ajaxURL: "/api/master/product",
+          pagination: true,
+          paginationMode: "remote",
+          paginationSize: 10,
+          sortMode: "remote",
+          ajaxConfig: "POST",
+          ajaxContentType: "json",
+          filterMode: "remote",
           columns: [
+            {
+              title: "SKU",
+              field: "sku",
+              minWidth: 100,
+            },
             {
               title: "Name",
               field: "name",
+              minWidth: 120,
+            },
+            {
+              title: "Description",
+              field: "description",
+              minWidth: 100,
+            },
+            {
+              title: "Min. Stock",
+              field: "min_stock",
+            },
+            {
+              title: "Max. Stock",
+              field: "max_stock",
             },
             {
               title: "Category",
-            },
-            {
-              title: "Quantity",
-            },
-            {
-              title: "Price",
-            },
-            {
-              title: "Location",
+              field: "category_id",
             },
             {
               title: "Status",
+              field: "status",
+              formatter: (cell) => {
+                const value = cell.getValue();
+                return `<span class="badge badge-pill ${
+                  value === "true" ? "badge-success" : "badge-danger"
+                }">${value === "true" ? "Active" : "Inactive"}</span>`;
+              },
+            },
+            {
+              title: "Actions",
+              headerSort: false,
+              frozen: true,
+              responsive: 0,
+              minWidth: 100,
+              formatter: (cell) => {
+                return `<div class='d-flex'>
+                     <a class='btn btn-outline-secondary' href='${
+                       "/master/product/" + cell.getData().sku
+                     }'>
+                       <i class='fas fa-edit'></i>
+                     </a>
+                     <a class='btn btn-outline-danger' href='${
+                       "/master/product/" + cell.getData().sku
+                     }'>
+                       <i class='fas fa-edit'></i>
+                     </a>
+                   </div>
+                   `;
+              },
             },
           ],
         });
 
+        const showModal = /*[[${showModal}]]*/ "";
+
+        if (showModal) {
+          $("#product-form").prop("action", "/master/product?action=edit");
+          $("#add-master-product-modal").modal("toggle");
+        }
+
         function addProduct() {
+          $("#product-form").prop("action", "/master/product?action=add");
           $("#add-master-product-modal").modal({
             backdrop: "static",
           });

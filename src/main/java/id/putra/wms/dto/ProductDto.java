@@ -26,6 +26,8 @@ public class ProductDto {
     @Positive
     private Long max_stock;
 
+    private String status;
+
     private Boolean is_active = true;
 
     private String category_id;
