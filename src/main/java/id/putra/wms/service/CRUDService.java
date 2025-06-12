@@ -10,5 +10,5 @@ public interface CRUDService<Form, AppException extends RuntimeException> {
 
     public void update(Form form) throws AppException;
 
-    public void delete(Form form) throws AppException;
+    public void delete(String id) throws AppException;
 }
