@@ -236,9 +236,9 @@
               minWidth: 100,
               formatter: (cell) => {
                 return `<div class='d-flex' style='gap: 6px'>
-                     <a class='btn btn-outline-secondary' href='${
-                       "/master/product/" + cell.getData().sku
-                     }'>
+                     <button class='btn btn-outline-secondary' onclick="showModalEditProduct('${
+                       cell.getData().sku
+                     }')">
                        <i class='fas fa-edit'></i>
                      </a>
                      <button class='btn btn-outline-danger' onclick="showModalDeleteProduct('${
@@ -252,13 +252,6 @@
             },
           ],
         });
-
-        const showModal = /*[[${showModal}]]*/ "";
-
-        if (showModal) {
-          $("#product-form").prop("action", "/master/product?action=edit");
-          $("#add-master-product-modal").modal("toggle");
-        }
 
         function addProduct() {
           $("#product-form").trigger("reset");
@@ -279,6 +272,28 @@
           if (results.length > 0) {
             $("#delete-master-product-modal").modal();
             $("#sku-delete-modal").html(results[0].sku);
+            $("#product-form").find('input[name="sku"]').val(results[0].sku);
+            $("#product-form").find('input[name="name"]').val(results[0].name);
+            $("#product-form")
+              .find('input[name="min_stock"]')
+              .val(results[0].min_stock);
+            $("#product-form")
+              .find('input[name="max_stock"]')
+              .val(results[0].max_stock);
+          }
+        }
+
+        function showModalEditProduct(sku) {
+          const results = $("#master-product-table").tabulator(
+            "searchData",
+            "sku",
+            "=",
+            sku
+          );
+
+          if (results.length > 0) {
+            $("#product-form").prop("action", "/master/product?action=edit");
+            $("#add-master-product-modal").modal("toggle");
             $("#product-form").find('input[name="sku"]').val(results[0].sku);
             $("#product-form").find('input[name="name"]').val(results[0].name);
             $("#product-form")
