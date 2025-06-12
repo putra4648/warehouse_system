@@ -45,6 +45,7 @@ public class ProductService implements CRUDService<ProductDto, ProductException>
     }
 
     @Override
+    @Transactional(rollbackOn = { Exception.class, ProductException.class })
     public void update(ProductDto dto) throws ProductException {
 
         if (productRepository.existsById(dto.getSku())) {
@@ -64,9 +65,13 @@ public class ProductService implements CRUDService<ProductDto, ProductException>
     }
 
     @Override
-    public void delete(ProductDto form) throws ProductException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    @Transactional(rollbackOn = { Exception.class, ProductException.class })
+    public void delete(String id) throws ProductException {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+        } else {
+            throw new ProductException("Product %s not exist".formatted(id));
+        }
     }
 
     @Override

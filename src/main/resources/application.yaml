@@ -38,4 +38,4 @@ spring:
             provider: wms-provider
 logging:
   level:
-    "[org.springframework.security]": OFF
+    "[org.springframework.security]": DEBUG

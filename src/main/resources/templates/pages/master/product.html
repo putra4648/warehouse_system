@@ -26,7 +26,7 @@
         <div id="master-product-table"></div>
       </div>
 
-      <!-- Modal -->
+      <!-- Modal Add Product -->
       <div
         class="modal fade"
         id="add-master-product-modal"
@@ -135,6 +135,48 @@
         </div>
       </div>
 
+      <!-- Modal Delete Product -->
+      <div
+        class="modal fade"
+        id="delete-master-product-modal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">
+                Delete Product
+              </h5>
+            </div>
+            <div class="modal-body">
+              <h4>
+                Are you sure to delete
+                <strong id="sku-delete-modal"></strong> data?
+              </h4>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                class="btn btn-danger"
+                onclick="deleteProduct()"
+              >
+                Ok
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <script th:inline="javascript">
         $("#master-product-table").tabulator({
           layout: "fitColumns",
@@ -193,17 +235,17 @@
               responsive: 0,
               minWidth: 100,
               formatter: (cell) => {
-                return `<div class='d-flex'>
-                     <a class='btn btn-outline-secondary' href='${
-                       "/master/product/" + cell.getData().sku
-                     }'>
+                return `<div class='d-flex' style='gap: 6px'>
+                     <button class='btn btn-outline-secondary' onclick="showModalEditProduct('${
+                       cell.getData().sku
+                     }')">
                        <i class='fas fa-edit'></i>
                      </a>
-                     <a class='btn btn-outline-danger' href='${
-                       "/master/product/" + cell.getData().sku
-                     }'>
-                       <i class='fas fa-edit'></i>
-                     </a>
+                     <button class='btn btn-outline-danger' onclick="showModalDeleteProduct('${
+                       cell.getData().sku
+                     }')">
+                       <i class='fas fa-trash'></i>
+                     </button>
                    </div>
                    `;
               },
@@ -211,18 +253,61 @@
           ],
         });
 
-        const showModal = /*[[${showModal}]]*/ "";
-
-        if (showModal) {
-          $("#product-form").prop("action", "/master/product?action=edit");
-          $("#add-master-product-modal").modal("toggle");
-        }
-
         function addProduct() {
+          $("#product-form").trigger("reset");
           $("#product-form").prop("action", "/master/product?action=add");
           $("#add-master-product-modal").modal({
             backdrop: "static",
           });
+        }
+
+        function showModalDeleteProduct(sku) {
+          const results = $("#master-product-table").tabulator(
+            "searchData",
+            "sku",
+            "=",
+            sku
+          );
+
+          if (results.length > 0) {
+            $("#delete-master-product-modal").modal();
+            $("#sku-delete-modal").html(results[0].sku);
+            $("#product-form").find('input[name="sku"]').val(results[0].sku);
+            $("#product-form").find('input[name="name"]').val(results[0].name);
+            $("#product-form")
+              .find('input[name="min_stock"]')
+              .val(results[0].min_stock);
+            $("#product-form")
+              .find('input[name="max_stock"]')
+              .val(results[0].max_stock);
+          }
+        }
+
+        function showModalEditProduct(sku) {
+          const results = $("#master-product-table").tabulator(
+            "searchData",
+            "sku",
+            "=",
+            sku
+          );
+
+          if (results.length > 0) {
+            $("#product-form").prop("action", "/master/product?action=edit");
+            $("#add-master-product-modal").modal("toggle");
+            $("#product-form").find('input[name="sku"]').val(results[0].sku);
+            $("#product-form").find('input[name="name"]').val(results[0].name);
+            $("#product-form")
+              .find('input[name="min_stock"]')
+              .val(results[0].min_stock);
+            $("#product-form")
+              .find('input[name="max_stock"]')
+              .val(results[0].max_stock);
+          }
+        }
+
+        function deleteProduct() {
+          $("#product-form").prop("action", "/master/product?action=delete");
+          $("#product-form").trigger("submit");
         }
       </script>
     </div>
