@@ -6,7 +6,7 @@
     <title>Dashboard</title>
   </head>
   <body>
-    <div layout:fragment="content">
+    <main layout:fragment="content">
       <!-- Error dialog -->
       <div th:utext="${messageHTML}"></div>
       <div id="message"></div>
@@ -20,6 +20,41 @@
           <i class="fas fa-plus"></i>
           <span>Add Product</span>
         </button>
+      </div>
+
+      <!-- Search -->
+      <div class="card">
+        <form action="">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Search product"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary dropdown-toggle"
+                type="button"
+                data-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dropdown
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
 
       <div class="card">
@@ -111,11 +146,12 @@
                     th:errors="*{max_stock}"
                   ></div>
                 </div>
-                <div class="form-group">
+                <label class="form-label">Status</label>
+                <div class="form-check">
                   <input type="radio" th:field="*{is_active}" value="true" />
                   <label for="is_active">Enabled</label>
                 </div>
-                <div class="form-group">
+                <div class="form-check">
                   <input type="radio" th:field="*{is_active}" value="false" />
                   <label for="is_active">Disabled</label>
                 </div>
@@ -178,7 +214,7 @@
       </div>
 
       <script th:inline="javascript">
-        $("#master-product-table").tabulator({
+        const table = new Tabulator("#master-product-table", {
           layout: "fitColumns",
           placeholder: "No Data Available",
           responsiveLayout: true,
@@ -262,12 +298,13 @@
         }
 
         function showModalDeleteProduct(sku) {
-          const results = $("#master-product-table").tabulator(
-            "searchData",
-            "sku",
-            "=",
-            sku
-          );
+          // const results = $("#master-product-table").tabulator(
+          //   "searchData",
+          //   "sku",
+          //   "=",
+          //   sku
+          // );
+          const results = table.searchData("sku", "=", sku);
 
           if (results.length > 0) {
             $("#delete-master-product-modal").modal();
@@ -284,12 +321,13 @@
         }
 
         function showModalEditProduct(sku) {
-          const results = $("#master-product-table").tabulator(
-            "searchData",
-            "sku",
-            "=",
-            sku
-          );
+          // const results = $("#master-product-table").tabulator(
+          //   "searchData",
+          //   "sku",
+          //   "=",
+          //   sku
+          // );
+          const results = table.searchData("sku", "=", sku);
 
           if (results.length > 0) {
             $("#product-form").prop("action", "/master/product?action=edit");
@@ -310,6 +348,6 @@
           $("#product-form").trigger("submit");
         }
       </script>
-    </div>
+    </main>
   </body>
 </html>

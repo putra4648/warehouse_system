@@ -3,40 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script th:src="@{/jquery/jquery.min.js}"></script>
+    <script th:src="@{/adminlte/js/adminlte.js}"></script>
+    <script th:src="@{/chartjs/dist/chart.umd.js}"></script>
+    <script th:src="@{/tabulator/js/tabulator.min.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/fontawesome/css/fontawesome.min.css}" />
+    <link rel="stylesheet" th:href="@{/fontawesome/css/brands.min.css}" />
+    <link rel="stylesheet" th:href="@{/fontawesome/css/solid.min.css}" />
+    <!-- AdminLTE included bootstrap 5 -->
+    <link rel="stylesheet" th:href="@{/adminlte/css/adminlte.min.css}" />
     <link
       rel="stylesheet"
-      th:href="@{/webjars/AdminLTE/plugins/fontawesome-free/css/all.min.css}"
+      th:href="@{/tabulator/css/tabulator_bootstrap5.min.css}"
     />
-    <link
-      rel="stylesheet"
-      th:href="@{/webjars/AdminLTE/dist/css/adminlte.min.css}"
-    />
-    <link rel="stylesheet" th:href="@{/webjars/jquery-ui/jquery-ui.min.css}" />
-    <link
-      rel="stylesheet"
-      th:href="@{/webjars/tabulator-tables/dist/css/tabulator_bootstrap4.min.css}"
-    />
-    <script th:src="@{/webjars/AdminLTE/plugins/jquery/jquery.min.js}"></script>
-    <script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
-    <script
-      th:src="@{/webjars/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js}"
-    ></script>
-    <script th:src="@{/webjars/AdminLTE/dist/js/adminlte.min.js}"></script>
-    <script
-      th:src="@{/webjars/AdminLTE/plugins/chart.js/Chart.bundle.min.js}"
-    ></script>
-    <script
-      th:src="@{/webjars/tabulator-tables/dist/js/tabulator.min.js}"
-    ></script>
-    <script
-      th:src="@{/webjars/tabulator-tables/dist/js/jquery_wrapper.js}"
-    ></script>
+
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">
       Warehouse Management System
     </title>
   </head>
-  <body class="sidebar-collapse">
-    <div layout:replace="~{layout/navbar}"></div>
-    <div layout:fragment="content" class="content-wrapper p-3"></div>
+  <body class="sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+      <div layout:replace="~{layout/navbar}"></div>
+      <div layout:fragment="content" class="app-main p-3"></div>
+    </div>
+
+    <!-- Bootstrap dropdown not working here -->
+    <!-- <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script> -->
+    <script>
+      $(document).ready(function () {
+        console.log("Layout ready");
+      });
+    </script>
   </body>
 </html>
