@@ -14,6 +14,12 @@
       th:href="@{/tabulator/css/tabulator_bootstrap5.min.css}"
     />
 
+    <script th:src="@{/jquery/jquery.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/adminlte/js/adminlte.js}"></script>
+    <script th:src="@{/chartjs/dist/chart.umd.js}"></script>
+    <script th:src="@{/tabulator/js/tabulator.min.js}"></script>
+
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">
       Warehouse Management System
     </title>
@@ -24,11 +30,6 @@
       <div layout:fragment="content" class="app-main p-3"></div>
     </div>
 
-    <script th:src="@{/jquery/jquery.min.js}"></script>
-    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/adminlte/js/adminlte.js}"></script>
-    <script th:src="@{/chartjs/dist/chart.umd.js}"></script>
-    <script th:src="@{/tabulator/js/tabulator.min.js}"></script>
     <script>
       $(document).ready(function () {
         console.log("Layout ready");
