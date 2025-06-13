@@ -10,14 +10,10 @@ spring:
         one-indexed-parameters: true
   application:
     name: wms
-  # datasource:
-  #   username: postgres
-  #   password: postgres
-  #   url: jdbc:postgresql://localhost:8000/wms_db
   jpa:
     show-sql: true
-    # hibernate:
-    #   ddl-auto: create-drop
+    hibernate:
+      ddl-auto: create-drop
     properties:
       hibernate:
         "[format_sql]": true
@@ -39,3 +35,5 @@ spring:
 logging:
   level:
     "[org.springframework.security]": DEBUG
+    "[com.zaxxer.hikari.HikariConfig]": DEBUG
+    "[com.zaxxer.hikari]": TRACE
