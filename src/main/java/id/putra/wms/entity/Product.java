@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table
+@Table(name = "product")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Product extends BaseEntity implements Serializable {
