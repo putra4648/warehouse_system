@@ -13,7 +13,7 @@ services:
     networks:
       - wms-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U admin"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -23,7 +23,6 @@ services:
     image: quay.io/keycloak/keycloak:26.2.5
     ports:
       - 9000:8080
-      - 9001:9000 # Management/Health port
     environment:
       # - KC_BOOTSTRAP_ADMIN_USERNAME=admin
       # - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
@@ -66,9 +65,9 @@ services:
       - 7000:7000
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://wms_db:5432/wms_db
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-      - WMS_PROVIDER_URI=http://keycloak:9000/realms/wms
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin123
+      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_WMS_PROVIDER_ISSUER_URI=http://keycloak:8080/realms/wms
     networks:
       - wms-network
 
