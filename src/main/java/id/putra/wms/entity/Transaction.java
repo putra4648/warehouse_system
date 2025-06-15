@@ -6,6 +6,8 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -40,5 +42,9 @@ public class Transaction extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "transaction")
     private List<TransactionItem> transactionItems;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
 }

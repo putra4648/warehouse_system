@@ -6,7 +6,7 @@
     <title>Logistic</title>
   </head>
   <body>
-    <div layout:fragment="content">
+    <main layout:fragment="content">
       <div class="d-flex justify-content-between align-items-center">
         <div>
           <h1><strong>Outbound Management</strong></h1>
@@ -82,7 +82,7 @@
       <div class="card">
         <div id="outbound-table"></div>
         <script>
-          $("#outbound-table").tabulator({
+          const table = new Tabulator("#outbound-table", {
             layout: "fitColumns",
             columns: [
               {
@@ -114,6 +114,6 @@
           });
         </script>
       </div>
-    </div>
+    </main>
   </body>
 </html>

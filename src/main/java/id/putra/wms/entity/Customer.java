@@ -27,4 +27,7 @@ public class Customer extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "customer")
     private List<ContactPerson> contactPersons;
 
+    @OneToMany(mappedBy = "customer")
+    private List<Transaction> transactions;
+
 }
