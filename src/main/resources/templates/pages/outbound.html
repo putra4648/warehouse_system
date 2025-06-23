@@ -7,113 +7,54 @@
   </head>
   <body>
     <main layout:fragment="content">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h1><strong>Outbound Management</strong></h1>
-          <h6>Manage outgoing shipments and order fulfillment</h6>
-        </div>
-        <button class="btn btn-primary">
-          <i class="fas fa-plus"></i>
-          <span>New Outbound</span>
-        </button>
-      </div>
-
-      <div class="row row-cols-3">
-        <div class="col">
+      <div
+        layout:replace="~{fragment/main ::  main(title='Outbound Management', subtitle='Manage outgoing shipments and order fulfillment', addHandler='addHandler()', handleTableChange='handleTableChange(event)')}"
+      >
+        <div layout:fragment="main-content">
           <div class="card">
-            <div class="row align-items-center card-body">
-              <div class="col-2 text-center text-primary text-xl">
-                <i class="fas fa-cubes"></i>
-              </div>
-              <div>
-                <div class="card-subtitle text-muted">Pending Shipments</div>
-                <div class="card-title"><strong>2</strong></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <div class="row align-items-center card-body">
-              <div class="col-2 text-center text-green text-xl">
-                <i class="fas fa-exclamation-triangle"></i>
-              </div>
-              <div>
-                <div class="card-subtitle text-muted">Completed Today</div>
-                <div class="card-title"><strong>2</strong></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <div class="row align-items-center card-body">
-              <div class="col-2 text-center text-warning text-xl">
-                <i class="fas fa-cubes"></i>
-              </div>
-              <div>
-                <div class="card-subtitle text-muted">Expected Today</div>
-                <div class="card-title"><strong>2</strong></div>
-              </div>
-            </div>
+            <div id="app-table"></div>
           </div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-body">
-          <form class="d-flex" action="">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text bg-transparent">
-                  <i class="fas fa-search"></i>
-                </div>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search outbound shipments..."
-              />
-            </div>
-          </form>
-        </div>
-      </div>
+      <script>
+        const table = new Tabulator("#app-table", {
+          layout: "fitColumns",
+          columns: [
+            {
+              title: "ID",
+              field: "id",
+            },
+            {
+              title: "Date",
+            },
+            {
+              title: "Customer",
+            },
+            {
+              title: "Items",
+            },
+            {
+              title: "Priority",
+            },
+            {
+              title: "Status",
+            },
+            {
+              title: "Tracking",
+            },
+            {
+              title: "Actions",
+            },
+          ],
+        });
 
-      <div class="card">
-        <div id="outbound-table"></div>
-        <script>
-          const table = new Tabulator("#outbound-table", {
-            layout: "fitColumns",
-            columns: [
-              {
-                title: "ID",
-                field: "id",
-              },
-              {
-                title: "Date",
-              },
-              {
-                title: "Customer",
-              },
-              {
-                title: "Items",
-              },
-              {
-                title: "Priority",
-              },
-              {
-                title: "Status",
-              },
-              {
-                title: "Tracking",
-              },
-              {
-                title: "Actions",
-              },
-            ],
-          });
-        </script>
-      </div>
+        function addHandler() {
+          console.log("outbound handler");
+        }
+
+        function handleTableChange(event) {}
+      </script>
     </main>
   </body>
 </html>
