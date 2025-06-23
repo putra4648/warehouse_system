@@ -1,167 +1,179 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate="~{layout/layout}">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en" layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Dashboard</title>
-  </head>
-  <body>
-    <main layout:fragment="content">
-      <h1><strong>Dashboard</strong></h1>
-      <h6>Welcome back! Here's what's happening in your warehouse today.</h6>
+</head>
+<body>
+<main layout:fragment="content">
+    <div class="row g-2">
+        <div class="col-12">
+            <h1><strong>Dashboard</strong></h1>
+            <h6>Welcome back! Here's what's happening in your warehouse today.</h6>
+        </div>
 
-      <div class="row row-cols-md-4">
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <p class="card-subtitle text-muted">Total Inventory</p>
-              <div class="d-flex align-items-center justify-content-between">
-                <strong>12,847</strong>
-                <button class="btn btn-primary">
-                  <i class="fas fa-info-circle"></i>
-                </button>
-              </div>
-              <div class="card-text text-success">Nambah sedikit</div>
+        <div class="col-12">
+            <div class="row row-cols-md-4 g-2">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-subtitle text-muted">Total Inventory</p>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <strong>12,847</strong>
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                            <div class="card-text text-success">Nambah sedikit</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-subtitle text-muted">Pending Orders</p>
+                            <div
+                                    class="d-flex align-items-center justify-content-between card-text"
+                            >
+                                <strong>12,847</strong>
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-truck"></i>
+                                </button>
+                            </div>
+                            <div class="card-text text-success">Nambah sedikit</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-subtitle text-muted">Low Stock Items</p>
+                            <div
+                                    class="d-flex align-items-center justify-content-between card-text"
+                            >
+                                <strong>12,847</strong>
+                                <button class="btn btn-danger">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </button>
+                            </div>
+                            <div class="card-text text-success">Nambah sedikit</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-subtitle text-muted">Monthly Revenue</p>
+                            <div
+                                    class="d-flex align-items-center justify-content-between card-text"
+                            >
+                                <strong>12,847</strong>
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-wallet"></i>
+                                </button>
+                            </div>
+                            <div class="card-text text-success">Nambah sedikit</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <p class="card-subtitle text-muted">Pending Orders</p>
-              <div
-                class="d-flex align-items-center justify-content-between card-text"
-              >
-                <strong>12,847</strong>
-                <button class="btn btn-primary">
-                  <i class="fas fa-truck"></i>
-                </button>
-              </div>
-              <div class="card-text text-success">Nambah sedikit</div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <p class="card-subtitle text-muted">Low Stock Items</p>
-              <div
-                class="d-flex align-items-center justify-content-between card-text"
-              >
-                <strong>12,847</strong>
-                <button class="btn btn-danger">
-                  <i class="fas fa-exclamation-circle"></i>
-                </button>
-              </div>
-              <div class="card-text text-success">Nambah sedikit</div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <p class="card-subtitle text-muted">Monthly Revenue</p>
-              <div
-                class="d-flex align-items-center justify-content-between card-text"
-              >
-                <strong>12,847</strong>
-                <button class="btn btn-primary">
-                  <i class="fas fa-wallet"></i>
-                </button>
-              </div>
-              <div class="card-text text-success">Nambah sedikit</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="row row-cols-md-2">
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <div class="card-title"><strong>Inbound vs Outbound</strong></div>
-              <canvas id="bar"></canvas>
+        <div class="col-12">
+            <div class="row row-cols-md-2 g-2">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title"><strong>Inbound vs Outbound</strong></div>
+                            <canvas id="bar"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <di class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <strong>Inventory by Category</strong>
+                            </div>
+                            <canvas id="pie"></canvas>
+                        </div>
+                    </div>
+                </di>
             </div>
-          </div>
         </div>
-        <di class="col">
-          <div class="card">
-            <div class="card-body">
-              <div class="card-title">
-                <strong>Inventory by Category</strong>
-              </div>
-              <canvas id="pie"></canvas>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header"><strong>Recent Activity</strong></div>
+                <div class="card-body">
+                    <div class="card-text">No Recent Activity</div>
+                </div>
             </div>
-          </div>
-        </di>
-      </div>
-      <div class="card">
-        <div class="card-header"><strong>Recent Activity</strong></div>
-        <div class="card-body">
-          <div class="card-text">No Recent Activity</div>
         </div>
-      </div>
-      <script>
+
+    </div>
+    <script>
         const bar = new Chart($("#bar")[0].getContext("2d"), {
-          type: "bar",
-          data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [
-              {
-                label: "# of Votes",
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(255, 206, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
+            type: "bar",
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                datasets: [
+                    {
+                        label: "# of Votes",
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 0.2)",
+                            "rgba(54, 162, 235, 0.2)",
+                            "rgba(255, 206, 86, 0.2)",
+                            "rgba(75, 192, 192, 0.2)",
+                            "rgba(153, 102, 255, 0.2)",
+                            "rgba(255, 159, 64, 0.2)",
+                        ],
+                        borderColor: [
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(54, 162, 235, 1)",
+                            "rgba(255, 206, 86, 1)",
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(153, 102, 255, 1)",
+                            "rgba(255, 159, 64, 1)",
+                        ],
+                        borderWidth: 1,
+                    },
                 ],
-                borderColor: [
-                  "rgba(255, 99, 132, 1)",
-                  "rgba(54, 162, 235, 1)",
-                  "rgba(255, 206, 86, 1)",
-                  "rgba(75, 192, 192, 1)",
-                  "rgba(153, 102, 255, 1)",
-                  "rgba(255, 159, 64, 1)",
-                ],
-                borderWidth: 1,
-              },
-            ],
-          },
+            },
         });
 
         const pie = new Chart($("#pie")[0].getContext("2d"), {
-          type: "pie",
-          data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [
-              {
-                label: "# of Votes",
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(255, 206, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
+            type: "pie",
+            data: {
+                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                datasets: [
+                    {
+                        label: "# of Votes",
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 0.2)",
+                            "rgba(54, 162, 235, 0.2)",
+                            "rgba(255, 206, 86, 0.2)",
+                            "rgba(75, 192, 192, 0.2)",
+                            "rgba(153, 102, 255, 0.2)",
+                            "rgba(255, 159, 64, 0.2)",
+                        ],
+                        borderColor: [
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(54, 162, 235, 1)",
+                            "rgba(255, 206, 86, 1)",
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(153, 102, 255, 1)",
+                            "rgba(255, 159, 64, 1)",
+                        ],
+                        borderWidth: 1,
+                    },
                 ],
-                borderColor: [
-                  "rgba(255, 99, 132, 1)",
-                  "rgba(54, 162, 235, 1)",
-                  "rgba(255, 206, 86, 1)",
-                  "rgba(75, 192, 192, 1)",
-                  "rgba(153, 102, 255, 1)",
-                  "rgba(255, 159, 64, 1)",
-                ],
-                borderWidth: 1,
-              },
-            ],
-          },
+            },
         });
-      </script>
-    </main>
-  </body>
+    </script>
+</main>
+</body>
 </html>

@@ -7,107 +7,46 @@
   </head>
   <body>
     <main layout:fragment="content">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h1><strong>Inbound Management</strong></h1>
-          <h6>Track incoming shipments and manage receipts</h6>
-        </div>
-        <button class="btn btn-primary">
-          <i class="fas fa-plus"></i>
-          <span>Add Item</span>
-        </button>
-      </div>
-
-      <div class="row row-cols-3">
-        <div class="col">
+      <div
+        layout:replace="~{fragment/main ::  main(title='Inbound Management', subtitle='Track incoming shipments and manage receipts', addHandler='addHandler()', handleTableChange='handleTableChange(event)')}"
+      >
+        <div layout:fragment="main-content">
           <div class="card">
-            <div class="row align-items-center card-body">
-              <div class="col-2 text-center text-primary text-xl">
-                <i class="fas fa-cubes"></i>
-              </div>
-              <div>
-                <div class="card-subtitle text-muted">Pending Shipments</div>
-                <div class="card-title"><strong>2</strong></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <div class="row align-items-center card-body">
-              <div class="col-2 text-center text-green text-xl">
-                <i class="fas fa-exclamation-triangle"></i>
-              </div>
-              <div>
-                <div class="card-subtitle text-muted">Completed Today</div>
-                <div class="card-title"><strong>2</strong></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <div class="row align-items-center card-body">
-              <div class="col-2 text-center text-warning text-xl">
-                <i class="fas fa-cubes"></i>
-              </div>
-              <div>
-                <div class="card-subtitle text-muted">Expected Today</div>
-                <div class="card-title"><strong>2</strong></div>
-              </div>
-            </div>
+            <div id="app-table"></div>
           </div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-body">
-          <form class="d-flex" action="">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text bg-transparent">
-                  <i class="fas fa-search"></i>
-                </div>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search items"
-              />
-            </div>
-          </form>
-        </div>
-      </div>
+      <script>
+        const table = new Tabulator("#app-table", {
+          layout: "fitColumns",
+          columns: [
+            {
+              title: "Name",
+              field: "name",
+            },
+            {
+              title: "Category",
+            },
+            {
+              title: "Quantity",
+            },
+            {
+              title: "Price",
+            },
+            {
+              title: "Location",
+            },
+            {
+              title: "Status",
+            },
+          ],
+        });
 
-      <div class="card">
-        <div id="inbound-table"></div>
-        <script>
-          const table = new Tabulator("#inbound-table", {
-            layout: "fitColumns",
-            columns: [
-              {
-                title: "Name",
-                field: "name",
-              },
-              {
-                title: "Category",
-              },
-              {
-                title: "Quantity",
-              },
-              {
-                title: "Price",
-              },
-              {
-                title: "Location",
-              },
-              {
-                title: "Status",
-              },
-            ],
-          });
-        </script>
-      </div>
+        function addHandler() {}
+
+        function handleTableChange(event) {}
+      </script>
     </main>
   </body>
 </html>
