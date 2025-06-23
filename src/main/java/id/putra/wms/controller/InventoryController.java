@@ -1,5 +1,6 @@
 package id.putra.wms.controller;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import id.putra.wms.component.MessageBox;
 import id.putra.wms.dto.InventoryDto;
 import id.putra.wms.dto.param.SearchParam;
 import id.putra.wms.service.InventoryService;
@@ -24,7 +26,14 @@ public class InventoryController {
 
     @GetMapping("inventory")
     public String inventory(Model model) {
+        var msgbox = new ArrayList<MessageBox>();
+        msgbox.add(new MessageBox("fas fa-cubes", "Total Items", 50_000L, "text-bg-primary"));
+        msgbox.add(new MessageBox("fas fa-exclamation-triangle", "Low Stocks", 10_000L, "text-bg-warning"));
+        msgbox.add(new MessageBox("fas fa-cubes", "Out of Stocks", 20_000L, "text-bg-danger"));
+
         model.addAttribute("form", new InventoryDto());
+        model.addAttribute("msgbox", msgbox);
+
         return "pages/inventory";
     }
 
