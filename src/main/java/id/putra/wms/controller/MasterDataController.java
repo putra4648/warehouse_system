@@ -27,6 +27,21 @@ import lombok.RequiredArgsConstructor;
 public class MasterDataController implements ErrorController {
 
   private final ProductService productService;
+  private final String MESSAGE = """
+      <div
+        class="alert %s alert-dismissible"
+        role="alert"
+      >
+        <strong>%s </strong> %s
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        >
+        </button>
+      </div>
+            """;
 
   @GetMapping("master/product")
   public String getProduct(Model model) {
@@ -46,64 +61,19 @@ public class MasterDataController implements ErrorController {
 
     if (action.equals("edit")) {
       productService.update(form);
-      String formattedMessage = """
-          <div
-            class="alert alert-success alert-dismissible"
-            role="alert"
-          >
-            <strong>Success </strong> %s
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-                    """.formatted("Product " + form.getSku() + " successfully updated");
-      redirect.addFlashAttribute("messageHTML", formattedMessage);
+      redirect.addFlashAttribute("messageHTML",
+          MESSAGE.formatted("alert-success", "Success", "Product " + form.getSku() + " successfully updated"));
     }
     if (action.equals("add")) {
       productService.add(form);
-      String formattedMessage = """
-          <div
-            class="alert alert-success alert-dismissible"
-            role="alert"
-          >
-            <strong>Success </strong> %s
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-                    """.formatted("Product " + form.getSku() + " successfully added");
-      redirect.addFlashAttribute("messageHTML", formattedMessage);
+      redirect.addFlashAttribute("messageHTML",
+          MESSAGE.formatted("alert-success", "Success", "Product " + form.getSku() + " successfully added"));
     }
 
     if (action.equals("delete")) {
       productService.delete(form.getSku());
-      String formattedMessage = """
-          <div
-            class="alert alert-success alert-dismissible"
-            role="alert"
-          >
-            <strong>Success </strong> %s
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-                    """.formatted("Product " + form.getSku() + " successfully deleted");
-      redirect.addFlashAttribute("messageHTML", formattedMessage);
+      redirect.addFlashAttribute("messageHTML",
+          MESSAGE.formatted("alert-success", "Success", "Product " + form.getSku() + " successfully deleted"));
     }
 
     return "redirect:/master/product";
@@ -117,23 +87,7 @@ public class MasterDataController implements ErrorController {
   @ExceptionHandler({ ProductException.class })
   public String exceptionHandler(ProductException exception, HttpServletRequest request,
       RedirectAttributesModelMap redirect) {
-    String formattedMessage = """
-        <div
-          class="alert alert-danger alert-dismissible"
-          role="alert"
-        >
-          <strong>Error </strong> %s
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-                  """.formatted(exception.getMessage());
-    redirect.addFlashAttribute("messageHTML", formattedMessage);
+    redirect.addFlashAttribute("messageHTML", MESSAGE.formatted("alert-danger", "Error", exception.getMessage()));
     return "redirect:" + request.getServletPath();
   }
 
