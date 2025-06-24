@@ -13,7 +13,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         "[format_sql]": true
@@ -35,5 +35,5 @@ spring:
 logging:
   level:
     "[org.springframework.security]": DEBUG
-    "[com.zaxxer.hikari.HikariConfig]": DEBUG
-    "[com.zaxxer.hikari]": TRACE
+    "[com.zaxxer.hikari.HikariConfig]": OFF
+    "[com.zaxxer.hikari]": OFF
