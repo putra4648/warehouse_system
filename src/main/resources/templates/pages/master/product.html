@@ -7,154 +7,190 @@
   </head>
   <body>
     <main layout:fragment="content">
-      <!-- Error dialog -->
-      <div th:utext="${messageHTML}"></div>
-      <div id="message"></div>
+      <div class="row g-2">
+        <!-- Error dialog -->
+        <div class="col-12">
+          <div th:utext="${messageHTML}"></div>
+          <div id="message"></div>
+        </div>
 
-      <h1><strong>Master Product</strong></h1>
-      <h6>Manage your product</h6>
-      <hr />
-      <h4 th:if="${message}" th:text="${message}"></h4>
-      <div class="d-flex mb-3" style="gap: 6px">
-        <button class="btn btn-primary" onclick="addProduct()">
-          <i class="fas fa-plus"></i>
-          <span>Add Product</span>
-        </button>
-      </div>
+        <div class="col-12">
+          <h1><strong>Master Product</strong></h1>
+          <h6>Manage your product</h6>
+          <hr />
+          <h4 th:if="${message}" th:text="${message}"></h4>
+          <div class="d-flex mb-3" style="gap: 6px">
+            <button class="btn btn-primary" onclick="addHandler()">
+              <i class="fas fa-plus"></i>
+              <span>Add Product</span>
+            </button>
+          </div>
+        </div>
 
-      <!-- Search -->
-      <div class="card">
-        <form action="">
-          <div class="input-group">
-            <div class="input-group-prepend">
+        <!-- Search -->
+        <div class="col-12">
+          <div class="card">
+            <div class="input-group">
               <span class="input-group-text">
                 <i class="fas fa-search"></i>
               </span>
-            </div>
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Search product"
-            />
-            <div class="input-group-append">
-              <button
-                class="btn btn-outline-secondary dropdown-toggle"
-                type="button"
-                data-toggle="dropdown"
-                aria-expanded="false"
+              <input
+                class="form-control w-75"
+                type="text"
+                placeholder="Search product"
+                onchange="handleTableChange(event)"
+              />
+              <!-- <select
+                id="filter-table"
+                class="form-select"
+                aria-label="Filter table"
               >
-                Dropdown
-              </button>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-              </div>
+                <option selected value="">Filter</option>
+                <option value="sku">SKU</option>
+                <option value="name">Name</option>
+              </select> -->
             </div>
           </div>
-        </form>
-      </div>
+        </div>
 
-      <div class="card">
-        <div id="master-product-table"></div>
-      </div>
+        <div class="col-12">
+          <div class="card">
+            <div id="master-product-table"></div>
+          </div>
+        </div>
 
-      <!-- Modal Add Product -->
-      <div
-        class="modal fade"
-        id="add-master-product-modal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
-                Add Product
-              </h5>
+        <!-- Modal Add Product -->
+        <div
+          class="modal fade"
+          id="add-master-product-modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                  Add Product
+                </h5>
+              </div>
+              <form
+                id="product-form"
+                action="#"
+                th:action="@{/master/product(action='add')}"
+                th:object="${productForm}"
+                method="post"
+              >
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="sku">SKU</label>
+                    <input
+                      class="form-control"
+                      th:field="*{sku}"
+                      aria-describedby="validateSKU"
+                      th:classappend="${#fields.hasErrors('sku')} ? 'is-invalid' : ''"
+                    />
+                    <div
+                      id="validateSKU"
+                      class="invalid-feedback"
+                      th:errors="*{sku}"
+                    ></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input
+                      class="form-control"
+                      th:field="*{name}"
+                      th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                    />
+                    <div
+                      id="validateSKU"
+                      class="invalid-feedback"
+                      th:errors="*{name}"
+                    ></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <input class="form-control" th:field="*{description}" />
+                  </div>
+                  <div class="form-group">
+                    <label for="min_stock">Min. Stock</label>
+                    <input
+                      min="0"
+                      type="number"
+                      class="form-control"
+                      th:field="*{min_stock}"
+                      th:classappend="${#fields.hasErrors('min_stock')} ? 'is-invalid' : ''"
+                    />
+                    <div
+                      id="validateSKU"
+                      class="invalid-feedback"
+                      th:errors="*{min_stock}"
+                    ></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="max_stock">Max Stock</label>
+                    <input
+                      min="1"
+                      type="number"
+                      class="form-control"
+                      th:field="*{max_stock}"
+                      th:classappend="${#fields.hasErrors('max_stock')} ? 'is-invalid' : ''"
+                    />
+                    <div
+                      id="validateSKU"
+                      class="invalid-feedback"
+                      th:errors="*{max_stock}"
+                    ></div>
+                  </div>
+                  <label class="form-label">Status</label>
+                  <div class="form-check">
+                    <input type="radio" th:field="*{is_active}" value="true" />
+                    <label for="is_active">Enabled</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" th:field="*{is_active}" value="false" />
+                    <label for="is_active">Disabled</label>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    data-bs-target="#add-master-product-modal"
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+              </form>
             </div>
-            <form
-              id="product-form"
-              action="#"
-              th:action="@{/master/product(action='add')}"
-              th:object="${productForm}"
-              method="post"
-            >
+          </div>
+        </div>
+
+        <!-- Modal Delete Product -->
+        <div
+          class="modal fade"
+          id="delete-master-product-modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                  Delete Product
+                </h5>
+              </div>
               <div class="modal-body">
-                <div class="form-group">
-                  <label for="sku">SKU</label>
-                  <input
-                    class="form-control"
-                    th:field="*{sku}"
-                    aria-describedby="validateSKU"
-                    th:classappend="${#fields.hasErrors('sku')} ? 'is-invalid' : ''"
-                  />
-                  <div
-                    id="validateSKU"
-                    class="invalid-feedback"
-                    th:errors="*{sku}"
-                  ></div>
-                </div>
-                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input
-                    class="form-control"
-                    th:field="*{name}"
-                    th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
-                  />
-                  <div
-                    id="validateSKU"
-                    class="invalid-feedback"
-                    th:errors="*{name}"
-                  ></div>
-                </div>
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <input class="form-control" th:field="*{description}" />
-                </div>
-                <div class="form-group">
-                  <label for="min_stock">Min. Stock</label>
-                  <input
-                    min="0"
-                    type="number"
-                    class="form-control"
-                    th:field="*{min_stock}"
-                    th:classappend="${#fields.hasErrors('min_stock')} ? 'is-invalid' : ''"
-                  />
-                  <div
-                    id="validateSKU"
-                    class="invalid-feedback"
-                    th:errors="*{min_stock}"
-                  ></div>
-                </div>
-                <div class="form-group">
-                  <label for="max_stock">Max Stock</label>
-                  <input
-                    min="1"
-                    type="number"
-                    class="form-control"
-                    th:field="*{max_stock}"
-                    th:classappend="${#fields.hasErrors('max_stock')} ? 'is-invalid' : ''"
-                  />
-                  <div
-                    id="validateSKU"
-                    class="invalid-feedback"
-                    th:errors="*{max_stock}"
-                  ></div>
-                </div>
-                <label class="form-label">Status</label>
-                <div class="form-check">
-                  <input type="radio" th:field="*{is_active}" value="true" />
-                  <label for="is_active">Enabled</label>
-                </div>
-                <div class="form-check">
-                  <input type="radio" th:field="*{is_active}" value="false" />
-                  <label for="is_active">Disabled</label>
-                </div>
+                <h4>
+                  Are you sure to delete
+                  <strong id="sku-delete-modal"></strong> data?
+                </h4>
               </div>
               <div class="modal-footer">
                 <button
@@ -162,116 +198,93 @@
                   class="btn btn-secondary"
                   data-dismiss="modal"
                 >
-                  Cancel
+                  Close
                 </button>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button
+                  type="submit"
+                  class="btn btn-danger"
+                  onclick="deleteProduct()"
+                >
+                  Ok
+                </button>
               </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal Delete Product -->
-      <div
-        class="modal fade"
-        id="delete-master-product-modal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalCenterTitle"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">
-                Delete Product
-              </h5>
-            </div>
-            <div class="modal-body">
-              <h4>
-                Are you sure to delete
-                <strong id="sku-delete-modal"></strong> data?
-              </h4>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="submit"
-                class="btn btn-danger"
-                onclick="deleteProduct()"
-              >
-                Ok
-              </button>
             </div>
           </div>
         </div>
-      </div>
 
-      <script th:inline="javascript">
-        const table = new Tabulator("#master-product-table", {
-          layout: "fitColumns",
-          placeholder: "No Data Available",
-          responsiveLayout: true,
-          ajaxURL: "/api/master/product",
-          pagination: true,
-          paginationMode: "remote",
-          paginationSize: 10,
-          sortMode: "remote",
-          ajaxConfig: "POST",
-          ajaxContentType: "json",
-          filterMode: "remote",
-          columns: [
-            {
-              title: "SKU",
-              field: "sku",
-              minWidth: 100,
-            },
-            {
-              title: "Name",
-              field: "name",
-              minWidth: 120,
-            },
-            {
-              title: "Description",
-              field: "description",
-              minWidth: 100,
-            },
-            {
-              title: "Min. Stock",
-              field: "min_stock",
-            },
-            {
-              title: "Max. Stock",
-              field: "max_stock",
-            },
-            {
-              title: "Category",
-              field: "category_id",
-            },
-            {
-              title: "Status",
-              field: "status",
-              formatter: (cell) => {
-                const value = cell.getValue();
-                return `<span class="badge badge-pill ${
-                  value === "true" ? "badge-success" : "badge-danger"
-                }">${value === "true" ? "Active" : "Inactive"}</span>`;
+        <script th:inline="javascript">
+          const table = new Tabulator("#master-product-table", {
+            layout: "fitColumns",
+            placeholder: "No Data Available",
+            responsiveLayout: true,
+            ajaxURL: "/api/master/product",
+            pagination: true,
+            paginationMode: "remote",
+            paginationSize: 10,
+            sortMode: "remote",
+            ajaxConfig: "POST",
+            ajaxContentType: "json",
+            filterMode: "remote",
+            columns: [
+              {
+                title: "SKU",
+                field: "sku",
+                minWidth: 100,
               },
-            },
-            {
-              title: "Actions",
-              headerSort: false,
-              frozen: true,
-              responsive: 0,
-              minWidth: 100,
-              formatter: (cell) => {
-                return `<div class='d-flex' style='gap: 6px'>
+              {
+                title: "Name",
+                field: "name",
+                minWidth: 120,
+              },
+              {
+                title: "Description",
+                field: "description",
+                minWidth: 100,
+              },
+              {
+                title: "Min. Stock",
+                field: "min_stock",
+                formatter: "money",
+                formatterParams: {
+                  decimal: ",",
+                  thousand: ".",
+                  negativeSign: true,
+                  precision: false,
+                },
+              },
+              {
+                title: "Max. Stock",
+                field: "max_stock",
+                formatter: "money",
+                formatterParams: {
+                  decimal: ",",
+                  thousand: ".",
+                  negativeSign: true,
+                  precision: false,
+                },
+              },
+              {
+                title: "Category",
+                field: "category_id",
+              },
+              {
+                title: "Status",
+                field: "status",
+                formatter: (cell) => {
+                  const value = cell.getValue();
+                  return `<span class="badge rounded-pill ${
+                    value === "true" ? "text-bg-success" : "text-bg-danger"
+                  }">${value === "true" ? "Active" : "Inactive"}</span>`;
+                },
+              },
+              {
+                title: "Actions",
+                headerSort: false,
+                frozen: true,
+                responsive: 0,
+                minWidth: 100,
+                formatter: (cell) => {
+                  return `<div class='d-flex' style='gap: 6px'>
                      <button class='btn btn-outline-secondary' onclick="showModalEditProduct('${
                        cell.getData().sku
                      }')">
@@ -284,70 +297,70 @@
                      </button>
                    </div>
                    `;
+                },
               },
-            },
-          ],
-        });
-
-        function addProduct() {
-          $("#product-form").trigger("reset");
-          $("#product-form").prop("action", "/master/product?action=add");
-          $("#add-master-product-modal").modal({
-            backdrop: "static",
+            ],
           });
-        }
 
-        function showModalDeleteProduct(sku) {
-          // const results = $("#master-product-table").tabulator(
-          //   "searchData",
-          //   "sku",
-          //   "=",
-          //   sku
-          // );
-          const results = table.searchData("sku", "=", sku);
-
-          if (results.length > 0) {
-            $("#delete-master-product-modal").modal();
-            $("#sku-delete-modal").html(results[0].sku);
-            $("#product-form").find('input[name="sku"]').val(results[0].sku);
-            $("#product-form").find('input[name="name"]').val(results[0].name);
-            $("#product-form")
-              .find('input[name="min_stock"]')
-              .val(results[0].min_stock);
-            $("#product-form")
-              .find('input[name="max_stock"]')
-              .val(results[0].max_stock);
+          function handleTableChange(event) {
+            const filterBy = $("#filter-table").val();
+            table.setFilter(filterBy, "like", event.target.value);
           }
-        }
 
-        function showModalEditProduct(sku) {
-          // const results = $("#master-product-table").tabulator(
-          //   "searchData",
-          //   "sku",
-          //   "=",
-          //   sku
-          // );
-          const results = table.searchData("sku", "=", sku);
-
-          if (results.length > 0) {
-            $("#product-form").prop("action", "/master/product?action=edit");
-            $("#add-master-product-modal").modal("toggle");
-            $("#product-form").find('input[name="sku"]').val(results[0].sku);
-            $("#product-form").find('input[name="name"]').val(results[0].name);
-            $("#product-form")
-              .find('input[name="min_stock"]')
-              .val(results[0].min_stock);
-            $("#product-form")
-              .find('input[name="max_stock"]')
-              .val(results[0].max_stock);
+          function addHandler() {
+            console.log("Add Product");
+            $("#product-form").trigger("reset");
+            $("#product-form").prop("action", "/master/product?action=add");
+            $("#add-master-product-modal").modal("show");
           }
-        }
 
-        function deleteProduct() {
-          $("#product-form").prop("action", "/master/product?action=delete");
-          $("#product-form").trigger("submit");
-        }
-      </script>
+          function showModalDeleteProduct(sku) {
+            const results = table.searchData("sku", "=", sku);
+
+            if (results.length > 0) {
+              $("#delete-master-product-modal").modal();
+              $("#sku-delete-modal").html(results[0].sku);
+              $("#product-form").find('input[name="sku"]').val(results[0].sku);
+              $("#product-form")
+                .find('input[name="name"]')
+                .val(results[0].name);
+              $("#product-form")
+                .find('input[name="min_stock"]')
+                .val(results[0].min_stock);
+              $("#product-form")
+                .find('input[name="max_stock"]')
+                .val(results[0].max_stock);
+            }
+          }
+
+          function showModalEditProduct(sku) {
+            const results = table.searchData("sku", "=", sku);
+
+            if (results.length > 0) {
+              $("#product-form").prop("action", "/master/product?action=edit");
+              $("#add-master-product-modal").modal("toggle");
+              $("#product-form").find('input[name="sku"]').val(results[0].sku);
+              $("#product-form")
+                .find('input[name="name"]')
+                .val(results[0].name);
+              $("#product-form")
+                .find('input[name="description"]')
+                .val(results[0].description);
+              $("#product-form")
+                .find('input[name="min_stock"]')
+                .val(results[0].min_stock);
+              $("#product-form")
+                .find('input[name="max_stock"]')
+                .val(results[0].max_stock);
+            }
+          }
+
+          function deleteProduct() {
+            $("#product-form").prop("action", "/master/product?action=delete");
+            $("#product-form").trigger("submit");
+          }
+        </script>
+      </div>
     </main>
   </body>
 </html>

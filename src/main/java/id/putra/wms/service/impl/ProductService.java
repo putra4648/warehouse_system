@@ -96,10 +96,13 @@ public class ProductService implements CRUDService<ProductDto, ProductException>
                     }
                 }).toList()) : Sort.unsorted());
         var entity = new Product();
-        // entity.setSupplier(param.getFilter().isEmpty() ? "" : (String)
-        // param.getFilter().get(0).getValue());
-        ExampleMatcher example = ExampleMatcher.matching().withMatcher("supplier",
-                (matcher) -> matcher.ignoreCase().startsWith());
+        entity.setId(param.getFilter().isEmpty() ? "" : (String) param.getFilter().get(0).getValue());
+        entity.setName(param.getFilter().isEmpty() ? "" : (String) param.getFilter().get(0).getValue());
+        ExampleMatcher example = ExampleMatcher
+                .matchingAny()
+                .withMatcher("id",
+                        (matcher) -> matcher.ignoreCase().startsWith())
+                .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
         var page = productRepository.findAll(Example.of(entity, example), newPageable);
         var result = page.getContent().stream().map(data -> mapToDto(data)).toList();
         return new PagingResponse<>((long) page.getTotalPages(), result);
