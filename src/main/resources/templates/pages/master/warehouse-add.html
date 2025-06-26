@@ -62,12 +62,17 @@
           </fieldset>
           <div class="row g-2 my-2">
             <div class="col">
-              <button class="btn btn-primary" onclick="addLocation(event)">
-                Add Location
+              <input
+                type="hidden"
+                name="zone_json_string"
+                id="zone_json_string"
+              />
+              <button class="btn btn-primary" onclick="addZone(event)">
+                Add Zone
               </button>
             </div>
             <div class="col-12">
-              <div id="location-table"></div>
+              <div id="zone-table"></div>
             </div>
           </div>
           <label class="form-label">Status</label>
@@ -98,9 +103,24 @@
       </form>
 
       <script>
-        const locationTable = new Tabulator("#location-table", {
+        const zoneTable = new Tabulator("#zone-table", {
           layout: "fitColumns",
           placeholder: "No Data Available",
+          dataTree: true,
+          dataTreeChildField: "racks",
+          dataTreeStartExpanded: true,
+          data: [
+            {
+              id: "zone-01",
+              name: "Zone 01",
+              racks: [
+                {
+                  rack_id: "rack-01",
+                  rack_name: "Rack 01",
+                },
+              ],
+            },
+          ],
           columns: [
             {
               title: "ID",
@@ -121,10 +141,113 @@
               minWidth: 120,
             },
             {
-              title: "BIN Number",
-              field: "bin_number",
+              title: "",
+              field: "",
+              headerSort: false,
+              maxWidth: 120,
+              cellClick: (e, cell) => {
+                const row = cell.getRow();
+                if (
+                  (row.getTreeParent() == false) &
+                    (row.getTreeChildren().length > 0) ||
+                  row.getTreeParent() == false
+                ) {
+                  row.addTreeChild({ rack_id: "", rack_name: "" });
+                }
+              },
+              formatter: (cell) => {
+                const row = cell.getRow();
+                if (
+                  (row.getTreeParent() == false) &
+                    (row.getTreeChildren().length > 0) ||
+                  row.getTreeParent() == false
+                ) {
+                  return `<div>
+                    <i class='fas fa-add'></i>
+                    <span>Add Rack</span>
+                    </div>`;
+                }
+
+                return "";
+              },
+            },
+            {
+              title: "Rack ID",
+              field: "rack_id",
               editor: "input",
               minWidth: 120,
+              editable: (cell) => {
+                const row = cell.getRow();
+                if (
+                  (row.getTreeParent() == false) &
+                    (row.getTreeChildren().length > 0) ||
+                  row.getTreeParent() == false
+                ) {
+                  return false;
+                }
+
+                return true;
+              },
+            },
+            {
+              title: "Rack Name",
+              field: "rack_name",
+              editor: "input",
+              minWidth: 120,
+              editable: (cell) => {
+                const row = cell.getRow();
+                if (
+                  (row.getTreeParent() == false) &
+                    (row.getTreeChildren().length > 0) ||
+                  row.getTreeParent() == false
+                ) {
+                  return false;
+                }
+
+                return true;
+              },
+            },
+            {
+              title: "Rack Rows",
+              field: "rack_rows",
+              editor: "number",
+              minWidth: 120,
+              editable: (cell) => {
+                const row = cell.getRow();
+                if (
+                  (row.getTreeParent() == false) &
+                    (row.getTreeChildren().length > 0) ||
+                  row.getTreeParent() == false
+                ) {
+                  return false;
+                }
+
+                return true;
+              },
+              editorParams: {
+                min: 1,
+              },
+            },
+            {
+              title: "Rack Cols",
+              field: "rack_cols",
+              editor: "input",
+              minWidth: 120,
+              editable: (cell) => {
+                const row = cell.getRow();
+                if (
+                  (row.getTreeParent() == false) &
+                    (row.getTreeChildren().length > 0) ||
+                  row.getTreeParent() == false
+                ) {
+                  return false;
+                }
+
+                return true;
+              },
+              editorParams: {
+                min: 1,
+              },
             },
             {
               title: "Actions",
@@ -133,26 +256,34 @@
               responsive: 0,
               minWidth: 100,
               formatter: (cell) => {
-                return `<div class='d-flex' style='gap: 6px'>
-                     <button class='btn btn-outline-secondary' onclick="deleteRow('${cell
-                       .getRow()
-                       .getIndex()}')">
-                       <i class='fas fa-trash'></i>
-                     </a>
-                   </div>
-                   `;
+                return ` <i class='fas fa-trash'></i>`;
+              },
+              cellClick: (e, cell) => {
+                const row = cell.getRow();
+                row.getTreeChildren().forEach((child) => child.delete());
+                row.delete();
               },
             },
           ],
         });
 
+        zoneTable.on("dataChanged", function (data) {
+          $("input[name='zone_json_string']").val(JSON.stringify(data));
+        });
+
+        zoneTable.on("tableBuilt", function () {
+          $("input[name='zone_json_string']").val(
+            JSON.stringify(zoneTable.getData())
+          );
+        });
+
         function deleteRow(index = 0) {
-          locationTable.deleteRow(index);
+          zoneTable.deleteRow(index);
         }
 
-        function addLocation(event) {
+        function addZone(event) {
           event.preventDefault();
-          locationTable.addData({});
+          zoneTable.addData({});
         }
       </script>
     </div>

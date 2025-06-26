@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import id.putra.wms.dto.WarehouseDto;
 import id.putra.wms.dto.param.SearchParam;
 import id.putra.wms.dto.response.PagingResponse;
-import id.putra.wms.entity.Location;
 import id.putra.wms.entity.Warehouse;
 import id.putra.wms.exceptions.MasterDataException;
 import id.putra.wms.repository.WarehouseRepository;
@@ -32,22 +31,24 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
 
     @Override
     public void add(WarehouseDto dto) throws MasterDataException {
-        if (repository.existsById(dto.getId())) {
-            throw new MasterDataException("Warehouse %s already exist".formatted(dto.getId()));
-        }
 
-        var entity = new Warehouse();
-        entity.setId(dto.getId());
-        entity.setName(dto.getName());
+        // if (repository.existsById(dto.getId())) {
+        // throw new MasterDataException("Warehouse %s already
+        // exist".formatted(dto.getId()));
+        // }
 
-        var location = new Location();
-        location.setId(dto.getLocation().getId());
-        location.setName(dto.getLocation().getName());
-        location.setWarehouse(entity);
+        // var entity = new Warehouse();
+        // entity.setId(dto.getId());
+        // entity.setName(dto.getName());
 
-        entity.setLocation(location);
+        // var location = new Location();
+        // location.setId(dto.getLocation().getId());
+        // location.setName(dto.getLocation().getName());
+        // location.setWarehouse(entity);
 
-        repository.saveAndFlush(entity);
+        // entity.setLocation(location);
+
+        // repository.saveAndFlush(entity);
     }
 
     @Override

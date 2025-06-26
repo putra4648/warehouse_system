@@ -20,10 +20,10 @@
           <hr />
           <h4 th:if="${message}" th:text="${message}"></h4>
           <div class="d-flex mb-3" style="gap: 6px">
-            <button class="btn btn-primary" onclick="addHandler()">
+            <a class="btn btn-primary" th:href="@{/master/warehouse/add}">
               <i class="fas fa-plus"></i>
               <span>Add Warehouse</span>
-            </button>
+            </a>
           </div>
         </div>
 
@@ -159,13 +159,6 @@
           function handleTableChange(event) {
             const filterBy = $("#filter-table").val();
             table.setFilter(filterBy, "like", event.target.value);
-          }
-
-          function addHandler() {
-            console.log("Add Product");
-            $("#app-form").trigger("reset");
-            $("#app-form").prop("action", "/master/warehouse?action=add");
-            $("#add-master-modal").modal("show");
           }
 
           function showModalDelete(sku) {

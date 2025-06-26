@@ -17,4 +17,7 @@ public class WarehouseDto {
 
     private Location location;
 
+    // Json formatted as string because its table data
+    private String zone_json_string;
+
 }
