@@ -1,5 +1,7 @@
 package id.putra.wms.service.impl;
 
+import java.util.List;
+
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
@@ -7,10 +9,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import id.putra.wms.dto.WarehouseDto;
+import id.putra.wms.dto.ZoneDto;
 import id.putra.wms.dto.param.SearchParam;
 import id.putra.wms.dto.response.PagingResponse;
+import id.putra.wms.entity.Location;
+import id.putra.wms.entity.Rack;
 import id.putra.wms.entity.Warehouse;
+import id.putra.wms.entity.Zone;
 import id.putra.wms.exceptions.MasterDataException;
 import id.putra.wms.repository.WarehouseRepository;
 import id.putra.wms.service.CRUDService;
@@ -32,23 +43,40 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
     @Override
     public void add(WarehouseDto dto) throws MasterDataException {
 
-        // if (repository.existsById(dto.getId())) {
-        // throw new MasterDataException("Warehouse %s already
-        // exist".formatted(dto.getId()));
-        // }
+        if (repository.existsById(dto.getId())) {
+            throw new MasterDataException("Warehouse %s already exist".formatted(dto.getId()));
+        }
 
-        // var entity = new Warehouse();
-        // entity.setId(dto.getId());
-        // entity.setName(dto.getName());
+        var warehouse = new Warehouse();
+        warehouse.setId(dto.getId());
+        warehouse.setName(dto.getName());
 
-        // var location = new Location();
-        // location.setId(dto.getLocation().getId());
-        // location.setName(dto.getLocation().getName());
-        // location.setWarehouse(entity);
+        try {
+            List<Zone> zones = new ObjectMapper()
+                    .readValue(dto.getZone_json_string(), new TypeReference<List<ZoneDto>>() {
 
-        // entity.setLocation(location);
+                    }).stream().map(zoneDto -> {
 
-        // repository.saveAndFlush(entity);
+                        var zone = new Zone();
+                        zone.setId(zoneDto.getZone_id());
+                        zone.setName(zoneDto.getZone_name());
+                        zone.setType(zoneDto.getZone_type());
+                        zone.setWarehouse(warehouse);
+
+                        return zone;
+
+                    }).toList();
+            warehouse.setZones(zones);
+
+        } catch (JsonMappingException e) {
+            throw new MasterDataException(e.getMessage());
+        } catch (JsonProcessingException e) {
+            throw new MasterDataException(e.getMessage());
+        }
+
+        
+
+        repository.saveAndFlush(warehouse);
     }
 
     @Override

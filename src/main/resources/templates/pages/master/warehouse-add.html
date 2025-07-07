@@ -39,27 +39,6 @@
               th:errors="*{name}"
             ></div>
           </div>
-          <fieldset class="form-group">
-            <legend>Location</legend>
-            <div class="form-group">
-              <label for="location.name">Code</label>
-              <input
-                class="form-control"
-                th:field="*{location.id}"
-                th:classappend="${#fields.hasErrors('location.id')} ? 'is-invalid' : ''"
-              />
-              <div class="invalid-feedback" th:errors="*{location.id}"></div>
-            </div>
-            <div class="form-group">
-              <label for="location.name">Name</label>
-              <input
-                class="form-control"
-                th:field="*{location.name}"
-                th:classappend="${#fields.hasErrors('location.name')} ? 'is-invalid' : ''"
-              />
-              <div class="invalid-feedback" th:errors="*{location.name}"></div>
-            </div>
-          </fieldset>
           <div class="row g-2 my-2">
             <div class="col">
               <input
@@ -207,48 +186,48 @@
                 return true;
               },
             },
-            {
-              title: "Rack Rows",
-              field: "rack_rows",
-              editor: "number",
-              minWidth: 120,
-              editable: (cell) => {
-                const row = cell.getRow();
-                if (
-                  (row.getTreeParent() == false) &
-                    (row.getTreeChildren().length > 0) ||
-                  row.getTreeParent() == false
-                ) {
-                  return false;
-                }
-
-                return true;
-              },
-              editorParams: {
-                min: 1,
-              },
-            },
-            {
-              title: "Rack Cols",
-              field: "rack_cols",
-              editor: "input",
-              minWidth: 120,
-              editable: (cell) => {
-                const row = cell.getRow();
-                if (
-                  (row.getTreeParent() == false) &
-                    (row.getTreeChildren().length > 0) ||
-                  row.getTreeParent() == false
-                ) {
-                  return false;
-                }
-
-                return true;
-              },
-              editorParams: {
-                min: 1,
-              },
-            },
+            // {
+            //   title: "Rack Rows",
+            //   field: "rack_rows",
+            //   editor: "number",
+            //   minWidth: 120,
+            //   editable: (cell) => {
+            //     const row = cell.getRow();
+            //     if (
+            //       (row.getTreeParent() == false) &
+            //         (row.getTreeChildren().length > 0) ||
+            //       row.getTreeParent() == false
+            //     ) {
+            //       return false;
+            //     }
+            //
+            //     return true;
+            //   },
+            //   editorParams: {
+            //     min: 1,
+            //   },
+            // },
+            // {
+            //   title: "Rack Cols",
+            //   field: "rack_cols",
+            //   editor: "input",
+            //   minWidth: 120,
+            //   editable: (cell) => {
+            //     const row = cell.getRow();
+            //     if (
+            //       (row.getTreeParent() == false) &
+            //         (row.getTreeChildren().length > 0) ||
+            //       row.getTreeParent() == false
+            //     ) {
+            //       return false;
+            //     }
+            //
+            //     return true;
+            //   },
+            //   editorParams: {
+            //     min: 1,
+            //   },
+            // },
             {
               title: "Actions",
               headerSort: false,

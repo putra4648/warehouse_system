@@ -1,13 +1,9 @@
 package id.putra.wms.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -25,15 +21,8 @@ public class Location extends BaseEntity implements Serializable {
 
     private String binNumber;
 
-    @OneToOne(mappedBy = "location")
-    private Warehouse warehouse;
-
-    @ManyToOne
-    @JoinColumn(name = "rack_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rack_id")
     private Rack rack;
-
-    @ManyToOne
-    @JoinColumn(name = "zone_id", nullable = false)
-    private Zone zone;
 
 }

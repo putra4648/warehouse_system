@@ -16,6 +16,8 @@ import id.putra.wms.service.impl.WarehouseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import java.util.stream.IntStream;
+
 @Controller
 @RequiredArgsConstructor
 public class MasterWarehouseController implements MasterDataController<WarehouseDto> {
@@ -25,6 +27,13 @@ public class MasterWarehouseController implements MasterDataController<Warehouse
     @GetMapping("master/warehouse")
     @Override
     public String page(Model model) {
+        var wh = IntStream.range(0, 10).mapToObj(i -> {
+            WarehouseDto dto = new WarehouseDto();
+            dto.setName("Warehouse " + i);
+            dto.setId("wh-" + i);
+            return dto;
+        }).toList();
+        model.addAttribute("warehouses", wh);
         return "pages/master/warehouse";
     }
 
@@ -38,7 +47,7 @@ public class MasterWarehouseController implements MasterDataController<Warehouse
     @PostMapping("master/warehouse")
     @Override
     public String addOrUpdateProdut(String action, @Valid WarehouseDto form, BindingResult result,
-            RedirectAttributesModelMap redirect) {
+                                    RedirectAttributesModelMap redirect) {
         if (result.hasErrors()) {
             return "pages/master/warehouse";
         }
