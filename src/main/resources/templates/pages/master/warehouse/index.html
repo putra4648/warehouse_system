@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout/layout}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Master Warehouse</title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="row g-2">
+        <!-- Error dialog -->
+        <div class="col-12">
+          <div th:utext="${messageHTML}"></div>
+          <div id="message"></div>
+        </div>
+
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Warehouse</li>
+          </ol>
+        </nav>
+
+        <div class="col-12">
+          <h1><strong>Warehouse Management</strong></h1>
+          <h6>Manage your warehouse location, zone and rack</h6>
+          <hr />
+          <h4 th:if="${message}" th:text="${message}"></h4>
+          <div class="d-flex mb-3" style="gap: 6px">
+            <a class="btn btn-primary" th:href="@{/master/warehouses/add}">
+              <i class="fas fa-plus"></i>
+              <span>Add Warehouse</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Search -->
+        <div class="col-12">
+          <div class="card">
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fas fa-search"></i>
+              </span>
+              <input
+                class="form-control w-75"
+                type="text"
+                placeholder="Search"
+                onchange="handleTableChange(event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="row row-cols-md-4 g-2">
+            <div class="col" th:each="wh : ${warehouses}">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title w-100">
+                    <strong th:text="${wh.name}"></strong>
+                  </h5>
+                  <h6
+                    class="card-subtitle mb-2 text-body-secondary"
+                    th:text="${#strings.toUpperCase(wh.id)}"
+                  ></h6>
+                  <p class="card-text">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card’s content.
+                  </p>
+                  <a
+                    th:href="@{/master/warehouses/{id}(id=${wh.id})}"
+                    class="card-link"
+                    >Zones</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Delete -->
+        <div
+          class="modal fade"
+          id="delete-master-modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                  Delete Warehouse
+                </h5>
+              </div>
+              <div class="modal-body">
+                <h4>
+                  Are you sure to delete
+                  <strong id="delete-modal-content"></strong> data?
+                </h4>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-danger"
+                  onclick="deleteHandler()"
+                >
+                  Ok
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script th:inline="javascript">
+          const table = new Tabulator("#master-warehouse-table", {
+            layout: "fitColumns",
+            placeholder: "No Data Available",
+            responsiveLayout: true,
+            ajaxURL: "/api/master/warehouses",
+            pagination: true,
+            paginationMode: "remote",
+            paginationSize: 10,
+            sortMode: "remote",
+            ajaxConfig: "POST",
+            ajaxContentType: "json",
+            filterMode: "remote",
+            columns: [
+              {
+                title: "ID",
+                field: "id",
+                minWidth: 100,
+              },
+              {
+                title: "Name",
+                field: "name",
+                minWidth: 120,
+              },
+              {
+                title: "Location",
+                field: "location.name",
+                minWidth: 120,
+              },
+              {
+                title: "Status",
+                field: "status",
+                formatter: (cell) => {
+                  const value = cell.getValue();
+                  return `<span class="badge rounded-pill ${
+                    value === true ? "text-bg-success" : "text-bg-danger"
+                  }">${value === true ? "Active" : "Inactive"}</span>`;
+                },
+              },
+              {
+                title: "Actions",
+                headerSort: false,
+                frozen: true,
+                responsive: 0,
+                minWidth: 100,
+                formatter: (cell) => {
+                  return `<div class='d-flex' style='gap: 6px'>
+                     <button class='btn btn-outline-secondary' onclick="showModalEdit('${
+                       cell.getData().sku
+                     }')">
+                       <i class='fas fa-edit'></i>
+                     </a>
+                     <button class='btn btn-outline-danger' onclick="showModalDelete('${
+                       cell.getData().sku
+                     }')">
+                       <i class='fas fa-trash'></i>
+                     </button>
+                   </div>
+                   `;
+                },
+              },
+            ],
+          });
+
+          function handleTableChange(event) {
+            const filterBy = $("#filter-table").val();
+            table.setFilter(filterBy, "like", event.target.value);
+          }
+
+          function showModalDelete(sku) {
+            const results = table.searchData("sku", "=", sku);
+
+            if (results.length > 0) {
+              $("#delete-master-modal").modal();
+              $("#sku-delete-modal").html(results[0].sku);
+              $("#app-form").find('input[name="sku"]').val(results[0].sku);
+              $("#app-form").find('input[name="name"]').val(results[0].name);
+              $("#app-form")
+                .find('input[name="min_stock"]')
+                .val(results[0].min_stock);
+              $("#app-form")
+                .find('input[name="max_stock"]')
+                .val(results[0].max_stock);
+            }
+          }
+
+          function showModalEdit(sku) {
+            const results = table.searchData("sku", "=", sku);
+
+            if (results.length > 0) {
+              $("#app-form").prop("action", "/master/warehouses?action=edit");
+              $("#add-master-modal").modal("toggle");
+              $("#app-form").find('input[name="sku"]').val(results[0].sku);
+              $("#app-form").find('input[name="name"]').val(results[0].name);
+              $("#app-form")
+                .find('input[name="description"]')
+                .val(results[0].description);
+              $("#app-form")
+                .find('input[name="min_stock"]')
+                .val(results[0].min_stock);
+              $("#app-form")
+                .find('input[name="max_stock"]')
+                .val(results[0].max_stock);
+            }
+          }
+
+          function deleteHandler() {
+            $("#app-form").prop("action", "/master/warehouses?action=delete");
+            $("#app-form").trigger("submit");
+          }
+        </script>
+      </div>
+    </main>
+  </body>
+</html>

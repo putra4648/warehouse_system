@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class ZoneDto {
-    private String zone_id;
-    private String zone_name;
-    private String zone_type;
-    private List<RackDto> zone_racks;
+    private String id;
+    private String name;
+    private String type;
+    private List<RackDto> racks;
 }

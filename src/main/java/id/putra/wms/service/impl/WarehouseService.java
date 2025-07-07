@@ -58,9 +58,9 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
                     }).stream().map(zoneDto -> {
 
                         var zone = new Zone();
-                        zone.setId(zoneDto.getZone_id());
-                        zone.setName(zoneDto.getZone_name());
-                        zone.setType(zoneDto.getZone_type());
+                        zone.setId(zoneDto.getId());
+                        zone.setName(zoneDto.getName());
+                        zone.setType(zoneDto.getType());
                         zone.setWarehouse(warehouse);
 
                         return zone;

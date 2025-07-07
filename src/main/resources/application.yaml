@@ -34,6 +34,6 @@ spring:
             provider: wms-provider
 logging:
   level:
-    "[org.springframework.security]": DEBUG
+    "[org.springframework.security]": OFF
     "[com.zaxxer.hikari.HikariConfig]": OFF
     "[com.zaxxer.hikari]": OFF
