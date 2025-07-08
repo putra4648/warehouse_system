@@ -33,20 +33,20 @@ public class MasterWarehouseController implements MasterDataController<Warehouse
     // @Override
     public String page(Model model, @RequestParam Optional<Integer> page, @RequestParam Optional<Integer> size) {
         var s = new SearchParam();
-        s.setPage(page.get());
-        s.setSize(size.get());
+        page.ifPresent(pg -> s.setPage(pg));
+        size.ifPresent(sz -> s.setSize(sz));
 
         Page<WarehouseDto> warehouse = service.getAll(s);
 
         model.addAttribute("page", warehouse);
-        model.addAttribute("size", size.get());
+        model.addAttribute("size", warehouse.getSize());
         model.addAttribute("warehouses", warehouse.getContent());
 
         return "pages/master/warehouse/index";
     }
 
     @GetMapping("/master/warehouses/{id}")
-    public String warehouse(Model model, @PathVariable Optional<String> id) {
+    public String warehouseZones(Model model, @PathVariable Optional<String> id) {
         id.ifPresent(i -> {
             WarehouseDto wh = service.getDataById(i);
             model.addAttribute("warehouse", wh);
@@ -56,7 +56,7 @@ public class MasterWarehouseController implements MasterDataController<Warehouse
     }
 
     @GetMapping("/master/warehouses/{id}/zones/{zoneId}")
-    public String warehouseZones(Model model, @PathVariable Optional<String> id,
+    public String warehouseRacksByZone(Model model, @PathVariable Optional<String> id,
             @PathVariable Optional<String> zoneId) {
         id.ifPresent(i -> {
             WarehouseDto wh = service.getDataById(i);
@@ -71,7 +71,7 @@ public class MasterWarehouseController implements MasterDataController<Warehouse
     }
 
     @GetMapping("/master/warehouses/{id}/zones/{zoneId}/racks/{rackId}")
-    public String warehouseZoneLocations(Model model, @PathVariable Optional<String> id,
+    public String warehouseLocationsByRack(Model model, @PathVariable Optional<String> id,
             @PathVariable Optional<String> zoneId, @PathVariable Optional<String> rackId) {
 
         id.ifPresent(i -> {

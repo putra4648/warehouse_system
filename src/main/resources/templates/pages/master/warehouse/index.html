@@ -151,19 +151,6 @@
         </div>
 
         <script th:inline="javascript">
-          $("#pagination-container").pagination({
-            dataSource: /*[[${warehouses}]]*/ [],
-            callback: function (data, pagination) {
-              // template method of yourself
-              var html = "<ul>";
-              $.each(data, function (index, item) {
-                html += "<li>" + item.name + "</li>";
-              });
-              html += "</ul>";
-              $("#data-container").html(html);
-            },
-          });
-
           function handleTableChange(event) {}
 
           function showModalDelete(sku) {

@@ -120,7 +120,10 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
 
     @Override
     public Page<WarehouseDto> getAll(SearchParam param) {
-        var newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
+        int page = param.getPage() != null ? param.getPage() - 1 : 0;
+        int size = param.getSize() != null ? param.getSize() : 10;
+
+        var newPageable = PageRequest.of(page, size,
                 param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
                     String field = "";
                     switch (s.getField()) {
@@ -149,9 +152,9 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
                 .withMatcher("id",
                         (matcher) -> matcher.ignoreCase().startsWith())
                 .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
-        var page = warehouseRepository.findAll(Example.of(entity, example), newPageable)
+        return warehouseRepository.findAll(Example.of(entity, example), newPageable)
                 .map(data -> mapWarehouseToDto(data));
-        return page;
+
     }
 
     private WarehouseDto mapWarehouseToDto(Warehouse wh) {
@@ -191,13 +194,13 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
         dto.setName(rk.getName());
 
         if (rk.getLocations() != null) {
-            dto.getLocations().addAll(rk.getLocations().stream().map(r -> mapLocationDto(r)).toList());
+            dto.getLocations().addAll(rk.getLocations().stream().map(r -> mapLocationToDto(r)).toList());
         }
 
         return dto;
     }
 
-    private LocationDto mapLocationDto(Location lc) {
+    private LocationDto mapLocationToDto(Location lc) {
         var dto = new LocationDto();
 
         dto.setId(lc.getId());
