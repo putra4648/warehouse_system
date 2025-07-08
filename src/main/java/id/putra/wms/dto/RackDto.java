@@ -8,6 +8,8 @@ import lombok.Data;
 public class RackDto {
     private String id;
     private String name;
+    private String location;
+    private Integer total;
     private Long row;
     private Long col;
     private List<LocationDto> locations;

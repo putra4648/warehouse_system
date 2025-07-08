@@ -19,11 +19,22 @@
             <li class="breadcrumb-item">
               <a th:href="@{/master/warehouses}">Warehouse</a>
             </li>
-            <li
-              class="breadcrumb-item active"
-              aria-current="page"
-              th:text="${warehouse.name}"
-            ></li>
+            <li class="breadcrumb-item" aria-current="page">
+              <a
+                th:href="@{/master/warehouses/{id}(id=${warehouse.id})}"
+                th:text="${warehouse.name}"
+                >Warehouse</a
+              >
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              <a
+                th:href="@{/master/warehouses/{id}/zones/{zoneId}(id=${warehouse.id},zoneId=${zone.id})}"
+                th:text="${zone.name}"
+              ></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Locations
+            </li>
           </ol>
         </nav>
         <div class="col-12">
@@ -46,18 +57,45 @@
             <div class="col" th:each="location : ${locations}">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title w-100">
-                    <strong th:text="${location.name}"></strong>
-                  </h5>
-                  <h6
-                    class="card-subtitle mb-2 text-body-secondary"
-                    th:text="${location.id}"
-                  ></h6>
-                  <p class="card-text">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card’s content.
-                  </p>
-                
+                  <div class="row align-items-center">
+                    <div class="col-md-2">
+                      <i class="fas fa-boxes fa-xl"></i>
+                    </div>
+                    <div class="col-md">
+                      <h5 class="card-title w-100">
+                        <strong th:text="${location.name}"></strong>
+                      </h5>
+                      <h6
+                        class="card-subtitle mb-2 text-body-secondary"
+                        th:text="${location.id}"
+                      ></h6>
+                      <span class="badge text-bg-primary">Primary</span>
+                    </div>
+                    <div class="col-md-2 offset-md-2">
+                      <button class="btn btn-outline-danger">
+                        <i class="fas fa-trash-can"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mb-2">
+                    <div class="row">
+                      <div class="col"><small>Capacity</small></div>
+                      <div class="col text-end">
+                        <small>60/80</small>
+                      </div>
+                    </div>
+                    <div
+                      class="progress"
+                      role="progressbar"
+                      aria-label="Example with label"
+                      aria-valuenow="25"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    >
+                      <div class="progress-bar" style="width: 25%">25%</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

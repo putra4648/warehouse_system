@@ -18,8 +18,6 @@ import id.putra.wms.dto.WarehouseDto;
 import id.putra.wms.dto.ZoneDto;
 import id.putra.wms.dto.param.SearchParam;
 import id.putra.wms.dto.response.PagingResponse;
-import id.putra.wms.entity.Location;
-import id.putra.wms.entity.Rack;
 import id.putra.wms.entity.Warehouse;
 import id.putra.wms.entity.Zone;
 import id.putra.wms.exceptions.MasterDataException;
@@ -73,8 +71,6 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
         } catch (JsonProcessingException e) {
             throw new MasterDataException(e.getMessage());
         }
-
-        
 
         repository.saveAndFlush(warehouse);
     }

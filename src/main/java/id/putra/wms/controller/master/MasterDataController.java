@@ -1,7 +1,5 @@
 package id.putra.wms.controller.master;
 
-import java.util.Optional;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +13,7 @@ import id.putra.wms.dto.response.PagingResponse;
 import jakarta.validation.Valid;
 
 public interface MasterDataController<Form> {
-   
+
     public String page(Model model);
 
     public String addOrUpdateProdut(
