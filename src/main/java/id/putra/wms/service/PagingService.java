@@ -1,8 +1,9 @@
 package id.putra.wms.service;
 
+import org.springframework.data.domain.Page;
+
 import id.putra.wms.dto.param.SearchParam;
-import id.putra.wms.dto.response.PagingResponse;
 
 public interface PagingService<T> {
-    public PagingResponse<T> getAll(SearchParam param);
+    public Page<T> getAll(SearchParam param);
 }

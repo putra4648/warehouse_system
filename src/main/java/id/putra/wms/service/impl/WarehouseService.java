@@ -1,9 +1,11 @@
 package id.putra.wms.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -14,14 +16,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import id.putra.wms.dto.LocationDto;
+import id.putra.wms.dto.RackDto;
 import id.putra.wms.dto.WarehouseDto;
 import id.putra.wms.dto.ZoneDto;
 import id.putra.wms.dto.param.SearchParam;
-import id.putra.wms.dto.response.PagingResponse;
+import id.putra.wms.entity.Location;
+import id.putra.wms.entity.Rack;
 import id.putra.wms.entity.Warehouse;
 import id.putra.wms.entity.Zone;
 import id.putra.wms.exceptions.MasterDataException;
+import id.putra.wms.repository.RackRepository;
 import id.putra.wms.repository.WarehouseRepository;
+import id.putra.wms.repository.ZoneRepository;
 import id.putra.wms.service.CRUDService;
 import id.putra.wms.service.PagingService;
 import lombok.RequiredArgsConstructor;
@@ -30,18 +37,42 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WarehouseService implements CRUDService<WarehouseDto, MasterDataException>, PagingService<WarehouseDto> {
 
-    private final WarehouseRepository repository;
+    private final WarehouseRepository warehouseRepository;
+    private final ZoneRepository zoneRepository;
+    private final RackRepository rackRepository;
 
     @Override
-    public WarehouseDto getProductById(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getProductById'");
+    public WarehouseDto getDataById(String id) {
+        Optional<Warehouse> wh = warehouseRepository.findById(id);
+        if (wh.isPresent()) {
+            return mapWarehouseToDto(wh.get());
+        }
+
+        return null;
+    }
+
+    public ZoneDto getRackByZoneID(String id) {
+        Optional<Zone> zn = zoneRepository.findById(id);
+        if (zn.isPresent()) {
+            return mapZoneToDto(zn.get());
+        }
+
+        return null;
+    }
+
+    public RackDto getLocationByRack(String id) {
+        Optional<Rack> rk = rackRepository.findById(id);
+        if (rk.isPresent()) {
+            return mapRackToDto(rk.get());
+        }
+
+        return null;
     }
 
     @Override
     public void add(WarehouseDto dto) throws MasterDataException {
 
-        if (repository.existsById(dto.getId())) {
+        if (warehouseRepository.existsById(dto.getId())) {
             throw new MasterDataException("Warehouse %s already exist".formatted(dto.getId()));
         }
 
@@ -72,7 +103,7 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
             throw new MasterDataException(e.getMessage());
         }
 
-        repository.saveAndFlush(warehouse);
+        warehouseRepository.saveAndFlush(warehouse);
     }
 
     @Override
@@ -88,7 +119,7 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
     }
 
     @Override
-    public PagingResponse<WarehouseDto> getAll(SearchParam param) {
+    public Page<WarehouseDto> getAll(SearchParam param) {
         var newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
                 param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
                     String field = "";
@@ -118,17 +149,59 @@ public class WarehouseService implements CRUDService<WarehouseDto, MasterDataExc
                 .withMatcher("id",
                         (matcher) -> matcher.ignoreCase().startsWith())
                 .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
-        var page = repository.findAll(Example.of(entity, example), newPageable);
-        var result = page.getContent().stream().map(data -> mapToDto(data)).toList();
-        return new PagingResponse<>((long) page.getTotalPages(), result);
+        var page = warehouseRepository.findAll(Example.of(entity, example), newPageable)
+                .map(data -> mapWarehouseToDto(data));
+        return page;
     }
 
-    private WarehouseDto mapToDto(Warehouse wh) {
+    private WarehouseDto mapWarehouseToDto(Warehouse wh) {
         var dto = new WarehouseDto();
 
         dto.setId(wh.getId());
         dto.setName(wh.getName());
         dto.setStatus(wh.getIsActive());
+        dto.setArea(wh.getArea());
+        dto.setLocation(wh.getLocation());
+        dto.setTotal(wh.getTotal());
+
+        if (wh.getZones() != null) {
+            dto.getZones().addAll(wh.getZones().stream().map(z -> mapZoneToDto(z)).toList());
+        }
+
+        return dto;
+    }
+
+    private ZoneDto mapZoneToDto(Zone zn) {
+        var dto = new ZoneDto();
+
+        dto.setId(zn.getId());
+        dto.setName(zn.getName());
+
+        if (zn.getRacks() != null) {
+            dto.getRacks().addAll(zn.getRacks().stream().map(r -> mapRackToDto(r)).toList());
+        }
+
+        return dto;
+    }
+
+    private RackDto mapRackToDto(Rack rk) {
+        var dto = new RackDto();
+
+        dto.setId(rk.getId());
+        dto.setName(rk.getName());
+
+        if (rk.getLocations() != null) {
+            dto.getLocations().addAll(rk.getLocations().stream().map(r -> mapLocationDto(r)).toList());
+        }
+
+        return dto;
+    }
+
+    private LocationDto mapLocationDto(Location lc) {
+        var dto = new LocationDto();
+
+        dto.setId(lc.getId());
+        dto.setName(lc.getName());
 
         return dto;
     }

@@ -3,7 +3,12 @@ package id.putra.wms.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +20,7 @@ public class Rack extends BaseEntity implements Serializable {
     @Id
     private String id;
 
-    private String code;
+    private String name;
 
     private Long rows;
 

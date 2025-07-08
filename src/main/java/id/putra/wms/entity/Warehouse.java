@@ -25,6 +25,12 @@ public class Warehouse extends BaseEntity implements Serializable {
     @Column(columnDefinition = "bool default true", nullable = false)
     private Boolean isActive;
 
+    private String location;
+
+    private Double area;
+
+    private Integer total;
+
     @OneToMany(mappedBy = "warehouse")
     private List<Zone> zones;
 

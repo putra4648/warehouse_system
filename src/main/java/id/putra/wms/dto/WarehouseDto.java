@@ -1,5 +1,6 @@
 package id.putra.wms.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +16,7 @@ public class WarehouseDto {
     private String location;
     private Double area;
     private Integer total;
-    private List<ZoneDto> zones;
+    private List<ZoneDto> zones = new ArrayList<>();
     // Json formatted as string because its table data
     private String zone_json_string;
 

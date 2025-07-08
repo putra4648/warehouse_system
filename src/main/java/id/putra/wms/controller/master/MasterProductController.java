@@ -1,5 +1,7 @@
 package id.putra.wms.controller.master;
 
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +28,8 @@ public class MasterProductController implements MasterDataController<ProductDto>
   private final ProductService productService;
 
   @GetMapping("master/product")
-  @Override
-  public String page(Model model) {
+  // @Override
+  public String page(Model model, @RequestParam Optional<SearchParam> search) {
     model.addAttribute("productForm", new ProductDto());
     return "pages/master/product";
   }
@@ -69,7 +71,8 @@ public class MasterProductController implements MasterDataController<ProductDto>
   @PostMapping("api/master/product")
   @Override
   public ResponseEntity<PagingResponse<ProductDto>> getMasterData(@RequestBody SearchParam body) {
-    return ResponseEntity.ok().body(productService.getAll(body));
+    // return ResponseEntity.ok().body(productService.getAll(body));
+    return null;
   }
 
 }

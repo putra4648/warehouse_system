@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import id.putra.wms.dto.ProductDto;
 import id.putra.wms.dto.param.SearchParam;
-import id.putra.wms.dto.response.PagingResponse;
 import id.putra.wms.entity.Product;
 import id.putra.wms.exceptions.MasterDataException;
 import id.putra.wms.repository.ProductRepository;
@@ -75,7 +75,7 @@ public class ProductService implements CRUDService<ProductDto, MasterDataExcepti
     }
 
     @Override
-    public PagingResponse<ProductDto> getAll(SearchParam param) {
+    public Page<ProductDto> getAll(SearchParam param) {
         var newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
                 param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
                     String field = "";
@@ -103,13 +103,13 @@ public class ProductService implements CRUDService<ProductDto, MasterDataExcepti
                 .withMatcher("id",
                         (matcher) -> matcher.ignoreCase().startsWith())
                 .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
-        var page = productRepository.findAll(Example.of(entity, example), newPageable);
-        var result = page.getContent().stream().map(data -> mapToDto(data)).toList();
-        return new PagingResponse<>((long) page.getTotalPages(), result);
+        var page = productRepository.findAll(Example.of(entity, example), newPageable)
+                .map(data -> mapToDto(data));
+        return page;
     }
 
     @Override
-    public ProductDto getProductById(String id) {
+    public ProductDto getDataById(String id) {
         var dto = new ProductDto();
 
         Optional<Product> product = productRepository.findById(id);

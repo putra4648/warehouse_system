@@ -1,10 +1,8 @@
 package id.putra.wms.controller.master;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.stream.IntStream;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +10,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import id.putra.wms.constant.MessageConstant;
-import id.putra.wms.dto.LocationDto;
 import id.putra.wms.dto.RackDto;
 import id.putra.wms.dto.WarehouseDto;
 import id.putra.wms.dto.ZoneDto;
@@ -30,66 +28,27 @@ import lombok.RequiredArgsConstructor;
 public class MasterWarehouseController implements MasterDataController<WarehouseDto> {
 
     private final WarehouseService service;
-    Random random = new Random();
-    private final List<WarehouseDto> fake = IntStream.range(0, 10).mapToObj(i -> {
-        var warehouse = new WarehouseDto();
-        warehouse.setId("wh-" + i);
-        warehouse.setName("Warehouse " + i);
-        warehouse.setLocation("Avenue 2");
-        warehouse.setArea(random.nextDouble(100_000));
-
-        // Fake Zones
-        var zones = IntStream.range(0, random.nextInt(100)).mapToObj(a -> {
-            var zone = new ZoneDto();
-            zone.setId("zone-" + a);
-            zone.setName("Zone " + a);
-
-            var racks = IntStream.range(0, random.nextInt(30)).mapToObj(r -> {
-                var rack = new RackDto();
-
-                rack.setId("rack-" + r);
-                rack.setName("Rack " + r);
-
-                var locations = IntStream.range(0, random.nextInt(12)).mapToObj(l -> {
-                    var location = new LocationDto();
-
-                    location.setId("location-" + l);
-                    location.setName("Location " + l);
-
-                    return location;
-                }).toList();
-
-                rack.setLocations(locations);
-                rack.setTotal(locations.size());
-
-                return rack;
-            }).toList();
-
-            zone.setRacks(racks);
-            zone.setArea(random.nextDouble(100_000));
-            zone.setTotal(racks.size());
-
-            return zone;
-        }).toList();
-
-        warehouse.setTotal(zones.size());
-
-        warehouse.setZones(zones);
-
-        return warehouse;
-
-    }).toList();
 
     @GetMapping("master/warehouses")
-    @Override
-    public String page(Model model) {
-        model.addAttribute("warehouses", fake);
+    // @Override
+    public String page(Model model, @RequestParam Optional<Integer> page, @RequestParam Optional<Integer> size) {
+        var s = new SearchParam();
+        s.setPage(page.get());
+        s.setSize(size.get());
+
+        Page<WarehouseDto> warehouse = service.getAll(s);
+
+        model.addAttribute("page", warehouse);
+        model.addAttribute("size", size.get());
+        model.addAttribute("warehouses", warehouse.getContent());
+
         return "pages/master/warehouse/index";
     }
 
     @GetMapping("/master/warehouses/{id}")
     public String warehouse(Model model, @PathVariable Optional<String> id) {
-        fake.stream().filter(wh -> wh.getId().equals(id.get())).findFirst().ifPresent(wh -> {
+        id.ifPresent(i -> {
+            WarehouseDto wh = service.getDataById(i);
             model.addAttribute("warehouse", wh);
             model.addAttribute("zones", wh.getZones());
         });
@@ -99,17 +58,14 @@ public class MasterWarehouseController implements MasterDataController<Warehouse
     @GetMapping("/master/warehouses/{id}/zones/{zoneId}")
     public String warehouseZones(Model model, @PathVariable Optional<String> id,
             @PathVariable Optional<String> zoneId) {
-        fake.stream().filter(wh -> wh.getId().equals(id.get())).findFirst().ifPresent(wh -> {
+        id.ifPresent(i -> {
+            WarehouseDto wh = service.getDataById(i);
             model.addAttribute("warehouse", wh);
 
-            wh.getZones().stream().filter(z -> z.getId().equals(zoneId.get())).findFirst().ifPresent(z -> {
-                model.addAttribute("zone", z);
+            ZoneDto zn = service.getRackByZoneID(zoneId.get());
+            model.addAttribute("zone", zn);
 
-                var racks = z.getRacks().stream().toList();
-
-                model.addAttribute("racks", racks);
-            });
-
+            model.addAttribute("racks", zn.getRacks());
         });
         return "pages/master/warehouse/rack";
     }
@@ -117,23 +73,24 @@ public class MasterWarehouseController implements MasterDataController<Warehouse
     @GetMapping("/master/warehouses/{id}/zones/{zoneId}/racks/{rackId}")
     public String warehouseZoneLocations(Model model, @PathVariable Optional<String> id,
             @PathVariable Optional<String> zoneId, @PathVariable Optional<String> rackId) {
-        fake.stream().filter(wh -> wh.getId().equals(id.get())).findFirst().ifPresent(wh -> {
+
+        id.ifPresent(i -> {
+            WarehouseDto wh = service.getDataById(i);
             model.addAttribute("warehouse", wh);
 
-            wh.getZones().stream().filter(z -> z.getId().equals(zoneId.get())).findFirst().ifPresent(z -> {
-                model.addAttribute("zone", z);
+            ZoneDto zn = service.getRackByZoneID(zoneId.get());
+            model.addAttribute("zone", zn);
 
-                z.getRacks().stream().filter(r -> r.getId().equals(rackId.get())).findFirst().ifPresent(rack -> {
-                    model.addAttribute("rack", rack);
+            model.addAttribute("warehouse", wh);
 
-                    var locations = rack.getLocations();
+            RackDto rk = service.getLocationByRack(rackId.get());
+            model.addAttribute("rack", rk);
 
-                    model.addAttribute("locations", locations);
-                });
+            var locations = rk.getLocations();
 
-            });
-
+            model.addAttribute("locations", locations);
         });
+
         return "pages/master/warehouse/location";
     }
 
@@ -177,7 +134,8 @@ public class MasterWarehouseController implements MasterDataController<Warehouse
     @PostMapping("api/master/warehouses")
     @Override
     public ResponseEntity<PagingResponse<WarehouseDto>> getMasterData(SearchParam body) {
-        return ResponseEntity.ok().body(service.getAll(body));
+        // return ResponseEntity.ok().body(service.getAll(body));
+        return null;
     }
 
 }

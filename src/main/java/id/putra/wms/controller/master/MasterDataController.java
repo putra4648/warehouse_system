@@ -1,7 +1,6 @@
 package id.putra.wms.controller.master;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +13,7 @@ import jakarta.validation.Valid;
 
 public interface MasterDataController<Form> {
 
-    public String page(Model model);
+    // public String page(Model model, @RequestParam Optional<SearchParam> search);
 
     public String addOrUpdateProdut(
             @RequestParam String action,

@@ -1,5 +1,6 @@
 package id.putra.wms.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -11,5 +12,5 @@ public class ZoneDto {
     private String type;
     private Double area;
     private Integer total;
-    private List<RackDto> racks;
+    private List<RackDto> racks = new ArrayList<>();
 }
