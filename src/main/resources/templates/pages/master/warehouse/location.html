@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout/layout}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${'Warehouse ' + #strings.toUpperCase(warehouse.id)}">
+    </title>
+  </head>
+  <body>
+    <main layout:fragment="content">
+      <div class="row g-2">
+        <!-- Error dialog -->
+        <div class="col-12">
+          <div th:utext="${messageHTML}"></div>
+          <div id="message"></div>
+        </div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a th:href="@{/master/warehouses}">Warehouse</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+              <a
+                th:href="@{/master/warehouses/{id}(id=${warehouse.id})}"
+                th:text="${warehouse.name}"
+                >Warehouse</a
+              >
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              <a
+                th:href="@{/master/warehouses/{id}/zones/{zoneId}(id=${warehouse.id},zoneId=${zone.id})}"
+                th:text="${zone.name}"
+              ></a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Locations
+            </li>
+          </ol>
+        </nav>
+        <div class="col-12">
+          <h1>
+            <strong>Location in <span th:text="${rack.name}"></span></strong>
+          </h1>
+          <h6>Manage storage locations within the selected rack</h6>
+          <hr />
+          <h4 th:if="${message}" th:text="${message}"></h4>
+          <div class="d-flex mb-3" style="gap: 6px">
+            <a class="btn btn-primary" th:href="@{/master/warehouses/add}">
+              <i class="fas fa-plus"></i>
+              <span>Add Location</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <div class="row row-cols-md-4 g-2">
+            <div class="col" th:each="location : ${locations}">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-md-2">
+                      <i class="fas fa-boxes fa-xl"></i>
+                    </div>
+                    <div class="col-md">
+                      <h5 class="card-title w-100">
+                        <strong th:text="${location.name}"></strong>
+                      </h5>
+                      <h6
+                        class="card-subtitle mb-2 text-body-secondary"
+                        th:text="${location.id}"
+                      ></h6>
+                      <span class="badge text-bg-primary">Primary</span>
+                    </div>
+                    <div class="col-md-2 offset-md-2">
+                      <button class="btn btn-outline-danger">
+                        <i class="fas fa-trash-can"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mb-2">
+                    <div class="row">
+                      <div class="col"><small>Capacity</small></div>
+                      <div class="col text-end">
+                        <small>60/80</small>
+                      </div>
+                    </div>
+                    <div
+                      class="progress"
+                      role="progressbar"
+                      aria-label="Example with label"
+                      aria-valuenow="25"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    >
+                      <div class="progress-bar" style="width: 25%">25%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Delete -->
+        <div
+          class="modal fade"
+          id="delete-master-modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                  Delete Warehouse
+                </h5>
+              </div>
+              <div class="modal-body">
+                <h4>
+                  Are you sure to delete
+                  <strong id="delete-modal-content"></strong> data?
+                </h4>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-danger"
+                  onclick="deleteHandler()"
+                >
+                  Ok
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script th:inline="javascript"></script>
+      </div>
+    </main>
+  </body>
+</html>

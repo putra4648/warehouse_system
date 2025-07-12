@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
@@ -11,9 +12,8 @@ import org.springframework.stereotype.Service;
 
 import id.putra.wms.dto.ProductDto;
 import id.putra.wms.dto.param.SearchParam;
-import id.putra.wms.dto.response.PagingResponse;
 import id.putra.wms.entity.Product;
-import id.putra.wms.exceptions.ProductException;
+import id.putra.wms.exceptions.MasterDataException;
 import id.putra.wms.repository.ProductRepository;
 import id.putra.wms.service.CRUDService;
 import id.putra.wms.service.PagingService;
@@ -22,15 +22,15 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements CRUDService<ProductDto, ProductException>, PagingService<ProductDto> {
+public class ProductService implements CRUDService<ProductDto, MasterDataException>, PagingService<ProductDto> {
 
     private final ProductRepository productRepository;
 
     @Override
-    @Transactional(rollbackOn = { Exception.class, ProductException.class })
+    @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
     public void add(ProductDto dto) {
         if (productRepository.existsById(dto.getSku())) {
-            throw new ProductException("Product %s already exist".formatted(dto.getSku()));
+            throw new MasterDataException("Product %s already exist".formatted(dto.getSku()));
         }
 
         var entity = new Product();
@@ -45,8 +45,8 @@ public class ProductService implements CRUDService<ProductDto, ProductException>
     }
 
     @Override
-    @Transactional(rollbackOn = { Exception.class, ProductException.class })
-    public void update(ProductDto dto) throws ProductException {
+    @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
+    public void update(ProductDto dto) throws MasterDataException {
 
         if (productRepository.existsById(dto.getSku())) {
             var entity = productRepository.findById(dto.getSku()).get();
@@ -59,23 +59,23 @@ public class ProductService implements CRUDService<ProductDto, ProductException>
 
             productRepository.save(entity);
         } else {
-            throw new ProductException("Product %s not exist".formatted(dto.getSku()));
+            throw new MasterDataException("Product %s not exist".formatted(dto.getSku()));
         }
 
     }
 
     @Override
-    @Transactional(rollbackOn = { Exception.class, ProductException.class })
-    public void delete(String id) throws ProductException {
+    @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
+    public void delete(String id) throws MasterDataException {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
         } else {
-            throw new ProductException("Product %s not exist".formatted(id));
+            throw new MasterDataException("Product %s not exist".formatted(id));
         }
     }
 
     @Override
-    public PagingResponse<ProductDto> getAll(SearchParam param) {
+    public Page<ProductDto> getAll(SearchParam param) {
         var newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
                 param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
                     String field = "";
@@ -103,13 +103,13 @@ public class ProductService implements CRUDService<ProductDto, ProductException>
                 .withMatcher("id",
                         (matcher) -> matcher.ignoreCase().startsWith())
                 .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
-        var page = productRepository.findAll(Example.of(entity, example), newPageable);
-        var result = page.getContent().stream().map(data -> mapToDto(data)).toList();
-        return new PagingResponse<>((long) page.getTotalPages(), result);
+        var page = productRepository.findAll(Example.of(entity, example), newPageable)
+                .map(data -> mapToDto(data));
+        return page;
     }
 
     @Override
-    public ProductDto getProductById(String id) {
+    public ProductDto getDataById(String id) {
         var dto = new ProductDto();
 
         Optional<Product> product = productRepository.findById(id);

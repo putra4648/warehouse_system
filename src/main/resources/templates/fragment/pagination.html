@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head></head>
+  <body>
+    <!-- Simple Pagination Fragment -->
+    <div
+      th:fragment="simple(page, baseUrl, size)"
+      th:if="${page.totalPages > 1}"
+    >
+      <nav
+        aria-label="Page navigation"
+        class="d-flex justify-content-center mt-4"
+      >
+        <ul class="pagination">
+          <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+            <a
+              class="page-link"
+              th:href="${page.first} ? '#' : @{${baseUrl} + '?page=' + ${page.number} + '&size=' + ${size}}"
+            >
+              Previous
+            </a>
+          </li>
+
+          <li
+            th:each="i : ${#numbers.sequence(
+                    (page.number - 2 < 0) ? 0 : (page.number - 2), 
+                    (page.number + 2 > page.totalPages - 1) ? (page.totalPages - 1) : (page.number + 2))}"
+            class="page-item"
+            th:classappend="${i == page.number} ? 'active'"
+          >
+            <a
+              class="page-link"
+              th:href="@{${baseUrl} + '?page=' + ${i + 1} + '&size=' + ${size}}"
+              th:text="${i + 1}"
+            ></a>
+          </li>
+
+          <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+            <a
+              class="page-link"
+              th:href="${page.last} ? '#' : @{${baseUrl} + '?page=' + ${page.number + 2} + '&size=' + ${size}}"
+            >
+              Next
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="text-center text-muted mt-2">
+        <small>
+          Showing <span th:text="${page.number * page.size + 1}">1</span> to
+          <span
+            th:text="${((page.number + 1) * page.size > page.totalElements) ? page.totalElements : ((page.number + 1) * page.size)}"
+            >10</span
+          >
+          of <span th:text="${page.totalElements}">100</span> entries
+        </small>
+      </div>
+    </div>
+
+    <!-- Advanced Pagination with Truncation -->
+    <div
+      th:fragment="advanced(page, baseUrl, size)"
+      th:if="${page.totalPages > 1}"
+    >
+      <nav
+        aria-label="Page navigation"
+        class="d-flex justify-content-center mt-4"
+      >
+        <ul class="pagination">
+          <!-- Previous -->
+          <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+            <a
+              class="page-link"
+              th:href="${page.first} ? '#' : @{${baseUrl} + '?page=' + ${1} + '&size=' + ${size}}"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+
+          <!-- First page + ellipsis logic -->
+          <th:block
+            th:with="showFirst=${page.number > 3}, showFirstEllipsis=${page.number > 4}"
+          >
+            <li th:if="${showFirst}" class="page-item">
+              <a
+                class="page-link"
+                th:href="@{${baseUrl} + '?page=1' + '&size=' + ${size}}"
+                >1</a
+              >
+            </li>
+            <li th:if="${showFirstEllipsis}" class="page-item disabled">
+              <span class="page-link">...</span>
+            </li>
+          </th:block>
+
+          <!-- Current page range -->
+          <li
+            th:each="i : ${#numbers.sequence(
+                    (page.number - 2 < 0) ? 0 : (page.number - 2), 
+                    (page.number + 2 > page.totalPages - 1) ? (page.totalPages - 1) : (page.number + 2))}"
+            class="page-item"
+            th:classappend="${i == page.number} ? 'active'"
+          >
+            <a
+              class="page-link"
+              th:href="@{${baseUrl} + '?page=' + ${i + 1} + '&size=' + ${size}}"
+              th:text="${i + 1}"
+            ></a>
+          </li>
+
+          <!-- Last page + ellipsis logic -->
+          <th:block
+            th:with="showLast=${page.number < page.totalPages - 4}, showLastEllipsis=${page.number < page.totalPages - 5}"
+          >
+            <li th:if="${showLastEllipsis}" class="page-item disabled">
+              <span class="page-link">...</span>
+            </li>
+            <li th:if="${showLast}" class="page-item">
+              <a
+                class="page-link"
+                th:href="@{${baseUrl} + '?page=' + ${page.totalPages} + '&size=' + ${size}}"
+                th:text="${page.totalPages}"
+              ></a>
+            </li>
+          </th:block>
+
+          <!-- Next -->
+          <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+            <a
+              class="page-link"
+              th:href="${page.last} ? '#' : @{${baseUrl} + '?page=' + ${page.totalPages} + '&size=' + ${size}}"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="text-center text-muted mt-2">
+        <small>
+          Page <span th:text="${page.number + 1}">1</span> of
+          <span th:text="${page.totalPages}">10</span> (<span
+            th:text="${page.totalElements}"
+            >100</span
+          >
+          total entries)
+        </small>
+      </div>
+    </div>
+
+    <!-- Pagination with Query Parameters -->
+    <div
+      th:fragment="withParams(page, baseUrl, params)"
+      th:if="${page.totalPages > 1}"
+    >
+      <nav
+        aria-label="Page navigation"
+        class="d-flex justify-content-center mt-4"
+      >
+        <ul class="pagination">
+          <li class="page-item" th:classappend="${page.first} ? 'disabled'">
+            <a
+              class="page-link"
+              th:href="${page.first} ? '#' : @{${baseUrl} + '?page=' + ${page.number } + ${params}}"
+            >
+              Previous
+            </a>
+          </li>
+
+          <li
+            th:each="i : ${#numbers.sequence(
+                    (page.number - 2 < 0) ? 0 : (page.number - 2), 
+                    (page.number + 2 > page.totalPages - 1) ? (page.totalPages - 1) : (page.number + 2))}"
+            class="page-item"
+            th:classappend="${i == page.number} ? 'active'"
+          >
+            <a
+              class="page-link"
+              th:href="@{${baseUrl} + '?page=' + ${i + 1} + ${params}}"
+              th:text="${i + 1}"
+            ></a>
+          </li>
+
+          <li class="page-item" th:classappend="${page.last} ? 'disabled'">
+            <a
+              class="page-link"
+              th:href="${page.last} ? '#' : @{${baseUrl} + '?page=' + ${page.number + 2} + ${params}}"
+            >
+              Next
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+</html>
