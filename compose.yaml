@@ -36,7 +36,15 @@ services:
       - KC_DB_PASSWORD=admin123
     volumes:
       - ./config/keycloak:/opt/keycloak/data/import
-    command: ["start-dev", "--import-realm", "--http-port=8080"]
+      - ./config/server.keystore:/opt/keycloak/server.keystore
+    command:
+      [
+        "start",
+        "--import-realm",
+        "--https-key-store-file=/opt/keycloak/server.keystore",
+        "--https-key-store-password=password",
+        "--hostname=localhost",
+      ]
     networks:
       - wms-network
     depends_on:
