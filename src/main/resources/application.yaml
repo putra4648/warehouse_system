@@ -37,3 +37,28 @@ logging:
     "[org.springframework.security]": OFF
     "[com.zaxxer.hikari.HikariConfig]": OFF
     "[com.zaxxer.hikari]": OFF
+
+management:
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoint:
+    health:
+      access: read-only
+      show-details: always
+    metrics:
+      access: read-only
+    prometheus:
+      access: read-only
+  endpoints:
+    web:
+      exposure:
+        include:
+          - prometheus
+          - health
+          - metrics
+          - info

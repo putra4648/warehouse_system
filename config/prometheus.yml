@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: 'Warehouse App'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 15s # This can be adjusted based on our needs
+    static_configs:
+      - targets: ['app:7000']
+        labels:
+          application: 'wms'

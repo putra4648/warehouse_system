@@ -40,7 +40,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/error/**", "/logout").permitAll()
+                        .requestMatchers("/error/**", "/logout", "/actuator/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .exceptionHandling(Customizer.withDefaults())

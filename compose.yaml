@@ -50,22 +50,39 @@ services:
     depends_on:
       wms_db:
         condition: service_healthy
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { java.net.URI uri = java.net.URI.create(args[0]); System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection)uri.toURL().openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:9000/health/live',
-        ]
-      interval: 15s
-      timeout: 10s
-      retries: 30
+    # healthcheck:
+    #   test: ["CMD-SHELL", "curl -f http://keycloak:8080/health/ready || exit 1"]
+    #   interval: 15s
+    #   timeout: 10s
+    #   retries: 30
+
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - wms-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - wms-network
 
   # app:
   #   depends_on:
   #     wms_db:
   #       condition: service_healthy
-  #     keycloak:
-  #       condition: service_healthy
+  #     # keycloak:
+  #     #   condition: service_healthy
   #   build:
   #     context: .
   #   container_name: app
@@ -75,7 +92,7 @@ services:
   #     - SPRING_DATASOURCE_URL=jdbc:postgresql://wms_db:5432/wms_db
   #     - SPRING_DATASOURCE_USERNAME=admin
   #     - SPRING_DATASOURCE_PASSWORD=admin123
-  #     - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_WMS_PROVIDER_ISSUER_URI=http://keycloak:8080/realms/wms
+  #     - spring.security.oauth2.client.provider.wms-provider.issuer_uri=http://localhost:9000/realms/wms
   #   networks:
   #     - wms-network
 
