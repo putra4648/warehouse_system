@@ -19,27 +19,23 @@ services:
       retries: 5
 
   keycloak:
-    container_name: keycloak
-    image: quay.io/keycloak/keycloak:26.3.0
+    container_name: wms-keycloak
+    build:
+      context: docker/keycloak
     ports:
       - 9000:8080
     environment:
-      # - KC_BOOTSTRAP_ADMIN_USERNAME=admin
-      # - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
-      - KC_HEALTH_ENABLED=true
-      - KC_METRICS_ENABLED=true
-      - KC_LOG_LEVEL=info
-      - KC_HTTP_ENABLED=true
-      - KC_DB=postgres
       - KC_DB_URL=jdbc:postgresql://wms_db:5432/wms_keycloak
       - KC_DB_USERNAME=admin
       - KC_DB_PASSWORD=admin123
+      - KC_HTTP_ENABLED=true
     volumes:
       - ./config/keycloak:/opt/keycloak/data/import
       - ./config/server.keystore:/opt/keycloak/server.keystore
     command:
       [
         "start",
+        "--optimized",
         "--import-realm",
         "--https-key-store-file=/opt/keycloak/server.keystore",
         "--https-key-store-password=password",
@@ -92,7 +88,7 @@ services:
   #     - SPRING_DATASOURCE_URL=jdbc:postgresql://wms_db:5432/wms_db
   #     - SPRING_DATASOURCE_USERNAME=admin
   #     - SPRING_DATASOURCE_PASSWORD=admin123
-  #     - spring.security.oauth2.client.provider.wms-provider.issuer_uri=http://localhost:9000/realms/wms
+  #     - spring.security.oauth2.client.provider.wms-provider.issuer_uri=http://keycloak:8080/realms/wms
   #   networks:
   #     - wms-network
 
