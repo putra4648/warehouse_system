@@ -135,14 +135,6 @@
         </dependencies>
     </dependencyManagement>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>static/raw/**</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -178,29 +170,35 @@
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
-                    </execution>
-                    <execution>
-                        <id>install-obfuscate</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
                         <configuration>
-                            <arguments>install -D javascript-obfuscator</arguments>
+                            <workingDirectory>${project.basedir}/.generator</workingDirectory>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>obfuscate-js</id>
+                        <id>npm install</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>run dev</arguments>
+                            <workingDirectory>${project.basedir}/.generator</workingDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm run</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <workingDirectory>${project.basedir}/.generator</workingDirectory>
+                            <arguments>run-script build</arguments>
                         </configuration>
                     </execution>
                 </executions>
                 <configuration>
                     <nodeVersion>v22.17.0</nodeVersion>
                     <installDirectory>target</installDirectory>
+                    <installDirectory>${project.basedir}/.generator</installDirectory>
                 </configuration>
             </plugin>
         </plugins>
