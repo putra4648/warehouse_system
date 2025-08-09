@@ -4,7 +4,7 @@
   },
   "scripts": {
     "watch": "node watch.js",
-    "build": "npx javascript-obfuscator ./src/main/resources/static/raw --output ./src/main/resources/static/obfuscate --options-preset=medium-obfuscation --target=browser"
+    "build": "javascript-obfuscator ./src/main/resources/static/raw --output ./src/main/resources/static/obfuscate --options-preset=medium-obfuscation --target=browser"
   },
   "dependencies": {
     "chokidar": "^4.0.3"
