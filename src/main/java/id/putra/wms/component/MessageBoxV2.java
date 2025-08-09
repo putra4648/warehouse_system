@@ -1,6 +1,6 @@
 package id.putra.wms.component;
 
-import id.putra.wms.enums.MessageBoxDataType;
+import id.putra.wms.shared.enums.MessageBoxDataType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

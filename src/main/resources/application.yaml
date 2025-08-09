@@ -2,6 +2,9 @@ server:
   port: 7000
 
 spring:
+  threads:
+    virtual:
+      enabled: true
   thymeleaf:
     cache: false
   data:

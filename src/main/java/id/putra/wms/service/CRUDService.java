@@ -4,11 +4,11 @@ public interface CRUDService<Form, AppException extends RuntimeException> {
 
     // public List<Form> getAll() throws AppException;
 
-    public Form getDataById(String id);
+    Form getDataById(String id);
 
-    public void add(Form form) throws AppException;
+    void add(Form form) throws AppException;
 
-    public void update(Form form) throws AppException;
+    void update(Form form) throws AppException;
 
-    public void delete(String id) throws AppException;
+    void delete(String id) throws AppException;
 }
