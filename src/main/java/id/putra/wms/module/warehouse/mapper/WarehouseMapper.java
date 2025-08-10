@@ -1,5 +1,7 @@
 package id.putra.wms.module.warehouse.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 
 import id.putra.wms.module.warehouse.dto.form.WarehouseForm;
@@ -13,6 +15,6 @@ public interface WarehouseMapper {
 
     WarehouseRes toResponse(Warehouse warehouse);
 
-    // List<WarehouseRes> toResponses(List<Warehouse> warehouses);
+    List<WarehouseRes> toResponses(List<Warehouse> warehouses);
 
 }
