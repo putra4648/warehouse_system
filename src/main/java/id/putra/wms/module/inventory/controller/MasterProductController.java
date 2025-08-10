@@ -2,6 +2,7 @@ package id.putra.wms.module.inventory.controller;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,24 +14,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
-import id.putra.wms.shared.constants.MessageConstant;
-import id.putra.wms.module.inventory.dto.request.ProductReq;
+import id.putra.wms.module.inventory.dto.form.ProductForm;
+import id.putra.wms.module.inventory.service.core.ProductService;
 import id.putra.wms.shared.base.dto.param.SearchParam;
 import id.putra.wms.shared.base.dto.response.thymeleaf.PagingResponse;
-import id.putra.wms.module.inventory.service.core.ProductService;
+import id.putra.wms.shared.constants.MessageConstant;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class MasterProductController implements MasterDataController<ProductReq> {
+public class MasterProductController implements MasterDataController<ProductForm> {
 
   private final ProductService productService;
 
   @GetMapping("master/product")
   // @Override
   public String page(Model model, @RequestParam Optional<SearchParam> search) {
-    model.addAttribute("productForm", new ProductReq());
+    model.addAttribute("productForm", new ProductForm());
     return "pages/master/product";
   }
 
@@ -38,7 +39,7 @@ public class MasterProductController implements MasterDataController<ProductReq>
   @Override
   public String addOrUpdateProdut(
       @RequestParam String action,
-      @Valid @ModelAttribute("form") ProductReq form,
+      @Valid @ModelAttribute("form") ProductForm form,
       BindingResult result,
       RedirectAttributesModelMap redirect) {
     if (result.hasErrors()) {
@@ -70,9 +71,11 @@ public class MasterProductController implements MasterDataController<ProductReq>
 
   @PostMapping("api/master/product")
   @Override
-  public ResponseEntity<PagingResponse<ProductReq>> getMasterData(@RequestBody SearchParam body) {
-    // return ResponseEntity.ok().body(productService.getAll(body));
-    return null;
+  public ResponseEntity<PagingResponse<ProductForm>> getMasterData(@RequestBody SearchParam body) {
+    Page<ProductForm> page = productService.getAll(body);
+    var response = new PagingResponse<ProductForm>(page.getTotalElements(), page.getContent());
+
+    return ResponseEntity.ok().body(response);
   }
 
 }

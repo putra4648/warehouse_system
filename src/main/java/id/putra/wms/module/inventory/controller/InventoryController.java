@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import id.putra.wms.component.MessageBox;
-import id.putra.wms.module.inventory.dto.request.InventoryReq;
-import id.putra.wms.shared.base.dto.param.SearchParam;
+import id.putra.wms.module.inventory.dto.form.InventoryForm;
 import id.putra.wms.module.inventory.service.core.InventoryService;
+import id.putra.wms.shared.base.dto.param.SearchParam;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -31,7 +31,7 @@ public class InventoryController {
         msgbox.add(new MessageBox("fas fa-exclamation-triangle", "Low Stocks", 10_000L, "text-bg-warning"));
         msgbox.add(new MessageBox("fas fa-cubes", "Out of Stocks", 20_000L, "text-bg-danger"));
 
-        model.addAttribute("form", new InventoryReq());
+        model.addAttribute("form", new InventoryForm());
         model.addAttribute("msgbox", msgbox);
 
         return "pages/inventory";
@@ -44,7 +44,7 @@ public class InventoryController {
     }
 
     @PostMapping("inventory")
-    public String addInventory(@ModelAttribute InventoryReq form) {
+    public String addInventory(@ModelAttribute InventoryForm form) {
         inventoryService.addInventory(form);
         return "redirect:/inventory";
     }

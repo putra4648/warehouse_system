@@ -1,9 +1,9 @@
 package id.putra.wms.module.warehouse.service.adapter.command;
 
-import id.putra.wms.module.warehouse.dto.request.WarehouseReq;
+import id.putra.wms.module.warehouse.dto.form.WarehouseForm;
 
 public interface WarehouseCommandAdapter {
 
-    void save(WarehouseReq req);
+    void save(WarehouseForm req);
 
 }
