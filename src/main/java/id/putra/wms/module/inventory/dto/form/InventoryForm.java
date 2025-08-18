@@ -1,11 +1,11 @@
-package id.putra.wms.module.inventory.dto.request;
+package id.putra.wms.module.inventory.dto.form;
 
 import java.time.ZonedDateTime;
 
 import lombok.Data;
 
 @Data
-public class InventoryReq {
+public class InventoryForm {
 
     private Long id;
 

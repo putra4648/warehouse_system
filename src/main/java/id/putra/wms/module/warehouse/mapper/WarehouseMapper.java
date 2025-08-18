@@ -1,16 +1,17 @@
 package id.putra.wms.module.warehouse.mapper;
 
-import id.putra.wms.module.warehouse.dto.request.WarehouseReq;
-import id.putra.wms.module.warehouse.dto.response.WarehouseRes;
-import id.putra.wms.module.warehouse.model.entity.Warehouse;
+import java.util.List;
+
 import org.mapstruct.Mapper;
 
-import java.util.List;
+import id.putra.wms.module.warehouse.dto.form.WarehouseForm;
+import id.putra.wms.module.warehouse.dto.response.WarehouseRes;
+import id.putra.wms.module.warehouse.model.entity.Warehouse;
 
 @Mapper(componentModel = "spring")
 public interface WarehouseMapper {
 
-    Warehouse toEntity(WarehouseReq req);
+    Warehouse toEntity(WarehouseForm req);
 
     WarehouseRes toResponse(Warehouse warehouse);
 

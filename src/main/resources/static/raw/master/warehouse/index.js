@@ -8,8 +8,8 @@ function showModalDelete(sku) {
     $("#sku-delete-modal").html(results[0].sku);
     $("#app-form").find('input[name="sku"]').val(results[0].sku);
     $("#app-form").find('input[name="name"]').val(results[0].name);
-    $("#app-form").find('input[name="min_stock"]').val(results[0].min_stock);
-    $("#app-form").find('input[name="max_stock"]').val(results[0].max_stock);
+    $("#app-form").find('input[name="minStock"]').val(results[0].minStock);
+    $("#app-form").find('input[name="maxStock"]').val(results[0].maxStock);
   }
 }
 
@@ -24,8 +24,8 @@ function showModalEdit(sku) {
     $("#app-form")
       .find('input[name="description"]')
       .val(results[0].description);
-    $("#app-form").find('input[name="min_stock"]').val(results[0].min_stock);
-    $("#app-form").find('input[name="max_stock"]').val(results[0].max_stock);
+    $("#app-form").find('input[name="minStock"]').val(results[0].minStock);
+    $("#app-form").find('input[name="maxStock"]').val(results[0].maxStock);
   }
 }
 

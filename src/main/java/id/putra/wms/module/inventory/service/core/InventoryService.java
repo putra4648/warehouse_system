@@ -3,14 +3,18 @@ package id.putra.wms.module.inventory.service.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
-import id.putra.wms.module.inventory.dto.request.InventoryReq;
-import id.putra.wms.shared.base.dto.param.SearchParam;
+import id.putra.wms.module.inventory.dto.form.InventoryForm;
 import id.putra.wms.module.inventory.model.entity.InventoryItem;
 import id.putra.wms.module.inventory.model.repository.InventoryRepository;
+import id.putra.wms.shared.base.dto.param.SearchParam;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +25,7 @@ public class InventoryService {
     private final InventoryRepository inventoryRepository;
 
     @Transactional
-    public void addInventory(InventoryReq form) {
+    public void addInventory(InventoryForm form) {
         var inventory = new InventoryItem();
 
         // inventory.setName(form.getName());
@@ -61,7 +65,7 @@ public class InventoryService {
                 (matcher) -> matcher.ignoreCase().startsWith());
         var page = inventoryRepository.findAll(Example.of(entity, example), newPageable);
         var result = page.getContent().stream().map(data -> {
-            var dto = new InventoryReq();
+            var dto = new InventoryForm();
 
             dto.setId(data.getId());
             // dto.setName(data.getName());
@@ -75,7 +79,7 @@ public class InventoryService {
         }).toList();
         return new HashMap<String, Object>() {
             {
-                put("last_page", page.getTotalPages());
+                put("lastPage", page.getTotalPages());
                 put("data", result);
             }
         };

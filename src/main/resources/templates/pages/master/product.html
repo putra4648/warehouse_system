@@ -115,43 +115,43 @@
                     <input class="form-control" th:field="*{description}" />
                   </div>
                   <div class="form-group">
-                    <label for="min_stock">Min. Stock</label>
+                    <label for="minStock">Min. Stock</label>
                     <input
                       min="0"
                       type="number"
                       class="form-control"
-                      th:field="*{min_stock}"
-                      th:classappend="${#fields.hasErrors('min_stock')} ? 'is-invalid' : ''"
+                      th:field="*{minStock}"
+                      th:classappend="${#fields.hasErrors('minStock')} ? 'is-invalid' : ''"
                     />
                     <div
                       id="validateSKU"
                       class="invalid-feedback"
-                      th:errors="*{min_stock}"
+                      th:errors="*{minStock}"
                     ></div>
                   </div>
                   <div class="form-group">
-                    <label for="max_stock">Max Stock</label>
+                    <label for="maxStock">Max Stock</label>
                     <input
                       min="1"
                       type="number"
                       class="form-control"
-                      th:field="*{max_stock}"
-                      th:classappend="${#fields.hasErrors('max_stock')} ? 'is-invalid' : ''"
+                      th:field="*{maxStock}"
+                      th:classappend="${#fields.hasErrors('maxStock')} ? 'is-invalid' : ''"
                     />
                     <div
                       id="validateSKU"
                       class="invalid-feedback"
-                      th:errors="*{max_stock}"
+                      th:errors="*{maxStock}"
                     ></div>
                   </div>
                   <label class="form-label">Status</label>
                   <div class="form-check">
-                    <input type="radio" th:field="*{is_active}" value="true" />
-                    <label for="is_active">Enabled</label>
+                    <input type="radio" th:field="*{isActive}" value="true" />
+                    <label for="isActive">Enabled</label>
                   </div>
                   <div class="form-check">
-                    <input type="radio" th:field="*{is_active}" value="false" />
-                    <label for="is_active">Disabled</label>
+                    <input type="radio" th:field="*{isActive}" value="false" />
+                    <label for="isActive">Disabled</label>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -171,11 +171,10 @@
         </div>
 
         <!-- Modal Delete Product -->
-        <div
+        <dialog
           class="modal fade"
           id="delete-master-product-modal"
           tabindex="-1"
-          role="dialog"
           aria-labelledby="exampleModalCenterTitle"
           aria-hidden="true"
         >
@@ -210,7 +209,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </dialog>
 
         <script th:inline="javascript">
           const table = new Tabulator("#master-product-table", {
@@ -225,6 +224,9 @@
             ajaxConfig: "POST",
             ajaxContentType: "json",
             filterMode: "remote",
+            dataReceiveParams: {
+              last_page: "lastPage",
+            },
             columns: [
               {
                 title: "SKU",
@@ -243,7 +245,7 @@
               },
               {
                 title: "Min. Stock",
-                field: "min_stock",
+                field: "minStock",
                 formatter: "money",
                 formatterParams: {
                   decimal: ",",
@@ -254,7 +256,7 @@
               },
               {
                 title: "Max. Stock",
-                field: "max_stock",
+                field: "maxStock",
                 formatter: "money",
                 formatterParams: {
                   decimal: ",",
@@ -325,11 +327,11 @@
                 .find('input[name="name"]')
                 .val(results[0].name);
               $("#product-form")
-                .find('input[name="min_stock"]')
-                .val(results[0].min_stock);
+                .find('input[name="minStock"]')
+                .val(results[0].minStock);
               $("#product-form")
-                .find('input[name="max_stock"]')
-                .val(results[0].max_stock);
+                .find('input[name="maxStock"]')
+                .val(results[0].maxStock);
             }
           }
 
@@ -347,11 +349,11 @@
                 .find('input[name="description"]')
                 .val(results[0].description);
               $("#product-form")
-                .find('input[name="min_stock"]')
-                .val(results[0].min_stock);
+                .find('input[name="minStock"]')
+                .val(results[0].minStock);
               $("#product-form")
-                .find('input[name="max_stock"]')
-                .val(results[0].max_stock);
+                .find('input[name="maxStock"]')
+                .val(results[0].maxStock);
             }
           }
 

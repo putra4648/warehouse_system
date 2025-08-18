@@ -1,14 +1,14 @@
 package id.putra.wms.service;
 
-public interface CRUDService<Form, AppException extends RuntimeException> {
+import id.putra.wms.shared.base.dto.form.BaseForm;
 
-    // public List<Form> getAll() throws AppException;
+public interface CRUDService<F extends BaseForm, E extends RuntimeException> {
 
-    Form getDataById(String id);
+    F getDataById(String id);
 
-    void add(Form form) throws AppException;
+    void add(F form) throws E;
 
-    void update(Form form) throws AppException;
+    void update(F form) throws E;
 
-    void delete(String id) throws AppException;
+    void delete(String id) throws E;
 }

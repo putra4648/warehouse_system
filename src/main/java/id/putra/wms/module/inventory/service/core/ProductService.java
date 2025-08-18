@@ -10,25 +10,25 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
-import id.putra.wms.module.inventory.dto.request.ProductReq;
-import id.putra.wms.shared.base.dto.param.SearchParam;
+import id.putra.wms.module.inventory.dto.form.ProductForm;
 import id.putra.wms.module.inventory.model.entity.Product;
-import id.putra.wms.shared.exceptions.MasterDataException;
 import id.putra.wms.module.inventory.model.repository.ProductRepository;
 import id.putra.wms.service.CRUDService;
 import id.putra.wms.service.PagingService;
+import id.putra.wms.shared.base.dto.param.SearchParam;
+import id.putra.wms.shared.exceptions.MasterDataException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements CRUDService<ProductReq, MasterDataException>, PagingService<ProductReq> {
+public class ProductService implements CRUDService<ProductForm, MasterDataException>, PagingService<ProductForm> {
 
     private final ProductRepository productRepository;
 
     @Override
     @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
-    public void add(ProductReq dto) {
+    public void add(ProductForm dto) {
         if (productRepository.existsById(dto.getSku())) {
             throw new MasterDataException("Product %s already exist".formatted(dto.getSku()));
         }
@@ -46,7 +46,7 @@ public class ProductService implements CRUDService<ProductReq, MasterDataExcepti
 
     @Override
     @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
-    public void update(ProductReq dto) throws MasterDataException {
+    public void update(ProductForm dto) throws MasterDataException {
 
         if (productRepository.existsById(dto.getSku())) {
             var entity = productRepository.findById(dto.getSku()).get();
@@ -75,7 +75,7 @@ public class ProductService implements CRUDService<ProductReq, MasterDataExcepti
     }
 
     @Override
-    public Page<ProductReq> getAll(SearchParam param) {
+    public Page<ProductForm> getAll(SearchParam param) {
         var newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
                 param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
                     String field = "";
@@ -103,14 +103,14 @@ public class ProductService implements CRUDService<ProductReq, MasterDataExcepti
                 .withMatcher("id",
                         (matcher) -> matcher.ignoreCase().startsWith())
                 .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
-        var page = productRepository.findAll(Example.of(entity, example), newPageable)
-                .map(data -> mapToDto(data));
-        return page;
+        return productRepository.findAll(Example.of(entity, example), newPageable)
+                .map(this::mapToDto);
+
     }
 
     @Override
-    public ProductReq getDataById(String id) {
-        var dto = new ProductReq();
+    public ProductForm getDataById(String id) {
+        var dto = new ProductForm();
 
         Optional<Product> product = productRepository.findById(id);
 
@@ -121,8 +121,8 @@ public class ProductService implements CRUDService<ProductReq, MasterDataExcepti
         return dto;
     }
 
-    private ProductReq mapToDto(Product product) {
-        var dto = new ProductReq();
+    private ProductForm mapToDto(Product product) {
+        var dto = new ProductForm();
 
         dto.setSku(product.getId());
         dto.setName(product.getName());

@@ -1,9 +1,10 @@
 package id.putra.wms.module.warehouse.service.core;
 
-import id.putra.wms.module.warehouse.dto.request.WarehouseReq;
-import id.putra.wms.module.warehouse.dto.response.WarehouseRes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import id.putra.wms.module.warehouse.dto.form.WarehouseForm;
+import id.putra.wms.module.warehouse.dto.response.WarehouseRes;
 
 public interface WarehouseCoreService {
 
@@ -11,6 +12,6 @@ public interface WarehouseCoreService {
 
     WarehouseRes getById(String id);
 
-    void save(WarehouseReq req);
+    void save(WarehouseForm req);
 
 }

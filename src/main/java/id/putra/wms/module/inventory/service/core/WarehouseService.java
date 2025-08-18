@@ -16,33 +16,33 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import id.putra.wms.module.warehouse.dto.request.LocationReq;
-import id.putra.wms.module.warehouse.dto.request.RackReq;
-import id.putra.wms.module.warehouse.dto.request.WarehouseReq;
-import id.putra.wms.module.warehouse.dto.request.ZoneReq;
-import id.putra.wms.shared.base.dto.param.SearchParam;
+import id.putra.wms.module.warehouse.dto.form.LocationReq;
+import id.putra.wms.module.warehouse.dto.form.RackForm;
+import id.putra.wms.module.warehouse.dto.form.WarehouseForm;
+import id.putra.wms.module.warehouse.dto.form.ZoneForm;
 import id.putra.wms.module.warehouse.model.entity.Location;
 import id.putra.wms.module.warehouse.model.entity.Rack;
 import id.putra.wms.module.warehouse.model.entity.Warehouse;
 import id.putra.wms.module.warehouse.model.entity.Zone;
-import id.putra.wms.shared.exceptions.MasterDataException;
 import id.putra.wms.module.warehouse.model.repository.RackRepository;
 import id.putra.wms.module.warehouse.model.repository.WarehouseRepository;
 import id.putra.wms.module.warehouse.model.repository.ZoneRepository;
 import id.putra.wms.service.CRUDService;
 import id.putra.wms.service.PagingService;
+import id.putra.wms.shared.base.dto.param.SearchParam;
+import id.putra.wms.shared.exceptions.MasterDataException;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class WarehouseService implements CRUDService<WarehouseReq, MasterDataException>, PagingService<WarehouseReq> {
+public class WarehouseService implements CRUDService<WarehouseForm, MasterDataException>, PagingService<WarehouseForm> {
 
     private final WarehouseRepository warehouseRepository;
     private final ZoneRepository zoneRepository;
     private final RackRepository rackRepository;
 
     @Override
-    public WarehouseReq getDataById(String id) {
+    public WarehouseForm getDataById(String id) {
         Optional<Warehouse> wh = warehouseRepository.findById(id);
         if (wh.isPresent()) {
             return mapWarehouseToDto(wh.get());
@@ -51,7 +51,7 @@ public class WarehouseService implements CRUDService<WarehouseReq, MasterDataExc
         return null;
     }
 
-    public ZoneReq getRackByZoneID(String id) {
+    public ZoneForm getRackByZoneID(String id) {
         Optional<Zone> zn = zoneRepository.findById(id);
         if (zn.isPresent()) {
             return mapZoneToDto(zn.get());
@@ -60,7 +60,7 @@ public class WarehouseService implements CRUDService<WarehouseReq, MasterDataExc
         return null;
     }
 
-    public RackReq getLocationByRack(String id) {
+    public RackForm getLocationByRack(String id) {
         Optional<Rack> rk = rackRepository.findById(id);
         if (rk.isPresent()) {
             return mapRackToDto(rk.get());
@@ -70,7 +70,7 @@ public class WarehouseService implements CRUDService<WarehouseReq, MasterDataExc
     }
 
     @Override
-    public void add(WarehouseReq dto) throws MasterDataException {
+    public void add(WarehouseForm dto) throws MasterDataException {
 
         if (warehouseRepository.existsById(dto.getId())) {
             throw new MasterDataException("Warehouse %s already exist".formatted(dto.getId()));
@@ -82,7 +82,7 @@ public class WarehouseService implements CRUDService<WarehouseReq, MasterDataExc
 
         try {
             List<Zone> zones = new ObjectMapper()
-                    .readValue(dto.getZone_json_string(), new TypeReference<List<ZoneReq>>() {
+                    .readValue(dto.getZone_json_string(), new TypeReference<List<ZoneForm>>() {
 
                     }).stream().map(zoneReq -> {
 
@@ -107,7 +107,7 @@ public class WarehouseService implements CRUDService<WarehouseReq, MasterDataExc
     }
 
     @Override
-    public void update(WarehouseReq form) throws MasterDataException {
+    public void update(WarehouseForm form) throws MasterDataException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
@@ -119,7 +119,7 @@ public class WarehouseService implements CRUDService<WarehouseReq, MasterDataExc
     }
 
     @Override
-    public Page<WarehouseReq> getAll(SearchParam param) {
+    public Page<WarehouseForm> getAll(SearchParam param) {
         int page = param.getPage() != null ? param.getPage() - 1 : 0;
         int size = param.getSize() != null ? param.getSize() : 10;
 
@@ -157,8 +157,8 @@ public class WarehouseService implements CRUDService<WarehouseReq, MasterDataExc
 
     }
 
-    private WarehouseReq mapWarehouseToDto(Warehouse wh) {
-        var dto = new WarehouseReq();
+    private WarehouseForm mapWarehouseToDto(Warehouse wh) {
+        var dto = new WarehouseForm();
 
         dto.setId(wh.getId());
         dto.setName(wh.getName());
@@ -174,8 +174,8 @@ public class WarehouseService implements CRUDService<WarehouseReq, MasterDataExc
         return dto;
     }
 
-    private ZoneReq mapZoneToDto(Zone zn) {
-        var dto = new ZoneReq();
+    private ZoneForm mapZoneToDto(Zone zn) {
+        var dto = new ZoneForm();
 
         dto.setId(zn.getId());
         dto.setName(zn.getName());
@@ -187,8 +187,8 @@ public class WarehouseService implements CRUDService<WarehouseReq, MasterDataExc
         return dto;
     }
 
-    private RackReq mapRackToDto(Rack rk) {
-        var dto = new RackReq();
+    private RackForm mapRackToDto(Rack rk) {
+        var dto = new RackForm();
 
         dto.setId(rk.getId());
         dto.setName(rk.getName());
