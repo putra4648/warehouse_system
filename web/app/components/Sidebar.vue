@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { UDrawer } from '#components';
 import type { NavigationMenuItem } from '@nuxt/ui';
 
 
@@ -11,98 +12,89 @@ const items = ref<NavigationMenuItem[][]>([
         {
             label: 'Dashboard',
             href: '/dashboard',
-            icon: 'i-heroicons-chart-bar-20-solid',
+            icon: 'i-heroicons-chart-bar-solid',
         },
         {
             label: 'Inventory',
-
-            icon: 'i-heroicons-cube-20-solid',
+            href: '/inventory',
+            icon: 'i-heroicons-cube-solid',
         },
         {
             label: "Inbound",
-
-            icon: 'i-heroicons-arrow-down-tray-20-solid',
+            href: '/inbound',
+            icon: 'i-heroicons-arrow-down-tray-solid',
         },
         {
             label: "Outbound",
-
-            icon: 'i-heroicons-arrow-up-tray-20-solid',
+            href: '/outbound',
+            icon: 'i-heroicons-arrow-up-tray-solid',
         },
         // {
         //     label: "Supplier",
         //   
-        //     icon: 'i-heroicons-truck-20-solid'
+        //     icon: 'i-heroicons-truck-solid'
         // },
         {
             label: 'Reports & Analytics',
 
-            icon: 'i-heroicons-chart-pie-20-solid',
+            icon: 'i-heroicons-chart-pie-solid',
         },
         {
             label: "Master Data",
-
-            icon: 'i-heroicons-circle-stack-20-solid',
+            icon: 'i-heroicons-circle-stack-solid',
             children: [
                 {
                     label: 'Product',
 
-                    icon: 'i-heroicons-users-20-solid',
+                    icon: 'i-heroicons-users-solid',
                 },
                 {
                     label: 'Warehouse',
 
-                    icon: 'i-heroicons-shield-check-20-solid',
+                    icon: 'i-heroicons-shield-check-solid',
                 },
                 {
                     label: 'Supplier',
 
-                    icon: 'i-heroicons-truck-20-solid',
+                    icon: 'i-heroicons-truck-solid',
                 },
             ]
-        },
-        {
-            label: 'Outbound',
-
-            icon: 'i-heroicons-arrow-up-tray-20-solid',
-        },
-        {
-            label: 'Warehouse',
-
-            icon: 'i-heroicons-building-office-20-solid',
         },
     ],
     [
         {
             label: 'Settings',
 
-            icon: 'i-heroicons-cog-20-solid',
+            icon: 'i-heroicons-cog-solid',
         },
         {
             label: 'Help & Support',
 
-            icon: 'i-heroicons-question-mark-circle-20-solid',
+            icon: 'i-heroicons-question-mark-circle-solid',
             children: [
                 {
                     label: 'Documentation',
 
-                    icon: 'i-heroicons-book-open-20-solid',
+                    icon: 'i-heroicons-book-open-solid',
                 },
                 {
                     label: 'Contact Support',
 
-                    icon: 'i-heroicons-envelope-20-solid',
+                    icon: 'i-heroicons-envelope-solid',
                 },
             ]
         },
         {
             label: 'Logout',
 
-            icon: 'i-heroicons-arrow-right-on-rectangle-20-solid',
+            icon: 'i-heroicons-arrow-right-on-rectangle-solid',
         },
     ]
 ])
 </script>
 <template>
-    <UNavigationMenu orientation="vertical" :items="items" class="data-[orientation=vertical]:w-48" />
+    <UCard style="height: 100vh;">
+        <UNavigationMenu orientation="vertical" :items="items" class="data-[orientation=vertical]:w-48" />
+    </UCard>
 
 </template>
