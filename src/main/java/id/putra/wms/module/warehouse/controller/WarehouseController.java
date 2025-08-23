@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.putra.wms.module.warehouse.dto.form.WarehouseForm;
-import id.putra.wms.module.warehouse.dto.response.WarehouseRes;
+import id.putra.wms.module.warehouse.dto.RackDto;
+import id.putra.wms.module.warehouse.dto.WarehouseDto;
+import id.putra.wms.module.warehouse.dto.ZoneDto;
 import id.putra.wms.module.warehouse.service.core.WarehouseCoreService;
 import id.putra.wms.shared.base.dto.response.ResponseData;
 import id.putra.wms.shared.base.dto.response.ResponseMeta;
@@ -34,21 +35,39 @@ public class WarehouseController {
      * @param pageable default size page 10, size 0
      */
     @GetMapping
-    public ResponseEntity<ResponseMeta<WarehouseRes>> getAll(
+    public ResponseEntity<ResponseMeta<WarehouseDto>> getAll(
             @PageableDefault Pageable pageable) {
-        Page<WarehouseRes> warehouses = warehouseCoreService.getAll(pageable);
+        Page<WarehouseDto> warehouses = warehouseCoreService.getAll(pageable);
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, warehouses);
     }
 
+    /**
+     * Get detail warehouse by ID
+     * 
+     * @param id - warehouse id
+     * @return
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseData<WarehouseRes>> getById(@PathVariable String id) {
-        WarehouseRes warehouse = warehouseCoreService.getById(id);
+    public ResponseEntity<ResponseData<WarehouseDto>> getById(@PathVariable String id) {
+        WarehouseDto warehouse = warehouseCoreService.getById(id);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, warehouse);
     }
 
+    @GetMapping("/zones/{id}")
+    public ResponseEntity<ResponseData<ZoneDto>> getZoneById(@PathVariable String id) {
+        ZoneDto zone = new ZoneDto();
+        return responseHelper.createResponseData(ResponseEnum.SUCCESS, zone);
+    }
+
+    @GetMapping("/rack/{id}")
+    public ResponseEntity<ResponseData<RackDto>> getRackById(@PathVariable String id) {
+        RackDto rack = new RackDto();
+        return responseHelper.createResponseData(ResponseEnum.SUCCESS, rack);
+    }
+
     @PostMapping
-    public ResponseEntity<ResponseData<Object>> save(@Valid @RequestBody WarehouseForm req) {
-        warehouseCoreService.save(req);
+    public ResponseEntity<ResponseData<Object>> save(@Valid @RequestBody WarehouseDto dto) {
+        warehouseCoreService.save(dto);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, null);
     }
 

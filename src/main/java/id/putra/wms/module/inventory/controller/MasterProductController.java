@@ -35,47 +35,49 @@ public class MasterProductController implements MasterDataController<ProductForm
     return "pages/master/product";
   }
 
-  @PostMapping("master/product")
-  @Override
-  public String addOrUpdateProdut(
-      @RequestParam String action,
-      @Valid @ModelAttribute("form") ProductForm form,
-      BindingResult result,
-      RedirectAttributesModelMap redirect) {
-    if (result.hasErrors()) {
-      return "pages/master/product";
-    }
+  // @PostMapping("master/product")
+  // @Override
+  // public String addOrUpdateProdut(
+  // @RequestParam String action,
+  // @Valid @ModelAttribute("form") ProductForm form,
+  // BindingResult result,
+  // RedirectAttributesModelMap redirect) {
+  // if (result.hasErrors()) {
+  // return "pages/master/product";
+  // }
 
-    if (action.equals("edit")) {
-      productService.update(form);
-      redirect.addFlashAttribute("messageHTML",
-          MessageConstant.MESSAGE.formatted("alert-success", "Success",
-              "Product " + form.getSku() + " successfully updated"));
-    }
-    if (action.equals("add")) {
-      productService.add(form);
-      redirect.addFlashAttribute("messageHTML",
-          MessageConstant.MESSAGE.formatted("alert-success", "Success",
-              "Product " + form.getSku() + " successfully added"));
-    }
+  // if (action.equals("edit")) {
+  // productService.update(form);
+  // redirect.addFlashAttribute("messageHTML",
+  // MessageConstant.MESSAGE.formatted("alert-success", "Success",
+  // "Product " + form.getSku() + " successfully updated"));
+  // }
+  // if (action.equals("add")) {
+  // productService.add(form);
+  // redirect.addFlashAttribute("messageHTML",
+  // MessageConstant.MESSAGE.formatted("alert-success", "Success",
+  // "Product " + form.getSku() + " successfully added"));
+  // }
 
-    if (action.equals("delete")) {
-      productService.delete(form.getSku());
-      redirect.addFlashAttribute("messageHTML",
-          MessageConstant.MESSAGE.formatted("alert-success", "Success",
-              "Product " + form.getSku() + " successfully deleted"));
-    }
+  // if (action.equals("delete")) {
+  // productService.delete(form.getSku());
+  // redirect.addFlashAttribute("messageHTML",
+  // MessageConstant.MESSAGE.formatted("alert-success", "Success",
+  // "Product " + form.getSku() + " successfully deleted"));
+  // }
 
-    return "redirect:/master/product";
-  }
+  // return "redirect:/master/product";
+  // }
 
-  @PostMapping("api/master/product")
-  @Override
-  public ResponseEntity<PagingResponse<ProductForm>> getMasterData(@RequestBody SearchParam body) {
-    Page<ProductForm> page = productService.getAll(body);
-    var response = new PagingResponse<ProductForm>(page.getTotalElements(), page.getContent());
+  // @PostMapping("api/master/product")
+  // @Override
+  // public ResponseEntity<PagingResponse<ProductForm>> getMasterData(@RequestBody
+  // SearchParam body) {
+  // Page<ProductForm> page = productService.getAll(body);
+  // var response = new PagingResponse<ProductForm>(page.getTotalElements(),
+  // page.getContent());
 
-    return ResponseEntity.ok().body(response);
-  }
+  // return ResponseEntity.ok().body(response);
+  // }
 
 }
