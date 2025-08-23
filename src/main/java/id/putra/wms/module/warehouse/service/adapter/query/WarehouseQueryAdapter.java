@@ -1,15 +1,16 @@
 package id.putra.wms.module.warehouse.service.adapter.query;
 
-import id.putra.wms.module.warehouse.dto.response.WarehouseRes;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import id.putra.wms.module.warehouse.dto.WarehouseDto;
 
 import java.util.Optional;
 
 public interface WarehouseQueryAdapter {
 
-    Page<WarehouseRes> getAll(Pageable pageable);
+    Page<WarehouseDto> getAll(Pageable pageable);
 
-    Optional<WarehouseRes> getById(String id);
+    Optional<WarehouseDto> getById(String id);
 
 }

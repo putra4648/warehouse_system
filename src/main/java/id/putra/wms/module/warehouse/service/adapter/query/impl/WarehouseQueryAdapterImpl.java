@@ -1,6 +1,6 @@
 package id.putra.wms.module.warehouse.service.adapter.query.impl;
 
-import id.putra.wms.module.warehouse.dto.response.WarehouseRes;
+import id.putra.wms.module.warehouse.dto.WarehouseDto;
 import id.putra.wms.module.warehouse.mapper.WarehouseMapper;
 import id.putra.wms.module.warehouse.model.entity.Warehouse;
 import id.putra.wms.module.warehouse.service.adapter.query.WarehouseQueryAdapter;
@@ -29,11 +29,12 @@ public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
     private final TaskExecutor virtualThreadExecutor;
 
     @Override
-    public Page<WarehouseRes> getAll(Pageable pageable) {
+    public Page<WarehouseDto> getAll(Pageable pageable) {
         CompletableFuture<Integer> totalData = CompletableFuture.supplyAsync(this::getTotal, virtualThreadExecutor);
         CompletableFuture<List<Warehouse>> warehouses = CompletableFuture.supplyAsync(() -> {
             String query = "SELECT * FROM warehouse LIMIT ? OFFSET ?";
-            return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Warehouse.class), pageable.getPageSize(), pageable.getOffset());
+            return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Warehouse.class), pageable.getPageSize(),
+                    pageable.getOffset());
         }, virtualThreadExecutor);
 
         CompletableFuture.allOf(totalData, warehouses);
@@ -41,12 +42,11 @@ public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
         return new PageImpl<>(
                 warehouseMapper.toResponses(warehouses.join()),
                 pageable,
-                totalData.join()
-        );
+                totalData.join());
     }
 
     @Override
-    public Optional<WarehouseRes> getById(String id) {
+    public Optional<WarehouseDto> getById(String id) {
         String query = "SELECT * FROM warehouse WHERE id = ?";
         try {
             Warehouse warehouse = jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Warehouse.class), id);

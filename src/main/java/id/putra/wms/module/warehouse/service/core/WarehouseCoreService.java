@@ -3,15 +3,23 @@ package id.putra.wms.module.warehouse.service.core;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import id.putra.wms.module.warehouse.dto.form.WarehouseForm;
-import id.putra.wms.module.warehouse.dto.response.WarehouseRes;
+import id.putra.wms.module.warehouse.dto.LocationDto;
+import id.putra.wms.module.warehouse.dto.RackDto;
+import id.putra.wms.module.warehouse.dto.WarehouseDto;
+import id.putra.wms.module.warehouse.dto.ZoneDto;
 
 public interface WarehouseCoreService {
 
-    Page<WarehouseRes> getAll(Pageable pageable);
+    Page<WarehouseDto> getAll(Pageable pageable);
 
-    WarehouseRes getById(String id);
+    WarehouseDto getById(String id);
 
-    void save(WarehouseForm req);
+    ZoneDto getZoneById(String id);
+
+    RackDto getRackById(String id);
+
+    LocationDto getLocationById(String id);
+
+    void save(WarehouseDto dto);
 
 }

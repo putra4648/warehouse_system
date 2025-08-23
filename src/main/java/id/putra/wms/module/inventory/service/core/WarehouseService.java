@@ -11,15 +11,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import id.putra.wms.module.warehouse.dto.form.LocationReq;
-import id.putra.wms.module.warehouse.dto.form.RackForm;
-import id.putra.wms.module.warehouse.dto.form.WarehouseForm;
-import id.putra.wms.module.warehouse.dto.form.ZoneForm;
+import id.putra.wms.module.warehouse.dto.LocationDto;
+import id.putra.wms.module.warehouse.dto.RackDto;
+import id.putra.wms.module.warehouse.dto.WarehouseDto;
+import id.putra.wms.module.warehouse.dto.ZoneDto;
 import id.putra.wms.module.warehouse.model.entity.Location;
 import id.putra.wms.module.warehouse.model.entity.Rack;
 import id.putra.wms.module.warehouse.model.entity.Warehouse;
@@ -35,14 +30,14 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class WarehouseService implements CRUDService<WarehouseForm, MasterDataException>, PagingService<WarehouseForm> {
+public class WarehouseService implements CRUDService<WarehouseDto, MasterDataException>, PagingService<WarehouseDto> {
 
     private final WarehouseRepository warehouseRepository;
     private final ZoneRepository zoneRepository;
     private final RackRepository rackRepository;
 
     @Override
-    public WarehouseForm getDataById(String id) {
+    public WarehouseDto getDataById(String id) {
         Optional<Warehouse> wh = warehouseRepository.findById(id);
         if (wh.isPresent()) {
             return mapWarehouseToDto(wh.get());
@@ -51,7 +46,7 @@ public class WarehouseService implements CRUDService<WarehouseForm, MasterDataEx
         return null;
     }
 
-    public ZoneForm getRackByZoneID(String id) {
+    public ZoneDto getRackByZoneID(String id) {
         Optional<Zone> zn = zoneRepository.findById(id);
         if (zn.isPresent()) {
             return mapZoneToDto(zn.get());
@@ -60,7 +55,7 @@ public class WarehouseService implements CRUDService<WarehouseForm, MasterDataEx
         return null;
     }
 
-    public RackForm getLocationByRack(String id) {
+    public RackDto getLocationByRack(String id) {
         Optional<Rack> rk = rackRepository.findById(id);
         if (rk.isPresent()) {
             return mapRackToDto(rk.get());
@@ -70,44 +65,33 @@ public class WarehouseService implements CRUDService<WarehouseForm, MasterDataEx
     }
 
     @Override
-    public void add(WarehouseForm dto) throws MasterDataException {
+    public void add(WarehouseDto dto) throws MasterDataException {
 
-        if (warehouseRepository.existsById(dto.getId())) {
-            throw new MasterDataException("Warehouse %s already exist".formatted(dto.getId()));
+        if (warehouseRepository.existsById(dto.id())) {
+            throw new MasterDataException("Warehouse %s already exist".formatted(dto.id()));
         }
 
         var warehouse = new Warehouse();
-        warehouse.setId(dto.getId());
-        warehouse.setName(dto.getName());
+        warehouse.setId(dto.id());
+        warehouse.setName(dto.name());
 
-        try {
-            List<Zone> zones = new ObjectMapper()
-                    .readValue(dto.getZone_json_string(), new TypeReference<List<ZoneForm>>() {
+        List<Zone> zones = warehouse.getZones().stream().map(zoneReq -> {
+            var zone = new Zone();
+            zone.setId(zoneReq.getId());
+            zone.setName(zoneReq.getName());
+            zone.setType(zoneReq.getType());
+            zone.setWarehouse(warehouse);
 
-                    }).stream().map(zoneReq -> {
+            return zone;
 
-                        var zone = new Zone();
-                        zone.setId(zoneReq.getId());
-                        zone.setName(zoneReq.getName());
-                        zone.setType(zoneReq.getType());
-                        zone.setWarehouse(warehouse);
-
-                        return zone;
-
-                    }).toList();
-            warehouse.setZones(zones);
-
-        } catch (JsonMappingException e) {
-            throw new MasterDataException(e.getMessage());
-        } catch (JsonProcessingException e) {
-            throw new MasterDataException(e.getMessage());
-        }
+        }).toList();
+        warehouse.setZones(zones);
 
         warehouseRepository.saveAndFlush(warehouse);
     }
 
     @Override
-    public void update(WarehouseForm form) throws MasterDataException {
+    public void update(WarehouseDto form) throws MasterDataException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
@@ -119,7 +103,7 @@ public class WarehouseService implements CRUDService<WarehouseForm, MasterDataEx
     }
 
     @Override
-    public Page<WarehouseForm> getAll(SearchParam param) {
+    public Page<WarehouseDto> getAll(SearchParam param) {
         int page = param.getPage() != null ? param.getPage() - 1 : 0;
         int size = param.getSize() != null ? param.getSize() : 10;
 
@@ -157,55 +141,27 @@ public class WarehouseService implements CRUDService<WarehouseForm, MasterDataEx
 
     }
 
-    private WarehouseForm mapWarehouseToDto(Warehouse wh) {
-        var dto = new WarehouseForm();
-
-        dto.setId(wh.getId());
-        dto.setName(wh.getName());
-        dto.setStatus(wh.getIsActive());
-        dto.setArea(wh.getArea());
-        dto.setLocation(wh.getLocation());
-        dto.setTotal(wh.getTotal());
-
-        if (wh.getZones() != null) {
-            dto.getZones().addAll(wh.getZones().stream().map(z -> mapZoneToDto(z)).toList());
-        }
+    private WarehouseDto mapWarehouseToDto(Warehouse wh) {
+        var dto = new WarehouseDto(wh.getId(), wh.getName(), wh.getIsActive(), wh.getLocation(), wh.getArea(),
+                wh.getTotal(), wh.getZones().stream().map(z -> mapZoneToDto(z)).toList());
 
         return dto;
     }
 
-    private ZoneForm mapZoneToDto(Zone zn) {
-        var dto = new ZoneForm();
-
-        dto.setId(zn.getId());
-        dto.setName(zn.getName());
-
-        if (zn.getRacks() != null) {
-            dto.getRacks().addAll(zn.getRacks().stream().map(r -> mapRackToDto(r)).toList());
-        }
-
+    private ZoneDto mapZoneToDto(Zone zn) {
+        var dto = new ZoneDto(zn.getCode(), zn.getName(), zn.getIsActive(), zn.getType(),
+                zn.getRacks().stream().map(r -> mapRackToDto(r)).toList());
         return dto;
     }
 
-    private RackForm mapRackToDto(Rack rk) {
-        var dto = new RackForm();
-
-        dto.setId(rk.getId());
-        dto.setName(rk.getName());
-
-        if (rk.getLocations() != null) {
-            dto.getLocations().addAll(rk.getLocations().stream().map(r -> mapLocationToDto(r)).toList());
-        }
-
+    private RackDto mapRackToDto(Rack rk) {
+        var dto = new RackDto(rk.getId(), rk.getName(), rk.getRows(), rk.getCols(),
+                rk.getLocations().stream().map(r -> mapLocationToDto(r)).toList());
         return dto;
     }
 
-    private LocationReq mapLocationToDto(Location lc) {
-        var dto = new LocationReq();
-
-        dto.setId(lc.getId());
-        dto.setName(lc.getName());
-
+    private LocationDto mapLocationToDto(Location lc) {
+        var dto = new LocationDto(lc.getId(), lc.getName(), lc.getType(), lc.getIsActive(), lc.getBinNumber());
         return dto;
     }
 

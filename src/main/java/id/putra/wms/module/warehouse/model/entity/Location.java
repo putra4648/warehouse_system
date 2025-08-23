@@ -26,6 +26,8 @@ public class Location extends BaseEntity implements Serializable {
 
     private String binNumber;
 
+    private Boolean isActive;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rack_id")
     private Rack rack;
