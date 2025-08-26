@@ -2,29 +2,18 @@ package id.putra.wms.module.inventory.controller;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
-
 import id.putra.wms.module.inventory.dto.form.ProductForm;
 import id.putra.wms.module.inventory.service.core.ProductService;
 import id.putra.wms.shared.base.dto.param.SearchParam;
-import id.putra.wms.shared.base.dto.response.thymeleaf.PagingResponse;
-import id.putra.wms.shared.constants.MessageConstant;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class MasterProductController implements MasterDataController<ProductForm> {
+public class MasterProductController {
 
   private final ProductService productService;
 

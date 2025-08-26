@@ -2,19 +2,12 @@ package id.putra.wms.module.inventory.service.core;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import id.putra.wms.module.inventory.dto.form.ProductForm;
 import id.putra.wms.module.inventory.model.entity.Product;
 import id.putra.wms.module.inventory.model.repository.ProductRepository;
-import id.putra.wms.service.CRUDService;
-import id.putra.wms.service.PagingService;
 import id.putra.wms.shared.base.dto.param.SearchParam;
 import id.putra.wms.shared.exceptions.MasterDataException;
 import jakarta.transaction.Transactional;
@@ -22,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements PagingService<ProductForm> {
+public class ProductService {
 
     private final ProductRepository productRepository;
 
@@ -71,37 +64,38 @@ public class ProductService implements PagingService<ProductForm> {
         }
     }
 
-    @Override
     public Page<ProductForm> getAll(SearchParam param) {
         // var newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
-        //         param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
-        //             String field = "";
-        //             switch (s.getField()) {
-        //                 case "received_date":
-        //                     field = "receivedDate";
-        //                     break;
-        //                 default:
-        //                     field = s.getField();
-        //                     break;
-        //             }
+        // param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
+        // String field = "";
+        // switch (s.getField()) {
+        // case "received_date":
+        // field = "receivedDate";
+        // break;
+        // default:
+        // field = s.getField();
+        // break;
+        // }
 
-        //             if (s.getDir().equals("asc")) {
+        // if (s.getDir().equals("asc")) {
 
-        //                 return Order.asc(field);
-        //             } else {
-        //                 return Order.desc(field);
-        //             }
-        //         }).toList()) : Sort.unsorted());
+        // return Order.asc(field);
+        // } else {
+        // return Order.desc(field);
+        // }
+        // }).toList()) : Sort.unsorted());
         // var entity = new Product();
-        // entity.setId(param.getFilter().isEmpty() ? "" : (String) param.getFilter().getFirst().getValue());
-        // entity.setName(param.getFilter().isEmpty() ? "" : (String) param.getFilter().getFirst().getValue());
+        // entity.setId(param.getFilter().isEmpty() ? "" : (String)
+        // param.getFilter().getFirst().getValue());
+        // entity.setName(param.getFilter().isEmpty() ? "" : (String)
+        // param.getFilter().getFirst().getValue());
         // ExampleMatcher example = ExampleMatcher
-        //         .matchingAny()
-        //         .withMatcher("id",
-        //                 (matcher) -> matcher.ignoreCase().startsWith())
-        //         .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
+        // .matchingAny()
+        // .withMatcher("id",
+        // (matcher) -> matcher.ignoreCase().startsWith())
+        // .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
         // return productRepository.findAll(Example.of(entity, example), newPageable)
-        //         .map(this::mapToDto);
+        // .map(this::mapToDto);
 
         return null;
 
