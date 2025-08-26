@@ -2,20 +2,18 @@ package id.putra.wms.module.inventory.controller;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import id.putra.wms.module.inventory.dto.form.ProductForm;
-import id.putra.wms.module.inventory.service.core.ProductService;
 import id.putra.wms.shared.base.dto.param.SearchParam;
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class MasterProductController {
-
-  private final ProductService productService;
 
   @GetMapping("master/product")
   // @Override
