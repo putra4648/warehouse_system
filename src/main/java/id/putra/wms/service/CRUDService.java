@@ -1,12 +1,10 @@
 package id.putra.wms.service;
 
-public interface CRUDService<D, E extends RuntimeException> {
+public interface CRUDService<T> {
 
-    D getDataById(String id);
+    void add(T dto);
 
-    void add(D dto) throws E;
+    void update(T dto);
 
-    void update(D dto) throws E;
-
-    void delete(String id) throws E;
+    void delete(String id);
 }

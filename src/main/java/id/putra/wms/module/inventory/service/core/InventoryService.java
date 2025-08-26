@@ -38,50 +38,51 @@ public class InventoryService {
         inventoryRepository.save(inventory);
     }
 
-    public Map<String, Object> getAll(SearchParam param) {
-        Pageable newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
-                param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
-                    String field = "";
-                    switch (s.getField()) {
-                        case "received_date":
-                            field = "receivedDate";
-                            break;
-                        default:
-                            field = s.getField();
-                            break;
-                    }
+    // public Map<String, Object> getAll(SearchParam param) {
+    // Pageable newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
+    // param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
+    // String field = "";
+    // switch (s.getField()) {
+    // case "received_date":
+    // field = "receivedDate";
+    // break;
+    // default:
+    // field = s.getField();
+    // break;
+    // }
 
-                    if (s.getDir().equals("asc")) {
+    // if (s.getDir().equals("asc")) {
 
-                        return Order.asc(field);
-                    } else {
-                        return Order.desc(field);
-                    }
-                }).toList()) : Sort.unsorted());
-        var entity = new InventoryItem();
-        // entity.setSupplier(param.getFilter().isEmpty() ? "" : (String)
-        // param.getFilter().get(0).getValue());
-        ExampleMatcher example = ExampleMatcher.matching().withMatcher("supplier",
-                (matcher) -> matcher.ignoreCase().startsWith());
-        var page = inventoryRepository.findAll(Example.of(entity, example), newPageable);
-        var result = page.getContent().stream().map(data -> {
-            var dto = new InventoryForm();
+    // return Order.asc(field);
+    // } else {
+    // return Order.desc(field);
+    // }
+    // }).toList()) : Sort.unsorted());
+    // var entity = new InventoryItem();
+    // // entity.setSupplier(param.getFilter().isEmpty() ? "" : (String)
+    // // param.getFilter().get(0).getValue());
+    // ExampleMatcher example = ExampleMatcher.matching().withMatcher("supplier",
+    // (matcher) -> matcher.ignoreCase().startsWith());
+    // var page = inventoryRepository.findAll(Example.of(entity, example),
+    // newPageable);
+    // var result = page.getContent().stream().map(data -> {
+    // var dto = new InventoryForm();
 
-            dto.setId(data.getId());
-            // dto.setName(data.getName());
-            // dto.setDate(data.getDate());
-            // dto.setSupplier(data.getSupplier());
-            // dto.setReceived_date(data.getReceivedDate());
-            // dto.setReference(data.getReference());
-            dto.setStatus(data.getStatus());
+    // dto.setId(data.getId());
+    // // dto.setName(data.getName());
+    // // dto.setDate(data.getDate());
+    // // dto.setSupplier(data.getSupplier());
+    // // dto.setReceived_date(data.getReceivedDate());
+    // // dto.setReference(data.getReference());
+    // dto.setStatus(data.getStatus());
 
-            return dto;
-        }).toList();
-        return new HashMap<String, Object>() {
-            {
-                put("lastPage", page.getTotalPages());
-                put("data", result);
-            }
-        };
-    }
+    // return dto;
+    // }).toList();
+    // return new HashMap<String, Object>() {
+    // {
+    // put("lastPage", page.getTotalPages());
+    // put("data", result);
+    // }
+    // };
+    // }
 }

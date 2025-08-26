@@ -22,11 +22,10 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements CRUDService<ProductForm, MasterDataException>, PagingService<ProductForm> {
+public class ProductService implements PagingService<ProductForm> {
 
     private final ProductRepository productRepository;
 
-    @Override
     @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
     public void add(ProductForm dto) {
         if (productRepository.existsById(dto.getSku())) {
@@ -44,7 +43,6 @@ public class ProductService implements CRUDService<ProductForm, MasterDataExcept
         productRepository.save(entity);
     }
 
-    @Override
     @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
     public void update(ProductForm dto) throws MasterDataException {
 
@@ -64,7 +62,6 @@ public class ProductService implements CRUDService<ProductForm, MasterDataExcept
 
     }
 
-    @Override
     @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
     public void delete(String id) throws MasterDataException {
         if (productRepository.existsById(id)) {
@@ -76,39 +73,40 @@ public class ProductService implements CRUDService<ProductForm, MasterDataExcept
 
     @Override
     public Page<ProductForm> getAll(SearchParam param) {
-        var newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
-                param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
-                    String field = "";
-                    switch (s.getField()) {
-                        case "received_date":
-                            field = "receivedDate";
-                            break;
-                        default:
-                            field = s.getField();
-                            break;
-                    }
+        // var newPageable = PageRequest.of(param.getPage() - 1, param.getSize(),
+        //         param.getSort() != null ? Sort.by(param.getSort().stream().map(s -> {
+        //             String field = "";
+        //             switch (s.getField()) {
+        //                 case "received_date":
+        //                     field = "receivedDate";
+        //                     break;
+        //                 default:
+        //                     field = s.getField();
+        //                     break;
+        //             }
 
-                    if (s.getDir().equals("asc")) {
+        //             if (s.getDir().equals("asc")) {
 
-                        return Order.asc(field);
-                    } else {
-                        return Order.desc(field);
-                    }
-                }).toList()) : Sort.unsorted());
-        var entity = new Product();
-        entity.setId(param.getFilter().isEmpty() ? "" : (String) param.getFilter().getFirst().getValue());
-        entity.setName(param.getFilter().isEmpty() ? "" : (String) param.getFilter().getFirst().getValue());
-        ExampleMatcher example = ExampleMatcher
-                .matchingAny()
-                .withMatcher("id",
-                        (matcher) -> matcher.ignoreCase().startsWith())
-                .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
-        return productRepository.findAll(Example.of(entity, example), newPageable)
-                .map(this::mapToDto);
+        //                 return Order.asc(field);
+        //             } else {
+        //                 return Order.desc(field);
+        //             }
+        //         }).toList()) : Sort.unsorted());
+        // var entity = new Product();
+        // entity.setId(param.getFilter().isEmpty() ? "" : (String) param.getFilter().getFirst().getValue());
+        // entity.setName(param.getFilter().isEmpty() ? "" : (String) param.getFilter().getFirst().getValue());
+        // ExampleMatcher example = ExampleMatcher
+        //         .matchingAny()
+        //         .withMatcher("id",
+        //                 (matcher) -> matcher.ignoreCase().startsWith())
+        //         .withMatcher("name", (matcher) -> matcher.ignoreCase().startsWith());
+        // return productRepository.findAll(Example.of(entity, example), newPageable)
+        //         .map(this::mapToDto);
+
+        return null;
 
     }
 
-    @Override
     public ProductForm getDataById(String id) {
         var dto = new ProductForm();
 

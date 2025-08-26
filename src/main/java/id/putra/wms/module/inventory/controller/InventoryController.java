@@ -37,11 +37,11 @@ public class InventoryController {
         return "pages/inventory";
     }
 
-    @PostMapping("api/inventory")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> showInventory(@RequestBody SearchParam param) {
-        return ResponseEntity.ok().body(inventoryService.getAll(param));
-    }
+    // @PostMapping("api/inventory")
+    // @ResponseBody
+    // public ResponseEntity<Map<String, Object>> showInventory(@RequestBody SearchParam param) {
+    //     return ResponseEntity.ok().body(inventoryService.getAll(param));
+    // }
 
     @PostMapping("inventory")
     public String addInventory(@ModelAttribute InventoryForm form) {

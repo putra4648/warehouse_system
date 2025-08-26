@@ -12,14 +12,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
+import id.putra.wms.config.exception.ModuleException;
 import id.putra.wms.module.inventory.controller.MasterDataController;
 import id.putra.wms.module.inventory.service.core.WarehouseService;
+import id.putra.wms.module.warehouse.dto.RackDto;
 import id.putra.wms.module.warehouse.dto.WarehouseDto;
+import id.putra.wms.module.warehouse.dto.ZoneDto;
+import id.putra.wms.module.warehouse.model.entity.Rack;
 import id.putra.wms.shared.base.dto.param.SearchParam;
+import id.putra.wms.shared.base.dto.response.ResponseData;
 import id.putra.wms.shared.base.dto.response.ResponseMeta;
 import id.putra.wms.shared.base.dto.response.thymeleaf.PagingResponse;
 import id.putra.wms.shared.constants.MessageConstant;
@@ -30,77 +36,92 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class MasterWarehouseController implements MasterDataController<WarehouseDto> {
+@RequestMapping("/api/v1/master-data/warehouse")
+public class MasterWarehouseController {
 
     private final ResponseHelper responseHelper;
     private final WarehouseService service;
 
-    @GetMapping("master/warehouses")
-
-    public ResponseEntity<ResponseMeta<WarehouseDto>> page(@RequestParam("search") String search,
+    @GetMapping("/")
+    public ResponseEntity<ResponseMeta<WarehouseDto>> getWarehouses(@RequestParam("search") String search,
             @PageableDefault Pageable pageable) {
-        var s = new SearchParam();
+        var dto = WarehouseDto.builder().name(search).build();
 
-        s.setPage(pageable.getPageNumber());
-        s.setSize(pageable.getPageSize());
-
-        Page<WarehouseDto> warehouse = service.getAll(s);
+        Page<WarehouseDto> warehouse = service.getWarehouses(dto, pageable);
 
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, warehouse);
     }
 
-    // @GetMapping("/master/warehouses/{id}")
-    // public String warehouseZones(Model model, @PathVariable Optional<String> id)
-    // {
-    // id.ifPresent(i -> {
-    // WarehouseForm wh = service.getDataById(i);
-    // model.addAttribute("warehouse", wh);
-    // model.addAttribute("zones", wh.getZones());
-    // });
-    // return "pages/master/warehouse/zone";
-    // }
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseData<WarehouseDto>> getDetailWarehouse(@PathVariable Optional<String> id) {
+        var dto = WarehouseDto.builder().id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
+                .build();
+        WarehouseDto wh = service
+                .getWarehouseById(dto);
+        return responseHelper.createResponseData(ResponseEnum.SUCCESS, wh);
+    }
 
-    // @GetMapping("/master/warehouses/{id}/zones/{zoneId}")
-    // public String warehouseRacksByZone(Model model, @PathVariable
-    // Optional<String> id,
-    // @PathVariable Optional<String> zoneId) {
-    // id.ifPresent(i -> {
-    // Warehou wh = service.getDataById(i);
-    // model.addAttribute("warehouse", wh);
+    @GetMapping("/{id}/zones/{zoneId}")
+    public ResponseEntity<ResponseMeta<ZoneDto>> getZones(@PathVariable Optional<String> id,
+            @PageableDefault Pageable pageable) {
+        var dto = WarehouseDto.builder().id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
+                .build();
+        Page<ZoneDto> zn = service
+                .getZonesByWarehouseId(dto, pageable);
+        return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, zn);
+    }
 
-    // ZoneForm zn = service.getRackByZoneID(zoneId.get());
-    // model.addAttribute("zone", zn);
+    @GetMapping("/master/warehouses/{id}/zones/{zoneId}")
+    public ResponseEntity<ResponseData<ZoneDto>> getDetailZone(
+            @PathVariable Optional<String> id,
+            @PathVariable Optional<String> zoneId) {
+        var dto = WarehouseDto.builder().id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
+                .build();
+        var zoneDto = ZoneDto.builder().id(zoneId.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
+                .build();
+        ZoneDto zn = service
+                .getZoneByIdByWarehouseId(dto, zoneDto);
+        return responseHelper.createResponseData(ResponseEnum.SUCCESS, zn);
+    }
 
-    // model.addAttribute("racks", zn.getRacks());
-    // });
-    // return "pages/master/warehouse/rack";
-    // }
+    @GetMapping("/{id}/zones/{zoneId}/racks")
+    public ResponseEntity<ResponseMeta<RackDto>> getRacks(
+            @PathVariable Optional<String> id,
+            @PathVariable Optional<String> zoneId,
+            @PageableDefault Pageable pageable) {
+        var dto = WarehouseDto.builder().id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
+                .build();
+        var zoneDto = ZoneDto.builder().id(zoneId.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
+                .build();
+        Page<RackDto> rk = service.getRacks(dto, zoneDto, pageable);
+        return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, rk);
+    }
 
-    // @GetMapping("/master/warehouses/{id}/zones/{zoneId}/racks/{rackId}")
-    // public String warehouseLocationsByRack(Model model, @PathVariable
-    // Optional<String> id,
-    // @PathVariable Optional<String> zoneId, @PathVariable Optional<String> rackId)
-    // {
+    @GetMapping("/{id}/zones/{zoneId}/racks/{rackId}")
+    public ResponseEntity<ResponseData<RackDto>> getDetailRack(
+            @PathVariable Optional<String> id,
+            @PathVariable Optional<String> zoneId,
+            @PathVariable Optional<String> rackId) {
 
-    // id.ifPresent(i -> {
-    // WarehouseForm wh = service.getDataById(i);
-    // model.addAttribute("warehouse", wh);
+        // id.ifPresent(i -> {
+        // WarehouseForm wh = service.getWarehouseById(i);
+        // model.addAttribute("warehouse", wh);
 
-    // ZoneForm zn = service.getRackByZoneID(zoneId.get());
-    // model.addAttribute("zone", zn);
+        // ZoneForm zn = service.getRackByZoneID(zoneId.get());
+        // model.addAttribute("zone", zn);
 
-    // model.addAttribute("warehouse", wh);
+        // model.addAttribute("warehouse", wh);
 
-    // RackForm rk = service.getLocationByRack(rackId.get());
-    // model.addAttribute("rack", rk);
+        // RackForm rk = service.getLocationByRack(rackId.get());
+        // model.addAttribute("rack", rk);
 
-    // var locations = rk.getLocations();
+        // var locations = rk.getLocations();
 
-    // model.addAttribute("locations", locations);
-    // });
+        // model.addAttribute("locations", locations);
+        // });
 
-    // return "pages/master/warehouse/location";
-    // }
+        return responseHelper.createResponseData(ResponseEnum.SUCCESS, null);
+    }
 
     // @GetMapping("master/warehouses/add")
     // public String addPage(Model model) {
