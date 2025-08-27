@@ -19,33 +19,6 @@ public class WarehouseService implements WarehouseCoreService {
     private final WarehouseQueryAdapter warehouseQueryAdapter;
     private final WarehouseCommandAdapter warehouseCommandAdapter;
 
-    // @Override
-    // public void save(WarehouseDto dto) {
-
-    // if (warehouseRepository.existsById(dto.id())) {getById
-    // throw new MasterDataException("Warehouse %s already
-    // exist".formatted(dto.id()));
-    // }
-
-    // var warehouse = new Warehouse();
-    // warehouse.setId(dto.id());
-    // warehouse.setName(dto.name());
-
-    // List<Zone> zones = warehouse.getZones().stream().map(zoneReq -> {
-    // var zone = new Zone();
-    // zone.setId(zoneReq.getId());
-    // zone.setName(zoneReq.getName());
-    // zone.setType(zoneReq.getType());
-    // zone.setWarehouse(warehouse);
-
-    // return zone;
-
-    // }).toList();
-    // warehouse.setZones(zones);
-
-    // warehouseRepository.saveAndFlush(warehouse);
-    // }
-
     @Override
     public Page<WarehouseDto> getWarehouses(WarehouseDto dto, Pageable pageable) {
         return warehouseQueryAdapter.getWarehouses(dto, pageable);

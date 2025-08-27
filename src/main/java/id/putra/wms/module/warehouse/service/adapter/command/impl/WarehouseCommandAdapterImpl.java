@@ -13,12 +13,11 @@ import lombok.RequiredArgsConstructor;
 public class WarehouseCommandAdapterImpl implements WarehouseCommandAdapter {
 
     private final WarehouseRepository warehouseRepository;
-
     private final WarehouseMapper warehouseMapper;
 
     @Override
     public void save(WarehouseDto dto) {
-        warehouseRepository.save(warehouseMapper.toEntity(dto));
+        warehouseRepository.save(warehouseMapper.toWarehouseEntity(dto));
     }
 
 }
