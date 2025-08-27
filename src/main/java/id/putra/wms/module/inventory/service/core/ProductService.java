@@ -9,7 +9,8 @@ import id.putra.wms.module.inventory.dto.form.ProductForm;
 import id.putra.wms.module.inventory.model.entity.Product;
 import id.putra.wms.module.inventory.model.repository.ProductRepository;
 import id.putra.wms.shared.base.dto.param.SearchParam;
-import id.putra.wms.shared.exceptions.MasterDataException;
+import id.putra.wms.shared.enums.ResponseEnum;
+import id.putra.wms.shared.exceptions.ModuleException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -19,10 +20,10 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
+    @Transactional(rollbackOn = { ModuleException.class, })
     public void add(ProductForm dto) {
         if (productRepository.existsById(dto.getSku())) {
-            throw new MasterDataException("Product %s already exist".formatted(dto.getSku()));
+            throw new ModuleException(ResponseEnum.DATA_ALREADY_EXIST);
         }
 
         var entity = new Product();
@@ -36,8 +37,8 @@ public class ProductService {
         productRepository.save(entity);
     }
 
-    @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
-    public void update(ProductForm dto) throws MasterDataException {
+    @Transactional(rollbackOn = { ModuleException.class })
+    public void update(ProductForm dto) {
 
         if (productRepository.existsById(dto.getSku())) {
             var entity = productRepository.findById(dto.getSku()).get();
@@ -50,17 +51,17 @@ public class ProductService {
 
             productRepository.save(entity);
         } else {
-            throw new MasterDataException("Product %s not exist".formatted(dto.getSku()));
+            throw new ModuleException(ResponseEnum.DATA_ALREADY_EXIST);
         }
 
     }
 
-    @Transactional(rollbackOn = { Exception.class, MasterDataException.class })
-    public void delete(String id) throws MasterDataException {
+    @Transactional(rollbackOn = { ModuleException.class })
+    public void delete(String id) {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
         } else {
-            throw new MasterDataException("Product %s not exist".formatted(id));
+            throw new ModuleException(ResponseEnum.DATA_ALREADY_EXIST);
         }
     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import id.putra.wms.shared.base.dto.model.BaseDto;
+import id.putra.wms.shared.base.dto.BaseDto;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import id.putra.wms.config.exception.ModuleException;
 import id.putra.wms.module.inventory.service.core.WarehouseService;
 import id.putra.wms.module.warehouse.dto.LocationDto;
 import id.putra.wms.module.warehouse.dto.RackDto;
@@ -23,6 +22,7 @@ import id.putra.wms.module.warehouse.dto.ZoneDto;
 import id.putra.wms.shared.base.dto.response.ResponseData;
 import id.putra.wms.shared.base.dto.response.ResponseMeta;
 import id.putra.wms.shared.enums.ResponseEnum;
+import id.putra.wms.shared.exceptions.ModuleException;
 import id.putra.wms.shared.helpers.ResponseHelper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

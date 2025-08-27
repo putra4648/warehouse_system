@@ -1,4 +1,4 @@
-package id.putra.wms.shared.base.dto.model;
+package id.putra.wms.shared.base.dto;
 
 import java.time.ZonedDateTime;
 
