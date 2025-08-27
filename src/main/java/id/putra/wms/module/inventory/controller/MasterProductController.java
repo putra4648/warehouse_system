@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class MasterProductController {
 
   @GetMapping("master/product")
-  // @Override
+
   public String page(Model model, @RequestParam Optional<SearchParam> search) {
     model.addAttribute("productForm", new ProductForm());
     return "pages/master/product";

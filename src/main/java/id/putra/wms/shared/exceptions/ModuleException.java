@@ -1,4 +1,4 @@
-package id.putra.wms.config.exception;
+package id.putra.wms.shared.exceptions;
 
 import id.putra.wms.shared.enums.ResponseEnum;
 import lombok.Getter;

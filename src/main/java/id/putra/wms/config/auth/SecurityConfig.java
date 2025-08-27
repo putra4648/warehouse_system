@@ -22,10 +22,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
 
     private final ClientRegistrationRepository clientRegistrationRepository;
@@ -75,9 +77,11 @@ public class SecurityConfig {
                 if (OidcUserAuthority.class.isInstance(authority)) {
                     OidcUserAuthority oidcUserAuthority = (OidcUserAuthority) authority;
                     OidcUserInfo userInfo = oidcUserAuthority.getUserInfo();
+                    log.debug(userInfo.toString());
                 } else if (OAuth2UserAuthority.class.isInstance(authority)) {
                     OAuth2UserAuthority oauth2UserAuthority = (OAuth2UserAuthority) authority;
                     Map<String, Object> userAttributes = oauth2UserAuthority.getAttributes();
+                    log.debug(userAttributes.toString());
                 }
             });
 

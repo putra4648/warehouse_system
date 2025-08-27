@@ -1,6 +1,5 @@
 package id.putra.wms.module.inventory.dto.form;
 
-import id.putra.wms.shared.base.dto.form.BaseForm;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +9,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductForm extends BaseForm {
+public class ProductForm {
 
     @NotBlank(message = "Product SKU cannot be empty")
     private String sku;

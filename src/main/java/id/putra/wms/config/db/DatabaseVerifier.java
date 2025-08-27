@@ -1,4 +1,4 @@
-package id.putra.wms.config.dbconnection;
+package id.putra.wms.config.db;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SearchParam extends ActionsParam {
+public class SearchParam {
     private FilterParam filter;
     private SortParam sort;
 }
