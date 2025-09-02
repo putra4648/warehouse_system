@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 public class ZoneQueryAdapterImpl implements ZoneQueryAdapter {
 
     private final ZoneRepository zoneRepository;
-
     private final ZoneMapper zoneMapper;
 
     @Override
