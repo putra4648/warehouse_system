@@ -2,8 +2,8 @@ package id.putra.wms.module.customer.model.entity;
 
 import java.io.Serializable;
 
-import id.putra.wms.module.warehouse.model.entity.Warehouse;
 import id.putra.wms.module.inventory.model.entity.Supplier;
+import id.putra.wms.module.warehouse.model.entity.Warehouse;
 import id.putra.wms.shared.base.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ContactPerson extends BaseEntity implements Serializable {
+class ContactPerson extends BaseEntity implements Serializable {
     @Id
     private String id;
 

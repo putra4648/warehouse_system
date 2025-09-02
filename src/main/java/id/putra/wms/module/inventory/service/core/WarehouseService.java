@@ -31,12 +31,16 @@ public class WarehouseService implements WarehouseCoreService {
 
     @Override
     public Page<RackDto> getRacks(WarehouseDto dto, ZoneDto zoneDto, Pageable pageable) {
-        return warehouseQueryAdapter.getRacks(dto, zoneDto, pageable);
+        // return warehouseQueryAdapter.getRacksByWarehouseAndZone(dto, zoneDto,
+        // pageable);
+        throw new UnsupportedOperationException("Unimplemented method 'getRacks'");
     }
 
     @Override
     public Page<ZoneDto> getZonesByWarehouseId(WarehouseDto dto, Pageable pageable) {
-        return warehouseQueryAdapter.getZonesByWarehouseId(dto, pageable);
+        // return warehouseQueryAdapter.getZonesByWarehouseId(dto, pageable);
+        throw new UnsupportedOperationException("Unimplemented method 'getZonesByWarehouseId'");
+
     }
 
     @Override

@@ -12,7 +12,7 @@ import lombok.Getter;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Getter
 @Builder(toBuilder = true)
-public class WarehouseDto extends BaseDto{
+public class WarehouseDto extends BaseDto {
     private String id;
     private String name;
     private Boolean isActive;

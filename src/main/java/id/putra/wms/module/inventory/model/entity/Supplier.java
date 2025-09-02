@@ -3,7 +3,7 @@ package id.putra.wms.module.inventory.model.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import id.putra.wms.module.customer.model.entity.ContactPerson;
+import id.putra.wms.module.warehouse.model.entity.ContactPersonWarehouse;
 import id.putra.wms.shared.base.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -33,5 +33,5 @@ public class Supplier extends BaseEntity implements Serializable {
     private Product product;
 
     @OneToMany(mappedBy = "supplier")
-    private List<ContactPerson> contactPersons;
+    private List<ContactPersonWarehouse> contactPersons;
 }

@@ -17,6 +17,7 @@ public class RackDto extends BaseDto {
         private String name;
         private Long rows;
         private Long cols;
+        private Boolean isActive;
         private List<LocationDto> locations;
         private ZoneDto zone;
 }
