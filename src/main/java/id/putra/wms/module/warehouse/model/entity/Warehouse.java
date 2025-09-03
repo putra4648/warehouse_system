@@ -3,17 +3,17 @@ package id.putra.wms.module.warehouse.model.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import id.putra.wms.module.customer.model.entity.ContactPerson;
 import id.putra.wms.shared.base.entity.BaseEntity;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Table
+@Table(name = "warehouses")
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,7 +24,6 @@ public class Warehouse extends BaseEntity implements Serializable {
 
     private String name;
 
-    @Column(columnDefinition = "bool default true", nullable = false)
     private Boolean isActive;
 
     private String location;
@@ -33,10 +32,11 @@ public class Warehouse extends BaseEntity implements Serializable {
 
     private Integer total;
 
-    @OneToMany(mappedBy = "warehouse")
+    @OneToMany(mappedBy = "warehouse", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     private List<Zone> zones;
 
-    @OneToMany(mappedBy = "warehouse")
-    private List<ContactPerson> contactPersons;
+    @ManyToOne
+    @JoinColumn(name = "contact_person_id", referencedColumnName = "id")
+    private ContactPersonWarehouse contactPersonWarehouse;
 
 }

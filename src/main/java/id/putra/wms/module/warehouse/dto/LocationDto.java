@@ -1,7 +1,5 @@
 package id.putra.wms.module.warehouse.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
@@ -18,5 +16,5 @@ public class LocationDto extends BaseDto {
     private String type;
     private Boolean isActive;
     private String binNumber;
-    private List<RackDto> racks;
+    private RackDto rack;
 }

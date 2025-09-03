@@ -27,12 +27,12 @@ public class ProductService {
         }
 
         var entity = new Product();
-        entity.setId(dto.getSku());
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setMinStock(dto.getMinStock());
-        entity.setMaxStock(dto.getMaxStock());
-        entity.setIsActive(dto.getIsActive());
+        // entity.setId(dto.getSku());
+        // entity.setName(dto.getName());
+        // entity.setDescription(dto.getDescription());
+        // entity.setMinStock(dto.getMinStock());
+        // entity.setMaxStock(dto.getMaxStock());
+        // entity.setIsActive(dto.getIsActive());
 
         productRepository.save(entity);
     }
@@ -43,11 +43,12 @@ public class ProductService {
         if (productRepository.existsById(dto.getSku())) {
             var entity = productRepository.findById(dto.getSku()).get();
 
-            entity.setName(dto.getName());
-            entity.setDescription(dto.getDescription());
-            entity.setMinStock(dto.getMinStock());
-            entity.setMaxStock(dto.getMaxStock());
-            entity.setIsActive(dto.getIsActive());
+            // TODO: change to builder method
+            // entity.setName(dto.getName());
+            // entity.setDescription(dto.getDescription());
+            // entity.setMinStock(dto.getMinStock());
+            // entity.setMaxStock(dto.getMaxStock());
+            // entity.setIsActive(dto.getIsActive());
 
             productRepository.save(entity);
         } else {

@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Table
+@Table(name = "warehouse_locations")
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)

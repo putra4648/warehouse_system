@@ -4,35 +4,26 @@ import java.io.Serializable;
 import java.util.List;
 
 import id.putra.wms.shared.base.entity.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Table(name = "warehouse_racks")
 @Entity
+@Table(name = "contact_persons")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Rack extends BaseEntity implements Serializable {
+public class ContactPersonWarehouse extends BaseEntity implements Serializable {
     @Id
     private String id;
-
     private String name;
+    private String email;
+    private String address;
+    private String phone;
 
-    private Long rows;
-
-    private Long cols;
-
-    private Boolean isActive;
-
-    @OneToMany(mappedBy = "rack")
-    private List<Location> locations;
-
-    @ManyToOne
-    @JoinColumn(name = "zone_id")
-    private Zone zone;
+    @OneToMany(mappedBy = "contactPersonWarehouse", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Warehouse> warehouses;
 }

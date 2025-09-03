@@ -23,7 +23,7 @@ public class InventoryService {
         // inventory.setSupplier(form.getSupplier());
         // inventory.setReceivedDate(form.getReceived_date());
         // inventory.setReference(form.getReference());
-        inventory.setStatus(form.getStatus());
+        // inventory.setStatus(form.getStatus());
 
         inventoryRepository.save(inventory);
     }
