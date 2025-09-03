@@ -6,24 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
+import id.putra.wms.PostgreSQLContainerInitializer;
 import id.putra.wms.module.warehouse.dto.WarehouseDto;
 import id.putra.wms.module.warehouse.model.entity.ContactPersonWarehouse;
 import id.putra.wms.module.warehouse.model.entity.Warehouse;
@@ -31,28 +25,8 @@ import id.putra.wms.module.warehouse.model.entity.Zone;
 import jakarta.persistence.criteria.Predicate;
 
 @DataJpaTest(showSql = true)
-@AutoConfigureTestDatabase(replace = Replace.NONE)
-@Testcontainers
-public class WarehouseRepositoryTest {
-
-    static PostgreSQLContainer<?> database = new PostgreSQLContainer<>("postgres:17");
-
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", database::getJdbcUrl);
-        registry.add("spring.datasource.username", database::getUsername);
-        registry.add("spring.datasource.password", database::getPassword);
-    }
-
-    @BeforeAll
-    static void beforeAll() {
-        database.start();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        database.stop();
-    }
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class WarehouseRepositoryTest implements PostgreSQLContainerInitializer {
 
     @Autowired
     private WarehouseRepository warehouseRepository;
