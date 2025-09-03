@@ -10,15 +10,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
+import lombok.ToString;
 
 @Table(name = "warehouse_zones")
 @Entity
-@Getter
-@SuperBuilder
+@Data
 @EqualsAndHashCode(callSuper = false)
+@ToString(exclude = { "warehouse" })
 public class Zone extends BaseEntity implements Serializable {
     @Id
     private String id;
@@ -32,7 +32,7 @@ public class Zone extends BaseEntity implements Serializable {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name = "warehouse_id")
+    @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
     private Warehouse warehouse;
 
     @OneToMany(mappedBy = "zone")

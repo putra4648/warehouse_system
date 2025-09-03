@@ -16,7 +16,7 @@ public class InventoryService {
 
     @Transactional
     public void addInventory(InventoryForm form) {
-        var inventory = InventoryItem.builder().build();
+        var inventory = new InventoryItem();
 
         // inventory.setName(form.getName());
         // inventory.setDate(form.getDate());

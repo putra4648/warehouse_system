@@ -10,13 +10,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Table(name = "warehouse_racks")
 @Entity
-@Getter
-@SuperBuilder
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class Rack extends BaseEntity implements Serializable {
     @Id
     private String id;

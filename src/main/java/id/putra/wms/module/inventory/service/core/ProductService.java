@@ -26,7 +26,7 @@ public class ProductService {
             throw new ModuleException(ResponseEnum.DATA_ALREADY_EXIST);
         }
 
-        var entity = Product.builder().build();
+        var entity = new Product();
         // entity.setId(dto.getSku());
         // entity.setName(dto.getName());
         // entity.setDescription(dto.getDescription());

@@ -10,13 +10,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Table(name = "warehouses")
 @Entity
-@Getter
-@SuperBuilder
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class Warehouse extends BaseEntity implements Serializable {
 
     @Id
@@ -32,11 +32,11 @@ public class Warehouse extends BaseEntity implements Serializable {
 
     private Integer total;
 
-    @OneToMany(mappedBy = "warehouse")
+    @OneToMany(mappedBy = "warehouse", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     private List<Zone> zones;
 
     @ManyToOne
-    @JoinColumn(name = "contact_person_id")
+    @JoinColumn(name = "contact_person_id", referencedColumnName = "id")
     private ContactPersonWarehouse contactPersonWarehouse;
 
 }
