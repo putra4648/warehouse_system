@@ -9,13 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
-@Table
+@Table(name = "warehouse_locations")
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@SuperBuilder
 public class Location extends BaseEntity implements Serializable {
     @Id
     private String id;

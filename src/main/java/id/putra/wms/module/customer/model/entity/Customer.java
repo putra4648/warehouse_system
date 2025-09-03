@@ -9,12 +9,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table
-@Data
+@Getter
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 public class Customer extends BaseEntity implements Serializable {
     @Id

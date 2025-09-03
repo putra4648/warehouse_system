@@ -36,7 +36,7 @@ public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
 
     @Override
     public Page<WarehouseDto> getWarehouses(WarehouseDto dto, Pageable pageable) {
-        var entity = new Warehouse();
+        var entity = Warehouse.builder().build();
         // entity.setId(param.getFilter().isEmpty() ? "" : (String)
         // param.getFilter().get(0).getValue());
         // entity.setName(param.getFilter().isEmpty() ? "" : (String)

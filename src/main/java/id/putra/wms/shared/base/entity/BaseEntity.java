@@ -11,9 +11,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Data;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
-@Data
+@Getter
+@SuperBuilder
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {

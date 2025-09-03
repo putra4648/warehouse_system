@@ -10,12 +10,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
-@Table
+@Table(name = "warehouse_zones")
 @Entity
-@Data
+@Getter
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 public class Zone extends BaseEntity implements Serializable {
     @Id

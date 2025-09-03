@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/master-data/warehouse")
-public class MasterWarehouseController {
+public class WarehouseController {
 
         private final ResponseHelper responseHelper;
         private final WarehouseService service;
@@ -53,7 +53,7 @@ public class MasterWarehouseController {
                 var dto = WarehouseDto.builder()
                                 .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                                 .build();
-                WarehouseDto wh = service.getWarehouseById(dto);
+                WarehouseDto wh = service.getWarehouse(dto);
                 return responseHelper.createResponseData(ResponseEnum.SUCCESS, wh);
         }
 
@@ -68,8 +68,8 @@ public class MasterWarehouseController {
                 var dto = WarehouseDto.builder()
                                 .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                                 .build();
-                Page<ZoneDto> zn = service.getZonesByWarehouseId(dto, pageable);
-                return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, zn);
+                // Page<ZoneDto> zn = service.getZonesByWarehouseId(dto, pageable);
+                return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, null);
         }
 
         @GetMapping("/{id}/zones/{zoneId}")
@@ -82,8 +82,8 @@ public class MasterWarehouseController {
                 var zoneDto = ZoneDto.builder()
                                 .id(zoneId.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                                 .build();
-                ZoneDto zn = service.getZoneByIdByWarehouseId(dto, zoneDto);
-                return responseHelper.createResponseData(ResponseEnum.SUCCESS, zn);
+                // ZoneDto zn = service.getZoneByIdByWarehouseId(dto, zoneDto);
+                return responseHelper.createResponseData(ResponseEnum.SUCCESS, null);
         }
 
         @PostMapping("/{id}/zone/{zoneId}/rack")
@@ -102,8 +102,8 @@ public class MasterWarehouseController {
                 var zoneDto = ZoneDto.builder()
                                 .id(zoneId.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                                 .build();
-                Page<RackDto> rk = service.getRacks(dto, zoneDto, pageable);
-                return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, rk);
+                // Page<RackDto> rk = service.getRacks(dto, zoneDto, pageable);
+                return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, null);
         }
 
         @GetMapping("/{id}/zone/{zoneId}/rack/{rackId}")
@@ -132,8 +132,8 @@ public class MasterWarehouseController {
                 var zoneDto = ZoneDto.builder()
                                 .id(zoneId.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                                 .build();
-                Page<RackDto> rk = service.getRacks(dto, zoneDto, pageable);
-                return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, rk);
+                // Page<RackDto> rk = service.getRacks(dto, zoneDto, pageable);
+                return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, null);
         }
 
         @GetMapping("/{id}/zone/{zoneId}/rack/{rackId}/location/{locationId}")

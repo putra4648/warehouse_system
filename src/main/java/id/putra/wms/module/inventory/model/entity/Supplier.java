@@ -11,12 +11,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 @Table
 @Entity
-@Data
+@Getter
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 public class Supplier extends BaseEntity implements Serializable {
     @Id

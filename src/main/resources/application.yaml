@@ -2,6 +2,9 @@ server:
   port: 7000
 
 spring:
+  sql:
+    init:
+      mode: always
   threads:
     virtual:
       enabled: true
@@ -20,7 +23,7 @@ spring:
     properties:
       hibernate:
         "[format_sql]": true
-
+  
   security:
     oauth2:
       client:

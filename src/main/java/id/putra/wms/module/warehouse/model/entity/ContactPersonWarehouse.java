@@ -8,13 +8,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "contact_persons")
-@Builder(toBuilder = true)
 @Getter
+@SuperBuilder
 public class ContactPersonWarehouse extends BaseEntity implements Serializable {
     @Id
     private String id;

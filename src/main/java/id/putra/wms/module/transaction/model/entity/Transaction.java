@@ -12,12 +12,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 @Table(name = "transaction")
 @Entity
-@Data
+@Getter
+@SuperBuilder
 @EqualsAndHashCode(callSuper = false)
 public class Transaction extends BaseEntity implements Serializable {
 
