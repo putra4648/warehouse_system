@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import id.putra.wms.module.warehouse.dto.WarehouseDto;
 import id.putra.wms.module.warehouse.model.entity.Warehouse;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { ContactPersonWarehouseMapper.class })
 public interface WarehouseMapper {
 
     Warehouse toWarehouseEntity(WarehouseDto dto);

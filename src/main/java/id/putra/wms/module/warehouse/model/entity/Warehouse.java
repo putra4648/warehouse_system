@@ -35,9 +35,6 @@ public class Warehouse extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "warehouse")
     private List<Zone> zones;
 
-    @OneToMany(mappedBy = "warehouse")
-    private List<ContactPersonWarehouse> contactPersons;
-
     @ManyToOne
     @JoinColumn(name = "contact_person_id")
     private ContactPersonWarehouse contactPersonWarehouse;

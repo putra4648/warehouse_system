@@ -23,6 +23,6 @@ public class ContactPersonWarehouse extends BaseEntity implements Serializable {
     private String address;
     private String phone;
 
-    @OneToMany
+    @OneToMany(mappedBy = "contactPersonWarehouse")
     private List<Warehouse> warehouses;
 }
