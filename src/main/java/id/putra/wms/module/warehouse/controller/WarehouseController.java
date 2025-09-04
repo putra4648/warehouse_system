@@ -7,7 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,12 +32,23 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/master-data/warehouse")
 public class WarehouseController {
         private final ResponseHelper responseHelper;
-
         private final WarehouseCoreService warehouseCoreService;
 
         @PostMapping("/")
         public ResponseEntity<ResponseData<String>> addWarehouse(@RequestBody @Valid List<WarehouseDto> body) {
                 warehouseCoreService.save(body);
+                return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
+        }
+
+        @PatchMapping("/")
+        public ResponseEntity<ResponseData<String>> updateWarehouse(@RequestBody @Valid List<WarehouseDto> body) {
+                warehouseCoreService.update(body);
+                return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
+        }
+
+        @DeleteMapping("/")
+        public ResponseEntity<ResponseData<String>> deleteWarehouse(@RequestParam @Valid List<String> id) {
+                warehouseCoreService.delete(id.stream().map(i -> WarehouseDto.builder().id(i).build()).toList());
                 return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
         }
 
