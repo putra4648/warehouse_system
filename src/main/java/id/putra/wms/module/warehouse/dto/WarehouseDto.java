@@ -20,5 +20,5 @@ public class WarehouseDto extends BaseDto {
     private Double area;
     private Integer total;
     private List<ZoneDto> zones;
-    private List<ContactPersonWarehouseDto> contactPersonWarehouses;
+    private ContactPersonWarehouseDto contactPersonWarehouse;
 }

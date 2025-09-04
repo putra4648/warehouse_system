@@ -7,5 +7,7 @@ import id.putra.wms.module.warehouse.model.entity.Rack;
 
 @Mapper(componentModel = "spring", uses = { WarehouseMapper.class })
 public interface RackMapper {
-    RackDto toRackDto(Rack rack);
+    RackDto toDto(Rack rack);
+
+    Rack toEntity(RackDto dto);
 }

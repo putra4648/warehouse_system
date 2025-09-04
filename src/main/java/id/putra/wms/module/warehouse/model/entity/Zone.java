@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import id.putra.wms.shared.base.entity.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -35,7 +36,7 @@ public class Zone extends BaseEntity implements Serializable {
     @JoinColumn(name = "warehouse_id", referencedColumnName = "id")
     private Warehouse warehouse;
 
-    @OneToMany(mappedBy = "zone")
+    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rack> racks;
 
 }

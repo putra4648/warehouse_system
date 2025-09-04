@@ -9,10 +9,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
-@Table
+@Table(name = "contact_persons")
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class ContactPersonSupplier extends BaseEntity implements Serializable {
     @Id
     private String id;

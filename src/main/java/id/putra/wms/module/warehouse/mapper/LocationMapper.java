@@ -8,6 +8,8 @@ import id.putra.wms.module.warehouse.model.entity.Location;
 @Mapper(componentModel = "spring", uses = { WarehouseMapper.class })
 public interface LocationMapper {
 
-    LocationDto toLocationDto(Location location);
+    LocationDto toDto(Location location);
+
+    Location toEntity(LocationDto dto);
 
 }
