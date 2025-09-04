@@ -1,5 +1,7 @@
 package id.putra.wms.module.warehouse.service.core;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,6 +13,10 @@ public interface WarehouseCoreService {
 
     WarehouseDto getWarehouse(WarehouseDto dto);
 
-    void save(WarehouseDto dto);
+    void save(List<WarehouseDto> dtos);
+
+    void update(List<WarehouseDto> dtos);
+
+    void delete(List<WarehouseDto> dtos);
 
 }

@@ -1,4 +1,6 @@
-package id.putra.wms.module.inventory.service.core;
+package id.putra.wms.module.warehouse.service.impl;
+
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class WarehouseService implements WarehouseCoreService {
-
+public class WarehouseServiceImpl implements WarehouseCoreService {
     private final WarehouseQueryAdapter warehouseQueryAdapter;
     private final WarehouseCommandAdapter warehouseCommandAdapter;
 
@@ -23,14 +24,23 @@ public class WarehouseService implements WarehouseCoreService {
     }
 
     @Override
-    public void save(WarehouseDto req) {
-        warehouseCommandAdapter.save(req);
+    public WarehouseDto getWarehouse(WarehouseDto dto) {
+        return warehouseQueryAdapter.getWarehouseById(dto);
     }
 
     @Override
-    public WarehouseDto getWarehouse(WarehouseDto dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getWarehouseById'");
+    public void save(List<WarehouseDto> dtos) {
+        warehouseCommandAdapter.save(dtos);
+    }
+
+    @Override
+    public void update(List<WarehouseDto> dtos) {
+        warehouseCommandAdapter.update(dtos);
+    }
+
+    @Override
+    public void delete(List<WarehouseDto> dtos) {
+        warehouseCommandAdapter.delete(dtos);
     }
 
 }

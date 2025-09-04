@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
 import id.putra.wms.PostgreSQLContainerInitializer;
 import id.putra.wms.module.warehouse.dto.WarehouseDto;
@@ -24,8 +25,9 @@ import id.putra.wms.module.warehouse.model.entity.Warehouse;
 import id.putra.wms.module.warehouse.model.entity.Zone;
 import jakarta.persistence.criteria.Predicate;
 
-@DataJpaTest(showSql = true)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@DataJpaTest(showSql = true)
+@Transactional
 public class WarehouseRepositoryTest implements PostgreSQLContainerInitializer {
 
     @Autowired
@@ -86,10 +88,12 @@ public class WarehouseRepositoryTest implements PostgreSQLContainerInitializer {
 
         var updatedEntity = wh.get();
         updatedEntity.setName("Warehouse 2");
-        warehouseRepository.save(updatedEntity);
+        warehouseRepository.saveAndFlush(updatedEntity);
 
         Optional<Warehouse> newWh = warehouseRepository.findById("wh-1");
 
+        assertThat(newWh).isNotEmpty();
+        assertThat(newWh.get().getUpdatedDate()).isNotNull();
         assertThat(newWh.get().getName()).isEqualTo("Warehouse 2");
     }
 
@@ -99,6 +103,7 @@ public class WarehouseRepositoryTest implements PostgreSQLContainerInitializer {
 
         assertThat(wh).isNotNull();
         var zones = wh.get().getZones();
+
         assertThat(zones.size()).isNotNull().isGreaterThan(0);
         assertThat(zones.get(0).getName()).isEqualTo("Zone 1");
     }
@@ -110,7 +115,7 @@ public class WarehouseRepositoryTest implements PostgreSQLContainerInitializer {
 
         Optional<Warehouse> wh = warehouseRepository.findById("wh-1");
 
-        assertThat(wh.isPresent()).isFalse();
+        assertThat(wh).isEmpty();
     }
 
     @Test
@@ -165,7 +170,7 @@ public class WarehouseRepositoryTest implements PostgreSQLContainerInitializer {
     void givenWarehouse_whenSearchByIdAndExist_shouldReturnDetail() {
         var wh = warehouseRepository.findById("wh-1");
 
-        assertThat(wh.isPresent()).isTrue();
+        assertThat(wh).isNotEmpty();
         assertThat(wh.get()).isNotNull();
         assertThat(wh.get().getId()).isEqualTo("wh-1");
     }

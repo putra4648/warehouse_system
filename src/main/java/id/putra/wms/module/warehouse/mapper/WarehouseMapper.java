@@ -10,10 +10,10 @@ import id.putra.wms.module.warehouse.model.entity.Warehouse;
 @Mapper(componentModel = "spring", uses = { ContactPersonWarehouseMapper.class })
 public interface WarehouseMapper {
 
-    Warehouse toWarehouseEntity(WarehouseDto dto);
+    Warehouse toEntity(WarehouseDto dto);
 
-    WarehouseDto toWarehouseDto(Warehouse warehouse);
+    WarehouseDto toDto(Warehouse warehouse);
 
-    List<WarehouseDto> toWarehousDtos(List<Warehouse> warehouses);
+    List<WarehouseDto> toDtos(List<Warehouse> warehouses);
 
 }

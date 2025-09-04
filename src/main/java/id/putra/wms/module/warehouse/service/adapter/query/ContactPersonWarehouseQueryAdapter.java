@@ -1,10 +1,12 @@
 package id.putra.wms.module.warehouse.service.adapter.query;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import id.putra.wms.module.warehouse.dto.ContactPersonWarehouseDto;
-import id.putra.wms.module.warehouse.dto.WarehouseDto;
 
 public interface ContactPersonWarehouseQueryAdapter {
-    List<ContactPersonWarehouseDto> getContactsByWarehouse(WarehouseDto warehouseDto);
+    Page<ContactPersonWarehouseDto> getContacts(ContactPersonWarehouseDto dto, Pageable pageable);
+
+    ContactPersonWarehouseDto getContact(ContactPersonWarehouseDto dto);
 }

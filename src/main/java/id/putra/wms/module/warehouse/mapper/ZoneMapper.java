@@ -9,4 +9,6 @@ import id.putra.wms.module.warehouse.model.entity.Zone;
 public interface ZoneMapper {
     ZoneDto toZoneDto(Zone zone);
 
+    Zone toEntity(ZoneDto dto);
+
 }

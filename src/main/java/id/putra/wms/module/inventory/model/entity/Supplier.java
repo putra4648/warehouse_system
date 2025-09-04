@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import id.putra.wms.shared.base.entity.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -31,6 +32,6 @@ public class Supplier extends BaseEntity implements Serializable {
     @JoinColumn(name = "product_sku", nullable = false)
     private Product product;
 
-    @OneToMany(mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContactPersonSupplier> contactPersonSuppliers;
 }
