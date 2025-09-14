@@ -13,7 +13,7 @@ services:
     networks:
       - wms-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin"]
+      test: [ "CMD-SHELL", "pg_isready -U admin" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,15 +32,7 @@ services:
     volumes:
       - ./config/keycloak:/opt/keycloak/data/import
       - ./config/server.keystore:/opt/keycloak/server.keystore
-    command:
-      [
-        "start",
-        "--optimized",
-        "--import-realm",
-        "--https-key-store-file=/opt/keycloak/server.keystore",
-        "--https-key-store-password=password",
-        "--hostname=localhost",
-      ]
+    command: [ "start", "--optimized", "--import-realm", "--https-key-store-file=/opt/keycloak/server.keystore", "--https-key-store-password=password", "--hostname=https://silver-computing-machine-w56xrqp6jvghg9xq-9000.app.github.dev" ]
     networks:
       - wms-network
     depends_on:
@@ -72,7 +64,6 @@ services:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - wms-network
-
   # app:
   #   depends_on:
   #     wms_db:
