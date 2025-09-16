@@ -34,25 +34,25 @@ public class WarehouseController {
         private final ResponseHelper responseHelper;
         private final WarehouseCoreService warehouseCoreService;
 
-        @PostMapping("/")
+        @PostMapping
         public ResponseEntity<ResponseData<String>> addWarehouse(@RequestBody @Valid List<WarehouseDto> body) {
                 warehouseCoreService.save(body);
                 return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
         }
 
-        @PatchMapping("/")
+        @PatchMapping
         public ResponseEntity<ResponseData<String>> updateWarehouse(@RequestBody @Valid List<WarehouseDto> body) {
                 warehouseCoreService.update(body);
                 return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
         }
 
-        @DeleteMapping("/")
+        @DeleteMapping
         public ResponseEntity<ResponseData<String>> deleteWarehouse(@RequestParam @Valid List<String> id) {
                 warehouseCoreService.delete(id.stream().map(i -> WarehouseDto.builder().id(i).build()).toList());
                 return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
         }
 
-        @GetMapping("/")
+        @GetMapping
         public ResponseEntity<ResponseMeta<WarehouseDto>> getWarehouses(@RequestParam("search") String search,
                         @PageableDefault Pageable pageable) {
                 var dto = WarehouseDto.builder().name(search).build();
