@@ -2,14 +2,10 @@ package id.putra.wms.module.warehouse.dto;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-
 import id.putra.wms.shared.base.dto.BaseDto;
 import lombok.Builder;
 import lombok.Getter;
 
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Builder(toBuilder = true)
 @Getter
 public class RackDto extends BaseDto {

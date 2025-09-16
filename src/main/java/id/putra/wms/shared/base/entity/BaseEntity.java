@@ -1,6 +1,6 @@
 package id.putra.wms.shared.base.entity;
 
-import java.time.ZonedDateTime;
+import java.time.LocalTime;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,7 +24,7 @@ public class BaseEntity {
 
     @CreatedDate
     @Column(name = "created_date")
-    private ZonedDateTime createdDate;
+    private LocalTime createdDate;
 
     @CreatedBy
     @Column(name = "created_by")
@@ -32,7 +32,7 @@ public class BaseEntity {
 
     @LastModifiedDate
     @Column(name = "updated_date")
-    private ZonedDateTime updatedDate;
+    private LocalTime updatedDate;
 
     @LastModifiedBy
     @Column(name = "updated_by")
