@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { UDrawer } from '#components';
 import type { NavigationMenuItem } from '@nuxt/ui';
 
 
-const items = ref<NavigationMenuItem[][]>([
+const items = ref<NavigationMenuItem[]>([
     [
         {
             label: 'WMS PRO',
@@ -50,7 +49,7 @@ const items = ref<NavigationMenuItem[][]>([
                 },
                 {
                     label: 'Warehouse',
-
+     href: 'master/warehouse',
                     icon: 'i-heroicons-shield-check-solid',
                 },
                 {
