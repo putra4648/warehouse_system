@@ -34,25 +34,25 @@ public class ZoneController {
     private final ResponseHelper responseHelper;
     private final ZoneCoreService zoneCoreService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ResponseData<String>> addZone(@RequestBody @Valid List<ZoneDto> body) {
         zoneCoreService.add(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @PatchMapping("/")
+    @PatchMapping
     public ResponseEntity<ResponseData<String>> updateZone(@RequestBody @Valid List<ZoneDto> body) {
         zoneCoreService.update(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping
     public ResponseEntity<ResponseData<String>> deleteZone(@RequestParam List<String> id) {
         zoneCoreService.delete(id.stream().map(i -> ZoneDto.builder().id(i).build()).toList());
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<ResponseMeta<ZoneDto>> getZones(@PathVariable Optional<String> id,
             @PageableDefault Pageable pageable) {
         var dto = ZoneDto.builder()

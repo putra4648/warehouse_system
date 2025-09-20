@@ -34,25 +34,25 @@ public class RackController {
     private final ResponseHelper responseHelper;
     private final RackCoreService rackCoreService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ResponseData<String>> addRack(@RequestBody @Valid List<RackDto> body) {
         rackCoreService.add(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @PatchMapping("/")
+    @PatchMapping
     public ResponseEntity<ResponseData<String>> updateRack(@RequestBody @Valid List<RackDto> body) {
         rackCoreService.update(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping
     public ResponseEntity<ResponseData<String>> deleteRack(@RequestParam List<String> id) {
         rackCoreService.delete(id.stream().map(i -> RackDto.builder().id(i).build()).toList());
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<ResponseMeta<RackDto>> getRacks(
             @RequestParam Optional<String> search,
             @PageableDefault Pageable pageable) {

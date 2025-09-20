@@ -34,23 +34,23 @@ public class LocationController {
     private final ResponseHelper responseHelper;
     private final LocationCoreService locationCoreService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ResponseData<LocationDto>> addLocation(@RequestBody @Valid List<LocationDto> body) {
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, null);
     }
 
-    @PatchMapping("/")
+    @PatchMapping
     public ResponseEntity<ResponseData<String>> updateLocation(@RequestBody @Valid List<LocationDto> body) {
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping
     public ResponseEntity<ResponseData<String>> deleteLocation(@RequestBody List<String> body) {
         locationCoreService.delete(body.stream().map(i -> LocationDto.builder().id(i).build()).toList());
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<ResponseMeta<LocationDto>> getLocations(
             @RequestParam Optional<String> search,
             @PageableDefault Pageable pageable) {
