@@ -34,21 +34,21 @@ public class ContactPersonWarehouseController {
     private final ResponseHelper responseHelper;
     private final ContactPersonWarehouseCoreService contactPersonWarehouseCoreService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ResponseData<String>> addContactPersonWarehouse(
             @RequestBody @Valid List<ContactPersonWarehouseDto> body) {
         contactPersonWarehouseCoreService.add(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @PatchMapping("/")
+    @PatchMapping
     public ResponseEntity<ResponseData<String>> updateContactPersonWarehouse(
             @RequestBody @Valid List<ContactPersonWarehouseDto> body) {
         contactPersonWarehouseCoreService.update(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping
     public ResponseEntity<ResponseData<String>> deleteContactPersonWarehouse(
             @RequestParam List<String> id) {
         contactPersonWarehouseCoreService
@@ -56,7 +56,7 @@ public class ContactPersonWarehouseController {
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<ResponseMeta<ContactPersonWarehouseDto>> getWarehouses(
             @RequestParam String search,
             @PageableDefault Pageable pageable) {
