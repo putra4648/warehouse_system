@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui';
 
-
-const items = ref<NavigationMenuItem[]>([
+const items = ref<NavigationMenuItem[][]>([
     [
         {
             label: 'WMS PRO',
@@ -28,14 +27,8 @@ const items = ref<NavigationMenuItem[]>([
             href: '/outbound',
             icon: 'i-heroicons-arrow-up-tray-solid',
         },
-        // {
-        //     label: "Supplier",
-        //   
-        //     icon: 'i-heroicons-truck-solid'
-        // },
         {
             label: 'Reports & Analytics',
-
             icon: 'i-heroicons-chart-pie-solid',
         },
         {
@@ -49,7 +42,7 @@ const items = ref<NavigationMenuItem[]>([
                 },
                 {
                     label: 'Warehouse',
-     href: 'master/warehouse',
+                    href: '/master/warehouse',
                     icon: 'i-heroicons-shield-check-solid',
                 },
                 {
