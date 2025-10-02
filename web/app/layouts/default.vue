@@ -9,19 +9,20 @@
 
         <v-main>
             <v-container>
-                <NuxtPage />
+                <RouterView />
             </v-container>
         </v-main>
     </v-layout>
 
 </template>
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch } from 'vue'
+import { RouterView } from 'vue-router'
 
-const drawer = ref(false);
-const group = ref(null);
+const drawer = ref(false)
+const group = ref(null)
 
 watch(group, () => {
-	drawer.value = false;
-});
+    drawer.value = false
+})
 </script>
