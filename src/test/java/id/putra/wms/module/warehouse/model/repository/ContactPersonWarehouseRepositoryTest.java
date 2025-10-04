@@ -2,9 +2,6 @@ package id.putra.wms.module.warehouse.model.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,20 +11,15 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import id.putra.wms.PostgreSQLContainerInitializer;
 import id.putra.wms.module.warehouse.model.entity.ContactPersonWarehouse;
-import id.putra.wms.module.warehouse.model.entity.Warehouse;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest(showSql = true)
-public class ContactPersonWarehouseRepositoryTest implements PostgreSQLContainerInitializer {
+public class ContactPersonWarehouseRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Autowired
     private ContactPersonWarehouseRepository contactPersonWarehouseRepository;
 
-    @Autowired
-    private WarehouseRepository warehouseRepository;
-
     private ContactPersonWarehouse entity;
-    private List<Warehouse> warehouses;
 
     @BeforeEach
     public void setup() {
