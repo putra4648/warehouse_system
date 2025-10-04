@@ -19,7 +19,7 @@ import id.putra.wms.module.warehouse.model.entity.Zone;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest(showSql = true)
-public class RackRepositoryTest implements PostgreSQLContainerInitializer {
+public class RackRepositoryTest extends PostgreSQLContainerInitializer {
     @Autowired
     private RackRepository rackRepository;
 
