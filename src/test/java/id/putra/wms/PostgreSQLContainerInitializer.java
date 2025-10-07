@@ -5,11 +5,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 public abstract class PostgreSQLContainerInitializer {
-    static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:17")
-            .withDatabaseName("wms-test-db")
-            .withUsername("wms")
-            .withPassword("wms-password");
-
+    static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:17");
     static {
         postgreSQLContainer.start();
     }
