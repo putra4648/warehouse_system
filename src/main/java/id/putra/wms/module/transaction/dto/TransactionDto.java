@@ -1,0 +1,12 @@
+package id.putra.wms.module.transaction.dto;
+
+import id.putra.wms.shared.base.dto.BaseDto;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class TransactionDto extends BaseDto {
+    private String id;
+    // Add other fields as needed
+}

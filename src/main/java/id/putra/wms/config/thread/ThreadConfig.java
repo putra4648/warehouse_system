@@ -15,7 +15,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 public class ThreadConfig {
 
     @Bean
-    public TaskExecutor processExecutor() {
+    TaskExecutor processExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(25);
         executor.setMaxPoolSize(50);
@@ -27,7 +27,7 @@ public class ThreadConfig {
     }
 
     @Bean
-    public TaskExecutor virtualThreadExecutor() {
+    TaskExecutor virtualThreadExecutor() {
         ThreadFactory virtualThreadFactory = Thread.ofVirtual().name("virtual-thread-", 0).factory();
         return new TaskExecutorAdapter(Executors.newThreadPerTaskExecutor(virtualThreadFactory));
     }
