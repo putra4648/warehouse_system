@@ -6,7 +6,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProductSupplierIdMapper {
-    ProductSupplierIdMapper INSTANCE = Mappers.getMapper(ProductSupplierIdMapper.class);
     // ProductSupplierIdDto toDto(ProductSupplierId entity);
     // ProductSupplierId toEntity(ProductSupplierIdDto dto);
 }
