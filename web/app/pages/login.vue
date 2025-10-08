@@ -8,18 +8,18 @@
     </form>
 </template>
 <script setup lang='ts'>
-import { ref, } from 'vue';
+import { ref } from "vue";
 
 const form = ref<{
-    username: string,
-    password: string
+	username: string;
+	password: string;
 }>({
-    username: '',
-    password: ""
-})
+	username: "",
+	password: "",
+});
 
 function submit(e: Event) {
-    e.preventDefault();
-    console.log("Event")
+	e.preventDefault();
+	console.log("Event");
 }
 </script>

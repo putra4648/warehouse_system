@@ -13,27 +13,6 @@
         </v-row>
         <div ref="myTable" />
         <v-btn ref="myButton" @click="save">Save</v-btn>
-
-        <v-dialog max-width="500" v-model="dialog">
-            <template v-slot:activator="{ props: activatorProps }">
-                <v-btn v-bind="activatorProps" color="surface-variant" text="Open Dialog" variant="flat"></v-btn>
-            </template>
-
-            <template v-slot:default="{ isActive }">
-                <v-card title="Dialog">
-                    <v-card-text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.
-                    </v-card-text>
-
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-
-                        <v-btn text="Close Dialog" @click="isActive.value = false"></v-btn>
-                    </v-card-actions>
-                </v-card>
-            </template>
-        </v-dialog>
     </div>
 </template>
 
@@ -41,33 +20,15 @@
 import { ref } from "vue";
 import useTabulator from "../../composables/useTabulator";
 
-const dialog = ref(false);
+
 const myTable = ref<HTMLElement | null>(null);
 
 const { tabulatorInstance } = useTabulator(myTable, [
     {
-        title: "", field: "", formatter: function () {
-            return "<i class='mdi mdi-eye'></i>";
-        },
-        cellClick: function () {
-            dialog.value = !dialog.value;
-
-        },
-        width: 50,
-        headerSort: false
-    },
-    {
-        title: "No",
-        field: "",
-        formatter: "rownum",
-        width: 50,
-        headerSort: false
-    },
-    {
         title: "Name",
         field: "title",
         headerFilter: "input",
-
+        editor: "input",
     },
     {
         title: "Location",
@@ -113,6 +74,5 @@ const add = () => {
 };
 
 onMounted(() => {
-
 });
 </script>
