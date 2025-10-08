@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps } from "vue";
 
 const props = defineProps<{
-    drawer: boolean
-}>()
+	drawer: boolean;
+}>();
 
 const items = [
-    { type: 'subheader', title: 'WMS PRO' },
-    { title: 'Dashboard', icon: 'mdi-view-dashboard', to: '/dashboard' },
-    { title: 'Inventory', icon: 'mdi-cube', to: '/inventory' },
-    { title: 'Inbound', icon: 'mdi-tray-arrow-down', to: '/inbound' },
-    { title: 'Outbound', icon: 'mdi-tray-arrow-up', to: '/outbound' },
-    { title: 'Reports & Analytics', icon: 'mdi-chart-pie' },
-    {
-        title: 'Master Data',
-        icon: 'mdi-database',
-        children: [
-            { title: 'Product', icon: 'mdi-package-variant', to: '/master/product' },
-            { title: 'Warehouse', icon: 'mdi-warehouse', to: '/master/warehouse' },
-            { title: 'Supplier', icon: 'mdi-truck', to: '/master/supplier' }
-        ]
-    },
-    { type: 'divider' },
-    { title: 'Settings', icon: 'mdi-cog' },
-    {
-        title: 'Help & Support',
-        icon: 'mdi-help-circle',
-        children: [
-            { title: 'Documentation', icon: 'mdi-book-open' },
-            { title: 'Contact Support', icon: 'mdi-email' }
-        ]
-    },
-    { title: 'Logout', icon: 'mdi-logout' }
-]
+	{ type: "subheader", title: "WMS PRO" },
+	{ title: "Dashboard", icon: "mdi-view-dashboard", to: "/dashboard" },
+	{ title: "Inventory", icon: "mdi-cube", to: "/inventory" },
+	{ title: "Inbound", icon: "mdi-tray-arrow-down", to: "/inbound" },
+	{ title: "Outbound", icon: "mdi-tray-arrow-up", to: "/outbound" },
+	{ title: "Reports & Analytics", icon: "mdi-chart-pie" },
+	{
+		title: "Master Data",
+		icon: "mdi-database",
+		children: [
+			{ title: "Product", icon: "mdi-package-variant", to: "/master/product" },
+			{ title: "Warehouse", icon: "mdi-warehouse", to: "/master/warehouse" },
+			{ title: "Supplier", icon: "mdi-truck", to: "/master/supplier" },
+		],
+	},
+	{ type: "divider" },
+	{ title: "Settings", icon: "mdi-cog" },
+	{
+		title: "Help & Support",
+		icon: "mdi-help-circle",
+		children: [
+			{ title: "Documentation", icon: "mdi-book-open" },
+			{ title: "Contact Support", icon: "mdi-email" },
+		],
+	},
+	{ title: "Logout", icon: "mdi-logout" },
+];
 </script>
 
 <template>
