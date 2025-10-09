@@ -25,30 +25,40 @@ const myTable = ref<HTMLElement | null>(null);
 
 const { tabulatorInstance } = useTabulator(myTable, [
     {
+        title: "SKU",
+        field: "sku",
+        headerFilter: "input",
+        editor: "input",
+    },
+    {
         title: "Name",
-        field: "title",
+        field: "name",
         headerFilter: "input",
         editor: "input",
     },
     {
-        title: "Location",
-        field: "location",
+        title: "Description",
+        field: "description",
         headerFilter: "input",
         editor: "input",
     },
     {
-        title: "Capacity",
-        field: "capacity",
+        title: "Weight",
+        field: "weight",
+        headerFilter: "input",
+        editor: "input",
+    },
+    {
+        title: "UOM",
+        field: "uom",
+        headerFilter: "input",
+        editor: "input",
+    },
+    {
+        title: "Quantity",
+        field: "quantity",
         hozAlign: "right",
-        formatter: "money",
-        formatterParams: {
-            decimal: ",",
-            thousand: ".",
-            symbol: "kg",
-            symbolAfter: true,
-            precision: 0,
-        },
-        headerFilter: "input",
+        editor: "input",
     },
     {
         headerSort: false,
@@ -74,5 +84,6 @@ const add = () => {
 };
 
 onMounted(() => {
+
 });
 </script>
