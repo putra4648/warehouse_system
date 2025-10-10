@@ -1,7 +1,10 @@
 name: Deploy to Self-Hosted Runner
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Spring Boot Tests"]
+    types:
+      - completed
     branches: [ "master", "main" ]
   workflow_dispatch:
 
@@ -11,6 +14,7 @@ permissions:
 jobs:
   deploy:
     runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
     environment:
       name: deploy-local
