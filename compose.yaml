@@ -92,6 +92,17 @@ services:
     networks:
       - wms-network
 
+  web:
+    build:
+      context: ./web
+    container_name: wms-web
+    ports:
+      - 3001:3000
+    networks:
+      - wms-network
+    depends_on:
+      - app
+
 networks:
   wms-network:
     driver: bridge
