@@ -29,7 +29,7 @@ services:
       - KC_DB_USERNAME=admin
       - KC_DB_PASSWORD=admin123
       - KC_HTTP_ENABLED=true
-      - KC_HOSTNAME=${{ KC_HOSTNAME }}
+      - KC_HOSTNAME=${KC_HOSTNAME:-localhost}
     volumes:
       - ./config/keycloak:/opt/keycloak/data/import
       - ./config/server.keystore:/opt/keycloak/server.keystore
