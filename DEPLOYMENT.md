@@ -12,9 +12,11 @@ This repository includes a `deploy.yml` GitHub Actions workflow for deploying th
 
 ### Workflow Triggers
 
-The deployment workflow runs automatically on:
-- Push to `master` or `main` branches
-- Manual trigger via `workflow_dispatch`
+The deployment workflow runs automatically:
+- **After successful test completion**: Automatically triggered when the "Spring Boot Tests" workflow completes successfully on `master` or `main` branches
+- **Manual trigger**: Via `workflow_dispatch` for manual deployments
+
+> **Note**: The deployment will only proceed if the test workflow succeeded. This ensures that only tested code is deployed to the self-hosted runner.
 
 ### Environment Variables
 
