@@ -1,9 +1,10 @@
-package id.putra.wms.module.inventory.model.entity;
+package id.putra.wms.shared.base.entity;
 
 import java.io.Serializable;
 import java.util.List;
 
-import id.putra.wms.shared.base.entity.BaseEntity;
+import id.putra.wms.module.inventory.model.entity.Category;
+import id.putra.wms.module.inventory.model.entity.InventoryItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -36,9 +37,6 @@ public class Product extends BaseEntity implements Serializable {
 
     @OneToMany(mappedBy = "product")
     private List<InventoryItem> inventories;
-
-    @OneToMany(mappedBy = "product")
-    private List<Supplier> products;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

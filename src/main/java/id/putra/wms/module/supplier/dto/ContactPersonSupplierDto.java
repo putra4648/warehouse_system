@@ -1,4 +1,4 @@
-package id.putra.wms.module.inventory.dto;
+package id.putra.wms.module.supplier.dto;
 
 import id.putra.wms.shared.base.dto.BaseDto;
 import lombok.Data;
@@ -12,5 +12,5 @@ public class ContactPersonSupplierDto extends BaseDto {
     private String email;
     private String phone;
     private String address;
-    // Add other fields as needed
+    private SupplierDto supplier;
 }
