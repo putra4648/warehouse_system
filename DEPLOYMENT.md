@@ -31,6 +31,8 @@ The workflow uses the following environment variables that can be configured via
 | `SPRING_DATASOURCE_URL` | Spring datasource URL | `jdbc:postgresql://wms_db:5432/wms_db` |
 | `SPRING_DATASOURCE_USERNAME` | Spring datasource username | `admin` |
 | `SPRING_DATASOURCE_PASSWORD` | Spring datasource password | `admin123` |
+| `LOGSTASH_HOST` | Logstash hostname | `logstash` |
+| `LOGSTASH_PORT` | Logstash port | `5000` |
 
 ### Setting up GitHub Secrets
 
@@ -95,4 +97,41 @@ docker compose up -d
 
 # Check health
 curl http://localhost:7000/actuator/health
+
+# Check Kibana
+curl http://localhost:5601/api/status
+
+# Check Elasticsearch
+curl http://localhost:9200/_cluster/health
+```
+
+## ELK Stack Services
+
+The deployment includes an ELK (Elasticsearch, Logstash, Kibana) stack for centralized logging:
+
+- **Elasticsearch**: Port 9200 (REST API), Port 9300 (Transport)
+- **Logstash**: Port 5000 (TCP input), Port 9600 (Monitoring API)
+- **Kibana**: Port 5601 (Web UI)
+
+### Accessing Logs
+
+After deployment, you can access application logs through Kibana:
+
+1. Navigate to http://localhost:5601
+2. Create an index pattern for `wms-logs-*`
+3. Use the Discover tab to search and analyze logs
+
+### ELK Health Checks
+
+To verify ELK stack is running:
+
+```bash
+# Check Elasticsearch cluster health
+curl http://localhost:9200/_cluster/health
+
+# Check Logstash node stats
+curl http://localhost:9600/_node/stats
+
+# Check Kibana status
+curl http://localhost:5601/api/status
 ```
