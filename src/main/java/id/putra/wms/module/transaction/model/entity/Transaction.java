@@ -1,15 +1,22 @@
 package id.putra.wms.module.transaction.model.entity;
 
-import id.putra.wms.module.customer.model.entity.Customer;
-import id.putra.wms.module.inventory.model.entity.Supplier;
-import id.putra.wms.shared.base.entity.BaseEntity;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
+
+import id.putra.wms.module.customer.model.entity.Customer;
+import id.putra.wms.shared.base.entity.BaseEntity;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "transactions")
@@ -22,7 +29,7 @@ public class Transaction extends BaseEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
+    private id.putra.wms.module.supplier.model.entity.Supplier supplier;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

@@ -1,4 +1,4 @@
-package id.putra.wms.module.inventory.model.entity;
+package id.putra.wms.module.supplier.model.entity;
 
 import java.io.Serializable;
 
