@@ -1,13 +1,19 @@
 package id.putra.wms.module.transaction.model.entity;
 
-import id.putra.wms.module.inventory.model.entity.InventoryItem;
-import id.putra.wms.module.inventory.model.entity.Product;
-import id.putra.wms.shared.base.entity.BaseEntity;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import id.putra.wms.module.inventory.model.entity.InventoryItem;
+import id.putra.wms.shared.base.entity.BaseEntity;
+import id.putra.wms.shared.base.entity.Product;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "transaction_items")

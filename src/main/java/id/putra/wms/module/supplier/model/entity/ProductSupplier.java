@@ -1,7 +1,13 @@
-package id.putra.wms.module.inventory.model.entity;
+package id.putra.wms.module.supplier.model.entity;
 
 import id.putra.wms.shared.base.entity.BaseEntity;
-import jakarta.persistence.*;
+import id.putra.wms.shared.base.entity.Product;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

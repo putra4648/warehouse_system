@@ -1,4 +1,4 @@
-package id.putra.wms.module.inventory.model.entity;
+package id.putra.wms.module.supplier.model.entity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -29,8 +29,8 @@ public class Supplier extends BaseEntity implements Serializable {
     private Boolean isActive;
 
     @ManyToOne
-    @JoinColumn(name = "product_sku", nullable = false)
-    private Product product;
+    @JoinColumn(name = "product_id", nullable = false)
+    private ProductSupplier product;
 
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContactPersonSupplier> contactPersonSuppliers;
