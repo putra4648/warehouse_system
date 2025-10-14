@@ -22,7 +22,8 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/error/**", "/logout", "/actuator/**").permitAll()
+                        .requestMatchers("/error/**", "/logout", "/actuator/**",
+                                "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                         .anyRequest()
                         .authenticated())
                 .exceptionHandling(Customizer.withDefaults())
