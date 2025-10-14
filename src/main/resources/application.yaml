@@ -62,3 +62,14 @@ management:
           - health
           - metrics
           - info
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    oauth:
+      client-id: wms-client
+      use-pkce-with-authorization-code-grant: true
+    tags-sorter: alpha
+    operations-sorter: alpha
