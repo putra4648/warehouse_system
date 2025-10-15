@@ -32,9 +32,20 @@ This will start the following services:
 
 Access the services at:
 - Frontend: http://localhost:3001
+- Backend API: http://localhost:7000
+- **Swagger API Docs**: http://localhost:7000/swagger-ui.html
 - Kibana (Log Visualization): http://localhost:5601
 - Grafana (Metrics): http://localhost:3000
 - Prometheus: http://localhost:9090
+
+## API Documentation
+
+The application includes interactive Swagger/OpenAPI documentation for all REST API endpoints.
+
+- **Swagger UI**: http://localhost:7000/swagger-ui.html
+- **OpenAPI Spec**: http://localhost:7000/v3/api-docs
+
+For detailed information on using Swagger with OAuth2 authentication, see [SWAGGER.md](SWAGGER.md) and [GUIDE.md](GUIDE.md).
 
 ## ELK Stack (Elasticsearch, Logstash, Kibana)
 

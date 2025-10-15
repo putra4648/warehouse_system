@@ -30,4 +30,22 @@ In this case I use Postman
 - just scroll to the down and click `Get New Access Token` &rarr; `Proceed` &rarr; `Use Token`
 - done you can access REST API with these token
 
+### For Swagger API Documentation
+
+After starting the application, you can access the interactive API documentation:
+
+- **Swagger UI**: `http://localhost:7000/swagger-ui.html`
+- **OpenAPI JSON**: `http://localhost:7000/v3/api-docs`
+
+To use Swagger UI with OAuth2 authentication:
+
+1. Click the "Authorize" button in Swagger UI
+2. In the OAuth2 dialog, enter:
+   - **client_id**: `wms-client`
+   - **client_secret**: Get this from Keycloak (`Clients` menu → `wms-client` → `Credentials` tab)
+   - **username**: `user1`
+   - **password**: `user123`
+3. Click "Authorize" to authenticate
+4. You can now test the API endpoints directly from Swagger UI
+
 
