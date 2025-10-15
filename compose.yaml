@@ -51,28 +51,7 @@ services:
       interval: 15s
       timeout: 10s
       retries: 30
-
-  grafana:
-    image: grafana/grafana-enterprise
-    container_name: grafana
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./config/datasources:/etc/grafana/provisioning/datasources
-    networks:
-      - wms-network
-
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    ports:
-      - 9090:9090
-    volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
-    networks:
-      - wms-network
-
+      
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
     container_name: elasticsearch
