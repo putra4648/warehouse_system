@@ -12,6 +12,4 @@ public interface ContactPersonCustomerMapper {
 
     ContactPersonCustomer toEntity(ContactPersonCustomerDto dto);
 
-    // void updateEntityFromDto(ContactPersonCustomerDto dto, ContactPersonCustomer
-    // entity);
 }
