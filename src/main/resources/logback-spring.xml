@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    
-    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}"/>
-    
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <property name="LOG_FILE"
+        value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}spring.log}" />
+
     <!-- Console Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-    
+
     <!-- Logstash Appender -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${LOGSTASH_HOST:-logstash}:${LOGSTASH_PORT:-5000}</destination>
+        <destination>${LOGSTASH_HOST:-localhost}:${LOGSTASH_PORT:-5000}</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"app":"wms","environment":"${SPRING_PROFILES_ACTIVE:-default}"}</customFields>
         </encoder>
         <keepAliveDuration>5 minutes</keepAliveDuration>
     </appender>
-    
+
     <!-- Async Logstash Appender for better performance -->
     <appender name="ASYNC_LOGSTASH" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="LOGSTASH" />
         <queueSize>512</queueSize>
         <discardingThreshold>0</discardingThreshold>
     </appender>
-    
+
     <!-- Root Logger -->
     <root level="INFO">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="ASYNC_LOGSTASH"/>
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC_LOGSTASH" />
     </root>
-    
+
     <!-- Application specific logging -->
-    <logger name="id.putra.wms" level="DEBUG"/>
-    <logger name="org.springframework.web" level="INFO"/>
-    <logger name="org.springframework.security" level="DEBUG"/>
-    <logger name="org.hibernate" level="INFO"/>
+    <logger name="id.putra.wms" level="DEBUG" />
+    <logger name="org.springframework.web" level="INFO" />
+    <logger name="org.springframework.security" level="DEBUG" />
+    <logger name="org.hibernate" level="INFO" />
 </configuration>
