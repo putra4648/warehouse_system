@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import id.putra.wms.module.customer.model.entity.Customer;
+import id.putra.wms.module.supplier.model.entity.Supplier;
 import id.putra.wms.shared.base.entity.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,7 +30,7 @@ public class Transaction extends BaseEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
-    private id.putra.wms.module.supplier.model.entity.Supplier supplier;
+    private Supplier supplier;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")

@@ -8,6 +8,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class TransactionItemDto extends BaseDto {
     private String id;
-    private String transactionId;
     // Add other fields as needed
 }

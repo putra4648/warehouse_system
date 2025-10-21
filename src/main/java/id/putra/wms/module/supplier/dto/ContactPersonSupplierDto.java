@@ -12,5 +12,6 @@ public class ContactPersonSupplierDto extends BaseDto {
     private String email;
     private String phone;
     private String address;
+    private Long quantity;
     private SupplierDto supplier;
 }

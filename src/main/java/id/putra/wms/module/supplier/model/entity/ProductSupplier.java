@@ -4,6 +4,7 @@ import id.putra.wms.shared.base.entity.BaseEntity;
 import id.putra.wms.shared.base.entity.Product;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
@@ -20,12 +21,12 @@ public class ProductSupplier extends BaseEntity {
     @EmbeddedId
     private ProductSupplierId id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("productId")
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("supplierId")
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
