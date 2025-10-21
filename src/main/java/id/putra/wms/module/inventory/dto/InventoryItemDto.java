@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 public class InventoryItemDto extends BaseDto {
     private String id;
     private String name;
-    private int quantity;
+    private Long quantity;
     private ProductDto product;
     // Add other fields as needed
 }

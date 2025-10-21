@@ -15,6 +15,7 @@ public class ProductDto extends BaseDto {
     private String description;
     private Long minStock;
     private Long maxStock;
+    private Long quantity;
     private Boolean isActive;
     private CategoryDto category;
     private List<InventoryItemDto> inventories;
