@@ -5,7 +5,7 @@ COPY pom.xml .
 RUN mvn dependency:go-offline -B
 COPY src ./src
 #COPY package.json watch.js ./
-RUN mvn clean package -DskipTests
+RUN mvn -o -B clean package -DskipTests
 
 FROM eclipse-temurin:21 AS main
 COPY --from=build /app/target/*.jar app.jar
