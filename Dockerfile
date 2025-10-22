@@ -1,11 +1,16 @@
+# syntax=docker/dockerfile:1.4
 FROM maven:3.9.9-eclipse-temurin-21 AS build
 
 WORKDIR /app
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
+
+# Use BuildKit cache mount for Maven local repo to prefetch deps (speeds repeated builds & enables offline package)
+RUN --mount=type=cache,target=/root/.m2 mvn -B -ntp dependency:go-offline
+
 COPY src ./src
-#COPY package.json watch.js ./
-RUN mvn -o -B clean package -DskipTests
+
+# Use the same cache and run the build in offline mode (-o) to avoid network calls during package
+RUN --mount=type=cache,target=/root/.m2 mvn -o -B -ntp clean package -DskipTests
 
 FROM eclipse-temurin:21 AS main
 COPY --from=build /app/target/*.jar app.jar
