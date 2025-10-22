@@ -10,7 +10,7 @@ RUN --mount=type=cache,target=/root/.m2 mvn -B -ntp dependency:go-offline
 COPY src ./src
 
 # Use the same cache and run the build in offline mode (-o) to avoid network calls during package
-RUN --mount=type=cache,target=/root/.m2 mvn -o -B -ntp clean package -DskipTests
+RUN --mount=type=cache,target=/root/.m2 mvn clean package -DskipTests
 
 FROM eclipse-temurin:21 AS main
 COPY --from=build /app/target/*.jar app.jar
