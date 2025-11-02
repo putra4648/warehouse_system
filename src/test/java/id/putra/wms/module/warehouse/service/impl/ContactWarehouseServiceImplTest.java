@@ -54,7 +54,9 @@ public class ContactWarehouseServiceImplTest {
 
     @Test
     void testGetContacts() {
-        Page<ContactPersonWarehouseDto> expectedPage = new PageImpl<>(contactPersonDtos, pageable, 1);
+        List<ContactPersonWarehouseDto> safeContactPersonDtos = java.util.Objects.requireNonNull(contactPersonDtos);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Page<ContactPersonWarehouseDto> expectedPage = new PageImpl<>(safeContactPersonDtos, safePageable, 1);
         when(contactPersonWarehouseQueryAdapter.getContacts(any(ContactPersonWarehouseDto.class), eq(pageable)))
                 .thenReturn(expectedPage);
 
@@ -63,7 +65,8 @@ public class ContactWarehouseServiceImplTest {
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
         assertThat(result.getContent().get(0).getId()).isEqualTo("cp-1");
-        verify(contactPersonWarehouseQueryAdapter, times(1)).getContacts(any(ContactPersonWarehouseDto.class), eq(pageable));
+        verify(contactPersonWarehouseQueryAdapter, times(1)).getContacts(any(ContactPersonWarehouseDto.class),
+                eq(pageable));
     }
 
     @Test

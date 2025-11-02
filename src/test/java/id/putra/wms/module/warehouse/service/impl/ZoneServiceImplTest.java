@@ -53,7 +53,9 @@ public class ZoneServiceImplTest {
 
     @Test
     void testGetZones() {
-        Page<ZoneDto> expectedPage = new PageImpl<>(zoneDtos, pageable, 1);
+        List<ZoneDto> safeZoneDtos = java.util.Objects.requireNonNull(zoneDtos);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Page<ZoneDto> expectedPage = new PageImpl<>(safeZoneDtos, safePageable, 1);
         when(zoneQueryAdapter.getZones(any(ZoneDto.class), eq(pageable)))
                 .thenReturn(expectedPage);
 

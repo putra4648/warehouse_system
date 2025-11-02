@@ -62,14 +62,14 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         entity.setId("wh-1");
         entity.setZones(zones);
         // entity.setContactPersonWarehouse(cp);
-        warehouseRepository.saveAndFlush(entity);
+        warehouseRepository.saveAndFlush(java.util.Objects.requireNonNull(entity));
     }
 
     @AfterEach
     public void tearDown() {
-        warehouseRepository.delete(entity);
-        contactPersonWarehouseRepository.delete(cp);
-        zoneRepository.deleteAll(zones);
+        warehouseRepository.delete(java.util.Objects.requireNonNull(entity));
+        contactPersonWarehouseRepository.delete(java.util.Objects.requireNonNull(cp));
+        zoneRepository.deleteAll(java.util.Objects.requireNonNull(zones));
     }
 
     @Test
@@ -111,7 +111,7 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
     @Test
     void givenWarehouse_whenDeleted_shouldReturnEmpty() {
         assertThat(entity).isNotNull();
-        warehouseRepository.delete(entity);
+        warehouseRepository.delete(java.util.Objects.requireNonNull(entity));
 
         Optional<Warehouse> wh = warehouseRepository.findById("wh-1");
 
