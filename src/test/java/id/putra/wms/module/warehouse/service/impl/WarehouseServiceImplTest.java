@@ -54,7 +54,9 @@ public class WarehouseServiceImplTest {
 
     @Test
     void testGetWarehouses() {
-        Page<WarehouseDto> expectedPage = new PageImpl<>(warehouseDtos, pageable, 1);
+        List<WarehouseDto> safeWarehouseDtos = java.util.Objects.requireNonNull(warehouseDtos);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Page<WarehouseDto> expectedPage = new PageImpl<>(safeWarehouseDtos, safePageable, 1);
         when(warehouseQueryAdapter.getWarehouses(any(WarehouseDto.class), eq(pageable)))
                 .thenReturn(expectedPage);
 

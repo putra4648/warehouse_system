@@ -59,7 +59,7 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
 
     @AfterEach
     public void tearDown() {
-        rackRepository.delete(entity);
+        rackRepository.delete(java.util.Objects.requireNonNull(entity));
     }
 
     @Test

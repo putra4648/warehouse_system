@@ -68,14 +68,14 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
 
         locations.add(loc2);
 
-        zoneRepository.save(zone);
-        rackRepository.save(rack);
-        locationRepository.saveAll(locations);
+        zoneRepository.save(java.util.Objects.requireNonNull(zone));
+        rackRepository.save(java.util.Objects.requireNonNull(rack));
+        locationRepository.saveAll(java.util.Objects.requireNonNull(locations));
     }
 
     @AfterEach
     public void tearDown() {
-        locationRepository.deleteAll(locations);
+        locationRepository.deleteAll(java.util.Objects.requireNonNull(locations));
     }
 
     @Test

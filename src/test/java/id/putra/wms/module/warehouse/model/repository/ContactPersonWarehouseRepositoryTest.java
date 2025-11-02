@@ -30,12 +30,12 @@ public class ContactPersonWarehouseRepositoryTest extends PostgreSQLContainerIni
         entity.setPhone("1234567890");
         entity.setAddress("123 Main St");
 
-        contactPersonWarehouseRepository.saveAndFlush(entity);
+        contactPersonWarehouseRepository.saveAndFlush(java.util.Objects.requireNonNull(entity));
     }
 
     @AfterEach
     public void tearDown() {
-        contactPersonWarehouseRepository.delete(entity);
+        contactPersonWarehouseRepository.delete(java.util.Objects.requireNonNull(entity));
     }
 
     @Test
