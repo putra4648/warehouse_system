@@ -50,7 +50,7 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
 
     @AfterEach
     public void tearDown() {
-        zoneRepository.deleteAll(zones);
+        zoneRepository.deleteAll(java.util.Objects.requireNonNull(zones));
     }
 
     @Test

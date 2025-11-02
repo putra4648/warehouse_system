@@ -53,7 +53,9 @@ public class RackServiceImplTest {
 
     @Test
     void testGetRacks() {
-        Page<RackDto> expectedPage = new PageImpl<>(rackDtos, pageable, 1);
+        List<RackDto> safeRackDtos = java.util.Objects.requireNonNull(rackDtos);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Page<RackDto> expectedPage = new PageImpl<>(safeRackDtos, safePageable, 1);
         when(rackQueryAdapter.getRacks(any(RackDto.class), eq(pageable)))
                 .thenReturn(expectedPage);
 

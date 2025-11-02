@@ -54,7 +54,9 @@ public class LocationServiceImplTest {
 
     @Test
     void testGetLocations() {
-        Page<LocationDto> expectedPage = new PageImpl<>(locationDtos, pageable, 1);
+        List<LocationDto> safeLocationDtos = java.util.Objects.requireNonNull(locationDtos);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Page<LocationDto> expectedPage = new PageImpl<>(safeLocationDtos, safePageable, 1);
         when(locationQueryAdapter.getLocations(any(LocationDto.class), eq(pageable)))
                 .thenReturn(expectedPage);
 
