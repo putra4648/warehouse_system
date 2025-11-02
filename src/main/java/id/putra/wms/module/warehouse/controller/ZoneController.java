@@ -24,37 +24,49 @@ import id.putra.wms.shared.base.dto.response.ResponseMeta;
 import id.putra.wms.shared.enums.ResponseEnum;
 import id.putra.wms.shared.exceptions.ModuleException;
 import id.putra.wms.shared.helpers.ResponseHelper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/master-data/zone")
+@RequestMapping("/api/v1/master/zone")
+@Tag(name = "Zone", description = "Zone management APIs")
+@SecurityRequirement(name = "oauth2")
 public class ZoneController {
     private final ResponseHelper responseHelper;
     private final ZoneCoreService zoneCoreService;
 
     @PostMapping
+    @Operation(summary = "Add new zones", description = "Create one or more new zone records")
     public ResponseEntity<ResponseData<String>> addZone(@RequestBody @Valid List<ZoneDto> body) {
         zoneCoreService.add(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
     @PatchMapping
+    @Operation(summary = "Update zones", description = "Update one or more existing zone records")
     public ResponseEntity<ResponseData<String>> updateZone(@RequestBody @Valid List<ZoneDto> body) {
         zoneCoreService.update(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
     @DeleteMapping
-    public ResponseEntity<ResponseData<String>> deleteZone(@RequestParam List<String> id) {
+    @Operation(summary = "Delete zones", description = "Delete one or more zone records by IDs")
+    public ResponseEntity<ResponseData<String>> deleteZone(
+            @Parameter(description = "List of zone IDs to delete") @RequestParam List<String> id) {
         zoneCoreService.delete(id.stream().map(i -> ZoneDto.builder().id(i).build()).toList());
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
     @GetMapping
-    public ResponseEntity<ResponseMeta<ZoneDto>> getZones(@PathVariable Optional<String> id,
-            @PageableDefault Pageable pageable) {
+    @Operation(summary = "Get zones", description = "Retrieve a paginated list of zones")
+    public ResponseEntity<ResponseMeta<ZoneDto>> getZones(
+            @Parameter(description = "Zone ID") @PathVariable Optional<String> id,
+            @Parameter(description = "Pagination parameters") @PageableDefault Pageable pageable) {
         var dto = ZoneDto.builder()
                 .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                 .build();
@@ -63,8 +75,9 @@ public class ZoneController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get zone details", description = "Retrieve detailed information about a specific zone")
     public ResponseEntity<ResponseData<ZoneDto>> getDetailZone(
-            @PathVariable Optional<String> id) {
+            @Parameter(description = "Zone ID") @PathVariable Optional<String> id) {
         var zoneDto = ZoneDto.builder()
                 .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                 .build();

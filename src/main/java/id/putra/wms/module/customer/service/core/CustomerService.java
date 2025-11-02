@@ -25,23 +25,26 @@ public class CustomerService {
     public Page<CustomerDto> getAll(String search, Pageable pageable) {
         Specification<Customer> spec = (root, query, cb) -> search == null || search.isEmpty() ? cb.conjunction()
                 : cb.like(root.get("name"), "%" + search + "%");
-        return repository.findAll(spec, pageable).map(mapper::toDto);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        return repository.findAll(spec, safePageable).map(mapper::toDto);
     }
 
     public CustomerDto create(CustomerDto dto) {
         Customer entity = mapper.toEntity(dto);
-        return mapper.toDto(repository.save(entity));
+        return mapper.toDto(repository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     public CustomerDto update(String id, CustomerDto dto) {
-        Customer entity = repository.findById(id).orElseThrow();
+        String safeId = java.util.Objects.requireNonNull(id);
+        Customer entity = repository.findById(safeId).orElseThrow();
         // You may want to copy fields from dto to entity here
         entity.setName(dto.getName());
         // ... other fields
-        return mapper.toDto(repository.save(entity));
+        return mapper.toDto(repository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     public void delete(String id) {
-        repository.deleteById(id);
+        String safeId = java.util.Objects.requireNonNull(id);
+        repository.deleteById(safeId);
     }
 }

@@ -21,17 +21,20 @@ public class WarehouseCommandAdapterImpl implements WarehouseCommandAdapter {
 
     @Override
     public void save(List<WarehouseDto> dtos) {
-        warehouseRepository.saveAll(dtos.stream().map(d -> warehouseMapper.toEntity(d)).toList());
+        var entities = dtos.stream().map(d -> warehouseMapper.toEntity(d)).toList();
+        warehouseRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<WarehouseDto> dtos) {
-        warehouseRepository.saveAll(dtos.stream().map(d -> warehouseMapper.toEntity(d)).toList());
+        var entities = dtos.stream().map(d -> warehouseMapper.toEntity(d)).toList();
+        warehouseRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void delete(List<WarehouseDto> dtos) {
-        warehouseRepository.deleteAllById(dtos.stream().map(d -> d.getId()).toList());
+        var ids = dtos.stream().map(d -> d.getId()).toList();
+        warehouseRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
     }
 
 }

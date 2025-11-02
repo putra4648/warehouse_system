@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/master-data/warehouse")
+@RequestMapping("/api/v1/master/warehouse")
 @Tag(name = "Warehouse", description = "Warehouse management APIs")
 @SecurityRequirement(name = "oauth2")
 public class WarehouseController {

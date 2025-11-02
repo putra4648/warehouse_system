@@ -20,17 +20,20 @@ public class RackCommandAdapterImpl implements RackCommandAdapter {
 
     @Override
     public void add(List<RackDto> dtos) {
-        rackRepository.saveAll(dtos.stream().map(rackMapper::toEntity).toList());
+        var entities = dtos.stream().map(rackMapper::toEntity).toList();
+        rackRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<RackDto> dtos) {
-        rackRepository.saveAll(dtos.stream().map(rackMapper::toEntity).toList());
+        var entities = dtos.stream().map(rackMapper::toEntity).toList();
+        rackRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void delete(List<RackDto> dtos) {
-        rackRepository.deleteAllById(dtos.stream().map(d -> d.getId()).toList());
+        var ids = dtos.stream().map(d -> d.getId()).toList();
+        rackRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
     }
 
 }

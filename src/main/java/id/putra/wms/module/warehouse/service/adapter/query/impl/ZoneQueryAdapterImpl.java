@@ -30,13 +30,15 @@ public class ZoneQueryAdapterImpl implements ZoneQueryAdapter {
                     "%" + (StringUtils.hasText(dto.getName()) ? dto.getName() : "") + "%");
             return builder.and(name);
         };
-        return zoneRepository.findAll(specs, pageable).map(zoneMapper::toZoneDto);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        return zoneRepository.findAll(specs, safePageable).map(zoneMapper::toZoneDto);
     }
 
     @Override
     public ZoneDto getZone(ZoneDto dto) {
-        var z = zoneRepository.findById(dto.getId());
-        return z.map(zoneMapper::toZoneDto).orElseGet(null);
+        String safeId = java.util.Objects.requireNonNull(dto.getId());
+        var z = zoneRepository.findById(safeId);
+        return z.map(zoneMapper::toZoneDto).orElse(null);
     }
 
 }
