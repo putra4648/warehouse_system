@@ -10,7 +10,6 @@ import lombok.Getter;
 @Getter
 public class ZoneDto extends BaseDto {
         private String id;
-        private String code;
         private String name;
         private Boolean isActive;
         private String type;

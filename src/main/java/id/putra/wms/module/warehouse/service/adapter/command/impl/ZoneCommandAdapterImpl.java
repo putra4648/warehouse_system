@@ -20,17 +20,20 @@ public class ZoneCommandAdapterImpl implements ZoneCommandAdapter {
 
     @Override
     public void add(List<ZoneDto> dtos) {
-        zoneRepository.saveAll(dtos.stream().map(zoneMapper::toEntity).toList());
+        var entities = dtos.stream().map(zoneMapper::toEntity).toList();
+        zoneRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<ZoneDto> dtos) {
-        zoneRepository.saveAll(dtos.stream().map(zoneMapper::toEntity).toList());
+        var entities = dtos.stream().map(zoneMapper::toEntity).toList();
+        zoneRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void delete(List<ZoneDto> dtos) {
-        zoneRepository.deleteAllById(dtos.stream().map(d -> d.getId()).toList());
+        var ids = dtos.stream().map(d -> d.getId()).toList();
+        zoneRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
     }
 
 }

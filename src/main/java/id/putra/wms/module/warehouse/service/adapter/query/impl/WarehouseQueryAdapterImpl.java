@@ -28,7 +28,8 @@ public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
 
     @Override
     public WarehouseDto getWarehouseById(WarehouseDto dto) {
-        var wh = warehouseRepository.findById(dto.getId());
+        String id = java.util.Objects.requireNonNull(dto.getId());
+        var wh = warehouseRepository.findById(id);
         return wh.map(warehouseMapper::toDto).orElse(null);
     }
 
@@ -39,7 +40,8 @@ public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
                     "%" + (StringUtils.hasText(dto.getName()) ? dto.getName() : "") + "%");
             return builder.and(name);
         };
-        return warehouseRepository.findAll(specs, pageable).map(warehouseMapper::toDto);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        return warehouseRepository.findAll(specs, safePageable).map(warehouseMapper::toDto);
     }
 
 }

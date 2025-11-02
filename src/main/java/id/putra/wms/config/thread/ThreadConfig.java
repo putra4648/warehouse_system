@@ -1,5 +1,6 @@
 package id.putra.wms.config.thread;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
@@ -29,7 +30,8 @@ public class ThreadConfig {
     @Bean
     TaskExecutor virtualThreadExecutor() {
         ThreadFactory virtualThreadFactory = Thread.ofVirtual().name("virtual-thread-", 0).factory();
-        return new TaskExecutorAdapter(Executors.newThreadPerTaskExecutor(virtualThreadFactory));
+        ExecutorService executorService = Executors.newThreadPerTaskExecutor(virtualThreadFactory);
+        return new TaskExecutorAdapter(java.util.Objects.requireNonNull(executorService));
     }
 
 }

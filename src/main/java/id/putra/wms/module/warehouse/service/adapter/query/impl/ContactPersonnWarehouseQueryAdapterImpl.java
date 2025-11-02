@@ -29,13 +29,15 @@ public class ContactPersonnWarehouseQueryAdapterImpl implements ContactPersonWar
                     "%" + (StringUtils.hasText(dto.getName()) ? dto.getName() : "") + "%");
             return builder.and(name);
         };
-        return contactPersonWarehouseRepository.findAll(specs, pageable).map(contactPersonWarehouseMapper::toDto);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        return contactPersonWarehouseRepository.findAll(specs, safePageable).map(contactPersonWarehouseMapper::toDto);
     }
 
     @Override
     public ContactPersonWarehouseDto getContact(ContactPersonWarehouseDto dto) {
-        return contactPersonWarehouseRepository.findById(dto.getId()).map(contactPersonWarehouseMapper::toDto)
-                .orElseGet(null);
+        String safeId = java.util.Objects.requireNonNull(dto.getId());
+        return contactPersonWarehouseRepository.findById(safeId).map(contactPersonWarehouseMapper::toDto)
+                .orElse(null);
     }
 
 }

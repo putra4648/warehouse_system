@@ -20,17 +20,20 @@ public class LocationCommandAdapterImpl implements LocationCommandAdapter {
 
     @Override
     public void add(List<LocationDto> dtos) {
-        locationRepository.saveAll(dtos.stream().map(locationMapper::toEntity).toList());
+        var entities = dtos.stream().map(locationMapper::toEntity).toList();
+        locationRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<LocationDto> dtos) {
-        locationRepository.saveAll(dtos.stream().map(locationMapper::toEntity).toList());
+        var entities = dtos.stream().map(locationMapper::toEntity).toList();
+        locationRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void delete(List<LocationDto> dtos) {
-        locationRepository.deleteAllById(dtos.stream().map(d -> d.getId()).toList());
+        var ids = dtos.stream().map(d -> d.getId()).toList();
+        locationRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
     }
 
 }

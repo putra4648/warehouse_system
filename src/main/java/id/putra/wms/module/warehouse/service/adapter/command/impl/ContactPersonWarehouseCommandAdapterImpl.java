@@ -21,17 +21,20 @@ public class ContactPersonWarehouseCommandAdapterImpl implements ContactPersonWa
 
     @Override
     public void add(List<ContactPersonWarehouseDto> dtos) {
-        contactPersonWarehouseRepository.saveAll(dtos.stream().map(contactPersonWarehouseMapper::toEntity).toList());
+        var entities = dtos.stream().map(contactPersonWarehouseMapper::toEntity).toList();
+        contactPersonWarehouseRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<ContactPersonWarehouseDto> dtos) {
-        contactPersonWarehouseRepository.saveAll(dtos.stream().map(contactPersonWarehouseMapper::toEntity).toList());
+        var entities = dtos.stream().map(contactPersonWarehouseMapper::toEntity).toList();
+        contactPersonWarehouseRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void delete(List<ContactPersonWarehouseDto> dtos) {
-        contactPersonWarehouseRepository.deleteAllById(dtos.stream().map(d -> d.getId()).toList());
+        var ids = dtos.stream().map(d -> d.getId()).toList();
+        contactPersonWarehouseRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
     }
 
 }
