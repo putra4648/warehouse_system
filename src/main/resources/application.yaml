@@ -1,3 +1,6 @@
+server:
+  port: 7000
+
 spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
@@ -22,7 +25,7 @@ spring:
     properties:
       hibernate:
         "[format_sql]": true
-  
+
   security:
     oauth2:
       resourceserver:
