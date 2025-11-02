@@ -29,12 +29,14 @@ public class LocationQueryAdapterImpl implements LocationQueryAdapter {
                     "%" + (StringUtils.hasText(dto.getName()) ? dto.getName() : "") + "%");
             return builder.and(name);
         };
-        return locationRepository.findAll(specs, pageable).map(locationMapper::toDto);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        return locationRepository.findAll(specs, safePageable).map(locationMapper::toDto);
     }
 
     @Override
     public LocationDto getLocation(LocationDto dto) {
-        return locationRepository.findById(dto.getId()).map(locationMapper::toDto).orElseGet(null);
+        String safeId = java.util.Objects.requireNonNull(dto.getId());
+        return locationRepository.findById(safeId).map(locationMapper::toDto).orElse(null);
     }
 
 }

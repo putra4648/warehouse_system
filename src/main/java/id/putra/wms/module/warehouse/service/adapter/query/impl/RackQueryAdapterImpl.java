@@ -30,12 +30,14 @@ public class RackQueryAdapterImpl implements RackQueryAdapter {
             return builder.and(name);
         };
 
-        return rackRepository.findAll(specs, pageable).map(rackMapper::toDto);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        return rackRepository.findAll(specs, safePageable).map(rackMapper::toDto);
     }
 
     @Override
     public RackDto getRackById(RackDto rackDto) {
-        return rackRepository.findById(rackDto.getId()).map(rackMapper::toDto).orElseGet(null);
+        String safeId = java.util.Objects.requireNonNull(rackDto.getId());
+        return rackRepository.findById(safeId).map(rackMapper::toDto).orElse(null);
     }
 
 }

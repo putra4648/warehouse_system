@@ -19,12 +19,14 @@ public class ContactPersonCustomerQueryAdapterImpl implements ContactPersonCusto
     @Override
     public Page<ContactPersonCustomerDto> getAll(Pageable pageable, String search) {
         // Implement search logic here
-        return repository.findAll(pageable).map(mapper::toDto);
+        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        return repository.findAll(safePageable).map(mapper::toDto);
     }
 
     @Override
     public ContactPersonCustomerDto getById(String id) {
-        var entity = repository.findById(id).orElseThrow();
+        String safeId = java.util.Objects.requireNonNull(id);
+        var entity = repository.findById(safeId).orElseThrow();
         return mapper.toDto(entity);
     }
 }
