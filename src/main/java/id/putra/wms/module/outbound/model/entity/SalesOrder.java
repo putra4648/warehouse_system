@@ -18,18 +18,17 @@ import lombok.Data;
 @Table
 @Data
 public class SalesOrder {
-      @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-    private String soNumber;
-    private Date orderDate;
-    private String status;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
+  private String soNumber;
+  private Date orderDate;
+  private String status;
 
-    @OneToMany(mappedBy = "sales_order")
-    private List<SalesOrderLine> salesOrderLines;
+  @OneToMany(mappedBy = "salesOrder")
+  private List<SalesOrderLine> salesOrderLines;
 
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+  @ManyToOne
+  @JoinColumn(name = "customer_id")
+  private Customer customer;
 }
