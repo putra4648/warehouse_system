@@ -32,7 +32,6 @@ public class SalesOrderMapperNestedTest {
         var product = new id.putra.wms.shared.base.dto.ProductDto();
         product.setId("prod-nested");
         lineDto.setProduct(product);
-        lineDto.setQty(4);
 
         SalesOrderDto dto = new SalesOrderDto();
         dto.setSoNumber("SO-NEST-1");

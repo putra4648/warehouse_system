@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import id.putra.wms.module.inventory.mapper.InventoryItemMapperImpl;
 import id.putra.wms.module.outbound.dto.SalesOrderLineDto;
 import id.putra.wms.module.outbound.model.entity.SalesOrderLine;
+import id.putra.wms.shared.mapper.ProductMapperImpl;
 
 @ExtendWith(SpringExtension.class)
-@Import({SalesOrderLineMapperImpl.class, id.putra.wms.module.inventory.mapper.InventoryItemMapperImpl.class, id.putra.wms.shared.mapper.ProductMapperImpl.class})
+@Import({SalesOrderLineMapperImpl.class, InventoryItemMapperImpl.class, ProductMapperImpl.class})
 public class SalesOrderLineMapperTest {
 
     @Autowired

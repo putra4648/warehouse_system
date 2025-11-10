@@ -24,19 +24,12 @@ public class InventoryItem extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-
     private Long reservedQty;
-
     private String lotNumber;
-
     private ZonedDateTime expiredDate;
-
     private String status;
-
     private String serialNumber;
-
     private Long quantity;
 
     @ManyToOne
