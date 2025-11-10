@@ -1,0 +1,49 @@
+package id.putra.wms.module.outbound.mapper;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.sql.Date;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
+import id.putra.wms.module.inventory.mapper.InventoryItemMapperImpl;
+import id.putra.wms.shared.mapper.ProductMapperImpl;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import id.putra.wms.module.outbound.dto.SalesOrderDto;
+import id.putra.wms.module.outbound.dto.SalesOrderLineDto;
+import id.putra.wms.module.outbound.model.entity.SalesOrder;
+
+@ExtendWith(SpringExtension.class)
+@Import({SalesOrderMapperImpl.class, SalesOrderLineMapperImpl.class, InventoryItemMapperImpl.class, ProductMapperImpl.class})
+public class SalesOrderMapperTest {
+
+    @Autowired
+    private SalesOrderMapper mapper;
+
+    @Test
+    void whenMapSalesOrderDtoToEntity_thenFieldsAreCopied() {
+        SalesOrderLineDto line = new SalesOrderLineDto();
+        line.setId(1L);
+        var product = new id.putra.wms.shared.base.dto.ProductDto();
+        product.setId("prod-1");
+        line.setProduct(product);
+        line.setQty(2);
+
+        SalesOrderDto dto = new SalesOrderDto();
+        dto.setSoNumber("SO-1");
+        dto.setOrderDate(new Date(System.currentTimeMillis()));
+        dto.setStatus("NEW");
+        dto.setSalesOrderLines(List.of(line));
+
+        SalesOrder entity = mapper.toEntity(dto);
+
+        assertThat(entity).isNotNull();
+        assertThat(entity.getSoNumber()).isEqualTo(dto.getSoNumber());
+    }
+
+}

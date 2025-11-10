@@ -14,6 +14,7 @@ public class ZoneDto extends BaseDto {
         private String code;
         private Boolean isActive;
         private String type;
-        private WarehouseDto warehouse;
+                /** parent warehouse id to avoid circular nested DTOs */
+                private String warehouseId;
         private List<RackDto> racks;
 }

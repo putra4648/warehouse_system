@@ -7,6 +7,7 @@ import lombok.Data;
 public class SalesOrderLineDto {
     private Long id;
     private ProductDto product;
-    private SalesOrderDto salesOrder;
+    /** parent sales order id to avoid circular nested DTOs */
+    private Long salesOrderId;
     private Integer qty;
 }
