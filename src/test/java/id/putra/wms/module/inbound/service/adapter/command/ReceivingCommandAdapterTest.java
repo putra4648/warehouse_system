@@ -55,7 +55,8 @@ public class ReceivingCommandAdapterTest {
         receivingCommandAdapter.add(List.of(dto));
 
         List<Receiving> all = receivingRepository.findAll();
-        }
+    }
+
     void whenUpdateReceivingDto_thenEntityUpdated() {
         ReceivingDto dto = new ReceivingDto();
         dto.setReceivingNumber("RCV-CMD-2");
@@ -63,7 +64,8 @@ public class ReceivingCommandAdapterTest {
 
         receivingCommandAdapter.add(List.of(dto));
 
-        var persisted = receivingRepository.findAll().stream().filter(r -> "RCV-CMD-2".equals(r.getReceivingNumber())).findFirst().orElse(null);
+        var persisted = receivingRepository.findAll().stream().filter(r -> "RCV-CMD-2".equals(r.getReceivingNumber()))
+                .findFirst().orElse(null);
         assertThat(persisted).isNotNull();
 
         ReceivingDto update = new ReceivingDto();
@@ -85,7 +87,8 @@ public class ReceivingCommandAdapterTest {
         dto.setStatus("NEW");
 
         receivingCommandAdapter.add(List.of(dto));
-        var persisted = receivingRepository.findAll().stream().filter(r -> "RCV-CMD-3".equals(r.getReceivingNumber())).findFirst().orElse(null);
+        var persisted = receivingRepository.findAll().stream().filter(r -> "RCV-CMD-3".equals(r.getReceivingNumber()))
+                .findFirst().orElse(null);
         assertThat(persisted).isNotNull();
 
         ReceivingDto del = new ReceivingDto();

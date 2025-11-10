@@ -32,7 +32,6 @@ public class SalesOrderMapperTest {
         var product = new id.putra.wms.shared.base.dto.ProductDto();
         product.setId("prod-1");
         line.setProduct(product);
-        line.setQty(2);
 
         SalesOrderDto dto = new SalesOrderDto();
         dto.setSoNumber("SO-1");

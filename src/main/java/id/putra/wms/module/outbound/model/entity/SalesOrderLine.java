@@ -14,16 +14,15 @@ import lombok.Data;
 @Table
 @Data
 public class SalesOrderLine {
-      @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
 
+  @ManyToOne
+  @JoinColumn(name = "product_id")
+  private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "sales_order_id")
-    private SalesOrder salesOrder;
+  @ManyToOne
+  @JoinColumn(name = "sales_order_id")
+  private SalesOrder salesOrder;
 }
