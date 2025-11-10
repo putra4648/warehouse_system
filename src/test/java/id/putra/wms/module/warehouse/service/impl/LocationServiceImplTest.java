@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import id.putra.wms.module.warehouse.dto.LocationDto;
 import id.putra.wms.module.warehouse.service.adapter.command.LocationCommandAdapter;
 import id.putra.wms.module.warehouse.service.adapter.query.LocationQueryAdapter;
+import id.putra.wms.module.warehouse.service.core.impl.LocationServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class LocationServiceImplTest {

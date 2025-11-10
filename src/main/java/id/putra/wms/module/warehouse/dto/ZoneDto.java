@@ -11,6 +11,7 @@ import lombok.Getter;
 public class ZoneDto extends BaseDto {
         private String id;
         private String name;
+        private String code;
         private Boolean isActive;
         private String type;
         private WarehouseDto warehouse;

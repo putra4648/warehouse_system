@@ -24,16 +24,12 @@ public class Product extends BaseEntity implements Serializable {
     @Id
     @Column(name = "sku", nullable = false)
     private String id;
-
     private String name;
-
     private String description;
-
     private Long minStock;
-
     private Long maxStock;
-
     private Boolean isActive;
+    private Long quantity;
 
     @OneToMany(mappedBy = "product")
     private List<InventoryItem> inventories;

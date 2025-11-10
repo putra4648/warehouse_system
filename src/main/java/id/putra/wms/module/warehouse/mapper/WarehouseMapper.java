@@ -8,7 +8,7 @@ import org.mapstruct.MappingConstants;
 import id.putra.wms.module.warehouse.dto.WarehouseDto;
 import id.putra.wms.module.warehouse.model.entity.Warehouse;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {ZoneMapper.class})
 public interface WarehouseMapper {
 
     Warehouse toEntity(WarehouseDto dto);

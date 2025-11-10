@@ -12,5 +12,4 @@ public class InventoryItemDto extends BaseDto {
     private String name;
     private Long quantity;
     private ProductDto product;
-    // Add other fields as needed
 }

@@ -1,8 +1,8 @@
-package id.putra.wms.module.customer.model.entity;
+package id.putra.wms.shared.base.entity;
 
 import java.io.Serializable;
 
-import id.putra.wms.shared.base.entity.BaseEntity;
+import id.putra.wms.module.customer.model.entity.ContactPersonCustomer;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

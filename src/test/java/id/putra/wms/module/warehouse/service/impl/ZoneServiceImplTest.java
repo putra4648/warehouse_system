@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import id.putra.wms.module.warehouse.dto.ZoneDto;
 import id.putra.wms.module.warehouse.service.adapter.command.ZoneCommandAdapter;
 import id.putra.wms.module.warehouse.service.adapter.query.ZoneQueryAdapter;
+import id.putra.wms.module.warehouse.service.core.impl.ZoneServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class ZoneServiceImplTest {

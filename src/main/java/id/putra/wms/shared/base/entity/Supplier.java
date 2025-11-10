@@ -1,9 +1,10 @@
-package id.putra.wms.module.supplier.model.entity;
+package id.putra.wms.shared.base.entity;
 
 import java.io.Serializable;
 import java.util.List;
 
-import id.putra.wms.shared.base.entity.BaseEntity;
+import id.putra.wms.module.supplier.model.entity.ContactPersonSupplier;
+import id.putra.wms.module.supplier.model.entity.ProductSupplier;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
