@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import id.putra.wms.module.warehouse.dto.ContactPersonWarehouseDto;
 import id.putra.wms.module.warehouse.service.adapter.command.ContactPersonWarehouseCommandAdapter;
 import id.putra.wms.module.warehouse.service.adapter.query.ContactPersonWarehouseQueryAdapter;
+import id.putra.wms.module.warehouse.service.core.impl.ContactWarehouseServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class ContactWarehouseServiceImplTest {

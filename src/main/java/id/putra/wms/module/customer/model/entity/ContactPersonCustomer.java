@@ -1,6 +1,7 @@
 package id.putra.wms.module.customer.model.entity;
 
 import id.putra.wms.shared.base.entity.BaseEntity;
+import id.putra.wms.shared.base.entity.Customer;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -40,7 +40,7 @@ public class TransactionItem extends BaseEntity implements Serializable {
     @JoinColumn(name = "dest_inv_item_id")
     private InventoryItem destInventoryItem;
 
-    private Integer qty;
+    private Long quantity;
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
     private String lotNumber;

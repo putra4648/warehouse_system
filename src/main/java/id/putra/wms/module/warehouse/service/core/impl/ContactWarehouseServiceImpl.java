@@ -1,4 +1,4 @@
-package id.putra.wms.module.warehouse.service.impl;
+package id.putra.wms.module.warehouse.service.core.impl;
 
 import java.util.List;
 
