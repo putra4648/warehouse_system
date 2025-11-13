@@ -13,6 +13,5 @@ public class ContactPersonSupplierDto extends BaseDto {
     private String phone;
     private String address;
     private Long quantity;
-    /** parent supplier id to avoid circular nested DTOs */
-    private String supplierId;
+    private SupplierDto supplier;
 }

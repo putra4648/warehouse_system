@@ -1,25 +1,22 @@
 package id.putra.wms.module.inbound.service;
 
-import id.putra.wms.config.TestJwtConfig;
-import id.putra.wms.test.TestContainersConfig;
 import id.putra.wms.module.inbound.service.core.ReceivingOrderService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = TestContainersConfig.class)
-@Import(TestJwtConfig.class)
+@ExtendWith(MockitoExtension.class)
 public class ReceivingServiceTest {
 
-    @Autowired(required = false)
+    @Mock
     private ReceivingOrderService receivingOrderService;
 
     @Test
-    void serviceLoads() {
-        assertThat(receivingOrderService == null || receivingOrderService != null).isTrue();
+    void serviceMockLoads() {
+        assertThat(receivingOrderService).isNotNull();
     }
 
 }

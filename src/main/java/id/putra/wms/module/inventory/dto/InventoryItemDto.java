@@ -17,4 +17,6 @@ public class InventoryItemDto extends BaseDto {
     private Long reservedQty;
     private String lotNumber;
     private ProductDto product;
+    private String status;
+    private String serialNumber;
 }

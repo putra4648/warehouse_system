@@ -1,6 +1,6 @@
-package id.putra.wms.module.inventory.repository;
+package id.putra.wms.module.transaction.repository;
 
-import id.putra.wms.module.inventory.model.repository.InventoryItemRepository;
+import id.putra.wms.module.transaction.model.repository.TransactionItemRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -9,14 +9,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-public class InventoryItemRepositoryTest {
+public class TransactionItemRepositoryTest {
 
     @Mock
-    private InventoryItemRepository inventoryItemRepository;
+    private TransactionItemRepository transactionItemRepository;
 
     @Test
     void repositoryMockLoads() {
-        assertThat(inventoryItemRepository).isNotNull();
+        assertThat(transactionItemRepository).isNotNull();
     }
 
 }

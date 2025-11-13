@@ -10,11 +10,13 @@ public class TestContainersConfig {
     public static final PostgreSQLContainer<?> POSTGRES_CONTAINER;
 
     static {
-        POSTGRES_CONTAINER = new PostgreSQLContainer<>(DockerImageName.parse("postgres:17"))
+        @SuppressWarnings("resource")
+        PostgreSQLContainer<?> container = new PostgreSQLContainer<>(DockerImageName.parse("postgres:17"))
                 .withDatabaseName("wms-test-db")
                 .withUsername("test")
                 .withPassword("test");
-        POSTGRES_CONTAINER.start();
+        container.start();
+        POSTGRES_CONTAINER = container;
     }
 
     @DynamicPropertySource
