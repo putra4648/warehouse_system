@@ -31,14 +31,14 @@ public class ZoneQueryAdapterImpl implements ZoneQueryAdapter {
             return builder.and(name);
         };
         Pageable safePageable = java.util.Objects.requireNonNull(pageable);
-        return zoneRepository.findAll(specs, safePageable).map(zoneMapper::toZoneDto);
+    return zoneRepository.findAll(specs, safePageable).map(zoneMapper::toDto);
     }
 
     @Override
     public ZoneDto getZone(ZoneDto dto) {
         String safeId = java.util.Objects.requireNonNull(dto.getId());
         var z = zoneRepository.findById(safeId);
-        return z.map(zoneMapper::toZoneDto).orElse(null);
+    return z.map(zoneMapper::toDto).orElse(null);
     }
 
 }

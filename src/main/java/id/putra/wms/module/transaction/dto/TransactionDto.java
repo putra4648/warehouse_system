@@ -25,6 +25,7 @@ public class TransactionDto extends BaseDto {
     private String status;
     private String notes;
     private BigDecimal totalAmount;
+    private Long quantity;
 
     private SupplierDto supplier;
     private CustomerDto customer;

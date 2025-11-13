@@ -8,7 +8,9 @@ import id.putra.wms.module.supplier.model.entity.ContactPersonSupplier;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ContactPersonSupplierMapper {
+
     ContactPersonSupplierDto toDto(ContactPersonSupplier entity);
 
     ContactPersonSupplier toEntity(ContactPersonSupplierDto dto);
+
 }

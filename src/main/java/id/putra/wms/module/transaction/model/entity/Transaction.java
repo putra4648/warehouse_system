@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import id.putra.wms.module.customer.model.entity.Customer;
-import id.putra.wms.module.supplier.model.entity.Supplier;
 import id.putra.wms.shared.base.entity.BaseEntity;
+import id.putra.wms.shared.base.entity.Customer;
+import id.putra.wms.shared.base.entity.Supplier;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,6 +46,7 @@ public class Transaction extends BaseEntity implements Serializable {
     private String status;
     private String notes;
     private BigDecimal totalAmount;
+    private Long quantity;
 
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     private List<TransactionItem> items;

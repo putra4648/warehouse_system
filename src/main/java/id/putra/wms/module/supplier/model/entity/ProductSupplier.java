@@ -2,6 +2,7 @@ package id.putra.wms.module.supplier.model.entity;
 
 import id.putra.wms.shared.base.entity.BaseEntity;
 import id.putra.wms.shared.base.entity.Product;
+import id.putra.wms.shared.base.entity.Supplier;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

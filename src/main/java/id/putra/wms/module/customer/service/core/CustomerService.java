@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import id.putra.wms.module.customer.dto.CustomerDto;
 import id.putra.wms.module.customer.mapper.CustomerMapper;
-import id.putra.wms.module.customer.model.entity.Customer;
 import id.putra.wms.module.customer.model.repository.CustomerRepository;
+import id.putra.wms.shared.base.entity.Customer;
 
 @Service
 @Transactional

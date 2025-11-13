@@ -12,5 +12,6 @@ public class LocationDto extends BaseDto {
     private String type;
     private Boolean isActive;
     private String binNumber;
-    private RackDto rack;
+    /** parent rack id to avoid circular nested DTOs */
+    private String rackId;
 }

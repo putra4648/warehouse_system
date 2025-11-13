@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import id.putra.wms.module.warehouse.dto.RackDto;
 import id.putra.wms.module.warehouse.service.adapter.command.RackCommandAdapter;
 import id.putra.wms.module.warehouse.service.adapter.query.RackQueryAdapter;
+import id.putra.wms.module.warehouse.service.core.impl.RackServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class RackServiceImplTest {
