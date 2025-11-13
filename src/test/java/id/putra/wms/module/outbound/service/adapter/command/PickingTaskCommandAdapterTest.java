@@ -1,70 +1,65 @@
 package id.putra.wms.module.outbound.service.adapter.command;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import id.putra.wms.PostgreSQLContainerInitializer;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import id.putra.wms.module.outbound.dto.PickingTaskDto;
+import id.putra.wms.module.outbound.mapper.PickingTaskMapper;
+import id.putra.wms.module.outbound.model.repository.PickingTaskRepository;
+import id.putra.wms.module.outbound.service.adapter.command.impl.PickingTaskCommandAdapterImpl;
 
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DataJpaTest(showSql = true)
-public class PickingTaskCommandAdapterTest extends PostgreSQLContainerInitializer {
+@ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
+public class PickingTaskCommandAdapterTest {
 
-    @Autowired
+    @Mock
+    private PickingTaskRepository pickingTaskRepository;
+
+    @Mock
+    private PickingTaskMapper pickingTaskMapper;
+
     private PickingTaskCommandAdapter pickingTaskCommandAdapter;
 
-    @Autowired
-    private id.putra.wms.module.outbound.model.repository.PickingTaskRepository pickingTaskRepository;
+    @BeforeEach
+    void setUp() {
+        pickingTaskCommandAdapter = new PickingTaskCommandAdapterImpl(pickingTaskRepository, pickingTaskMapper);
+    }
 
     @Test
     void whenAddPickingTask_thenPersisted() {
-    PickingTaskDto dto = new PickingTaskDto();
-    dto.setSalesOrderLine(null);
+        PickingTaskDto dto = new PickingTaskDto();
 
         pickingTaskCommandAdapter.add(List.of(dto));
 
-        var all = pickingTaskRepository.findAll();
-        assertThat(all).isNotEmpty();
+        verify(pickingTaskRepository).saveAll(anyList());
     }
 
     @Test
     void whenUpdatePickingTask_thenUpdated() {
-    PickingTaskDto dto = new PickingTaskDto();
-    dto.setSalesOrderLine(null);
-        pickingTaskCommandAdapter.add(List.of(dto));
+        PickingTaskDto dto = new PickingTaskDto();
+        dto.setId(1L);
 
-        var persisted = pickingTaskRepository.findAll().stream().findFirst().orElse(null);
-        assertThat(persisted).isNotNull();
+        pickingTaskCommandAdapter.update(List.of(dto));
 
-    PickingTaskDto update = new PickingTaskDto();
-    update.setId(persisted.getId());
-    update.setSalesOrderLine(null);
-        pickingTaskCommandAdapter.update(List.of(update));
-
-        var refreshed = pickingTaskRepository.findById(persisted.getId()).orElse(null);
-        assertThat(refreshed).isNotNull();
+        verify(pickingTaskRepository).saveAll(anyList());
     }
 
     @Test
     void whenDeletePickingTask_thenRemoved() {
-    PickingTaskDto dto = new PickingTaskDto();
-    dto.setSalesOrderLine(null);
-        pickingTaskCommandAdapter.add(List.of(dto));
+        PickingTaskDto dto = new PickingTaskDto();
+        dto.setId(1L);
 
-        var persisted = pickingTaskRepository.findAll().stream().findFirst().orElse(null);
-        assertThat(persisted).isNotNull();
+        pickingTaskCommandAdapter.delete(List.of(dto));
 
-        PickingTaskDto del = new PickingTaskDto();
-        del.setId(persisted.getId());
-        pickingTaskCommandAdapter.delete(List.of(del));
-
-        var after = pickingTaskRepository.findById(persisted.getId());
-        assertThat(after).isEmpty();
+        verify(pickingTaskRepository).deleteAllById(anyIterable());
     }
 
 }

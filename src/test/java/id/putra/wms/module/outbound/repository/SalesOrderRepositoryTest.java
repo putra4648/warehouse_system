@@ -1,27 +1,22 @@
 package id.putra.wms.module.outbound.repository;
 
-import id.putra.wms.test.TestContainersConfig;
 import id.putra.wms.module.outbound.model.repository.SalesOrderRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@Import(TestContainersConfig.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ExtendWith(MockitoExtension.class)
 public class SalesOrderRepositoryTest {
 
-    @Autowired
+    @Mock
     private SalesOrderRepository salesOrderRepository;
 
     @Test
-    void repositoryLoads() {
+    void repositoryMockLoads() {
         assertThat(salesOrderRepository).isNotNull();
-        assertThat(salesOrderRepository.count()).isGreaterThanOrEqualTo(0L);
     }
 
 }

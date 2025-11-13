@@ -11,7 +11,7 @@ import id.putra.wms.module.outbound.model.repository.PickingTaskRepository;
 import id.putra.wms.module.outbound.service.adapter.command.PickingTaskCommandAdapter;
 import lombok.RequiredArgsConstructor;
 
-@Service
+@Service("pickingTaskCommandAdapter")
 @RequiredArgsConstructor
 @Transactional(readOnly = false)
 public class PickingTaskCommandAdapterImpl implements PickingTaskCommandAdapter {

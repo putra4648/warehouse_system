@@ -3,22 +3,13 @@ package id.putra.wms.module.outbound.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import id.putra.wms.module.inventory.mapper.InventoryItemMapperImpl;
+import org.mapstruct.factory.Mappers;
 import id.putra.wms.module.outbound.dto.SalesOrderLineDto;
 import id.putra.wms.module.outbound.model.entity.SalesOrderLine;
-import id.putra.wms.shared.mapper.ProductMapperImpl;
 
-@ExtendWith(SpringExtension.class)
-@Import({SalesOrderLineMapperImpl.class, InventoryItemMapperImpl.class, ProductMapperImpl.class})
 public class SalesOrderLineMapperTest {
 
-    @Autowired
-    private SalesOrderLineMapper mapper;
+    private SalesOrderLineMapper mapper = Mappers.getMapper(SalesOrderLineMapper.class);
 
     @Test
     void whenMapSalesOrderLineEntityToDto_thenFieldsCopied() {

@@ -1,17 +1,12 @@
 package id.putra.wms.module.customer.mapper;
 
-import id.putra.wms.test.TestContainersConfig;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
+import org.mapstruct.factory.Mappers;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = TestContainersConfig.class)
 public class CustomerMapperTest {
 
-    @Autowired
-    private CustomerMapper customerMapper;
+    private CustomerMapper customerMapper = Mappers.getMapper(CustomerMapper.class);
 
     @Test
     void mapperLoads() {

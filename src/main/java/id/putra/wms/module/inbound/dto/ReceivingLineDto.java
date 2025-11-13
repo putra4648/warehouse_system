@@ -15,7 +15,6 @@ public class ReceivingLineDto {
     private Date expiryDate;
     private BigDecimal qtyReceived;
     private ProductDto product;
-    /** parent receiving id to avoid circular nested DTOs */
-    private Long receivingId;
+    private ReceivingDto receiving;
     
 }

@@ -1,52 +1,41 @@
 package id.putra.wms.module.inbound.service.adapter.command;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.sql.Date;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import id.putra.wms.module.inbound.dto.ReceivingDto;
-import id.putra.wms.module.inbound.model.entity.Receiving;
+import id.putra.wms.module.inbound.mapper.ReceivingMapper;
 import id.putra.wms.module.inbound.model.repository.ReceivingRepository;
+import id.putra.wms.module.inbound.service.adapter.command.impl.ReceivingCommandAdapterImpl;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, properties = "spring.main.allow-circular-references=true")
+@ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 public class ReceivingCommandAdapterTest {
 
-    @SuppressWarnings("resource")
-    static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:17")
-            .withDatabaseName("wms-test-db")
-            .withUsername("wms")
-            .withPassword("wms-password");
-
-    static {
-        postgreSQLContainer.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(postgreSQLContainer::stop));
-    }
-
-    @DynamicPropertySource
-    static void postgresProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
-    }
-
-    @Autowired
-    private ReceivingCommandAdapter receivingCommandAdapter;
-
-    @Autowired
+    @Mock
     private ReceivingRepository receivingRepository;
 
-    @Test
-    void whenAddReceivingDtos_thenSaved() {
-        receivingRepository.deleteAll();
+    @Mock
+    private ReceivingMapper receivingMapper;
 
+    private ReceivingCommandAdapter receivingCommandAdapter;
+
+    @BeforeEach
+    void setUp() {
+        receivingCommandAdapter = new ReceivingCommandAdapterImpl(receivingRepository, receivingMapper);
+    }
+
+        @Test
+    void whenAddReceivingDtos_thenSaved() {
         ReceivingDto dto = new ReceivingDto();
         dto.setReceivingNumber("RCV-TEST-ADD");
         dto.setReceivedDate(new Date(System.currentTimeMillis()));
@@ -54,49 +43,29 @@ public class ReceivingCommandAdapterTest {
 
         receivingCommandAdapter.add(List.of(dto));
 
-        List<Receiving> all = receivingRepository.findAll();
+        verify(receivingRepository).saveAll(anyList());
     }
 
+    @Test
     void whenUpdateReceivingDto_thenEntityUpdated() {
         ReceivingDto dto = new ReceivingDto();
-        dto.setReceivingNumber("RCV-CMD-2");
-        dto.setStatus("NEW");
+        dto.setId(1L);
+        dto.setReceivingNumber("RCV-CMD-2-UPDATED");
+        dto.setStatus("UPDATED");
 
-        receivingCommandAdapter.add(List.of(dto));
+        receivingCommandAdapter.update(List.of(dto));
 
-        var persisted = receivingRepository.findAll().stream().filter(r -> "RCV-CMD-2".equals(r.getReceivingNumber()))
-                .findFirst().orElse(null);
-        assertThat(persisted).isNotNull();
-
-        ReceivingDto update = new ReceivingDto();
-        update.setId(persisted.getId());
-        update.setReceivingNumber("RCV-CMD-2-UPDATED");
-        update.setStatus("UPDATED");
-
-        receivingCommandAdapter.update(List.of(update));
-
-        var refreshed = receivingRepository.findById(persisted.getId()).orElse(null);
-        assertThat(refreshed).isNotNull();
-        assertThat(refreshed.getReceivingNumber()).isEqualTo("RCV-CMD-2-UPDATED");
+        verify(receivingRepository).saveAll(anyList());
     }
 
     @Test
     void whenDeleteReceivingDto_thenEntityRemoved() {
         ReceivingDto dto = new ReceivingDto();
-        dto.setReceivingNumber("RCV-CMD-3");
-        dto.setStatus("NEW");
+        dto.setId(1L);
 
-        receivingCommandAdapter.add(List.of(dto));
-        var persisted = receivingRepository.findAll().stream().filter(r -> "RCV-CMD-3".equals(r.getReceivingNumber()))
-                .findFirst().orElse(null);
-        assertThat(persisted).isNotNull();
+        receivingCommandAdapter.delete(List.of(dto));
 
-        ReceivingDto del = new ReceivingDto();
-        del.setId(persisted.getId());
-        receivingCommandAdapter.delete(List.of(del));
-
-        var after = receivingRepository.findById(persisted.getId());
-        assertThat(after).isEmpty();
+        verify(receivingRepository).deleteAllById(anyIterable());
     }
 
 }

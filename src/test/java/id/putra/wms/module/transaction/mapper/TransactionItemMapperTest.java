@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TransactionMapperTest {
+public class TransactionItemMapperTest {
 
-    private TransactionMapper transactionMapper = Mappers.getMapper(TransactionMapper.class);
+    private TransactionItemMapper transactionItemMapper = Mappers.getMapper(TransactionItemMapper.class);
 
     @Test
     void mapperLoads() {
-        assertThat(transactionMapper).isNotNull();
+        assertThat(transactionItemMapper).isNotNull();
     }
 
 }

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SupplierMapperTest {
+public class SupplierImMapperTest {
 
     private SupplierMapper supplierMapper = Mappers.getMapper(SupplierMapper.class);
 
