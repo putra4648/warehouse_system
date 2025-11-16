@@ -1,7 +1,9 @@
 package id.putra.wms.module.supplier.controller;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -41,8 +43,8 @@ public class SupplierController {
 
     @PostMapping
     @Operation(summary = "Add new supplier", description = "Create a new supplier record")
-    public ResponseEntity<ResponseData<SupplierDto>> addSupplier(@RequestBody @Valid SupplierDto body) {
-        SupplierDto createdSupplier = supplierService.create(body);
+    public ResponseEntity<ResponseData<List<SupplierDto>>> addSupplier(@RequestBody @Valid List<SupplierDto> body) {
+        List<SupplierDto> createdSupplier = supplierService.create(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, createdSupplier);
     }
 
@@ -65,9 +67,10 @@ public class SupplierController {
 
     @GetMapping
     @Operation(summary = "Get suppliers", description = "Retrieve a paginated list of suppliers with search functionality")
+
     public ResponseEntity<ResponseMeta<SupplierDto>> getSuppliers(
             @Parameter(description = "Search term for supplier name") @RequestParam(value = "search", defaultValue = "") String search,
-            @Parameter(description = "Pagination parameters") @PageableDefault Pageable pageable) {
+            @ParameterObject @PageableDefault Pageable pageable) {
         Page<SupplierDto> suppliers = supplierService.getAll(pageable, search);
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, suppliers);
     }

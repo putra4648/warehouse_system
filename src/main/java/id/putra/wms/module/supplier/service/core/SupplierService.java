@@ -1,5 +1,7 @@
 package id.putra.wms.module.supplier.service.core;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,7 +13,7 @@ public interface SupplierService {
 
     SupplierDto getById(String id);
 
-    SupplierDto create(SupplierDto dto);
+    List<SupplierDto> create(List<SupplierDto> dto);
 
     SupplierDto update(String id, SupplierDto dto);
 

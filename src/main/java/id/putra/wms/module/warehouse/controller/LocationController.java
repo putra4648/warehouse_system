@@ -3,6 +3,7 @@ package id.putra.wms.module.warehouse.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -64,7 +65,7 @@ public class LocationController {
     @Operation(summary = "Get locations", description = "Retrieve a paginated list of locations with search functionality")
     public ResponseEntity<ResponseMeta<LocationDto>> getLocations(
             @Parameter(description = "Search term for location") @RequestParam Optional<String> search,
-            @Parameter(description = "Pagination parameters") @PageableDefault Pageable pageable) {
+            @ParameterObject @PageableDefault Pageable pageable) {
         var dto = LocationDto.builder()
                 .id(search.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                 .build();
