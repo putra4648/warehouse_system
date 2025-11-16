@@ -2,12 +2,12 @@
     <div>
         <v-row class="mb-4">
             <v-col>
-                <h1>Warehouse List</h1>
+                <h1>Suppliers</h1>
             </v-col>
             <v-col class="d-flex justify-end">
                 <v-btn color="primary" @click="add">
                     <v-icon left>mdi-plus</v-icon>
-                    Add Warehouse
+                    Add Supplier
                 </v-btn>
             </v-col>
         </v-row>

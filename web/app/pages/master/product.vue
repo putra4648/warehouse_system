@@ -2,12 +2,12 @@
     <div>
         <v-row class="mb-4">
             <v-col>
-                <h1>Warehouse List</h1>
+                <h1>Products</h1>
             </v-col>
             <v-col class="d-flex justify-end">
                 <v-btn color="primary" @click="add">
                     <v-icon left>mdi-plus</v-icon>
-                    Add Warehouse
+                    Add Product
                 </v-btn>
             </v-col>
         </v-row>
@@ -25,30 +25,40 @@ const myTable = ref<HTMLElement | null>(null);
 
 const { tabulatorInstance } = useTabulator(myTable, [
     {
+        title: "SKU",
+        field: "sku",
+        headerFilter: "input",
+        editor: "input",
+    },
+    {
         title: "Name",
-        field: "title",
+        field: "name",
         headerFilter: "input",
         editor: "input",
     },
     {
-        title: "Location",
-        field: "location",
+        title: "Description",
+        field: "description",
         headerFilter: "input",
         editor: "input",
     },
     {
-        title: "Capacity",
-        field: "capacity",
+        title: "Weight",
+        field: "weight",
+        headerFilter: "input",
+        editor: "input",
+    },
+    {
+        title: "UOM",
+        field: "uom",
+        headerFilter: "input",
+        editor: "input",
+    },
+    {
+        title: "Quantity",
+        field: "quantity",
         hozAlign: "right",
-        formatter: "money",
-        formatterParams: {
-            decimal: ",",
-            thousand: ".",
-            symbol: "kg",
-            symbolAfter: true,
-            precision: 0,
-        },
-        headerFilter: "input",
+        editor: "input",
     },
     {
         headerSort: false,
@@ -74,5 +84,6 @@ const add = () => {
 };
 
 onMounted(() => {
+
 });
 </script>
