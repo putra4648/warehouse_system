@@ -1,7 +1,9 @@
-server:
-  port: 7000
-
 spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  main:
+    banner-mode: off
   jackson:
     property-naming-strategy: SNAKE_CASE
   sql:
@@ -10,8 +12,6 @@ spring:
   threads:
     virtual:
       enabled: true
-  thymeleaf:
-    cache: false
   data:
     web:
       pageable:

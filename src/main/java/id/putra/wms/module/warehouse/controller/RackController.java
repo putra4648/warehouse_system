@@ -3,6 +3,7 @@ package id.putra.wms.module.warehouse.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -66,7 +67,7 @@ public class RackController {
     @Operation(summary = "Get racks", description = "Retrieve a paginated list of racks with search functionality")
     public ResponseEntity<ResponseMeta<RackDto>> getRacks(
             @Parameter(description = "Search term for rack name") @RequestParam Optional<String> search,
-            @Parameter(description = "Pagination parameters") @PageableDefault Pageable pageable) {
+            @ParameterObject @PageableDefault Pageable pageable) {
 
         var dto = RackDto.builder()
                 .name(search.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))

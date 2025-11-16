@@ -14,6 +14,4 @@ public class SupplierDto extends BaseDto {
     private String code;
     private Boolean isActive;
     private List<ProductSupplierDto> products;
-    private List<ContactPersonSupplierDto> contactPersonSuppliers;
-    // Add other fields as needed
 }
