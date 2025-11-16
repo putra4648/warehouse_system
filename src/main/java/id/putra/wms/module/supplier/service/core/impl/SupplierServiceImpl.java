@@ -1,5 +1,7 @@
 package id.putra.wms.module.supplier.service.core.impl;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public SupplierDto create(SupplierDto dto) {
+    public List<SupplierDto> create(List<SupplierDto> dto) {
         return supplierCommandAdapter.create(dto);
     }
 

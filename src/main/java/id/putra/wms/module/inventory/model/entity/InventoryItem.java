@@ -33,7 +33,7 @@ public class InventoryItem extends BaseEntity implements Serializable {
     private Long quantity;
 
     @ManyToOne
-    @JoinColumn(name = "product_sku", nullable = false)
+    @JoinColumn(name = "product_sku")
     private Product product;
 
 }

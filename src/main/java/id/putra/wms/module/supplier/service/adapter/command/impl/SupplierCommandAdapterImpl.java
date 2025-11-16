@@ -1,5 +1,7 @@
 package id.putra.wms.module.supplier.service.adapter.command.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +19,10 @@ public class SupplierCommandAdapterImpl implements SupplierCommandAdapter {
     private final SupplierMapper mapper;
 
     @Override
-    public SupplierDto create(SupplierDto dto) {
-        var entity = mapper.toEntity(dto);
-        var saved = repository.save(java.util.Objects.requireNonNull(entity));
-        return mapper.toDto(saved);
+    public List<SupplierDto> create(List<SupplierDto> dto) {
+        var entity = dto.stream().map(mapper::toEntity).toList();
+        var saved = repository.saveAll(java.util.Objects.requireNonNull(entity));
+        return mapper.toDtos(saved);
     }
 
     @Override

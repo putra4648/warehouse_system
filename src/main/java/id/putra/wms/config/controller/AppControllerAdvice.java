@@ -23,23 +23,23 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AppControllerAdvice extends ResponseEntityExceptionHandler {
 
-    private final ResponseHelper responseHelper;
+        private final ResponseHelper responseHelper;
 
-    /**
-     * For handling spring validation, will automatically picked up
-     */
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            @NonNull MethodArgumentNotValidException ex,
-            @NonNull HttpHeaders headers,
-            @NonNull HttpStatusCode status,
-            @NonNull WebRequest request) {
-        List<ErrorAttribute> errors = new ArrayList<>();
-        ex.getFieldErrors().forEach(fieldError -> errors.add(
-                ErrorAttribute.builder().field(fieldError.getField()).message(fieldError.getDefaultMessage()).build()));
-
-        return ResponseEntity.badRequest()
-                .body(responseHelper.createResponseError(ResponseEnum.INVALID_PARAM, errors));
-    }
+        /**
+         * For handling spring validation, will automatically picked up
+         */
+        @Override
+        protected ResponseEntity<Object> handleMethodArgumentNotValid(
+                        @NonNull MethodArgumentNotValidException ex,
+                        @NonNull HttpHeaders headers,
+                        @NonNull HttpStatusCode status,
+                        @NonNull WebRequest request) {
+                List<ErrorAttribute> errors = new ArrayList<>();
+                ex.getFieldErrors().forEach(fieldError -> errors.add(
+                                ErrorAttribute.builder().field(fieldError.getField())
+                                                .message(fieldError.getDefaultMessage()).build()));
+                return ResponseEntity.badRequest()
+                                .body(responseHelper.createResponseError(ResponseEnum.INVALID_PARAM, errors));
+        }
 
 }
