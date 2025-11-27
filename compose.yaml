@@ -70,6 +70,7 @@ services:
       timeout: 10s
       retries: 5
 
+
   logstash:
     image: docker.elastic.co/logstash/logstash:8.11.1
     container_name: logstash
