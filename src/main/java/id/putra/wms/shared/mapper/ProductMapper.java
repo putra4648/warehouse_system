@@ -7,7 +7,7 @@ import id.putra.wms.module.inventory.mapper.InventoryItemMapper;
 import id.putra.wms.shared.base.dto.ProductDto;
 import id.putra.wms.shared.base.entity.Product;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {InventoryItemMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProductMapper {
     ProductDto toDto(Product entity);
 
