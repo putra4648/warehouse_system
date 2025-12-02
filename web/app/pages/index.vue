@@ -1,3 +1,12 @@
+<script setup lang="ts">
+definePageMeta({
+    layout: false
+})
+</script>
 <template>
-    <h1>Index page</h1>
+    <NuxtLayout name="main">
+        <div>
+            Index
+        </div>
+    </NuxtLayout>
 </template>

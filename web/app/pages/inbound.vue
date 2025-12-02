@@ -1,3 +1,12 @@
+<script setup lang="ts">
+definePageMeta({
+    layout: false
+})
+</script>
 <template>
-    <div>Inbound</div>
+    <NuxtLayout name="main">
+        <div>
+            Inbound
+        </div>
+    </NuxtLayout>
 </template>

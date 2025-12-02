@@ -1,5 +1,12 @@
+<script setup lang="ts">
+definePageMeta({
+    layout: false
+})
+</script>
 <template>
-    <div>
-        Inventory
-    </div>
+    <NuxtLayout name="main">
+        <div>
+            Inventory
+        </div>
+    </NuxtLayout>
 </template>
