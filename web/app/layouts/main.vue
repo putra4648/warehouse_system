@@ -1,27 +1,24 @@
+<script setup lang="ts">
+const route = useRoute()
+
+</script>
 <template>
-    <v-layout>
-        <v-app-bar color="primary">
-            <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-            <v-toolbar-title>WMS Pro</v-toolbar-title>
-        </v-app-bar>
+    <div class="drawer lg:drawer-open">
+        <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content">
+            <!-- Navbar -->
+            <nav class="navbar w-full bg-base-300">
+                <label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost">
+                    <!-- Sidebar toggle icon -->
+                    <Icon name="mdi:chevron-right-box-outline" size="1.5em" />
+                </label>
+                <div class="px-4">{{ route.meta.name }}</div>
+            </nav>
+            <!-- Page content here -->
+            <slot />
+        </div>
 
-        <MainSidebar :drawer="drawer" />
-
-        <v-main>
-            <v-container>
-                <slot />
-            </v-container>
-        </v-main>
-    </v-layout>
+        <AppSidebar />
+    </div>
 
 </template>
-<script setup lang="ts">
-import { ref, watch } from "vue";
-
-const drawer = ref(false);
-const group = ref(null);
-
-watch(group, () => {
-    drawer.value = false;
-});
-</script>

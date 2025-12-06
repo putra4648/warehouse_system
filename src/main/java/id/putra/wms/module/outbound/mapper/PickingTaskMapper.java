@@ -9,7 +9,8 @@ import id.putra.wms.module.inventory.mapper.InventoryItemMapper;
 import id.putra.wms.module.outbound.dto.PickingTaskDto;
 import id.putra.wms.module.outbound.model.entity.PickingTask;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {InventoryItemMapper.class, SalesOrderLineMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { InventoryItemMapper.class,
+        SalesOrderLineMapper.class })
 public interface PickingTaskMapper {
 
     PickingTask toEntity(PickingTaskDto dto);
