@@ -1,36 +1,38 @@
 {
-	"name": "nuxt-app",
-	"type": "module",
-	"private": true,
-	"scripts": {
-		"build": "nuxt build",
-		"dev": "nuxt dev",
-		"generate": "nuxt generate",
-		"preview": "nuxt preview",
-		"postinstall": "nuxt prepare",
-		"format": "biome format --write"
-	},
-	"dependencies": {
-		"@mdi/font": "^7.4.47",
-		"@nuxt/eslint": "1.8.0",
-		"@nuxt/scripts": "0.11.10",
-		"@sidebase/nuxt-auth": "1.1.1",
-		"@unhead/vue": "^2.0.14",
-		"eslint": "^9.33.0",
-		"next-auth": "~4.21.1",
-		"nuxt": "^4.0.3",
-		"tabulator-tables": "^6.3.1",
-		"vue": "^3.5.18",
-		"vue-router": "^4.5.1"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "2.2.5",
-		"@types/node": "^24.10.1",
-		"@types/tabulator-tables": "^6.2.11",
-		"sass": "^1.93.2",
-		"sass-loader": "^16.0.5",
-		"typescript": "^5.9.2",
-		"vite-plugin-vuetify": "^2.1.2",
-		"vuetify": "^3.10.4"
-	}
+  "name": "nuxt-app",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "format": "biome format --write"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "1.8.0",
+    "@nuxt/scripts": "0.11.10",
+    "@nuxtjs/color-mode": "4.0.0",
+    "@sidebase/nuxt-auth": "1.1.1",
+    "@tailwindcss/vite": "^4.1.17",
+    "@unhead/vue": "^2.0.14",
+    "daisyui": "^5.5.8",
+    "eslint": "^9.33.0",
+    "next-auth": "~4.21.1",
+    "nuxt": "^4.0.3",
+    "tabulator-tables": "^6.3.1",
+    "tailwindcss": "^4.1.17",
+    "vue": "^3.5.18",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.5",
+    "@nuxt/icon": "^2.1.0",
+    "@types/node": "^24.10.1",
+    "@types/tabulator-tables": "^6.2.11",
+    "sass": "^1.93.2",
+    "sass-loader": "^16.0.5",
+    "typescript": "^5.9.2"
+  }
 }

@@ -9,7 +9,7 @@ import id.putra.wms.module.inventory.mapper.InventoryItemMapper;
 import id.putra.wms.module.outbound.dto.SalesOrderLineDto;
 import id.putra.wms.module.outbound.model.entity.SalesOrderLine;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {InventoryItemMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { InventoryItemMapper.class })
 public interface SalesOrderLineMapper {
 
     SalesOrderLine toEntity(SalesOrderLineDto dto);

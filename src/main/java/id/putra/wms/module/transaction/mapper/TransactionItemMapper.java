@@ -9,7 +9,8 @@ import id.putra.wms.module.transaction.dto.TransactionItemDto;
 import id.putra.wms.module.transaction.model.entity.TransactionItem;
 import id.putra.wms.shared.mapper.ProductMapper;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {ProductMapper.class, InventoryItemMapper.class, ContactPersonSupplierMapper.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { ProductMapper.class,
+        InventoryItemMapper.class, ContactPersonSupplierMapper.class })
 public interface TransactionItemMapper {
     TransactionItemDto toDto(TransactionItem entity);
 

@@ -1,45 +1,49 @@
-import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 import { defineNuxtConfig } from "nuxt/config";
+import tailwindcss from "@tailwindcss/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@nuxt/eslint", "@nuxt/scripts", (_options, nuxt) => {
-    nuxt.hooks.hook("vite:extendConfig", (config) => {
-      config.plugins?.push(vuetify({ autoImport: true }));
-    });
-  }, "@sidebase/nuxt-auth"],
+  modules: [
+    "@nuxt/icon",
+    "@nuxt/eslint",
+    "@nuxt/scripts",
+    "@sidebase/nuxt-auth",
+    "@nuxtjs/color-mode",
+  ],
+  icon: {
+    mode: "css",
+    cssLayer: "base",
+  },
+  colorMode: {
+    preference: "nord",
+    dataValue: "theme",
+  },
   pages: true,
-  css: ["~/assets/app-tabulator.scss"],
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  css: ["~/assets/app-tabulator.scss", "./app/tailwind.css"],
   app: {
     head: {
       title: "WMS PRO",
     },
   },
-  build: {
-    transpile: ["vuetify"],
-  },
-  vite: {
-    vue: {
-      template: {
-        transformAssetUrls,
-      },
-    },
-  },
   auth: {
     provider: {
-      type: 'authjs',
+      type: "authjs",
       trustHost: false,
-      defaultProvider: 'keycloak',
-      addDefaultCallbackUrl: true
+      defaultProvider: "keycloak",
+      addDefaultCallbackUrl: true,
     },
-    globalAppMiddleware: true,
+    globalAppMiddleware: false,
   },
   runtimeConfig: {
-    app: {
-      serverUrl: 'http://localhost:9000',
-      clientUrl: 'http://localhost:3000'
-    }
-  }
+    app: {},
+    public: {
+      serverUrl: "http://localhost:9000",
+      clientUrl: "http://localhost:3000",
+    },
+  },
 });

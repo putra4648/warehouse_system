@@ -1,7 +1,4 @@
 spring:
-  output:
-    ansi:
-      enabled: ALWAYS
   main:
     banner-mode: off
   jackson:

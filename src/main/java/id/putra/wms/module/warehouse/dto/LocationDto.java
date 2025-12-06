@@ -1,11 +1,13 @@
 package id.putra.wms.module.warehouse.dto;
 
 import id.putra.wms.shared.base.dto.BaseDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class LocationDto extends BaseDto {
     private String id;
     private String name;
