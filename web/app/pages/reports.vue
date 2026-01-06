@@ -1,113 +1,190 @@
 <template>
-  <div class="space-y-6">
-    <!-- Page Header -->
-    <div>
-      <h1 class="text-3xl font-bold text-base-content">Reports & Analysis</h1>
-      <p class="text-base-content/60 mt-1">View detailed warehouse analytics and insights</p>
-    </div>
+  <UPage>
+    <UPageHeader title="Report & Analysis">
+      <template #description>
+        Overview of warehouse performance and statistics
+      </template>
+    </UPageHeader>
 
-    <!-- Filter Section -->
-    <div class="card bg-base-100 shadow-md">
-      <div class="card-body">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <select class="select select-bordered">
-            <option selected>Last 30 Days</option>
-            <option>Last 7 Days</option>
-            <option>Last 3 Months</option>
-            <option>Custom Range</option>
-          </select>
-          <select class="select select-bordered">
-            <option selected>All Warehouses</option>
-            <option>Warehouse A</option>
-            <option>Warehouse B</option>
-          </select>
-          <select class="select select-bordered">
-            <option selected>All Categories</option>
-            <option>Electronics</option>
-            <option>Hardware</option>
-          </select>
-          <button class="btn btn-primary">
-            <span>📊</span> Export Report
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Analysis Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div class="card bg-base-100 shadow-md">
-        <div class="card-body">
-          <h3 class="card-title text-sm">Inventory Turnover Rate</h3>
-          <div class="text-3xl font-bold text-primary mt-2">4.2x</div>
-          <p class="text-xs text-success mt-2">↑ 0.3x vs last month</p>
-        </div>
+    <UPageBody>
+      <!-- KPI Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <UCard v-for="(stat, index) in stats" :key="index">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                {{ stat.label }}
+              </p>
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                {{ stat.value }}
+              </h3>
+            </div>
+            <UIcon
+              :name="stat.icon"
+              class="w-8 h-8 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-1.5"
+            />
+          </div>
+          <p class="text-xs text-green-500 mt-2 flex items-center">
+            <UIcon name="i-heroicons-arrow-trending-up" class="w-4 h-4 mr-1" />
+            {{ stat.trend }}
+          </p>
+        </UCard>
       </div>
 
-      <div class="card bg-base-100 shadow-md">
-        <div class="card-body">
-          <h3 class="card-title text-sm">Warehouse Utilization</h3>
-          <div class="text-3xl font-bold text-accent mt-2">78%</div>
-          <p class="text-xs text-base-content/60 mt-2">Optimal capacity</p>
-        </div>
+      <!-- Charts -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <UCard>
+          <template #header>
+            <h3
+              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+            >
+              Inbound vs Outbound
+            </h3>
+          </template>
+          <div class="w-full">
+            <BarChart
+              :data="barData"
+              :categories="barCategories"
+              :y-axis="barYAxis"
+            />
+          </div>
+        </UCard>
+
+        <UCard>
+          <template #header>
+            <h3
+              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+            >
+              Inventory By Category
+            </h3>
+          </template>
+          <div class="w-full flex items-center justify-center">
+            <DonutChart :data="donutData" :categories="donutCategories" />
+          </div>
+        </UCard>
       </div>
 
-      <div class="card bg-base-100 shadow-md">
-        <div class="card-body">
-          <h3 class="card-title text-sm">Order Fulfillment Rate</h3>
-          <div class="text-3xl font-bold text-success mt-2">96.8%</div>
-          <p class="text-xs text-success mt-2">↑ 1.2% vs last month</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Detailed Reports Table -->
-    <div class="card bg-base-100 shadow-md">
-      <div class="card-body">
-        <h2 class="card-title text-lg mb-4">Detailed Reports</h2>
-        <div class="space-y-2 mb-4">
-          <button class="btn btn-outline btn-sm">Inventory Summary</button>
-          <button class="btn btn-outline btn-sm">Movement Analysis</button>
-          <button class="btn btn-outline btn-sm">Stock Age Report</button>
-          <button class="btn btn-primary btn-sm">Warehouse Performance</button>
-        </div>
-        <div ref="tabulatorReports" />
-      </div>
-    </div>
-  </div>
+      <!-- Recent Activity -->
+      <UCard :ui="{ body: { padding: '' } }">
+        <template #header>
+          <h3
+            class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+          >
+            Recent Transactions
+          </h3>
+        </template>
+        <UTable :columns="columns" :data="recentTransactions">
+          <template #status-cell="{ row }">
+            <UBadge
+              :color="
+                row.status === 'Completed'
+                  ? 'green'
+                  : row.status === 'Pending'
+                  ? 'orange'
+                  : 'gray'
+              "
+              variant="subtle"
+            >
+              {{ row.status }}
+            </UBadge>
+          </template>
+        </UTable>
+      </UCard>
+    </UPageBody>
+  </UPage>
 </template>
 
-<script setup lang="ts">
-import { Tabulator } from 'tabulator-tables'
-import 'tabulator-tables/dist/css/tabulator.min.css'
-import { definePageMeta, ref, onMounted } from '#imports'
+<script setup>
+const stats = [
+  {
+    label: "Total Revenue",
+    value: "$45,231.89",
+    icon: "i-heroicons-currency-dollar",
+    trend: "+20.1% from last month",
+  },
+  {
+    label: "Total Orders",
+    value: "2,345",
+    icon: "i-heroicons-shopping-cart",
+    trend: "+15.3% from last month",
+  },
+  {
+    label: "Inventory Value",
+    value: "$120,400",
+    icon: "i-heroicons-archive-box",
+    trend: "+4.5% from last month",
+  },
+  {
+    label: "Low Stock Items",
+    value: "12",
+    icon: "i-heroicons-exclamation-triangle",
+    trend: "-2 items from last week",
+  },
+];
 
-definePageMeta({
-  layout: 'default',
-})
+const recentTransactions = [
+  {
+    id: "TRX-001",
+    type: "Inbound",
+    details: "Acme Corp - 50 Items",
+    date: "2024-05-01",
+    status: "Completed",
+  },
+  {
+    id: "TRX-002",
+    type: "Outbound",
+    details: "Order #1234 - John Doe",
+    date: "2024-05-02",
+    status: "Pending",
+  },
+  {
+    id: "TRX-003",
+    type: "Inbound",
+    details: "Global Tech - 20 Items",
+    date: "2024-05-03",
+    status: "Completed",
+  },
+  {
+    id: "TRX-004",
+    type: "Outbound",
+    details: "Order #5678 - Jane Smith",
+    date: "2024-05-04",
+    status: "Completed",
+  },
+];
 
-const tabulatorReports = ref(null)
+const columns = [
+  { accessorKey: "id", header: "ID" },
+  { accessorKey: "type", header: "Type" },
+  { accessorKey: "details", header: "Details" },
+  { accessorKey: "date", header: "Date" },
+  { accessorKey: "status", header: "Status" },
+];
 
-const reportData = [
-  { warehouse: 'Warehouse A', items: 450, value: 125000, utilization: '85%', turnover: 4.5 },
-  { warehouse: 'Warehouse B', items: 380, value: 98000, utilization: '72%', turnover: 3.8 },
-  { warehouse: 'Warehouse C', items: 520, value: 145000, utilization: '88%', turnover: 4.9 },
-  { warehouse: 'Warehouse D', items: 290, value: 72000, utilization: '65%', turnover: 3.2 },
-]
+// Bar Chart Data (Array of Objects)
+const barData = ref([
+  { month: "Jan", inbound: 40, outbound: 20 },
+  { month: "Feb", inbound: 20, outbound: 10 },
+  { month: "Mar", inbound: 12, outbound: 22 },
+  { month: "Apr", inbound: 39, outbound: 19 },
+  { month: "May", inbound: 10, outbound: 20 },
+  { month: "Jun", inbound: 40, outbound: 30 },
+]);
 
-onMounted(() => {
-  if (tabulatorReports.value) {
-    new Tabulator(tabulatorReports.value, {
-      data: reportData,
-      autoColumns: false,
-      columns: [
-        { title: 'Warehouse', field: 'warehouse', width: 150 },
-        { title: 'Items Count', field: 'items', width: 120 },
-        { title: 'Total Value', field: 'value', width: 130, formatter: 'money', formatterParams: { symbol: '$' } },
-        { title: 'Utilization', field: 'utilization', width: 120 },
-        { title: 'Turnover Rate', field: 'turnover', width: 130 },
-      ],
-      layout: 'fitColumns',
-    })
-  }
-})
+const barCategories = {
+  inbound: { name: "Inbound", color: "#3b82f6" },
+  outbound: { name: "Outbound", color: "#ef4444" },
+};
+
+const barYAxis = ["inbound", "outbound"];
+
+// Donut Chart Data (Array of Numbers)
+const donutData = ref([40, 20, 20, 10]);
+
+const donutCategories = {
+  electronics: { name: "Electronics", color: "#3b82f6" },
+  clothing: { name: "Clothing", color: "#10b981" },
+  furniture: { name: "Furniture", color: "#f59e0b" },
+  others: { name: "Others", color: "#6b7280" },
+};
 </script>

@@ -1,110 +1,137 @@
 <template>
-  <div class="drawer lg:drawer-open">
-    <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col">
-      <!-- Header -->
-      <div class="navbar text-primary-content shadow-lg">
-        <div class="flex-1">
-          <label for="my-drawer-2" class="btn btn-ghost drawer-button lg:hidden">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </label>
-          <a href="/" class="btn btn-ghost text-xl font-bold">📦 WMS</a>
-        </div>
-        <div class="flex-none gap-2">
-          <div class="dropdown dropdown-end">
-            <button tabindex="0" class="btn btn-ghost btn-circle avatar">
-              <div class="w-10 rounded-full bg-accent">
-                <span class="text-sm font-bold">👤</span>
-              </div>
-            </button>
-            <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-              <li><a href="#" class="text-base-content">Profile</a></li>
-              <li><a href="#" class="text-base-content">Logout</a></li>
-            </ul>
-          </div>
-        </div>
+  <div class="min-h-screen flex bg-gray-50 dark:bg-gray-900">
+    <!-- Sidebar -->
+    <aside
+      class="w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex flex-col fixed h-full z-10 hidden md:flex"
+    >
+      <div
+        class="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-800"
+      >
+        <Logo class="h-8 w-auto text-primary-500" />
+        <span class="ml-3 font-bold text-xl text-gray-900 dark:text-white"
+          >WMS PRO</span
+        >
       </div>
 
-      <!-- Main Content -->
-      <main class="flex-1 p-4 md:p-6">
-        <slot />
-      </main>
+      <div class="flex-1 overflow-y-auto py-4 px-3">
+        <UNavigationMenu :items="links" orientation="vertical" />
+      </div>
+
+      <div class="p-4 border-t border-gray-200 dark:border-gray-800">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-gray-500 dark:text-gray-400"
+            >© {{ new Date().getFullYear() }}</span
+          >
+          <UColorModeButton />
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Header -->
+    <div
+      class="md:hidden fixed w-full z-20 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 h-16"
+    >
+      <div class="flex items-center">
+        <Logo class="h-8 w-auto text-primary-500" />
+        <span class="ml-2 font-bold text-lg">WMS PRO</span>
+      </div>
+      <UButton
+        icon="i-heroicons-bars-3"
+        variant="ghost"
+        color="gray"
+        @click="isOpen = true"
+      />
     </div>
 
-    <!-- Sidebar -->
-    <div class="drawer-side">
-      <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay" />
-      <ul class="menu p-4  min-h-full bg-white text-secondary-content space-y-2">
-        <!-- Logo -->
-        <li class="mb-4">
-          <div class="text-2xl font-bold text-accent">📦 WMS</div>
-        </li>
+    <!-- Mobile Sidebar Drawer -->
+    <USlideover v-model:open="isOpen" side="left" class="md:hidden">
+      <template #content>
+        <div class="p-4 flex-1 flex flex-col h-full bg-white dark:bg-gray-950">
+          <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+              <Logo class="h-8 w-auto text-primary-500" />
+              <span class="ml-2 font-bold text-xl">WMS PRO</span>
+            </div>
+            <UButton
+              icon="i-heroicons-x-mark"
+              variant="ghost"
+              color="gray"
+              @click="isOpen = false"
+            />
+          </div>
+          <UNavigationMenu
+            :items="links"
+            orientation="vertical"
+            @click="isOpen = false"
+          />
+          <div
+            class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-800 flex justify-between items-center"
+          >
+            <span class="text-sm text-gray-500">Theme</span>
+            <UColorModeButton />
+          </div>
+        </div>
+      </template>
+    </USlideover>
 
-        <!-- Navigation Items -->
-        <li>
-          <NuxtLink to="/" :class="{ active: $route.path === '/' }">
-            <span>📊</span> Dashboard
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/inventory" :class="{ active: $route.path === '/inventory' }">
-            <span>📋</span> Inventory
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/inbound" :class="{ active: $route.path === '/inbound' }">
-            <span>📥</span> Inbound
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/outbound" :class="{ active: $route.path === '/outbound' }">
-            <span>📤</span> Outbound
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/reports" :class="{ active: $route.path === '/reports' }">
-            <span>📈</span> Reports & Analysis
-          </NuxtLink>
-        </li>
-
-        <!-- Master Data -->
-        <li>
-          <details>
-            <summary><span>⚙️</span> Master Data</summary>
-            <ul class="pl-4">
-              <li>
-                <NuxtLink to="/master/products" :class="{ active: $route.path === '/master/products' }">
-                  Products
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/master/suppliers" :class="{ active: $route.path === '/master/suppliers' }">
-                  Suppliers
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink to="/master/warehouses" :class="{ active: $route.path === '/master/warehouses' }">
-                  Warehouses
-                </NuxtLink>
-              </li>
-            </ul>
-          </details>
-        </li>
-
-        <!-- Settings & Help -->
-        <li class="mt-auto pt-4 border-t border-secondary-focus">
-          <NuxtLink to="/settings" :class="{ active: $route.path === '/settings' }">
-            <span>⚙️</span> Settings
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/help" :class="{ active: $route.path === '/help' }">
-            <span>❓</span> Help & Support
-          </NuxtLink>
-        </li>
-      </ul>
-    </div>
+    <!-- Main Content -->
+    <main class="flex-1 md:ml-64 p-4 md:p-8 pt-20 md:pt-8">
+      <slot />
+    </main>
   </div>
 </template>
+
+<script setup>
+const isOpen = ref(false);
+
+const links = [
+  {
+    label: "Dashboard",
+    icon: "i-heroicons-squares-2x2",
+    to: "/",
+  },
+  {
+    label: "Inventory",
+    icon: "i-heroicons-building-office-2",
+    to: "/inventory",
+  },
+  {
+    label: "Inbound",
+    icon: "i-heroicons-arrow-down-on-square-stack",
+    to: "/inbound",
+  },
+  {
+    label: "Outbound",
+    icon: "i-heroicons-arrow-up-on-square-stack",
+    to: "/outbound",
+  },
+  {
+    label: "Master Data",
+    icon: "i-heroicons-circle-stack",
+    children: [
+      {
+        label: "Product",
+        to: "/master/products",
+      },
+      {
+        label: "Supplier",
+        to: "/master/suppliers",
+      },
+      {
+        label: "Warehouse",
+        to: "/master/warehouses",
+      },
+    ],
+  },
+  {
+    label: "Reports",
+    icon: "i-heroicons-chart-pie",
+    to: "/reports",
+  },
+  {
+    label: "Settings",
+    icon: "i-heroicons-cog-6-tooth",
+    to: "/settings",
+  },
+];
+</script>
