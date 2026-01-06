@@ -1,54 +1,159 @@
 <template>
-  <div class="space-y-6">
-    <div class="flex justify-between items-center">
-      <div>
-        <h1 class="text-3xl font-bold text-base-content">Warehouse Master</h1>
-        <p class="text-base-content/60 mt-1">Manage warehouse locations and capacity</p>
-      </div>
-      <button class="btn btn-primary">
-        <span>➕</span> Add Warehouse
-      </button>
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+        Warehouses
+      </h1>
+      <UButton
+        icon="i-heroicons-plus"
+        color="primary"
+        label="Add Warehouse"
+        @click="isOpen = true"
+      />
     </div>
 
-    <div class="card bg-base-100 shadow-md">
-      <div class="card-body">
-        <input type="text" placeholder="Search warehouses..." class="input input-bordered mb-4" />
-        <div ref="tabulatorWarehouses" />
+    <UCard :ui="{ body: { padding: '' } }">
+      <div
+        class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700"
+      >
+        <UInput
+          v-model="q"
+          placeholder="Filter warehouses..."
+          icon="i-heroicons-magnifying-glass"
+        />
       </div>
-    </div>
+
+      <UTable :columns="columns" :data="filteredRows" :loading="pending">
+        <template #name-cell="{ row }">
+          <span class="font-medium text-gray-900 dark:text-white">{{
+            row.original.name
+          }}</span>
+        </template>
+
+        <template #actions-cell="{ row }">
+          <UDropdownMenu :items="items(row.original)">
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-ellipsis-horizontal-20-solid"
+            />
+          </UDropdownMenu>
+        </template>
+      </UTable>
+
+      <div
+        class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
+      >
+        <UPagination
+          v-model="page"
+          :page-count="pageCount"
+          :total="warehouses.length"
+        />
+      </div>
+    </UCard>
+
+    <UModal v-model:open="isOpen" title="Add Warehouse" scrollable>
+      <template #body>
+        <UForm :state="state" class="space-y-4">
+          <UFormField label="Name" name="name">
+            <UInput v-model="state.name" />
+          </UFormField>
+          <UFormField label="Type" name="type">
+            <USelect
+              v-model="state.type"
+              :items="[
+                'Distribution Center',
+                'Fulfillment Center',
+                'Cold Storage',
+              ]"
+            />
+          </UFormField>
+          <UFormField label="Location" name="location">
+            <UInput v-model="state.location" />
+          </UFormField>
+          <UFormField label="Capacity (sq ft)" name="capacity">
+            <UInput v-model="state.capacity" type="number" />
+          </UFormField>
+          <UButton type="submit" block>Save Warehouse</UButton>
+        </UForm>
+      </template>
+    </UModal>
   </div>
 </template>
 
-<script setup lang="ts">
-import TabulatorTables from 'tabulator-tables'
-import { definePageMeta, ref, onMounted } from '#imports'
+<script setup>
+const isOpen = ref(false);
+const q = ref("");
+const page = ref(1);
+const pageCount = 5;
+const pending = ref(false);
 
-definePageMeta({
-  layout: 'default',
-})
+const columns = [
+  { accessorKey: "name", header: "Name" },
+  { accessorKey: "type", header: "Type" },
+  { accessorKey: "location", header: "Location" },
+  { accessorKey: "capacity", header: "Capacity" },
+  { accessorKey: "actions", header: "" },
+];
 
-const tabulatorWarehouses = ref(null)
+const warehouses = [
+  {
+    id: 1,
+    name: "North DC",
+    type: "Distribution Center",
+    location: "New York, NY",
+    capacity: 50000,
+  },
+  {
+    id: 2,
+    name: "South FC",
+    type: "Fulfillment Center",
+    location: "Atlanta, GA",
+    capacity: 75000,
+  },
+  {
+    id: 3,
+    name: "West Cold Chain",
+    type: "Cold Storage",
+    location: "Los Angeles, CA",
+    capacity: 20000,
+  },
+];
 
-const warehouseData = [
-  { id: 1, code: 'WH-A', name: 'Warehouse A', location: 'New York', capacity: 5000, utilization: '85%' },
-  { id: 2, code: 'WH-B', name: 'Warehouse B', location: 'Los Angeles', capacity: 3000, utilization: '72%' },
-  { id: 3, code: 'WH-C', name: 'Warehouse C', location: 'Chicago', capacity: 4500, utilization: '88%' },
-]
-
-onMounted(() => {
-  if (tabulatorWarehouses.value) {
-    new TabulatorTables(tabulatorWarehouses.value, {
-      data: warehouseData,
-      autoColumns: false,
-      columns: [
-        { title: 'Code', field: 'code', width: 100 },
-        { title: 'Name', field: 'name', width: 150 },
-        { title: 'Location', field: 'location', width: 150 },
-        { title: 'Capacity', field: 'capacity', width: 120, align: 'right' },
-        { title: 'Utilization', field: 'utilization', width: 120 },
-      ],
-      layout: 'fitColumns',
-    })
+const filteredRows = computed(() => {
+  if (!q.value) {
+    return warehouses.slice(
+      (page.value - 1) * pageCount,
+      page.value * pageCount
+    );
   }
-})
+
+  return warehouses.filter((warehouse) => {
+    return Object.values(warehouse).some((value) => {
+      return String(value).toLowerCase().includes(q.value.toLowerCase());
+    });
+  });
+});
+
+const state = reactive({
+  name: "",
+  type: undefined,
+  location: "",
+  capacity: 0,
+});
+
+const items = (row) => [
+  [
+    {
+      label: "Edit",
+      icon: "i-heroicons-pencil-square-20-solid",
+      click: () => console.log("Edit", row.id),
+    },
+    {
+      label: "Delete",
+      icon: "i-heroicons-trash-20-solid",
+      click: () => console.log("Delete", row.id),
+    },
+  ],
+];
 </script>

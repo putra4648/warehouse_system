@@ -1,16 +1,17 @@
 import { defineNuxtConfig } from "nuxt/config";
-import tailwindcss from "@tailwindcss/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: [
+    '@nuxt/ui',
     "@nuxt/icon",
     "@nuxt/eslint",
     "@nuxt/scripts",
     "@sidebase/nuxt-auth",
     "@nuxtjs/color-mode",
+    "nuxt-charts",
   ],
   icon: {
     mode: "css",
@@ -21,10 +22,7 @@ export default defineNuxtConfig({
     dataValue: "theme",
   },
   pages: true,
-  vite: {
-    plugins: [tailwindcss()],
-  },
-  css: ["~/assets/app-tabulator.scss", "./app/tailwind.css"],
+  css: ['~/assets/css/main.css'],
   app: {
     head: {
       title: "WMS PRO",

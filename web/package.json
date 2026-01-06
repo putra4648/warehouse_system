@@ -13,16 +13,14 @@
   "dependencies": {
     "@nuxt/eslint": "1.8.0",
     "@nuxt/scripts": "0.11.10",
+    "@nuxt/ui": "^4.3.0",
     "@nuxtjs/color-mode": "4.0.0",
     "@sidebase/nuxt-auth": "1.1.1",
-    "@tailwindcss/vite": "^4.1.17",
     "@unhead/vue": "^2.0.14",
-    "daisyui": "^5.5.8",
     "eslint": "^9.33.0",
     "next-auth": "~4.21.1",
     "nuxt": "^4.0.3",
-    "tabulator-tables": "^6.3.1",
-    "tailwindcss": "^4.1.17",
+    "nuxt-charts": "2.0.0",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"
   },

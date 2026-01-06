@@ -1,102 +1,167 @@
 <template>
-  <div class="space-y-6">
-    <!-- Page Header -->
-    <div class="flex justify-between items-center">
-      <div>
-        <h1 class="text-3xl font-bold text-base-content">Outbound Management</h1>
-        <p class="text-base-content/60 mt-1">Manage outgoing orders and shipments</p>
-      </div>
-      <button class="btn btn-primary">
-        <span>➕</span> New Order
-      </button>
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Outbound</h1>
+      <UButton
+        icon="i-heroicons-plus"
+        color="primary"
+        label="Create Outbound"
+        @click="isOpen = true"
+      />
     </div>
 
-    <!-- Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="card bg-base-100 shadow-md">
-        <div class="card-body">
-          <div class="text-sm text-base-content/60">Pending Orders</div>
-          <div class="text-2xl font-bold text-warning">23</div>
-        </div>
+    <UCard :ui="{ body: { padding: '' } }">
+      <div
+        class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700"
+      >
+        <UInput
+          v-model="q"
+          placeholder="Filter outbound..."
+          icon="i-heroicons-magnifying-glass"
+        />
       </div>
-      <div class="card bg-base-100 shadow-md">
-        <div class="card-body">
-          <div class="text-sm text-base-content/60">Shipped Today</div>
-          <div class="text-2xl font-bold text-success">15</div>
-        </div>
-      </div>
-      <div class="card bg-base-100 shadow-md">
-        <div class="card-body">
-          <div class="text-sm text-base-content/60">Delivered</div>
-          <div class="text-2xl font-bold text-info">342</div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Orders Table -->
-    <div class="card bg-base-100 shadow-md">
-      <div class="card-body">
-        <h2 class="card-title text-lg mb-4">Outbound Orders</h2>
-        <div ref="tabulatorOutbound" />
+      <UTable :columns="columns" :data="filteredRows" :loading="pending">
+        <template #status-cell="{ row }">
+          <UBadge
+            :color="
+              row.status === 'Completed'
+                ? 'green'
+                : row.status === 'Processing'
+                ? 'orange'
+                : 'gray'
+            "
+            variant="subtle"
+          >
+            {{ row.original.status }}
+          </UBadge>
+        </template>
+
+        <template #actions-cell="{ row }">
+          <UDropdownMenu :items="items(row.original)">
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-ellipsis-horizontal-20-solid"
+            />
+          </UDropdownMenu>
+        </template>
+      </UTable>
+
+      <div
+        class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
+      >
+        <UPagination
+          v-model="page"
+          :page-count="pageCount"
+          :total="outbounds.length"
+        />
       </div>
-    </div>
+    </UCard>
+
+    <UModal v-model:open="isOpen" title="Create Outbound" scrollable>
+      <template #body>
+        <UForm :state="state" class="space-y-4">
+          <UFormField label="Customer" name="customer">
+            <UInput v-model="state.customer" />
+          </UFormField>
+          <UFormField label="Date" name="date">
+            <UInput v-model="state.date" type="date" />
+          </UFormField>
+          <UFormField label="Destination" name="destination">
+            <UInput v-model="state.destination" />
+          </UFormField>
+          <UFormField label="Status" name="status">
+            <USelect
+              v-model="state.status"
+              :items="['Processing', 'Completed', 'Cancelled']"
+            />
+          </UFormField>
+          <UButton type="submit" block>Create Outbound</UButton>
+        </UForm>
+      </template>
+    </UModal>
   </div>
 </template>
 
-<script setup lang="ts">
-import { Tabulator } from 'tabulator-tables'
-import 'tabulator-tables/dist/css/tabulator.min.css'
-import { definePageMeta, ref, onMounted } from '#imports'
+<script setup>
+const isOpen = ref(false);
+const q = ref("");
+const page = ref(1);
+const pageCount = 5;
+const pending = ref(false);
 
-definePageMeta({
-  layout: 'default',
-})
+const columns = [
+  { accessorKey: "id", header: "ID" },
+  { accessorKey: "customer", header: "Customer" },
+  { accessorKey: "destination", header: "Destination" },
+  { accessorKey: "date", header: "Date" },
+  { accessorKey: "items", header: "Total Items" },
+  { accessorKey: "status", header: "Status" },
+  { accessorKey: "actions", header: "" },
+];
 
-const tabulatorOutbound = ref(null)
+const outbounds = [
+  {
+    id: "OUT-001",
+    customer: "John Doe",
+    destination: "New York, NY",
+    date: "2024-05-01",
+    items: 2,
+    status: "Completed",
+  },
+  {
+    id: "OUT-002",
+    customer: "Jane Smith",
+    destination: "Chicago, IL",
+    date: "2024-05-02",
+    items: 5,
+    status: "Processing",
+  },
+  {
+    id: "OUT-003",
+    customer: "Bob Johnson",
+    destination: "Miami, FL",
+    date: "2024-05-03",
+    items: 1,
+    status: "Completed",
+  },
+];
 
-const outboundData = [
-  { id: 1, orderId: 'ORD-001', customer: 'Acme Corp', items: 15, amount: 1250.00, status: 'Pending', dueDate: '2024-01-15' },
-  { id: 2, orderId: 'ORD-002', customer: 'XYZ Industries', items: 8, amount: 890.50, status: 'Shipped', dueDate: '2024-01-14' },
-  { id: 3, orderId: 'ORD-003', customer: 'Tech Solutions', items: 22, amount: 2100.00, status: 'Delivered', dueDate: '2024-01-13' },
-  { id: 4, orderId: 'ORD-004', customer: 'Global Traders', items: 12, amount: 1580.00, status: 'Pending', dueDate: '2024-01-16' },
-]
-
-onMounted(() => {
-  if (tabulatorOutbound.value) {
-    new Tabulator(tabulatorOutbound.value, {
-      data: outboundData,
-      autoColumns: false,
-      columns: [
-        { title: 'Order ID', field: 'orderId', width: 130 },
-        { title: 'Customer', field: 'customer', width: 180 },
-        { title: 'Items', field: 'items', width: 80 },
-        { title: 'Amount', field: 'amount', width: 120, formatter: 'money', formatterParams: { symbol: '$' } },
-        { title: 'Due Date', field: 'dueDate', width: 120 },
-        {
-          title: 'Status',
-          field: 'status',
-          width: 130,
-          formatter: (cell) => {
-            const value = cell.getValue()
-            const statusMap = {
-              Pending: 'badge-warning',
-              Shipped: 'badge-info',
-              Delivered: 'badge-success',
-            }
-            return `<span class="badge ${statusMap[value]}">${value}</span>`
-          },
-        },
-        {
-          title: 'Actions',
-          width: 150,
-          formatter: () => '<button class="btn btn-sm btn-ghost">Track</button>',
-        },
-      ],
-      layout: 'fitColumns',
-      pagination: true,
-      paginationMode: 'local',
-      paginationSize: 10,
-    })
+const filteredRows = computed(() => {
+  if (!q.value) {
+    return outbounds.slice(
+      (page.value - 1) * pageCount,
+      page.value * pageCount
+    );
   }
-})
+
+  return outbounds.filter((outbound) => {
+    return Object.values(outbound).some((value) => {
+      return String(value).toLowerCase().includes(q.value.toLowerCase());
+    });
+  });
+});
+
+const state = reactive({
+  customer: "",
+  destination: "",
+  date: "",
+  status: "Processing",
+});
+
+const items = (row) => [
+  [
+    {
+      label: "View Details",
+      icon: "i-heroicons-eye-20-solid",
+      click: () => console.log("View", row.id),
+    },
+    {
+      label: "Edit",
+      icon: "i-heroicons-pencil-square-20-solid",
+      click: () => console.log("Edit", row.id),
+    },
+  ],
+];
 </script>
