@@ -1,74 +1,74 @@
-name: Deploy to Self-Hosted Runner
+# name: Deploy to Self-Hosted Runner
 
-on:
-  workflow_run:
-    workflows: ["Spring Boot Tests"]
-    types:
-      - completed
-    branches: [ "master", "main" ]
-  workflow_dispatch:
+# on:
+#   workflow_run:
+#     workflows: ["Spring Boot Tests"]
+#     types:
+#       - completed
+#     branches: [ "master", "main" ]
+#   workflow_dispatch:
 
-permissions:
-  contents: read
+# permissions:
+#   contents: read
 
-jobs:
-  deploy:
-    runs-on: self-hosted
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+# jobs:
+#   deploy:
+#     runs-on: self-hosted
+#     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
 
-    environment:
-      name: deploy-local
+#     environment:
+#       name: deploy-local
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v4
 
-    - name: Set up Java 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: maven
+#     - name: Set up Java 21
+#       uses: actions/setup-java@v4
+#       with:
+#         java-version: '21'
+#         distribution: 'temurin'
+#         cache: maven
 
-    - name: Build with Maven
-      run: ./mvnw clean package -DskipTests --batch-mode
+#     - name: Build with Maven
+#       run: ./mvnw clean package -DskipTests --batch-mode
 
-    - name: Build Docker Image
-      run: docker build -t warehouse-system:latest .
+#     - name: Build Docker Image
+#       run: docker build -t warehouse-system:latest .
 
-    - name: Stop existing containers
-      run: docker compose down || true
-      continue-on-error: true
+#     - name: Stop existing containers
+#       run: docker compose down || true
+#       continue-on-error: true
 
-    - name: Deploy with Docker Compose
-      env:
-        POSTGRES_USER: ${{ secrets.POSTGRES_USER || 'admin' }}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'admin123' }}
-        POSTGRES_DB: ${{ secrets.POSTGRES_DB || 'wms_db' }}
-        KC_HOSTNAME: ${{ secrets.KC_HOSTNAME || 'localhost' }}
-        SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL || 'jdbc:postgresql://wms_db:5432/wms_db' }}
-        SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME || 'admin' }}
-        SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD || 'admin123' }}
-      run: docker compose up -d
+#     - name: Deploy with Docker Compose
+#       env:
+#         POSTGRES_USER: ${{ secrets.POSTGRES_USER || 'admin' }}
+#         POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD || 'admin123' }}
+#         POSTGRES_DB: ${{ secrets.POSTGRES_DB || 'wms_db' }}
+#         KC_HOSTNAME: ${{ secrets.KC_HOSTNAME || 'localhost' }}
+#         SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL || 'jdbc:postgresql://wms_db:5432/wms_db' }}
+#         SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME || 'admin' }}
+#         SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD || 'admin123' }}
+#       run: docker compose up -d
 
-    - name: Wait for services to be healthy
-      run: |
-        echo "Waiting for services to start..."
-        sleep 30
-        docker compose ps
+#     - name: Wait for services to be healthy
+#       run: |
+#         echo "Waiting for services to start..."
+#         sleep 30
+#         docker compose ps
 
-    - name: Check application health
-      run: |
-        max_attempts=30
-        attempt=0
-        until curl -f http://localhost:7000/actuator/health || [ $attempt -eq $max_attempts ]; do
-          echo "Waiting for application to be healthy... (attempt $((attempt+1))/$max_attempts)"
-          sleep 10
-          attempt=$((attempt+1))
-        done
-        if [ $attempt -eq $max_attempts ]; then
-          echo "Application failed to become healthy"
-          docker compose logs app
-          exit 1
-        fi
-        echo "Application is healthy!"
+#     - name: Check application health
+#       run: |
+#         max_attempts=30
+#         attempt=0
+#         until curl -f http://localhost:7000/actuator/health || [ $attempt -eq $max_attempts ]; do
+#           echo "Waiting for application to be healthy... (attempt $((attempt+1))/$max_attempts)"
+#           sleep 10
+#           attempt=$((attempt+1))
+#         done
+#         if [ $attempt -eq $max_attempts ]; then
+#           echo "Application failed to become healthy"
+#           docker compose logs app
+#           exit 1
+#         fi
+#         echo "Application is healthy!"
