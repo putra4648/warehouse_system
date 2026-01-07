@@ -57,8 +57,6 @@ services:
     depends_on:
       wms_db:
         condition: service_healthy
-      logstash:
-        condition: service_healthy
       # keycloak:
       #   condition: service_healthy
     build:
@@ -71,8 +69,6 @@ services:
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=admin123
       - spring.security.oauth2.client.provider.wms-provider.issuer_uri=http://keycloak:8080/realms/wms
-      - LOGSTASH_HOST=logstash
-      - LOGSTASH_PORT=5000
     networks:
       - wms-network
 
