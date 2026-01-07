@@ -63,7 +63,7 @@ services:
       #   condition: service_healthy
     build:
       context: .
-    container_name: app
+    container_name: backend
     ports:
       - 7000:7000
     environment:
@@ -86,7 +86,7 @@ services:
     networks:
       - wms-network
     depends_on:
-      - app
+      - backend
 
 networks:
   wms-network:
