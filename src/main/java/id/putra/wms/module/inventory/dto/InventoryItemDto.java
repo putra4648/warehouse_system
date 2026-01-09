@@ -4,10 +4,12 @@ import java.time.ZonedDateTime;
 
 import id.putra.wms.shared.base.dto.BaseDto;
 import id.putra.wms.shared.base.dto.ProductDto;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 public class InventoryItemDto extends BaseDto {
     private String id;

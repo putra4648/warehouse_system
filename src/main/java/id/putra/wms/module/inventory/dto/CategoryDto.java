@@ -3,10 +3,12 @@ package id.putra.wms.module.inventory.dto;
 import java.util.List;
 
 import id.putra.wms.shared.base.dto.ProductDto;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
 public class CategoryDto {
     private String id;
