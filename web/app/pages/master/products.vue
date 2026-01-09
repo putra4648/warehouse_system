@@ -2,36 +2,21 @@
   <div>
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Products</h1>
-      <UButton
-        icon="i-heroicons-plus"
-        color="primary"
-        label="Add Product"
-        @click="isOpen = true"
-      />
+      <UButton icon="i-heroicons-plus" color="primary" label="Add Product" @click="isOpen = true" />
     </div>
 
     <UCard :ui="{ body: { padding: '' } }">
-      <div
-        class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700"
-      >
-        <UInput
-          v-model="q"
-          placeholder="Filter products..."
-          icon="i-heroicons-magnifying-glass"
-        />
+      <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+        <UInput v-model="q" placeholder="Filter products..." icon="i-heroicons-magnifying-glass" />
       </div>
 
       <UTable :columns="columns" :data="filteredRows" :loading="pending">
         <template #name-cell="{ row }">
           <div class="flex items-center gap-3">
-            <UAvatar
-              :src="row.original.image"
-              :alt="row.original.name"
-              size="sm"
-            />
+            <UAvatar :src="row.original.image" :alt="row.original.name" size="sm" />
             <span class="font-medium text-gray-900 dark:text-white">{{
               row.original.name
-            }}</span>
+              }}</span>
           </div>
         </template>
 
@@ -40,45 +25,31 @@
         </template>
 
         <template #status-cell="{ row }">
-          <UBadge
-            :color="
-              row.original.stock > 10
-                ? 'green'
-                : row.original.stock > 0
-                ? 'orange'
-                : 'red'
-            "
-            variant="subtle"
-          >
+          <UBadge :color="row.original.stock > 10
+            ? 'green'
+            : row.original.stock > 0
+              ? 'orange'
+              : 'red'
+            " variant="subtle">
             {{
               row.original.stock > 10
                 ? "In Stock"
                 : row.original.stock > 0
-                ? "Low Stock"
-                : "Out of Stock"
+                  ? "Low Stock"
+                  : "Out of Stock"
             }}
           </UBadge>
         </template>
 
         <template #actions-cell="{ row }">
           <UDropdownMenu :items="items(row.original)">
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-ellipsis-horizontal-20-solid"
-            />
+            <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
           </UDropdownMenu>
         </template>
       </UTable>
 
-      <div
-        class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
-      >
-        <UPagination
-          v-model="page"
-          :page-count="pageCount"
-          :total="products.length"
-        />
+      <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+        <UPagination v-model="page" :page-count="pageCount" :total="products.length" />
       </div>
     </UCard>
 
@@ -86,22 +57,19 @@
       <template #body>
         <UForm :state="state" class="space-y-4">
           <UFormField label="Name" name="name">
-            <UInput v-model="state.name" />
+            <UInput v-model="state.name" class="w-full" />
           </UFormField>
           <UFormField label="SKU" name="sku">
-            <UInput v-model="state.sku" />
+            <UInput v-model="state.sku" class="w-full" />
           </UFormField>
           <UFormField label="Category" name="category">
-            <USelect
-              v-model="state.category"
-              :items="['Electronics', 'Clothing', 'Furniture']"
-            />
+            <USelect v-model="state.category" :items="['Electronics', 'Clothing', 'Furniture']" class="w-full" />
           </UFormField>
           <UFormField label="Price" name="price">
-            <UInput v-model="state.price" type="number" />
+            <UInput v-model="state.price" type="number" class="w-full" />
           </UFormField>
           <UFormField label="Stock" name="stock">
-            <UInput v-model="state.stock" type="number" />
+            <UInput v-model="state.stock" type="number" class="w-full" />
           </UFormField>
           <UButton type="submit" block>Save Product</UButton>
         </UForm>
