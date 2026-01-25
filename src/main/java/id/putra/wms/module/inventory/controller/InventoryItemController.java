@@ -58,7 +58,7 @@ public class InventoryItemController {
     @DeleteMapping
     @Operation(summary = "Delete inventory items", description = "Delete one or more inventory item records by IDs")
     public ResponseEntity<ResponseData<String>> deleteInventoryItem(
-            @Parameter(description = "List of inventory item IDs to delete") @RequestParam @Valid List<String> id) {
+            @Parameter(description = "List of inventory item IDs to delete") @RequestParam @Valid List<Long> id) {
         inventoryItemCoreService.delete(id.stream().map(i -> InventoryItemDto.builder().id(i).build()).toList());
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
@@ -76,7 +76,7 @@ public class InventoryItemController {
     @GetMapping("/{id}")
     @Operation(summary = "Get inventory item details", description = "Retrieve detailed information about a specific inventory item")
     public ResponseEntity<ResponseData<InventoryItemDto>> getDetailInventoryItem(
-            @Parameter(description = "Inventory Item ID") @PathVariable Optional<String> id) {
+            @Parameter(description = "Inventory Item ID") @PathVariable Optional<Long> id) {
         var dto = InventoryItemDto.builder()
                 .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                 .build();

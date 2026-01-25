@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 public class InventoryItemDto extends BaseDto {
-    private String id;
+    private Long id;
     private String name;
     private Long quantity;
     private ZonedDateTime expiredDate;

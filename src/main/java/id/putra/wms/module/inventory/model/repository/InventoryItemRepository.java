@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import id.putra.wms.module.inventory.model.entity.InventoryItem;
 
 public interface InventoryItemRepository
-                extends JpaRepository<InventoryItem, String>, JpaSpecificationExecutor<InventoryItem> {
+        extends JpaRepository<InventoryItem, Long>, JpaSpecificationExecutor<InventoryItem> {
 }

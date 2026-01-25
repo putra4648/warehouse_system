@@ -25,7 +25,7 @@ public class InventoryItemQueryAdapterImpl implements InventoryItemQueryAdapter 
 
     @Override
     public InventoryItemDto getInventoryItemById(InventoryItemDto dto) {
-        String id = java.util.Objects.requireNonNull(dto.getId());
+        Long id = java.util.Objects.requireNonNull(dto.getId());
         var item = inventoryItemRepository.findById(id);
         return item.map(inventoryItemMapper::toDto).orElse(null);
     }
