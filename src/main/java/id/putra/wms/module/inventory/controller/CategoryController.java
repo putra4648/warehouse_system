@@ -58,7 +58,7 @@ public class CategoryController {
     @DeleteMapping
     @Operation(summary = "Delete categories", description = "Delete one or more category records by IDs")
     public ResponseEntity<ResponseData<String>> deleteCategory(
-            @Parameter(description = "List of category IDs to delete") @RequestParam @Valid List<String> id) {
+            @Parameter(description = "List of category IDs to delete") @RequestParam @Valid List<Long> id) {
         categoryCoreService.delete(id.stream().map(i -> CategoryDto.builder().id(i).build()).toList());
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
@@ -76,7 +76,7 @@ public class CategoryController {
     @GetMapping("/{id}")
     @Operation(summary = "Get category details", description = "Retrieve detailed information about a specific category")
     public ResponseEntity<ResponseData<CategoryDto>> getDetailCategory(
-            @Parameter(description = "Category ID") @PathVariable Optional<String> id) {
+            @Parameter(description = "Category ID") @PathVariable Optional<Long> id) {
         var dto = CategoryDto.builder()
                 .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                 .build();

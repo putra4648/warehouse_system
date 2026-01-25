@@ -66,7 +66,7 @@ public class WarehouseController {
         @GetMapping
         @Operation(summary = "Get warehouses", description = "Retrieve a paginated list of warehouses with search functionality")
         public ResponseEntity<ResponseMeta<WarehouseDto>> getWarehouses(
-                        @Parameter(description = "Search term for warehouse name") @RequestParam("search") String search,
+                        @Parameter(description = "Search term for warehouse name") @RequestParam(required = false) String search,
                         @ParameterObject @PageableDefault Pageable pageable) {
                 var dto = WarehouseDto.builder().name(search).build();
                 Page<WarehouseDto> warehouse = warehouseCoreService.getWarehouses(dto, pageable);

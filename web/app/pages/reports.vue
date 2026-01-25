@@ -19,10 +19,8 @@
                 {{ stat.value }}
               </h3>
             </div>
-            <UIcon
-              :name="stat.icon"
-              class="w-8 h-8 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-1.5"
-            />
+            <UIcon :name="stat.icon"
+              class="w-8 h-8 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-1.5" />
           </div>
           <p class="text-xs text-green-500 mt-2 flex items-center">
             <UIcon name="i-heroicons-arrow-trending-up" class="w-4 h-4 mr-1" />
@@ -35,26 +33,18 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <UCard>
           <template #header>
-            <h3
-              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-            >
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
               Inbound vs Outbound
             </h3>
           </template>
           <div class="w-full">
-            <BarChart
-              :data="barData"
-              :categories="barCategories"
-              :y-axis="barYAxis"
-            />
+            <BarChart :data="barData" :categories="barCategories" :y-axis="barYAxis" />
           </div>
         </UCard>
 
         <UCard>
           <template #header>
-            <h3
-              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-            >
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
               Inventory By Category
             </h3>
           </template>
@@ -67,24 +57,18 @@
       <!-- Recent Activity -->
       <UCard :ui="{ body: { padding: '' } }">
         <template #header>
-          <h3
-            class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-          >
+          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
             Recent Transactions
           </h3>
         </template>
         <UTable :columns="columns" :data="recentTransactions">
           <template #status-cell="{ row }">
-            <UBadge
-              :color="
-                row.status === 'Completed'
-                  ? 'green'
-                  : row.status === 'Pending'
+            <UBadge :color="row.status === 'Completed'
+                ? 'green'
+                : row.status === 'Pending'
                   ? 'orange'
                   : 'gray'
-              "
-              variant="subtle"
-            >
+              " variant="subtle">
               {{ row.status }}
             </UBadge>
           </template>

@@ -25,7 +25,7 @@ public class CategoryQueryAdapterImpl implements CategoryQueryAdapter {
 
     @Override
     public CategoryDto getCategoryById(CategoryDto dto) {
-        String id = java.util.Objects.requireNonNull(dto.getId());
+        Long id = java.util.Objects.requireNonNull(dto.getId());
         var category = categoryRepository.findById(id);
         return category.map(categoryMapper::toDto).orElse(null);
     }

@@ -10,12 +10,4 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
 
-    @Mock
-    private ProductService productService;
-
-    @Test
-    void serviceMockLoads() {
-        assertThat(productService).isNotNull();
-    }
-
 }

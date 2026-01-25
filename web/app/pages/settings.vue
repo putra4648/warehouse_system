@@ -12,9 +12,7 @@
         <template #general="{ item }">
           <UCard>
             <template #header>
-              <h3
-                class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-              >
+              <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                 {{ item.label }}
               </h3>
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -22,20 +20,13 @@
               </p>
             </template>
 
-            <UForm
-              :state="generalState"
-              class="space-y-4"
-              @submit="onSaveGeneral"
-            >
+            <UForm :state="generalState" class="space-y-4" @submit="onSaveGeneral">
               <UFormField label="System Name" name="systemName">
                 <UInput v-model="generalState.systemName" />
               </UFormField>
 
               <UFormField label="Default Currency" name="currency">
-                <USelect
-                  v-model="generalState.currency"
-                  :options="currencies"
-                />
+                <USelect v-model="generalState.currency" :options="currencies" />
               </UFormField>
 
               <UFormField label="Timezone" name="timezone">
@@ -55,39 +46,25 @@
             <template #header>
               <div class="flex items-center justify-between">
                 <div>
-                  <h3
-                    class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-                  >
+                  <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                     {{ item.label }}
                   </h3>
                   <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                     Manage team members and permissions.
                   </p>
                 </div>
-                <UButton
-                  icon="i-heroicons-user-plus"
-                  label="Invite Member"
-                  color="primary"
-                  variant="ghost"
-                />
+                <UButton icon="i-heroicons-user-plus" label="Invite Member" color="primary" variant="ghost" />
               </div>
             </template>
 
             <UTable :columns="memberColumns" :data="members">
               <template #role-cell="{ row }">
-                <UBadge
-                  :color="row.original.role === 'Admin' ? 'primary' : 'neutral'"
-                  variant="subtle"
-                >
+                <UBadge :color="row.original.role === 'Admin' ? 'primary' : 'neutral'" variant="subtle">
                   {{ row.original.role }}
                 </UBadge>
               </template>
               <template #actions-cell>
-                <UButton
-                  icon="i-heroicons-ellipsis-vertical"
-                  color="secondary"
-                  variant="ghost"
-                />
+                <UButton icon="i-heroicons-ellipsis-vertical" color="secondary" variant="ghost" />
               </template>
             </UTable>
           </UCard>
@@ -97,9 +74,7 @@
         <template #notifications="{ item }">
           <UCard>
             <template #header>
-              <h3
-                class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-              >
+              <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                 {{ item.label }}
               </h3>
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -152,9 +127,7 @@
         <template #security="{ item }">
           <UCard>
             <template #header>
-              <h3
-                class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-              >
+              <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
                 {{ item.label }}
               </h3>
               <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -162,33 +135,19 @@
               </p>
             </template>
 
-            <UForm
-              :state="securityState"
-              class="space-y-4"
-              @submit="onSaveSecurity"
-            >
+            <UForm :state="securityState" class="space-y-4" @submit="onSaveSecurity">
               <UFormField label="Current Password" name="currentPassword">
-                <UInput
-                  v-model="securityState.currentPassword"
-                  type="password"
-                />
+                <UInput v-model="securityState.currentPassword" type="password" />
               </UFormField>
               <UFormField label="New Password" name="newPassword">
                 <UInput v-model="securityState.newPassword" type="password" />
               </UFormField>
               <UFormField label="Confirm Password" name="confirmPassword">
-                <UInput
-                  v-model="securityState.confirmPassword"
-                  type="password"
-                />
+                <UInput v-model="securityState.confirmPassword" type="password" />
               </UFormField>
 
               <div class="flex justify-end">
-                <UButton
-                  type="submit"
-                  label="Update Password"
-                  color="primary"
-                />
+                <UButton type="submit" label="Update Password" color="primary" />
               </div>
             </UForm>
           </UCard>

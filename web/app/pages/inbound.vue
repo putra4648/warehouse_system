@@ -2,60 +2,35 @@
   <div>
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Inbound</h1>
-      <UButton
-        icon="i-heroicons-plus"
-        color="primary"
-        label="Create Inbound"
-        @click="isOpen = true"
-      />
+      <UButton icon="i-heroicons-plus" color="primary" label="Create Inbound" @click="isOpen = true" />
     </div>
 
     <UCard :ui="{ body: { padding: '' } }">
-      <div
-        class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700"
-      >
-        <UInput
-          v-model="q"
-          placeholder="Filter inbound..."
-          icon="i-heroicons-magnifying-glass"
-        />
+      <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+        <UInput v-model="q" placeholder="Filter inbound..." icon="i-heroicons-magnifying-glass" />
       </div>
 
       <UTable :columns="columns" :data="filteredRows" :loading="pending">
         <template #status-cell="{ row }">
-          <UBadge
-            :color="
-              row.status === 'Completed'
-                ? 'green'
-                : row.status === 'Pending'
+          <UBadge :color="row.status === 'Completed'
+              ? 'green'
+              : row.status === 'Pending'
                 ? 'orange'
                 : 'gray'
-            "
-            variant="subtle"
-          >
+            " variant="subtle">
             {{ row.original.status }}
           </UBadge>
         </template>
 
         <template #actions-cell="{ row }">
           <UDropdownMenu :items="items(row.original)">
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-ellipsis-horizontal-20-solid"
-            />
+            <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
           </UDropdownMenu>
         </template>
       </UTable>
 
-      <div
-        class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
-      >
-        <UPagination
-          v-model="page"
-          :page-count="pageCount"
-          :total="inbounds.length"
-        />
+      <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+        <UPagination v-model="page" :page-count="pageCount" :total="inbounds.length" />
       </div>
     </UCard>
 
@@ -63,21 +38,13 @@
       <template #body>
         <UForm :state="state" class="space-y-4">
           <UFormField label="Supplier" name="supplier">
-            <USelect
-              v-model="state.supplier"
-              class="w-full"
-              :items="['Acme Corp', 'Global Tech', 'Logistics Pro']"
-            />
+            <USelect v-model="state.supplier" class="w-full" :items="['Acme Corp', 'Global Tech', 'Logistics Pro']" />
           </UFormField>
           <UFormField label="Date" name="date">
             <UInput v-model="state.date" type="date" class="w-full" />
           </UFormField>
           <UFormField label="Status" name="status">
-            <USelect
-              v-model="state.status"
-              class="w-full"
-              :items="['Pending', 'Completed', 'Cancelled']"
-            />
+            <USelect v-model="state.status" class="w-full" :items="['Pending', 'Completed', 'Cancelled']" />
           </UFormField>
           <UButton type="submit" block>Create Inbound</UButton>
         </UForm>

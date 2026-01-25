@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @Builder
 @EqualsAndHashCode(callSuper = false)
 public class CategoryDto {
-    private String id;
+    private Long id;
     private String name;
     private List<ProductDto> products;
     // Add other fields as needed

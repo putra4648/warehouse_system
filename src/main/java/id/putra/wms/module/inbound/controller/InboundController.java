@@ -12,6 +12,4 @@ import lombok.RequiredArgsConstructor;
 public class InboundController {
     private final ResponseHelper responseHelper;
 
-
-    
 }

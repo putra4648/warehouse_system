@@ -22,7 +22,6 @@ spring:
     properties:
       hibernate:
         "[format_sql]": true
-
   security:
     oauth2:
       resourceserver:
@@ -32,8 +31,8 @@ spring:
 logging:
   level:
     "[org.springframework.security]": DEBUG
-    "[com.zaxxer.hikari.HikariConfig]": OFF
-    "[com.zaxxer.hikari]": OFF
+    "[com.zaxxer.hikari.HikariConfig]": DEBUG
+    "[com.zaxxer.hikari]": DEBUG
 
 management:
   metrics:

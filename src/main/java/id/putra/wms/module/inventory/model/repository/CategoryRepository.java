@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import id.putra.wms.module.inventory.model.entity.Category;
 
-public interface CategoryRepository extends JpaRepository<Category, String>, JpaSpecificationExecutor<Category> {
+public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSpecificationExecutor<Category> {
 }

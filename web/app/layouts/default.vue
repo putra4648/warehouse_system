@@ -2,15 +2,10 @@
   <div class="min-h-screen flex bg-gray-50 dark:bg-gray-900">
     <!-- Sidebar -->
     <aside
-      class="w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex flex-col fixed h-full z-10 hidden md:flex"
-    >
-      <div
-        class="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-800"
-      >
+      class="w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950  flex-col fixed h-full z-10 hidden md:flex">
+      <div class="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-800">
         <Logo class="h-8 w-auto text-primary-500" />
-        <span class="ml-3 font-bold text-xl text-gray-900 dark:text-white"
-          >WMS PRO</span
-        >
+        <span class="ml-3 font-bold text-xl text-gray-900 dark:text-white">WMS PRO</span>
       </div>
 
       <div class="flex-1 overflow-y-auto py-4 px-3">
@@ -19,9 +14,7 @@
 
       <div class="p-4 border-t border-gray-200 dark:border-gray-800">
         <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-500 dark:text-gray-400"
-            >© {{ new Date().getFullYear() }}</span
-          >
+          <span class="text-sm text-gray-500 dark:text-gray-400">© {{ new Date().getFullYear() }}</span>
           <UColorModeButton />
         </div>
       </div>
@@ -29,18 +22,12 @@
 
     <!-- Mobile Header -->
     <div
-      class="md:hidden fixed w-full z-20 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 h-16"
-    >
+      class="md:hidden fixed w-full z-20 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 h-16">
       <div class="flex items-center">
         <Logo class="h-8 w-auto text-primary-500" />
         <span class="ml-2 font-bold text-lg">WMS PRO</span>
       </div>
-      <UButton
-        icon="i-heroicons-bars-3"
-        variant="ghost"
-        color="gray"
-        @click="isOpen = true"
-      />
+      <UButton icon="i-heroicons-bars-3" variant="ghost" color="gray" @click="isOpen = true" />
     </div>
 
     <!-- Mobile Sidebar Drawer -->
@@ -52,21 +39,10 @@
               <Logo class="h-8 w-auto text-primary-500" />
               <span class="ml-2 font-bold text-xl">WMS PRO</span>
             </div>
-            <UButton
-              icon="i-heroicons-x-mark"
-              variant="ghost"
-              color="gray"
-              @click="isOpen = false"
-            />
+            <UButton icon="i-heroicons-x-mark" variant="ghost" color="gray" @click="isOpen = false" />
           </div>
-          <UNavigationMenu
-            :items="links"
-            orientation="vertical"
-            @click="isOpen = false"
-          />
-          <div
-            class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-800 flex justify-between items-center"
-          >
+          <UNavigationMenu :items="links" orientation="vertical" @click="isOpen = false" />
+          <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-800 flex justify-between items-center">
             <span class="text-sm text-gray-500">Theme</span>
             <UColorModeButton />
           </div>

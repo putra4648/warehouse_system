@@ -16,7 +16,7 @@
             <UAvatar :src="row.original.image" :alt="row.original.name" size="sm" />
             <span class="font-medium text-gray-900 dark:text-white">{{
               row.original.name
-              }}</span>
+            }}</span>
           </div>
         </template>
 

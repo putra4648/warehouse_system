@@ -4,23 +4,12 @@
       <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
         Suppliers
       </h1>
-      <UButton
-        icon="i-heroicons-plus"
-        color="primary"
-        label="Add Supplier"
-        @click="isOpen = true"
-      />
+      <UButton icon="i-heroicons-plus" color="primary" label="Add Supplier" @click="isOpen = true" />
     </div>
 
     <UCard :ui="{ body: { padding: '' } }">
-      <div
-        class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700"
-      >
-        <UInput
-          v-model="q"
-          placeholder="Filter suppliers..."
-          icon="i-heroicons-magnifying-glass"
-        />
+      <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+        <UInput v-model="q" placeholder="Filter suppliers..." icon="i-heroicons-magnifying-glass" />
       </div>
 
       <UTable :columns="columns" :data="filteredRows" :loading="pending">
@@ -32,23 +21,13 @@
 
         <template #actions-cell="{ row }">
           <UDropdownMenu :items="items(row.original)">
-            <UButton
-              color="gray"
-              variant="ghost"
-              icon="i-heroicons-ellipsis-horizontal-20-solid"
-            />
+            <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
           </UDropdownMenu>
         </template>
       </UTable>
 
-      <div
-        class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700"
-      >
-        <UPagination
-          v-model="page"
-          :page-count="pageCount"
-          :total="suppliers.length"
-        />
+      <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+        <UPagination v-model="page" :page-count="pageCount" :total="suppliers.length" />
       </div>
     </UCard>
 
