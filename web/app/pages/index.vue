@@ -71,7 +71,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const recentActivities = [
   { type: 'inbound', title: 'Received Nike Air Max', time: '10 mins ago', quantity: 50 },
   { type: 'outbound', title: 'Shipped iPhone 15 Pro', time: '45 mins ago', quantity: 2 },
