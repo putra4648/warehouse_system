@@ -30,7 +30,7 @@
             <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Products</h3>
           </div>
         </template>
-        <p class="text-3xl font-bold text-gray-900 dark:text-white">1,250</p>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ totalProducts }}</p>
       </UCard>
 
       <UCard>
@@ -40,8 +40,9 @@
             <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Warehouses</h3>
           </div>
         </template>
-        <p class="text-3xl font-bold text-gray-900 dark:text-white">5</p>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white">{{ totalWarehouses }}</p>
       </UCard>
+
     </div>
 
     <!-- Recent Activity Section -->
@@ -72,6 +73,20 @@
 </template>
 
 <script setup lang="ts">
+import type { Product } from '~~/types/product'
+import type { Warehouse } from '~~/types/warehouse'
+import type PaginationResponse from '~~/server/utils/pagination'
+
+const { data: productsData } = await useFetch<PaginationResponse<Product>>("/api/products", {
+  query: { page: 0, size: 1 }
+})
+const totalProducts = computed(() => productsData.value?.meta.total || 0)
+
+const { data: warehousesData } = await useFetch<PaginationResponse<Warehouse>>("/api/warehouses", {
+  query: { page: 0, size: 1 }
+})
+const totalWarehouses = computed(() => warehousesData.value?.meta.total || 0)
+
 const recentActivities = [
   { type: 'inbound', title: 'Received Nike Air Max', time: '10 mins ago', quantity: 50 },
   { type: 'outbound', title: 'Shipped iPhone 15 Pro', time: '45 mins ago', quantity: 2 },

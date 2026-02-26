@@ -7,114 +7,101 @@
       <UButton icon="i-heroicons-plus" color="primary" label="Add Supplier" @click="isOpen = true" />
     </div>
 
-    <UCard :ui="{ body: { padding: '' } }">
+    <UCard>
       <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
         <UInput v-model="q" placeholder="Filter suppliers..." icon="i-heroicons-magnifying-glass" />
       </div>
 
-      <UTable :columns="columns" :data="filteredRows" :loading="pending">
+      <UTable :columns="columns" :data="suppliers" :loading="status === 'pending'">
         <template #name-cell="{ row }">
           <span class="font-medium text-gray-900 dark:text-white">{{
             row.original.name
           }}</span>
         </template>
 
+        <template #isActive-cell="{ row }">
+          <UBadge :color="row.original.isActive ? 'success' : 'error'" variant="subtle">
+            {{ row.original.isActive ? "Active" : "Inactive" }}
+          </UBadge>
+        </template>
+
         <template #actions-cell="{ row }">
           <UDropdownMenu :items="items(row.original)">
-            <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+            <UButton color="neutral" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
           </UDropdownMenu>
         </template>
       </UTable>
 
       <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-        <UPagination v-model="page" :page-count="pageCount" :total="suppliers.length" />
+        <UPagination v-model="page" :items-per-page="size" :total="total" />
       </div>
     </UCard>
 
     <UModal v-model:open="isOpen" title="Add Supplier" scrollable>
       <template #body>
-        <UForm :state="state" class="space-y-4">
+        <UForm :state="state" class="space-y-4" @submit="saveSupplier">
           <UFormField label="Name" name="name">
             <UInput v-model="state.name" />
           </UFormField>
-          <UFormField label="Contact Person" name="contact">
-            <UInput v-model="state.contact" />
-          </UFormField>
-          <UFormField label="Email" name="email">
-            <UInput v-model="state.email" type="email" />
-          </UFormField>
-          <UFormField label="Address" name="address">
-            <UTextarea v-model="state.address" />
+          <UFormField label="Code" name="code">
+            <UInput v-model="state.code" />
           </UFormField>
           <UButton type="submit" block>Save Supplier</UButton>
         </UForm>
       </template>
     </UModal>
+
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { Supplier } from '~~/types/supplier'
+import type PaginationResponse from '~~/server/utils/pagination'
+
 const isOpen = ref(false);
 const q = ref("");
 const page = ref(1);
-const pageCount = 5;
-const pending = ref(false);
+const size = ref(10);
+
+const { data, status, refresh } = await useFetch<PaginationResponse<Supplier>>("/api/suppliers", {
+  query: {
+    page: computed(() => page.value - 1),
+    size,
+    search: q
+  },
+  watch: [page, size, q]
+})
+
+const suppliers = computed(() => data.value?.data ?? [])
+const total = computed(() => data.value?.meta.total || 0)
 
 const columns = [
   { accessorKey: "name", header: "Name" },
-  { accessorKey: "contact", header: "Contact Person" },
-  { accessorKey: "email", header: "Email" },
-  { accessorKey: "address", header: "Address" },
+  { accessorKey: "code", header: "Code" },
+  { accessorKey: "isActive", header: "Status" },
   { accessorKey: "actions", header: "" },
 ];
 
-const suppliers = [
-  {
-    id: 1,
-    name: "Acme Corp",
-    contact: "John Doe",
-    email: "john@acme.com",
-    address: "123 Acme Way",
-  },
-  {
-    id: 2,
-    name: "Global Tech",
-    contact: "Jane Smith",
-    email: "jane@global.com",
-    address: "456 Global Blvd",
-  },
-  {
-    id: 3,
-    name: "Logistics Pro",
-    contact: "Bob Johnson",
-    email: "bob@logistics.com",
-    address: "789 Shipping Ln",
-  },
-];
-
-const filteredRows = computed(() => {
-  if (!q.value) {
-    return suppliers.slice(
-      (page.value - 1) * pageCount,
-      page.value * pageCount
-    );
-  }
-
-  return suppliers.filter((supplier) => {
-    return Object.values(supplier).some((value) => {
-      return String(value).toLowerCase().includes(q.value.toLowerCase());
-    });
-  });
-});
-
 const state = reactive({
   name: "",
-  contact: "",
-  email: "",
-  address: "",
+  code: "",
+  isActive: true,
 });
 
-const items = (row) => [
+async function saveSupplier() {
+  try {
+    await $fetch('/api/suppliers', {
+      method: 'POST',
+      body: [state]
+    })
+    isOpen.value = false
+    refresh()
+  } catch (error) {
+    console.error('Failed to save supplier', error)
+  }
+}
+
+const items = (row: Supplier) => [
   [
     {
       label: "Edit",
@@ -129,3 +116,4 @@ const items = (row) => [
   ],
 ];
 </script>
+

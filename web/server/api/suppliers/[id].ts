@@ -1,4 +1,4 @@
-import type { Warehouse } from "~~/types/warehouse";
+import type { Supplier } from "~~/types/supplier";
 import { callBackend } from "../../utils/api";
 
 export default defineEventHandler(async (event) => {
@@ -6,9 +6,9 @@ export default defineEventHandler(async (event) => {
   const method = getMethod(event);
 
   if (method === "GET") {
-    const result = await callBackend<Warehouse>(
+    const result = await callBackend<Supplier>(
       event,
-      `/api/v1/master/warehouse/${id}`,
+      `/api/v1/master/supplier/${id}`,
       {
         method: "GET",
       },

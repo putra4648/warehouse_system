@@ -15,7 +15,7 @@ export const callBackend = async <T>(
   return $fetch<T>(url, {
     baseURL: String(config.public.serverUrl),
     ...options,
-    onRequest: ({ request, options, error }) => {
+    onRequest: ({ options }) => {
       if (session?.accessToken) {
         options.headers.set("Authorization", `Bearer ${session.accessToken}`);
       }

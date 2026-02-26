@@ -66,10 +66,10 @@ public class ZoneController {
     @GetMapping
     @Operation(summary = "Get zones", description = "Retrieve a paginated list of zones")
     public ResponseEntity<ResponseMeta<ZoneDto>> getZones(
-            @Parameter(description = "Zone ID") @PathVariable Optional<String> id,
+            @Parameter(description = "Zone Name") @RequestParam("search") Optional<String> name,
             @ParameterObject @PageableDefault Pageable pageable) {
         var dto = ZoneDto.builder()
-                .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
+                .name(name.orElse(null))
                 .build();
         Page<ZoneDto> zn = zoneCoreService.getZones(dto, pageable);
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, zn);

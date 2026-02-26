@@ -143,6 +143,10 @@ const links = [
         to: "/master/products",
       },
       {
+        label: "Category",
+        to: "/master/categories",
+      },
+      {
         label: "Supplier",
         to: "/master/suppliers",
       },

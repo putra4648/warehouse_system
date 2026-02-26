@@ -1,4 +1,4 @@
-import type { Warehouse } from "~~/types/warehouse";
+import type { Rack } from "~~/types/rack";
 import { callBackend } from "../../utils/api";
 
 export default defineEventHandler(async (event) => {
@@ -6,13 +6,9 @@ export default defineEventHandler(async (event) => {
   const method = getMethod(event);
 
   if (method === "GET") {
-    const result = await callBackend<Warehouse>(
-      event,
-      `/api/v1/master/warehouse/${id}`,
-      {
-        method: "GET",
-      },
-    );
+    const result = await callBackend<Rack>(event, `/api/v1/master/rack/${id}`, {
+      method: "GET",
+    });
     return result;
   }
 });

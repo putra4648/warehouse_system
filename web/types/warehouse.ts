@@ -4,10 +4,10 @@ import type { Zone } from "./zone";
 export type Warehouse = {
   id: string;
   name: string;
-  is_actie: boolean;
+  isActive: boolean;
   location: string;
   area: number;
   total: number;
   zones: Zone[];
-  contact_person_warehouse: ContactPerson;
+  contactPersonWarehouse: ContactPerson;
 };
