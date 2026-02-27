@@ -92,7 +92,7 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
 
         var r = loc.get().getRack();
         assertThat(r).isNotNull();
-        assertThat(r.getId()).isEqualTo("rack-1");
+        assertThat(r.getId()).isEqualTo(1L);
     }
 
     @Test

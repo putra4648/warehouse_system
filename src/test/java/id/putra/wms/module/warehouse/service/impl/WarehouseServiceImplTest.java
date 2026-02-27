@@ -76,7 +76,7 @@ public class WarehouseServiceImplTest {
         WarehouseDto result = warehouseService.getWarehouse(warehouseDto);
 
         assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo("wh-1");
+        assertThat(result.getId()).isEqualTo(1L);
         verify(warehouseQueryAdapter, times(1)).getWarehouseById(warehouseDto);
     }
 

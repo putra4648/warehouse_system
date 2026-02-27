@@ -76,7 +76,7 @@ public class LocationServiceImplTest {
         LocationDto result = locationService.getLocation(locationDto);
 
         assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo("loc-1");
+        assertThat(result.getId()).isEqualTo(1L);
         verify(locationQueryAdapter, times(1)).getLocation(locationDto);
     }
 

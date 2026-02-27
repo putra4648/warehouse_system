@@ -120,7 +120,7 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         // Assume page = 1, size per page = 20
         Pageable pageable = PageRequest.of(0, 20);
 
-        // When use search by id e.g 'wh-1' should return 1 data
+        // When use search by id e.g '1' should return 1 data
         WarehouseDto dto = WarehouseDto.builder().id(entity.getId()).build();
 
         assertThat(dto.getId()).isNotNull();
