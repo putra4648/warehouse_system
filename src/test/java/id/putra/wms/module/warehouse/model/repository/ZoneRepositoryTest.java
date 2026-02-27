@@ -15,7 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.domain.Specification;
 
 import id.putra.wms.PostgreSQLContainerInitializer;
-import id.putra.wms.module.warehouse.model.entity.Warehouse;
+import id.putra.wms.module.warehouse.model.entity.Rack;
 import id.putra.wms.module.warehouse.model.entity.Zone;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -25,33 +25,30 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
     @Autowired
     private ZoneRepository zoneRepository;
 
-    @Autowired
-    private WarehouseRepository warehouseRepository;
-
-    private Warehouse entity;
-    private List<Zone> zones;
+    private Zone entity;
+    private List<Rack> racks;
 
     @BeforeEach
     public void setup() {
-        entity = new Warehouse();
-        entity.setName("Warehouse 1");
+        entity = new Zone();
+        entity.setName("Zone 1");
 
-        zones = new ArrayList<Zone>();
+        racks = new ArrayList<Rack>();
 
-        var z = new Zone();
-        z.setName("Zone 1");
-        z.setWarehouse(entity);
+        var r = new Rack();
+        r.setName("Zone 1");
+        r.setZone(entity);
 
-        zones.add(z);
+        racks.add(r);
 
-        entity.setZones(zones);
+        entity.setRacks(racks);
 
-        warehouseRepository.save(entity);
+        zoneRepository.save(entity);
     }
 
     @AfterEach
     public void tearDown() {
-        zoneRepository.deleteAll(java.util.Objects.requireNonNull(zones));
+        zoneRepository.deleteAll(List.of(entity));
     }
 
     @Test
