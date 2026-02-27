@@ -62,12 +62,14 @@ public class ResponseHelper {
         public <T> ResponseEntity<ResponseMeta<T>> createResponseMeta(
                         ResponseEnum responseEnum,
                         Page<T> page) {
+
                 return ResponseEntity
                                 .status(java.util.Objects.requireNonNull(responseEnum.getHttpStatus()))
                                 .body(ResponseMeta.<T>builder()
                                                 .responseSchema(this.getResponseSchema(responseEnum))
                                                 .meta(MetaAttribute.builder().page(page.getNumber())
                                                                 .size(page.getSize()).total(page.getTotalElements())
+                                                                .lastPage(page.getTotalPages())
                                                                 .build())
                                                 .data(page.getContent())
                                                 .build());

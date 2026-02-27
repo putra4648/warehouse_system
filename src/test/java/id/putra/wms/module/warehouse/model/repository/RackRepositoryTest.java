@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.jpa.domain.Specification;
 
 import id.putra.wms.PostgreSQLContainerInitializer;
 import id.putra.wms.module.warehouse.model.entity.Rack;
@@ -35,17 +36,15 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
         racks = new ArrayList<>();
 
         zone = new Zone();
-        zone.setId("zone-1");
+        zone.setName("Zone 1");
 
         entity = new Rack();
-        entity.setId("rack-1");
         entity.setName("Rack 1");
         entity.setZone(zone);
 
         racks.add(entity);
 
         entity = new Rack();
-        entity.setId("rack-2");
         entity.setName("Rack 2");
         entity.setZone(zone);
 
@@ -71,34 +70,18 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
     }
 
     @Test
-    void givenRack_whenSearch_shouldReturnData() {
-        var r = rackRepository.findById("rack-1");
+    void givenRack_whenSearchByName_shouldReturnData() {
+        Specification<Rack> spec = (root, cr, cb) -> cb.equal(root.get("name"), "Rack 1");
+        var r = rackRepository.findAll(spec);
 
-        assertThat(r.isPresent()).isTrue();
-        assertThat(r.get().getName()).isEqualTo("Rack 1");
-
-        var z = r.get().getZone();
-
-        assertThat(z).isNotNull();
-        assertThat(z.getId()).isEqualTo("zone-1");
-    }
-
-    @Test
-    void givenWarehouse_whenSearch_shouldReturnData() {
-        var r = rackRepository.findById("rack-1");
-
-        assertThat(r.isPresent()).isTrue();
-        assertThat(r.get().getName()).isEqualTo("Rack 1");
-
-        var z = r.get().getZone();
-
-        assertThat(z).isNotNull();
-        assertThat(z.getId()).isEqualTo("zone-1");
+        assertThat(r).isNotNull();
+        assertThat(r.isEmpty()).isFalse();
+        assertThat(r.size()).isGreaterThan(0);
     }
 
     @Test
     void givenRack_whenUpdated_shouldReturnUpdatedEntity() {
-        var r = rackRepository.findById("rack-1");
+        var r = rackRepository.findById(entity.getId());
 
         assertThat(r).isNotNull();
 
@@ -106,7 +89,7 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setName("Rack 2");
         rackRepository.save(updatedEntity);
 
-        Optional<Rack> newR = rackRepository.findById("rack-1");
+        Optional<Rack> newR = rackRepository.findById(entity.getId());
 
         assertThat(newR.get().getName()).isEqualTo("Rack 2");
     }
@@ -115,8 +98,8 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
     void givenRack_whenDeleted_shouldReturnEmptyData() {
         // Assume page = 1, size per page = 20
 
-        rackRepository.deleteById("rack-1");
-        var zn = rackRepository.findById("rack-1");
+        rackRepository.deleteById(entity.getId());
+        var zn = rackRepository.findById(entity.getId());
 
         assertThat(zn).isEmpty();
 

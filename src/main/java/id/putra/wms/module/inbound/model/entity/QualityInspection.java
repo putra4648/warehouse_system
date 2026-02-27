@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class QualityInspection {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String result;
     private String remarks;

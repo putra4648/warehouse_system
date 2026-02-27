@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import id.putra.wms.module.customer.model.entity.ContactPersonCustomer;
 
-public interface ContactPersonCustomerRepository extends JpaRepository<ContactPersonCustomer, String> {
+public interface ContactPersonCustomerRepository extends JpaRepository<ContactPersonCustomer, Long> {
 }

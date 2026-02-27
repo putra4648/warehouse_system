@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ProductSupplierIdDto {
-    private String productId;
-    private String supplierId;
+    private Long productId;
+    private Long supplierId;
 }

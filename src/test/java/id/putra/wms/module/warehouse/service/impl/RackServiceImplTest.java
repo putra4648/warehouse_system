@@ -44,7 +44,7 @@ public class RackServiceImplTest {
     @BeforeEach
     public void setup() {
         rackDto = RackDto.builder()
-                .id("rack-1")
+                .id(1L)
                 .name("Rack 1")
                 .build();
 
@@ -64,7 +64,7 @@ public class RackServiceImplTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
-        assertThat(result.getContent().get(0).getId()).isEqualTo("rack-1");
+        assertThat(result.getContent().get(0).getId()).isEqualTo(1L);
         verify(rackQueryAdapter, times(1)).getRacks(any(RackDto.class), eq(pageable));
     }
 
@@ -75,7 +75,7 @@ public class RackServiceImplTest {
         RackDto result = rackService.getRack(rackDto);
 
         assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo("rack-1");
+        assertThat(result.getId()).isEqualTo(1L);
         verify(rackQueryAdapter, times(1)).getRackById(rackDto);
     }
 

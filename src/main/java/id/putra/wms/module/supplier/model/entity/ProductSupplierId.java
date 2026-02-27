@@ -10,8 +10,8 @@ import lombok.Data;
 @Data
 public class ProductSupplierId implements Serializable {
     @Column(name = "product_id")
-    private String productId;
+    private Long productId;
 
     @Column(name = "supplier_id")
-    private String supplierId;
+    private Long supplierId;
 }

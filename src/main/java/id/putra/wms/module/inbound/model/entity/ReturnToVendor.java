@@ -16,15 +16,14 @@ import lombok.Data;
 @Table
 @Data
 public class ReturnToVendor {
-      @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-    private String reason;
-    @Column(precision = 12, scale = 2)
-    private BigDecimal qty;
-    
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String reason;
+  @Column(precision = 12, scale = 2)
+  private BigDecimal qty;
 
-    @ManyToOne
-    @JoinColumn(name = "receiving_line_id")
-    private ReceivingLine receivingLine;
+  @ManyToOne
+  @JoinColumn(name = "receiving_line_id")
+  private ReceivingLine receivingLine;
 }

@@ -28,7 +28,7 @@ public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
 
     @Override
     public WarehouseDto getWarehouseById(WarehouseDto dto) {
-        String id = java.util.Objects.requireNonNull(dto.getId());
+        Long id = java.util.Objects.requireNonNull(dto.getId());
         var wh = warehouseRepository.findById(id);
         return wh.map(warehouseMapper::toDto).orElse(null);
     }

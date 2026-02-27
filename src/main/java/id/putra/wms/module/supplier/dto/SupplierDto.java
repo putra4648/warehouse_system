@@ -9,9 +9,10 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class SupplierDto extends BaseDto {
-    private String id;
+    private Long id;
     private String name;
     private String code;
     private Boolean isActive;
     private List<ProductSupplierDto> products;
+    private List<ContactPersonSupplierDto> contactPersonSuppliers;
 }

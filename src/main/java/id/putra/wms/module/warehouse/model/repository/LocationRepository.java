@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import id.putra.wms.module.warehouse.model.entity.Location;
 
-public interface LocationRepository extends JpaRepository<Location, String>, JpaSpecificationExecutor<Location> {
+public interface LocationRepository extends JpaRepository<Location, Long>, JpaSpecificationExecutor<Location> {
 
 }

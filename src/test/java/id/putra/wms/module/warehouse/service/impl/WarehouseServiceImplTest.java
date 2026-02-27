@@ -44,7 +44,7 @@ public class WarehouseServiceImplTest {
     @BeforeEach
     public void setup() {
         warehouseDto = WarehouseDto.builder()
-                .id("wh-1")
+                .id(1L)
                 .name("Warehouse 1")
                 .location("Location 1")
                 .build();
@@ -65,7 +65,7 @@ public class WarehouseServiceImplTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
-        assertThat(result.getContent().get(0).getId()).isEqualTo("wh-1");
+        assertThat(result.getContent().get(0).getId()).isEqualTo(1L);
         verify(warehouseQueryAdapter, times(1)).getWarehouses(any(WarehouseDto.class), eq(pageable));
     }
 
@@ -76,7 +76,7 @@ public class WarehouseServiceImplTest {
         WarehouseDto result = warehouseService.getWarehouse(warehouseDto);
 
         assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo("wh-1");
+        assertThat(result.getId()).isEqualTo(1L);
         verify(warehouseQueryAdapter, times(1)).getWarehouseById(warehouseDto);
     }
 

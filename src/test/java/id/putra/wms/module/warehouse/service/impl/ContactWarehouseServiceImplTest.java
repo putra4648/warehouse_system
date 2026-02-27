@@ -44,7 +44,7 @@ public class ContactWarehouseServiceImplTest {
     @BeforeEach
     public void setup() {
         contactPersonDto = ContactPersonWarehouseDto.builder()
-                .id("cp-1")
+                .id(1L)
                 .name("Contact Person 1")
                 .email("cp1@example.com")
                 .build();
@@ -65,7 +65,7 @@ public class ContactWarehouseServiceImplTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
-        assertThat(result.getContent().get(0).getId()).isEqualTo("cp-1");
+        assertThat(result.getContent().get(0).getId()).isEqualTo(1L);
         verify(contactPersonWarehouseQueryAdapter, times(1)).getContacts(any(ContactPersonWarehouseDto.class),
                 eq(pageable));
     }
@@ -77,7 +77,7 @@ public class ContactWarehouseServiceImplTest {
         ContactPersonWarehouseDto result = contactWarehouseService.getContact(contactPersonDto);
 
         assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo("cp-1");
+        assertThat(result.getId()).isEqualTo(1L);
         verify(contactPersonWarehouseQueryAdapter, times(1)).getContact(contactPersonDto);
     }
 

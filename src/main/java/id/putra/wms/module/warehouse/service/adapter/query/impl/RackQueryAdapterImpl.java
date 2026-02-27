@@ -36,7 +36,7 @@ public class RackQueryAdapterImpl implements RackQueryAdapter {
 
     @Override
     public RackDto getRackById(RackDto rackDto) {
-        String safeId = java.util.Objects.requireNonNull(rackDto.getId());
+        Long safeId = java.util.Objects.requireNonNull(rackDto.getId());
         return rackRepository.findById(safeId).map(rackMapper::toDto).orElse(null);
     }
 

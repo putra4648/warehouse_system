@@ -19,4 +19,7 @@ public class MetaAttribute {
 	@JsonProperty("total")
 	private long total;
 
+	@JsonProperty("last_page")
+	private long lastPage;
+
 }

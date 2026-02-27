@@ -8,6 +8,6 @@ import id.putra.wms.module.supplier.dto.SupplierDto;
 public interface SupplierQueryAdapter {
     Page<SupplierDto> getAll(Pageable pageable, String search);
 
-    SupplierDto getById(String id);
+    SupplierDto getById(Long id);
 
 }

@@ -35,7 +35,7 @@ public class LocationQueryAdapterImpl implements LocationQueryAdapter {
 
     @Override
     public LocationDto getLocation(LocationDto dto) {
-        String safeId = java.util.Objects.requireNonNull(dto.getId());
+        Long safeId = java.util.Objects.requireNonNull(dto.getId());
         return locationRepository.findById(safeId).map(locationMapper::toDto).orElse(null);
     }
 

@@ -19,10 +19,8 @@
                 {{ stat.value }}
               </h3>
             </div>
-            <UIcon
-              :name="stat.icon"
-              class="w-8 h-8 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-1.5"
-            />
+            <UIcon :name="stat.icon"
+              class="w-8 h-8 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-1.5" />
           </div>
           <p class="text-xs text-green-500 mt-2 flex items-center">
             <UIcon name="i-heroicons-arrow-trending-up" class="w-4 h-4 mr-1" />
@@ -35,57 +33,52 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         <UCard>
           <template #header>
-            <h3
-              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-            >
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
               Inbound vs Outbound
             </h3>
           </template>
           <div class="w-full">
-            <BarChart
-              :data="barData"
-              :categories="barCategories"
-              :y-axis="barYAxis"
-            />
+            <BarChart :data="barData" :categories="barCategories" :height="300" :y-axis="['inbound', 'outbound']" />
           </div>
         </UCard>
 
         <UCard>
           <template #header>
-            <h3
-              class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-            >
+            <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
               Inventory By Category
             </h3>
           </template>
           <div class="w-full flex items-center justify-center">
-            <DonutChart :data="donutData" :categories="donutCategories" />
+            <DonutChart :data="donutData" :categories="donutCategories" :height="300" :radius="0" :arc-width="20">
+              <div class="text-center">
+                <div class="font-semibold">
+                  Label
+                </div>
+                <div class="text-muted">
+                  2 seconds ago
+                </div>
+              </div>
+            </DonutChart>
           </div>
         </UCard>
       </div>
 
       <!-- Recent Activity -->
-      <UCard :ui="{ body: { padding: '' } }">
+      <UCard>
         <template #header>
-          <h3
-            class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
-          >
+          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
             Recent Transactions
           </h3>
         </template>
         <UTable :columns="columns" :data="recentTransactions">
-          <template #status-cell="{ row }">
-            <UBadge
-              :color="
-                row.status === 'Completed'
-                  ? 'green'
-                  : row.status === 'Pending'
-                  ? 'orange'
-                  : 'gray'
-              "
-              variant="subtle"
-            >
-              {{ row.status }}
+          <template #status-cell="{ row: { getValue } }">
+            <UBadge :color="getValue('status') === 'Completed'
+              ? 'success'
+              : getValue('status') === 'Pending'
+                ? 'primary'
+                : 'secondary'
+              " variant="subtle">
+              {{ getValue('status') }}
             </UBadge>
           </template>
         </UTable>
@@ -94,7 +87,7 @@
   </UPage>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const stats = [
   {
     label: "Total Revenue",
@@ -176,7 +169,6 @@ const barCategories = {
   outbound: { name: "Outbound", color: "#ef4444" },
 };
 
-const barYAxis = ["inbound", "outbound"];
 
 // Donut Chart Data (Array of Numbers)
 const donutData = ref([40, 20, 20, 10]);

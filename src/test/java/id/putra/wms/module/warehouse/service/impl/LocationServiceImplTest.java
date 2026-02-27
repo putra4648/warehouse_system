@@ -44,7 +44,7 @@ public class LocationServiceImplTest {
     @BeforeEach
     public void setup() {
         locationDto = LocationDto.builder()
-                .id("loc-1")
+                .id(1L)
                 .name("Location 1")
                 .type("STANDARD")
                 .build();
@@ -65,7 +65,7 @@ public class LocationServiceImplTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
-        assertThat(result.getContent().get(0).getId()).isEqualTo("loc-1");
+        assertThat(result.getContent().get(0).getId()).isEqualTo(1L);
         verify(locationQueryAdapter, times(1)).getLocations(any(LocationDto.class), eq(pageable));
     }
 
@@ -76,7 +76,7 @@ public class LocationServiceImplTest {
         LocationDto result = locationService.getLocation(locationDto);
 
         assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo("loc-1");
+        assertThat(result.getId()).isEqualTo(1L);
         verify(locationQueryAdapter, times(1)).getLocation(locationDto);
     }
 

@@ -10,9 +10,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,7 +48,7 @@ public class ZoneController {
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @PatchMapping
+    @PutMapping
     @Operation(summary = "Update zones", description = "Update one or more existing zone records")
     public ResponseEntity<ResponseData<String>> updateZone(@RequestBody @Valid List<ZoneDto> body) {
         zoneCoreService.update(body);
@@ -58,7 +58,7 @@ public class ZoneController {
     @DeleteMapping
     @Operation(summary = "Delete zones", description = "Delete one or more zone records by IDs")
     public ResponseEntity<ResponseData<String>> deleteZone(
-            @Parameter(description = "List of zone IDs to delete") @RequestParam List<String> id) {
+            @Parameter(description = "List of zone IDs to delete") @RequestParam List<Long> id) {
         zoneCoreService.delete(id.stream().map(i -> ZoneDto.builder().id(i).build()).toList());
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
@@ -66,10 +66,10 @@ public class ZoneController {
     @GetMapping
     @Operation(summary = "Get zones", description = "Retrieve a paginated list of zones")
     public ResponseEntity<ResponseMeta<ZoneDto>> getZones(
-            @Parameter(description = "Zone ID") @PathVariable Optional<String> id,
+            @Parameter(description = "Zone Name") @RequestParam("search") Optional<String> name,
             @ParameterObject @PageableDefault Pageable pageable) {
         var dto = ZoneDto.builder()
-                .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
+                .name(name.orElse(null))
                 .build();
         Page<ZoneDto> zn = zoneCoreService.getZones(dto, pageable);
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, zn);
@@ -78,7 +78,7 @@ public class ZoneController {
     @GetMapping("/{id}")
     @Operation(summary = "Get zone details", description = "Retrieve detailed information about a specific zone")
     public ResponseEntity<ResponseData<ZoneDto>> getDetailZone(
-            @Parameter(description = "Zone ID") @PathVariable Optional<String> id) {
+            @Parameter(description = "Zone ID") @PathVariable Optional<Long> id) {
         var zoneDto = ZoneDto.builder()
                 .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                 .build();

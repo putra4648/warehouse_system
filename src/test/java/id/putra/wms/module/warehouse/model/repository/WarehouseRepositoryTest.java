@@ -49,17 +49,14 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
 
         zones = new ArrayList<Zone>();
         var z = new Zone();
-        z.setId("zone-1");
         z.setName("Zone 1");
         zones.add(z);
         z.setWarehouse(entity);
 
         cp = new ContactPersonWarehouse();
-        cp.setId("contact-1");
         cp.setName("Contact 1");
         cp.setWarehouses(List.of(entity));
 
-        entity.setId("wh-1");
         entity.setZones(zones);
         // entity.setContactPersonWarehouse(cp);
         warehouseRepository.saveAndFlush(java.util.Objects.requireNonNull(entity));
@@ -82,7 +79,7 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenWarehouse_whenUpdated_shouldReturnUpdatedEntity() {
-        Optional<Warehouse> wh = warehouseRepository.findById("wh-1");
+        Optional<Warehouse> wh = warehouseRepository.findById(entity.getId());
 
         assertThat(wh).isNotNull();
 
@@ -90,7 +87,7 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setName("Warehouse 2");
         warehouseRepository.saveAndFlush(updatedEntity);
 
-        Optional<Warehouse> newWh = warehouseRepository.findById("wh-1");
+        Optional<Warehouse> newWh = warehouseRepository.findById(entity.getId());
 
         assertThat(newWh).isNotEmpty();
         // assertThat(newWh.get().getUpdatedDate()).isNotNull();
@@ -99,7 +96,7 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenWarehouse_whenReadByZones_shouldReturnZonesDataSize() {
-        Optional<Warehouse> wh = warehouseRepository.findById("wh-1");
+        Optional<Warehouse> wh = warehouseRepository.findById(entity.getId());
 
         assertThat(wh).isNotNull();
         var zones = wh.get().getZones();
@@ -113,7 +110,7 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         assertThat(entity).isNotNull();
         warehouseRepository.delete(java.util.Objects.requireNonNull(entity));
 
-        Optional<Warehouse> wh = warehouseRepository.findById("wh-1");
+        Optional<Warehouse> wh = warehouseRepository.findById(entity.getId());
 
         assertThat(wh).isEmpty();
     }
@@ -123,13 +120,13 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         // Assume page = 1, size per page = 20
         Pageable pageable = PageRequest.of(0, 20);
 
-        // When use search by id e.g 'wh-1' should return 1 data
-        WarehouseDto dto = WarehouseDto.builder().id("wh-1").build();
+        // When use search by id e.g '1' should return 1 data
+        WarehouseDto dto = WarehouseDto.builder().id(entity.getId()).build();
 
         assertThat(dto.getId()).isNotNull();
 
         Specification<Warehouse> byId = (root, criteria, builder) -> {
-            Predicate id = builder.like(root.get("id"), "%" + dto.getId() != null ? dto.getId() : "" + "%");
+            Predicate id = builder.equal(root.get("id"), dto.getId());
             return id;
 
         };
@@ -149,12 +146,12 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
 
         // When use search by id e.g 'zzzzz' should return 0 data
         // because not existed
-        WarehouseDto dto = WarehouseDto.builder().id("zzzzz").build();
+        WarehouseDto dto = WarehouseDto.builder().id(2L).build();
 
         assertThat(dto.getId()).isNotNull();
 
         Specification<Warehouse> byId = (root, criteria, builder) -> {
-            Predicate id = builder.like(root.get("id"), "%" + dto.getId() != null ? dto.getId() : "" + "%");
+            Predicate id = builder.equal(root.get("id"), dto.getId());
             return builder.and(id);
 
         };
@@ -168,10 +165,10 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenWarehouse_whenSearchByIdAndExist_shouldReturnDetail() {
-        var wh = warehouseRepository.findById("wh-1");
+        var wh = warehouseRepository.findById(entity.getId());
 
         assertThat(wh).isNotEmpty();
         assertThat(wh.get()).isNotNull();
-        assertThat(wh.get().getId()).isEqualTo("wh-1");
+        assertThat(wh.get().getId()).isEqualTo(entity.getId());
     }
 }

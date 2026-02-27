@@ -35,7 +35,7 @@ public class ContactPersonnWarehouseQueryAdapterImpl implements ContactPersonWar
 
     @Override
     public ContactPersonWarehouseDto getContact(ContactPersonWarehouseDto dto) {
-        String safeId = java.util.Objects.requireNonNull(dto.getId());
+        Long safeId = java.util.Objects.requireNonNull(dto.getId());
         return contactPersonWarehouseRepository.findById(safeId).map(contactPersonWarehouseMapper::toDto)
                 .orElse(null);
     }

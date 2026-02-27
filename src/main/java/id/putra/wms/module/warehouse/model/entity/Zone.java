@@ -6,6 +6,8 @@ import java.util.List;
 import id.putra.wms.shared.base.entity.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -22,7 +24,8 @@ import lombok.ToString;
 @ToString(exclude = { "warehouse" })
 public class Zone extends BaseEntity implements Serializable {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String code;
 

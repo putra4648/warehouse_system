@@ -12,9 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.jpa.domain.Specification;
 
 import id.putra.wms.PostgreSQLContainerInitializer;
-import id.putra.wms.module.warehouse.model.entity.Warehouse;
+import id.putra.wms.module.warehouse.model.entity.Rack;
 import id.putra.wms.module.warehouse.model.entity.Zone;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -24,33 +25,30 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
     @Autowired
     private ZoneRepository zoneRepository;
 
-    @Autowired
-    private WarehouseRepository warehouseRepository;
-
-    private Warehouse entity;
-    private List<Zone> zones;
+    private Zone entity;
+    private List<Rack> racks;
 
     @BeforeEach
     public void setup() {
-        entity = new Warehouse();
+        entity = new Zone();
+        entity.setName("Zone 1");
 
-        zones = new ArrayList<Zone>();
-        var z = new Zone();
-        z.setId("zone-1");
-        z.setName("Zone 1");
-        zones.add(z);
-        z.setWarehouse(entity);
+        racks = new ArrayList<Rack>();
 
-        entity.setId("wh-1");
-        entity.setName("Warehouse 1");
-        entity.setZones(zones);
+        var r = new Rack();
+        r.setName("Zone 1");
+        r.setZone(entity);
 
-        warehouseRepository.save(entity);
+        racks.add(r);
+
+        entity.setRacks(racks);
+
+        zoneRepository.save(entity);
     }
 
     @AfterEach
     public void tearDown() {
-        zoneRepository.deleteAll(java.util.Objects.requireNonNull(zones));
+        zoneRepository.deleteAll(List.of(entity));
     }
 
     @Test
@@ -62,20 +60,19 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
     }
 
     @Test
-    void givenZone_whenSearchById_shouldReturnData() {
-        var zn = zoneRepository.findById("zone-1");
+    void givenZone_whenSearchByName_shouldReturnData() {
+        Specification<Zone> spec = (root, cr, cb) -> cb.equal(root.get("name"), "Zone 1");
+        var zn = zoneRepository.findAll(spec);
 
-        assertThat(zn.isPresent()).isTrue();
-        assertThat(zn.get().getName()).isEqualTo("Zone 1");
+        assertThat(zn).isNotNull();
+        assertThat(zn.isEmpty()).isFalse();
+        assertThat(zn.size()).isGreaterThan(0);
 
-        var wh = zn.get().getWarehouse();
-        assertThat(wh).isNotNull();
-        assertThat(wh.getName()).isEqualTo("Warehouse 1");
     }
 
     @Test
     void givenZone_whenUpdated_shouldReturnUpdatedEntity() {
-        var zn = zoneRepository.findById("zone-1");
+        var zn = zoneRepository.findById(entity.getId());
 
         assertThat(zn).isNotNull();
 
@@ -83,7 +80,7 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setName("Zone 2");
         zoneRepository.save(updatedEntity);
 
-        Optional<Zone> newWh = zoneRepository.findById("zone-1");
+        Optional<Zone> newWh = zoneRepository.findById(entity.getId());
 
         assertThat(newWh.get().getName()).isEqualTo("Zone 2");
     }
@@ -92,8 +89,8 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
     void givenZone_whenDeleted_shouldReturnEmptyData() {
         // Assume page = 1, size per page = 20
 
-        zoneRepository.deleteById("zone-1");
-        var zn = zoneRepository.findById("zone-1");
+        zoneRepository.deleteById(entity.getId());
+        var zn = zoneRepository.findById(entity.getId());
 
         assertThat(zn).isEmpty();
 

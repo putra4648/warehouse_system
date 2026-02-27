@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: [
-    '@nuxt/ui',
+    "@nuxt/ui",
     "@nuxt/icon",
     "@nuxt/eslint",
     "@nuxt/scripts",
@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     dataValue: "theme",
   },
   pages: true,
-  css: ['~/assets/css/main.css'],
+  css: ["~/assets/css/main.css"],
   app: {
     head: {
       title: "WMS PRO",
@@ -35,13 +35,13 @@ export default defineNuxtConfig({
       defaultProvider: "keycloak",
       addDefaultCallbackUrl: true,
     },
-    globalAppMiddleware: false,
+    globalAppMiddleware: true,
   },
   runtimeConfig: {
-    app: {},
     public: {
-      serverUrl: "http://localhost:9000",
-      clientUrl: "http://localhost:3000",
+      serverUrl: "http://localhost:8080",
+      keycloakUrl: process.env.KEYCLOAK_URL,
+      clientId: process.env.KEYCLOAK_CLIENT_ID,
     },
   },
 });

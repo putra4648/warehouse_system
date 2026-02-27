@@ -7,14 +7,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@Slf4j
 public class SecurityConfig {
 
         @Bean
@@ -35,5 +32,4 @@ public class SecurityConfig {
                                                 (oauth2) -> oauth2.jwt(Customizer.withDefaults()))
                                 .build();
         }
-
 }

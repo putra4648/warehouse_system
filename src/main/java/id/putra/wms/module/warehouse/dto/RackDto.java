@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class RackDto extends BaseDto {
-        private String id;
+        private Long id;
         private String name;
         private Long rows;
         private Long cols;

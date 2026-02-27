@@ -24,8 +24,8 @@ public class CustomerQueryAdapterImpl implements CustomerQueryAdapter {
     }
 
     @Override
-    public CustomerDto getById(String id) {
-        String safeId = java.util.Objects.requireNonNull(id);
+    public CustomerDto getById(Long id) {
+        Long safeId = java.util.Objects.requireNonNull(id);
         var entity = repository.findById(safeId).orElseThrow();
         return mapper.toDto(entity);
     }

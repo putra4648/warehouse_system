@@ -15,19 +15,18 @@ import lombok.Data;
 @Table
 @Data
 public class Shipment {
-      @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-    private String shipmentNumber;
-    private Date shipDate;
-    private String status;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String shipmentNumber;
+  private Date shipDate;
+  private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "packing_id")
-    private Packing packing;
+  @ManyToOne
+  @JoinColumn(name = "packing_id")
+  private Packing packing;
 
-
-    @ManyToOne
-    @JoinColumn(name = "carrier_id")
-    private Carrier carrier;
+  @ManyToOne
+  @JoinColumn(name = "carrier_id")
+  private Carrier carrier;
 }

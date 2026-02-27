@@ -8,5 +8,5 @@ import id.putra.wms.module.customer.dto.ContactPersonCustomerDto;
 public interface ContactPersonCustomerQueryAdapter {
     Page<ContactPersonCustomerDto> getAll(Pageable pageable, String search);
 
-    ContactPersonCustomerDto getById(String id);
+    ContactPersonCustomerDto getById(Long id);
 }

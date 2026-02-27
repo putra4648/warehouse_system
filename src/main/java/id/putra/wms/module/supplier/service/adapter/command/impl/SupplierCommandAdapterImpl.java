@@ -26,17 +26,17 @@ public class SupplierCommandAdapterImpl implements SupplierCommandAdapter {
     }
 
     @Override
-    public SupplierDto update(String id, SupplierDto dto) {
-        String safeId = java.util.Objects.requireNonNull(id);
+    public SupplierDto update(Long id, SupplierDto dto) {
+        Long safeId = java.util.Objects.requireNonNull(id);
         var entity = repository.findById(safeId).orElseThrow();
-        // mapper.updateEntityFromDto(dto, entity); // If you have an update method
+        mapper.updateEntityFromDto(dto, entity);
         var saved = repository.save(java.util.Objects.requireNonNull(entity));
         return mapper.toDto(saved);
     }
 
     @Override
-    public void delete(String id) {
-        String safeId = java.util.Objects.requireNonNull(id);
+    public void delete(Long id) {
+        Long safeId = java.util.Objects.requireNonNull(id);
         repository.deleteById(safeId);
     }
 }
