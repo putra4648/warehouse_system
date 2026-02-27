@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import id.putra.wms.module.warehouse.model.entity.Rack;
 
-public interface RackRepository extends JpaRepository<Rack, String>, JpaSpecificationExecutor<Rack> {
+public interface RackRepository extends JpaRepository<Rack, Long>, JpaSpecificationExecutor<Rack> {
 
 }

@@ -1,4 +1,4 @@
-import type { Rack } from "~~/types/rack";
+import type { Zone } from "~~/types/zone";
 import { callBackend } from "../../utils/api";
 
 export default defineEventHandler(async (event) => {
@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const method = getMethod(event);
 
   if (method === "GET") {
-    return await callBackend<Rack>(event, `/api/v1/master/rack/${id}`, {
+    return await callBackend<Zone>(event, `/api/v1/master/zone/${id}`, {
       method: "GET",
     });
   }
@@ -14,14 +14,14 @@ export default defineEventHandler(async (event) => {
   if (method === "PUT") {
     const body = await readBody(event);
     const payload = Array.isArray(body) ? body : [{ ...body, id: Number(id) }];
-    return await callBackend(event, "/api/v1/master/rack", {
+    return await callBackend(event, "/api/v1/master/zone", {
       method: "PUT",
       body: payload,
     });
   }
 
   if (method === "DELETE") {
-    return await callBackend(event, "/api/v1/master/rack", {
+    return await callBackend(event, "/api/v1/master/zone", {
       method: "DELETE",
       query: { id: [id] },
     });

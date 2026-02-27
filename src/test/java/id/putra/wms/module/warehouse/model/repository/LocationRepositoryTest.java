@@ -38,18 +38,15 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
     @BeforeEach
     public void setup() {
         zone = new Zone();
-        zone.setId("zone-1");
         zone.setName("Zone 1");
 
         rack = new Rack();
-        rack.setId("rack-1");
         rack.setName("Rack 1");
         rack.setZone(zone);
 
         locations = new ArrayList<>();
 
         entity = new Location();
-        entity.setId("loc-1");
         entity.setName("Location 1");
         entity.setType("STANDARD");
         entity.setBinNumber("BIN-001");
@@ -59,7 +56,6 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
         locations.add(entity);
 
         var loc2 = new Location();
-        loc2.setId("loc-2");
         loc2.setName("Location 2");
         loc2.setType("STANDARD");
         loc2.setBinNumber("BIN-002");
@@ -88,7 +84,7 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenLocation_whenSearchById_shouldReturnData() {
-        var loc = locationRepository.findById("loc-1");
+        var loc = locationRepository.findById(entity.getId());
 
         assertThat(loc).isPresent();
         assertThat(loc.get().getName()).isEqualTo("Location 1");
@@ -101,7 +97,7 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenLocation_whenUpdated_shouldReturnUpdatedEntity() {
-        var loc = locationRepository.findById("loc-1");
+        var loc = locationRepository.findById(entity.getId());
         assertThat(loc).isPresent();
 
         var updatedEntity = loc.get();
@@ -109,7 +105,7 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setIsActive(false);
         locationRepository.save(updatedEntity);
 
-        var result = locationRepository.findById("loc-1");
+        var result = locationRepository.findById(entity.getId());
         assertThat(result).isPresent();
         assertThat(result.get().getName()).isEqualTo("Updated Location");
         assertThat(result.get().getIsActive()).isFalse();
@@ -117,9 +113,9 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenLocation_whenDeleted_shouldReturnEmptyData() {
-        locationRepository.deleteById("loc-1");
+        locationRepository.deleteById(entity.getId());
 
-        var result = locationRepository.findById("loc-1");
+        var result = locationRepository.findById(entity.getId());
         assertThat(result).isEmpty();
     }
 }

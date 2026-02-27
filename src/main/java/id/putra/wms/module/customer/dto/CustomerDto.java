@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class CustomerDto extends BaseDto {
-    private String id;
+    private Long id;
     private String code;
     private String name;
     private Boolean isActive;

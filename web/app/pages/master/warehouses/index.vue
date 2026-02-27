@@ -8,6 +8,7 @@
 			</div>
 		</div>
 
+
 		<UTabs v-model="activeTab" :items="tabs" class="mb-6">
 			<!-- Warehouse Tab -->
 			<template #warehouse>
@@ -17,13 +18,13 @@
 							icon="i-heroicons-magnifying-glass" />
 					</div>
 					<UTable :columns="warehouseColumns" :data="warehouses" :loading="warehouseStatus === 'pending'">
-						<template #isActive-cell="{ row }">
-							<UBadge :color="(row.original as any).isActive ? 'success' : 'error'" variant="subtle">
-								{{ (row.original as any).isActive ? "Active" : "Inactive" }}
+						<template #is_active-cell="{ row: { original: { is_active } } }">
+							<UBadge :color="is_active ? 'success' : 'error'">
+								{{ is_active ? 'Active' : 'Inactive' }}
 							</UBadge>
 						</template>
 						<template #actions-cell="{ row }">
-							<UDropdownMenu :items="warehouseActions(row.original as any)">
+							<UDropdownMenu :items="warehouseActions(row.original)">
 								<UButton color="neutral" variant="ghost"
 									icon="i-heroicons-ellipsis-horizontal-20-solid" />
 							</UDropdownMenu>
@@ -42,9 +43,9 @@
 						<UInput v-model="qZone" placeholder="Filter zone..." icon="i-heroicons-magnifying-glass" />
 					</div>
 					<UTable :columns="zoneColumns" :data="zones" :loading="zoneStatus === 'pending'">
-						<template #isActive-cell="{ row }">
-							<UBadge :color="(row.original as any).isActive ? 'success' : 'error'" variant="subtle">
-								{{ (row.original as any).isActive ? "Active" : "Inactive" }}
+						<template #is_active-cell="{ row: { original: { is_active } } }">
+							<UBadge :color="is_active ? 'success' : 'error'">
+								{{ is_active ? 'Active' : 'Inactive' }}
 							</UBadge>
 						</template>
 						<template #actions-cell="{ row }">
@@ -67,9 +68,9 @@
 						<UInput v-model="qRack" placeholder="Filter rack..." icon="i-heroicons-magnifying-glass" />
 					</div>
 					<UTable :columns="rackColumns" :data="racks" :loading="rackStatus === 'pending'">
-						<template #isActive-cell="{ row }">
-							<UBadge :color="(row.original as any).isActive ? 'success' : 'error'" variant="subtle">
-								{{ (row.original as any).isActive ? "Active" : "Inactive" }}
+						<template #is_active-cell="{ row: { original: { is_active } } }">
+							<UBadge :color="is_active ? 'success' : 'error'">
+								{{ is_active ? 'Active' : 'Inactive' }}
 							</UBadge>
 						</template>
 						<template #actions-cell="{ row }">
@@ -93,9 +94,9 @@
 							icon="i-heroicons-magnifying-glass" />
 					</div>
 					<UTable :columns="locationColumns" :data="locations" :loading="locationStatus === 'pending'">
-						<template #isActive-cell="{ row }">
-							<UBadge :color="(row.original as any).isActive ? 'success' : 'error'" variant="subtle">
-								{{ (row.original as any).isActive ? "Active" : "Inactive" }}
+						<template #is_active-cell="{ row: { original: { is_active } } }">
+							<UBadge :color="is_active ? 'success' : 'error'">
+								{{ is_active ? 'Active' : 'Inactive' }}
 							</UBadge>
 						</template>
 						<template #actions-cell="{ row }">
@@ -111,6 +112,7 @@
 				</UCard>
 			</template>
 		</UTabs>
+
 
 		<!-- Modals -->
 		<UModal v-model:open="isWarehouseModalOpen" title="Warehouse" scrollable>
@@ -143,8 +145,8 @@
 						<USelect v-model="zoneState.type" :items="['Storage', 'Receiving', 'Shipping', 'Picking']"
 							class="w-full" />
 					</UFormField>
-					<UFormField label="Warehouse" name="warehouseId">
-						<USelect v-model="zoneState.warehouseId" :items="warehouseOptions" class="w-full" />
+					<UFormField label="Warehouse" name="warehouse_id">
+						<USelect v-model="zoneState.warehouse_id" :items="warehouseOptions" class="w-full" />
 					</UFormField>
 					<UButton type="submit" block>Save Zone</UButton>
 				</UForm>
@@ -157,8 +159,8 @@
 					<UFormField label="Name" name="name">
 						<UInput v-model="rackState.name" class="w-full" />
 					</UFormField>
-					<UFormField label="Zone" name="zoneId">
-						<USelect v-model="rackState.zoneId" :items="zoneOptions" class="w-full" />
+					<UFormField label="Zone" name="zone_id">
+						<USelect v-model="rackState.zone_id" :items="zoneOptions" class="w-full" />
 					</UFormField>
 					<UFormField label="Rows" name="rows">
 						<UInput v-model="rackState.rows" type="number" class="w-full" />
@@ -177,16 +179,16 @@
 					<UFormField label="Name" name="name">
 						<UInput v-model="locationState.name" class="w-full" />
 					</UFormField>
-					<UFormField label="Rack" name="rackId">
-						<USelect v-model="locationState.rackId" :items="rackOptions" class="w-full" />
+					<UFormField label="Rack" name="rack_id">
+						<USelect v-model="locationState.rack_id" :items="rackOptions" class="w-full" />
 					</UFormField>
 					<UFormField label="Type" name="type">
 						<USelect v-model="locationState.type" :items="['Storage', 'Receiving', 'Shipping']"
 							class="w-full" />
 					</UFormField>
 
-					<UFormField label="Bin Number" name="binNumber">
-						<UInput v-model="locationState.binNumber" class="w-full" />
+					<UFormField label="Bin Number" name="bin_number">
+						<UInput v-model="locationState.bin_number" class="w-full" />
 					</UFormField>
 					<UButton type="submit" block>Save Location</UButton>
 				</UForm>
@@ -225,7 +227,7 @@ const warehouseState = reactive({
 	name: "",
 	location: "",
 	area: 0,
-	isActive: true
+	is_active: true
 });
 
 const { data: warehouseData, status: warehouseStatus, refresh: refreshWarehouses } = await useFetch<PaginationResponse<Warehouse>>("/api/warehouses", {
@@ -242,7 +244,7 @@ const warehouseColumns = [
 	{ accessorKey: "name", header: "Name" },
 	{ accessorKey: "location", header: "Location" },
 	{ accessorKey: "area", header: "Area" },
-	{ accessorKey: "isActive", header: "Status" },
+	{ accessorKey: "is_active", header: "Status" },
 	{ accessorKey: "actions", header: "" }
 ];
 
@@ -254,8 +256,8 @@ const zoneState = reactive({
 	name: "",
 	code: "",
 	type: "Storage",
-	warehouseId: undefined,
-	isActive: true
+	warehouse_id: undefined,
+	is_active: true
 });
 
 const { data: zoneData, status: zoneStatus, refresh: refreshZones } = await useFetch<PaginationResponse<Zone>>("/api/zones", {
@@ -271,7 +273,7 @@ const zoneColumns = [
 	{ accessorKey: "name", header: "Name" },
 	{ accessorKey: "code", header: "Code" },
 	{ accessorKey: "type", header: "Type" },
-	{ accessorKey: "isActive", header: "Status" },
+	{ accessorKey: "is_active", header: "Status" },
 	{ accessorKey: "actions", header: "" }
 ];
 
@@ -283,8 +285,8 @@ const rackState = reactive({
 	name: "",
 	rows: 0,
 	cols: 0,
-	zoneId: undefined,
-	isActive: true
+	zone_id: undefined,
+	is_active: true
 });
 
 const { data: rackData, status: rackStatus, refresh: refreshRacks } = await useFetch<PaginationResponse<Rack>>("/api/racks", {
@@ -301,7 +303,7 @@ const rackColumns = [
 	{ accessorKey: "name", header: "Name" },
 	{ accessorKey: "rows", header: "Rows" },
 	{ accessorKey: "cols", header: "Cols" },
-	{ accessorKey: "isActive", header: "Status" },
+	{ accessorKey: "is_active", header: "Status" },
 	{ accessorKey: "actions", header: "" }
 ];
 
@@ -312,9 +314,9 @@ const isLocationModalOpen = ref(false);
 const locationState = reactive({
 	name: "",
 	type: "Storage",
-	binNumber: "",
-	rackId: undefined,
-	isActive: true
+	bin_number: "",
+	rack_id: undefined,
+	is_active: true
 });
 
 const { data: locationData, status: locationStatus, refresh: refreshLocations } = await useFetch<PaginationResponse<Location>>("/api/locations", {
@@ -329,8 +331,8 @@ const locationTotal = computed(() => locationData.value?.meta?.total || 0)
 const locationColumns = [
 	{ accessorKey: "name", header: "Name" },
 	{ accessorKey: "type", header: "Type" },
-	{ accessorKey: "binNumber", header: "Bin #" },
-	{ accessorKey: "isActive", header: "Status" },
+	{ accessorKey: "bin_number", header: "Bin #" },
+	{ accessorKey: "is_active", header: "Status" },
 	{ accessorKey: "actions", header: "" }
 ];
 
@@ -383,22 +385,22 @@ async function saveLocation() {
 }
 
 const warehouseActions = (row: Warehouse) => [[
-	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", click: () => console.log("Edit", row.id) },
-	{ label: "Delete", icon: "i-heroicons-trash-20-solid", click: () => console.log("Delete", row.id) }
+	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => console.log("Edit", row.id) },
+	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => console.log("Delete", row.id) }
 ]];
 
 const zoneActions = (row: Zone) => [[
-	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", click: () => console.log("Edit", row.id) },
-	{ label: "Delete", icon: "i-heroicons-trash-20-solid", click: () => console.log("Delete", row.id) }
+	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => console.log("Edit", row.id) },
+	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => console.log("Delete", row.id) }
 ]];
 
 const rackActions = (row: Rack) => [[
-	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", click: () => console.log("Edit", row.id) },
-	{ label: "Delete", icon: "i-heroicons-trash-20-solid", click: () => console.log("Delete", row.id) }
+	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => console.log("Edit", row.id) },
+	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => console.log("Delete", row.id) }
 ]];
 
 const locationActions = (row: Location) => [[
-	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", click: () => console.log("Edit", row.id) },
-	{ label: "Delete", icon: "i-heroicons-trash-20-solid", click: () => console.log("Delete", row.id) }
+	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => console.log("Edit", row.id) },
+	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => console.log("Delete", row.id) }
 ]];
 </script>

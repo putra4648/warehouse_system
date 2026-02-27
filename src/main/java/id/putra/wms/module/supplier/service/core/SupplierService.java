@@ -11,11 +11,11 @@ public interface SupplierService {
 
     Page<SupplierDto> getAll(Pageable pageable, String search);
 
-    SupplierDto getById(String id);
+    SupplierDto getById(Long id);
 
     List<SupplierDto> create(List<SupplierDto> dto);
 
-    SupplierDto update(String id, SupplierDto dto);
+    SupplierDto update(Long id, SupplierDto dto);
 
-    void delete(String id);
+    void delete(Long id);
 }

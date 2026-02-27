@@ -10,9 +10,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,7 +49,7 @@ public class ContactPersonWarehouseController {
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @PatchMapping
+    @PutMapping
     @Operation(summary = "Update warehouse contact persons", description = "Update one or more existing warehouse contact person records")
     public ResponseEntity<ResponseData<String>> updateContactPersonWarehouse(
             @RequestBody @Valid List<ContactPersonWarehouseDto> body) {
@@ -60,7 +60,7 @@ public class ContactPersonWarehouseController {
     @DeleteMapping
     @Operation(summary = "Delete warehouse contact persons", description = "Delete one or more warehouse contact person records by IDs")
     public ResponseEntity<ResponseData<String>> deleteContactPersonWarehouse(
-            @Parameter(description = "List of contact person IDs to delete") @RequestParam List<String> id) {
+            @Parameter(description = "List of contact person IDs to delete") @RequestParam List<Long> id) {
         contactPersonWarehouseCoreService
                 .delete(id.stream().map(i -> ContactPersonWarehouseDto.builder().id(i).build()).toList());
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
@@ -79,7 +79,7 @@ public class ContactPersonWarehouseController {
     @GetMapping("/{id}")
     @Operation(summary = "Get contact person details", description = "Retrieve detailed information about a specific warehouse contact person")
     public ResponseEntity<ResponseData<ContactPersonWarehouseDto>> getDetailWarehouse(
-            @Parameter(description = "Contact person ID") @PathVariable Optional<String> id) {
+            @Parameter(description = "Contact person ID") @PathVariable Optional<Long> id) {
         var dto = ContactPersonWarehouseDto.builder()
                 .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                 .build();

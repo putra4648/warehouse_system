@@ -15,4 +15,20 @@ export default defineEventHandler(async (event) => {
     );
     return result;
   }
+
+  if (method === "PUT") {
+    const body = await readBody(event);
+    const result = await callBackend(event, `/api/v1/master/supplier/${id}`, {
+      method: "PUT",
+      body,
+    });
+    return result;
+  }
+
+  if (method === "DELETE") {
+    const result = await callBackend(event, `/api/v1/master/supplier/${id}`, {
+      method: "DELETE",
+    });
+    return result;
+  }
 });

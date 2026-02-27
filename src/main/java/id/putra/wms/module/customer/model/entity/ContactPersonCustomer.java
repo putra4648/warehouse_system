@@ -1,12 +1,18 @@
 package id.putra.wms.module.customer.model.entity;
 
-import id.putra.wms.shared.base.entity.BaseEntity;
-import id.putra.wms.shared.base.entity.Customer;
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.util.List;
+
+import id.putra.wms.shared.base.entity.BaseEntity;
+import id.putra.wms.shared.base.entity.Customer;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "contact_person_customer")
@@ -14,8 +20,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 public class ContactPersonCustomer extends BaseEntity implements Serializable {
     @Id
-    @Column(name = "contact_person_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String email;
     private String phone;

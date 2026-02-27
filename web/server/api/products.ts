@@ -5,23 +5,24 @@ import { callBackend } from "../utils/api";
 export default defineEventHandler(async (event) => {
   const method = getMethod(event);
 
-  if (method === "POST") {
-    const body = await readBody(event);
-    const result = await callBackend<Product>(event, "/api/v1/master/product", {
-      method: "POST",
-      body,
-    });
-    return result;
+  if (method === "GET") {
+    const query = getQuery(event);
+    return await callBackend<PaginationResponse<Product>>(
+      event,
+      "/api/v1/master/product",
+      {
+        method: "GET",
+        query: query,
+      },
+    );
   }
 
-  const query = getQuery(event);
-  const result = await callBackend<PaginationResponse<Product>>(
-    event,
-    "/api/v1/master/product",
-    {
-      method: "GET",
-      query: query,
-    },
-  );
-  return result;
+  if (method === "POST") {
+    const body = await readBody(event);
+    const payload = Array.isArray(body) ? body : [body];
+    return await callBackend<Product>(event, "/api/v1/master/product", {
+      method: "POST",
+      body: payload,
+    });
+  }
 });

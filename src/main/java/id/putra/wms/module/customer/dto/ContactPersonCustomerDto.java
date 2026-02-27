@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ContactPersonCustomerDto extends BaseDto {
-    private String id;
+    private Long id;
     private String name;
     private String email;
     private String phone;

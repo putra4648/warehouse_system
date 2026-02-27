@@ -25,7 +25,7 @@ public class ProductQueryAdapterImpl implements ProductQueryAdapter {
 
     @Override
     public ProductDto getProductById(ProductDto dto) {
-        String id = java.util.Objects.requireNonNull(dto.getId());
+        Long id = java.util.Objects.requireNonNull(dto.getId());
         var product = productRepository.findById(id);
         return product.map(productMapper::toDto).orElse(null);
     }

@@ -25,7 +25,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public SupplierDto getById(String id) {
+    public SupplierDto getById(Long id) {
         SupplierDto entity = supplierQueryAdapter.getById(id);
         return entity;
     }
@@ -36,12 +36,12 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public SupplierDto update(String id, SupplierDto dto) {
+    public SupplierDto update(Long id, SupplierDto dto) {
         return supplierCommandAdapter.update(id, dto);
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         supplierCommandAdapter.delete(id);
     }
 }

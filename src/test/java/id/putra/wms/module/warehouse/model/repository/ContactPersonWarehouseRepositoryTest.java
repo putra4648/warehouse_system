@@ -24,7 +24,6 @@ public class ContactPersonWarehouseRepositoryTest extends PostgreSQLContainerIni
     @BeforeEach
     public void setup() {
         entity = new ContactPersonWarehouse();
-        entity.setId("cp-1");
         entity.setName("Contact Person 1");
         entity.setEmail("cp1@example.com");
         entity.setPhone("1234567890");
@@ -48,7 +47,7 @@ public class ContactPersonWarehouseRepositoryTest extends PostgreSQLContainerIni
 
     @Test
     void givenContactPerson_whenSearchById_shouldReturnData() {
-        var contactPerson = contactPersonWarehouseRepository.findById("cp-1");
+        var contactPerson = contactPersonWarehouseRepository.findById(entity.getId());
 
         assertThat(contactPerson).isPresent();
         assertThat(contactPerson.get().getName()).isEqualTo("Contact Person 1");
@@ -57,23 +56,23 @@ public class ContactPersonWarehouseRepositoryTest extends PostgreSQLContainerIni
 
     @Test
     void givenContactPerson_whenUpdated_shouldReturnUpdatedEntity() {
-        var contactPerson = contactPersonWarehouseRepository.findById("cp-1");
+        var contactPerson = contactPersonWarehouseRepository.findById(entity.getId());
         assertThat(contactPerson).isPresent();
 
         var updatedEntity = contactPerson.get();
         updatedEntity.setName("Updated Contact Person");
         contactPersonWarehouseRepository.save(updatedEntity);
 
-        var result = contactPersonWarehouseRepository.findById("cp-1");
+        var result = contactPersonWarehouseRepository.findById(entity.getId());
         assertThat(result).isPresent();
         assertThat(result.get().getName()).isEqualTo("Updated Contact Person");
     }
 
     @Test
     void givenContactPerson_whenDeleted_shouldReturnEmptyData() {
-        contactPersonWarehouseRepository.deleteById("cp-1");
+        contactPersonWarehouseRepository.deleteById(entity.getId());
 
-        var result = contactPersonWarehouseRepository.findById("cp-1");
+        var result = contactPersonWarehouseRepository.findById(entity.getId());
         assertThat(result).isEmpty();
     }
 }

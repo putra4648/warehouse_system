@@ -16,7 +16,7 @@ import lombok.Data;
 public class PurchaseOrderLine {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

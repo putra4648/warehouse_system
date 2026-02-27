@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 @Builder(toBuilder = true)
 public class WarehouseDto extends BaseDto {
-    private String id;
+    private Long id;
     private String name;
     private Boolean isActive;
     private String location;

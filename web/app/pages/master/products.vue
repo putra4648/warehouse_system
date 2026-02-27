@@ -11,9 +11,9 @@
       </div>
 
       <UTable :columns="columns" :data="products" :loading="status === 'pending'">
-        <template #isActive-cell="{ row }">
-          <UBadge :color="row.original.isActive ? 'success' : 'error'" variant="subtle">
-            {{ row.original.isActive ? "Active" : "Inactive" }}
+        <template #is_active-cell="{ row }">
+          <UBadge :color="row.original.is_active ? 'success' : 'error'" variant="subtle">
+            {{ row.original.is_active ? "Active" : "Inactive" }}
           </UBadge>
         </template>
 
@@ -39,7 +39,7 @@
             <UInput v-model="state.sku" class="w-full" />
           </UFormField>
           <UFormField label="Category" name="category">
-            <USelect v-model="state.category.id" :items="categories" class="w-full" />
+            <USelect v-model="state.category.id" value-key="id" label-key="name" :items="categories" class="w-full" />
           </UFormField>
           <UFormField label="Stock" name="quantity">
             <UInput v-model="state.quantity" type="number" class="w-full" />
@@ -70,7 +70,7 @@ const { data: categoriesData } = await useFetch<PaginationResponse<Category>>("/
   }
 })
 
-const categories = computed(() => (categoriesData.value?.data ?? []).map(c => ({ label: c.name, value: c.id })))
+const categories = computed(() => (categoriesData.value?.data ?? []))
 
 const { data, status, refresh } = await useFetch<PaginationResponse<Product>>("/api/products", {
   query: {
@@ -89,7 +89,7 @@ const columns = [
   { accessorKey: "sku", header: "SKU" },
   { accessorKey: "category.name", header: "Category" },
   { accessorKey: "quantity", header: "Stock" },
-  { accessorKey: "isActive", header: "Status" },
+  { accessorKey: "is_active", header: "Status" },
   { accessorKey: "actions", header: "" },
 ];
 
@@ -97,7 +97,7 @@ const state = reactive({
   name: "",
   sku: "",
   category: {
-    id: ""
+    id: 0
   },
   quantity: 0,
 });
@@ -120,12 +120,12 @@ const items = (row: Product) => [
     {
       label: "Edit",
       icon: "i-heroicons-pencil-square-20-solid",
-      click: () => console.log("Edit", row.id),
+      onSelect: () => console.log("Edit", row.id),
     },
     {
       label: "Delete",
       icon: "i-heroicons-trash-20-solid",
-      click: () => console.log("Delete", row.id),
+      onSelect: () => console.log("Delete", row.id),
     },
   ],
 ];

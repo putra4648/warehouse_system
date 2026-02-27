@@ -10,7 +10,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,10 +47,10 @@ public class SupplierController {
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, createdSupplier);
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     @Operation(summary = "Update supplier", description = "Update an existing supplier record")
     public ResponseEntity<ResponseData<SupplierDto>> updateSupplier(
-            @Parameter(description = "Supplier ID") @PathVariable String id,
+            @Parameter(description = "Supplier ID") @PathVariable Long id,
             @RequestBody @Valid SupplierDto body) {
         SupplierDto updatedSupplier = supplierService.update(id, body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, updatedSupplier);
@@ -60,7 +59,7 @@ public class SupplierController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete supplier", description = "Delete a supplier record by ID")
     public ResponseEntity<ResponseData<String>> deleteSupplier(
-            @Parameter(description = "Supplier ID to delete") @PathVariable String id) {
+            @Parameter(description = "Supplier ID to delete") @PathVariable Long id) {
         supplierService.delete(id);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
@@ -78,8 +77,8 @@ public class SupplierController {
     @GetMapping("/{id}")
     @Operation(summary = "Get supplier details", description = "Retrieve detailed information about a specific supplier")
     public ResponseEntity<ResponseData<SupplierDto>> getDetailSupplier(
-            @Parameter(description = "Supplier ID") @PathVariable Optional<String> id) {
-        String supplierId = id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM));
+            @Parameter(description = "Supplier ID") @PathVariable Optional<Long> id) {
+        Long supplierId = id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM));
         SupplierDto supplier = supplierService.getById(supplierId);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, supplier);
     }

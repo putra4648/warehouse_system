@@ -10,9 +10,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,20 +43,22 @@ public class LocationController {
 
     @PostMapping
     @Operation(summary = "Add new locations", description = "Create one or more new location records")
-    public ResponseEntity<ResponseData<LocationDto>> addLocation(@RequestBody @Valid List<LocationDto> body) {
-        return responseHelper.createResponseData(ResponseEnum.SUCCESS, null);
+    public ResponseEntity<ResponseData<String>> addLocation(@RequestBody @Valid List<LocationDto> body) {
+        locationCoreService.add(body);
+        return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
-    @PatchMapping
+    @PutMapping
     @Operation(summary = "Update locations", description = "Update one or more existing location records")
     public ResponseEntity<ResponseData<String>> updateLocation(@RequestBody @Valid List<LocationDto> body) {
+        locationCoreService.update(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
     @DeleteMapping
     @Operation(summary = "Delete locations", description = "Delete one or more location records by IDs")
     public ResponseEntity<ResponseData<String>> deleteLocation(
-            @Parameter(description = "List of location IDs to delete") @RequestBody List<String> body) {
+            @Parameter(description = "List of location IDs to delete") @RequestBody List<Long> body) {
         locationCoreService.delete(body.stream().map(i -> LocationDto.builder().id(i).build()).toList());
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
@@ -67,7 +69,7 @@ public class LocationController {
             @Parameter(description = "Search term for location") @RequestParam Optional<String> search,
             @ParameterObject @PageableDefault Pageable pageable) {
         var dto = LocationDto.builder()
-                .id(search.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
+                .name(search.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                 .build();
 
         Page<LocationDto> lo = locationCoreService.getLocations(dto, pageable);
@@ -77,7 +79,7 @@ public class LocationController {
     @GetMapping("/{id}")
     @Operation(summary = "Get location details", description = "Retrieve detailed information about a specific location")
     public ResponseEntity<ResponseData<LocationDto>> getDetailLocation(
-            @Parameter(description = "Location ID") @PathVariable Optional<String> id) {
+            @Parameter(description = "Location ID") @PathVariable Optional<Long> id) {
         var dto = LocationDto.builder().id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                 .build();
         var lo = locationCoreService.getLocation(dto);

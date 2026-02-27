@@ -35,17 +35,15 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
         racks = new ArrayList<>();
 
         zone = new Zone();
-        zone.setId("zone-1");
+        zone.setName("Zone 1");
 
         entity = new Rack();
-        entity.setId("rack-1");
         entity.setName("Rack 1");
         entity.setZone(zone);
 
         racks.add(entity);
 
         entity = new Rack();
-        entity.setId("rack-2");
         entity.setName("Rack 2");
         entity.setZone(zone);
 
@@ -72,7 +70,7 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenRack_whenSearch_shouldReturnData() {
-        var r = rackRepository.findById("rack-1");
+        var r = rackRepository.findById(entity.getId());
 
         assertThat(r.isPresent()).isTrue();
         assertThat(r.get().getName()).isEqualTo("Rack 1");
@@ -85,7 +83,7 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenWarehouse_whenSearch_shouldReturnData() {
-        var r = rackRepository.findById("rack-1");
+        var r = rackRepository.findById(entity.getId());
 
         assertThat(r.isPresent()).isTrue();
         assertThat(r.get().getName()).isEqualTo("Rack 1");
@@ -98,7 +96,7 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenRack_whenUpdated_shouldReturnUpdatedEntity() {
-        var r = rackRepository.findById("rack-1");
+        var r = rackRepository.findById(entity.getId());
 
         assertThat(r).isNotNull();
 
@@ -106,7 +104,7 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setName("Rack 2");
         rackRepository.save(updatedEntity);
 
-        Optional<Rack> newR = rackRepository.findById("rack-1");
+        Optional<Rack> newR = rackRepository.findById(entity.getId());
 
         assertThat(newR.get().getName()).isEqualTo("Rack 2");
     }
@@ -115,8 +113,8 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
     void givenRack_whenDeleted_shouldReturnEmptyData() {
         // Assume page = 1, size per page = 20
 
-        rackRepository.deleteById("rack-1");
-        var zn = rackRepository.findById("rack-1");
+        rackRepository.deleteById(entity.getId());
+        var zn = rackRepository.findById(entity.getId());
 
         assertThat(zn).isEmpty();
 

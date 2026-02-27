@@ -34,8 +34,8 @@ public class CustomerService {
         return mapper.toDto(repository.save(java.util.Objects.requireNonNull(entity)));
     }
 
-    public CustomerDto update(String id, CustomerDto dto) {
-        String safeId = java.util.Objects.requireNonNull(id);
+    public CustomerDto update(Long id, CustomerDto dto) {
+        Long safeId = java.util.Objects.requireNonNull(id);
         Customer entity = repository.findById(safeId).orElseThrow();
         // You may want to copy fields from dto to entity here
         entity.setName(dto.getName());
@@ -43,8 +43,8 @@ public class CustomerService {
         return mapper.toDto(repository.save(java.util.Objects.requireNonNull(entity)));
     }
 
-    public void delete(String id) {
-        String safeId = java.util.Objects.requireNonNull(id);
+    public void delete(Long id) {
+        Long safeId = java.util.Objects.requireNonNull(id);
         repository.deleteById(safeId);
     }
 }

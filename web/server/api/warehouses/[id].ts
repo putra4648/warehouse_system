@@ -6,13 +6,28 @@ export default defineEventHandler(async (event) => {
   const method = getMethod(event);
 
   if (method === "GET") {
-    const result = await callBackend<Warehouse>(
+    return await callBackend<Warehouse>(
       event,
       `/api/v1/master/warehouse/${id}`,
       {
         method: "GET",
       },
     );
-    return result;
+  }
+
+  if (method === "PUT") {
+    const body = await readBody(event);
+    const payload = Array.isArray(body) ? body : [{ ...body, id: Number(id) }];
+    return await callBackend(event, "/api/v1/master/warehouse", {
+      method: "PUT",
+      body: payload,
+    });
+  }
+
+  if (method === "DELETE") {
+    return await callBackend(event, "/api/v1/master/warehouse", {
+      method: "DELETE",
+      query: { id: [id] },
+    });
   }
 });

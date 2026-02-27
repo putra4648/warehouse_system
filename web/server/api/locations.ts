@@ -5,48 +5,45 @@ import { callBackend } from "../utils/api";
 export default defineEventHandler(async (event) => {
   const method = getMethod(event);
 
-  if (method === "POST") {
-    const body = await readBody(event);
-    const result = await callBackend<Location>(
+  if (method === "GET") {
+    const query = getQuery(event);
+    return await callBackend<PaginationResponse<Location>>(
       event,
       "/api/v1/master/location",
       {
-        method: "POST",
-        body,
+        method: "GET",
+        query: {
+          ...query,
+          search: query.search || "",
+        },
       },
     );
-    return result;
   }
 
-  if (method === "PATCH") {
+  if (method === "POST") {
     const body = await readBody(event);
-    const result = await callBackend<string>(event, "/api/v1/master/location", {
-      method: "PATCH",
-      body,
+    const payload = Array.isArray(body) ? body : [body];
+    return await callBackend<Location>(event, "/api/v1/master/location", {
+      method: "POST",
+      body: payload,
     });
-    return result;
+  }
+
+  if (method === "PUT") {
+    const body = await readBody(event);
+    const payload = Array.isArray(body) ? body : [body];
+    return await callBackend<string>(event, "/api/v1/master/location", {
+      method: "PUT",
+      body: payload,
+    });
   }
 
   if (method === "DELETE") {
     const body = await readBody(event);
-    const result = await callBackend<string>(event, "/api/v1/master/location", {
+    const payload = Array.isArray(body) ? body : [body];
+    return await callBackend<string>(event, "/api/v1/master/location", {
       method: "DELETE",
-      body,
+      body: payload,
     });
-    return result;
   }
-
-  const query = getQuery(event);
-  const result = await callBackend<PaginationResponse<Location>>(
-    event,
-    "/api/v1/master/location",
-    {
-      method: "GET",
-      query: {
-        ...query,
-        search: query.search || "",
-      },
-    },
-  );
-  return result;
 });

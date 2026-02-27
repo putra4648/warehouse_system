@@ -19,7 +19,7 @@ import lombok.Data;
 @Data
 public class PurchaseOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String poNumber;
     private String status;

@@ -4,8 +4,8 @@ export type InventoryItem = {
   sku: string;
   warehouse: string;
   quantity: number;
-  reservedQty: number;
-  lotNumber: string;
-  expiredDate?: Date;
+  reserved_qty: number;
+  lot_number: string;
+  expired_date?: Date;
   image: string;
 };

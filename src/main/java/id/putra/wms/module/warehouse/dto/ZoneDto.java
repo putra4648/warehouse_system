@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ZoneDto extends BaseDto {
-        private String id;
+        private Long id;
         private String name;
         private String code;
         private Boolean isActive;

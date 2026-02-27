@@ -47,6 +47,7 @@
 <script setup lang="ts">
 import type { Category } from '~~/types/product'
 import type PaginationResponse from '~~/server/utils/pagination'
+import type { DropdownMenuItem } from '@nuxt/ui';
 
 definePageMeta({
     layout: "default",
@@ -59,7 +60,7 @@ const isOpen = ref(false);
 const isEditing = ref(false);
 
 const state = reactive({
-    id: undefined as string | undefined,
+    id: undefined as number | undefined,
     name: "",
     description: "",
 });
@@ -100,10 +101,11 @@ function openEditModal(category: Category) {
 
 async function saveCategory() {
     try {
-        const method = isEditing.value ? 'PATCH' : 'POST'
-        await $fetch('/api/categories', {
+        const method = isEditing.value ? 'PUT' : 'POST'
+        const url = isEditing.value ? `/api/categories/${state.id}` : '/api/categories'
+        await $fetch(url, {
             method,
-            body: [state] // Backend expects a list
+            body: state
         })
         isOpen.value = false
         refresh()
@@ -112,12 +114,11 @@ async function saveCategory() {
     }
 }
 
-async function deleteCategory(id: string) {
+async function deleteCategory(id: number) {
     if (!confirm("Are you sure you want to delete this category?")) return;
     try {
-        await $fetch('/api/categories', {
-            method: 'DELETE',
-            query: { id: [id] }
+        await $fetch(`/api/categories/${id}`, {
+            method: 'DELETE'
         })
         refresh()
     } catch (error) {
@@ -125,17 +126,17 @@ async function deleteCategory(id: string) {
     }
 }
 
-const actions = (row: Category) => [
+const actions = (row: Category): DropdownMenuItem[][] => [
     [
         {
             label: "Edit",
             icon: "i-heroicons-pencil-square-20-solid",
-            click: () => openEditModal(row),
+            onSelect: () => openEditModal(row),
         },
         {
             label: "Delete",
             icon: "i-heroicons-trash-20-solid",
-            click: () => deleteCategory(row.id),
+            onSelect: () => deleteCategory(row.id),
             color: 'error' as const
         },
     ],

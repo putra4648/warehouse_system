@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 public class Packing {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String packageNumber;
   @Column(precision = 12, scale = 2)

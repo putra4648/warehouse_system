@@ -58,8 +58,8 @@
               <span class="font-semibold text-gray-900 dark:text-white">
                 {{ (row.original as any).quantity }}
               </span>
-              <span v-if="(row.original as any).reservedQty > 0" class="text-xs text-gray-500">
-                ({{ (row.original as any).reservedQty }} reserved)
+              <span v-if="(row.original as any).reserved_qty > 0" class="text-xs text-gray-500">
+                ({{ (row.original as any).reserved_qty }} reserved)
               </span>
             </div>
           </template>
@@ -82,8 +82,8 @@
           </template>
 
           <template #expiry-cell="{ row }">
-            <span v-if="(row.original as any).expiredDate" class="text-sm text-gray-600 dark:text-gray-300">
-              {{ formatDate((row.original as any).expiredDate) }}
+            <span v-if="(row.original as any).expired_date" class="text-sm text-gray-600 dark:text-gray-300">
+              {{ formatDate((row.original as any).expired_date) }}
             </span>
             <span v-else class="text-sm text-gray-400">-</span>
           </template>
@@ -218,7 +218,7 @@ const stats = computed(() => {
 const columns = [
   { accessorKey: 'product', header: 'Product' },
   { accessorKey: 'warehouse', header: 'Warehouse' },
-  { accessorKey: 'lotNumber', header: 'Lot Number' },
+  { accessorKey: 'lot_number', header: 'Lot Number' },
   { accessorKey: 'quantity', header: 'Quantity' },
   { accessorKey: 'status', header: 'Status' },
   { accessorKey: 'expiry', header: 'Expiry Date' },
@@ -238,17 +238,17 @@ const actionItems = (item: InventoryItem) => [
     {
       label: 'View Details',
       icon: 'i-heroicons-eye',
-      click: () => console.log('View details:', item.id),
+      onSelect: () => console.log('View details:', item.id),
     },
     {
       label: 'Adjust Stock',
       icon: 'i-heroicons-arrows-up-down',
-      click: () => openAdjustModal(item),
+      onSelect: () => openAdjustModal(item),
     },
     {
       label: 'View History',
       icon: 'i-heroicons-clock',
-      click: () => console.log('View history:', item.id),
+      onSelect: () => console.log('View history:', item.id),
     },
   ],
 ];
@@ -289,4 +289,3 @@ const submitAdjustment = async () => {
   isAdjustModalOpen.value = false;
 };
 </script>
-

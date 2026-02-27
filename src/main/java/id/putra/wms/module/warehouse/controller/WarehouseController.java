@@ -10,9 +10,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,7 +48,7 @@ public class WarehouseController {
                 return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
         }
 
-        @PatchMapping
+        @PutMapping
         @Operation(summary = "Update warehouses", description = "Update one or more existing warehouse records")
         public ResponseEntity<ResponseData<String>> updateWarehouse(@RequestBody @Valid List<WarehouseDto> body) {
                 warehouseCoreService.update(body);
@@ -58,7 +58,7 @@ public class WarehouseController {
         @DeleteMapping
         @Operation(summary = "Delete warehouses", description = "Delete one or more warehouse records by IDs")
         public ResponseEntity<ResponseData<String>> deleteWarehouse(
-                        @Parameter(description = "List of warehouse IDs to delete") @RequestParam @Valid List<String> id) {
+                        @Parameter(description = "List of warehouse IDs to delete") @RequestParam @Valid List<Long> id) {
                 warehouseCoreService.delete(id.stream().map(i -> WarehouseDto.builder().id(i).build()).toList());
                 return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
         }
@@ -76,7 +76,7 @@ public class WarehouseController {
         @GetMapping("/{id}")
         @Operation(summary = "Get warehouse details", description = "Retrieve detailed information about a specific warehouse")
         public ResponseEntity<ResponseData<WarehouseDto>> getDetailWarehouse(
-                        @Parameter(description = "Warehouse ID") @PathVariable Optional<String> id) {
+                        @Parameter(description = "Warehouse ID") @PathVariable Optional<Long> id) {
                 var dto = WarehouseDto.builder()
                                 .id(id.orElseThrow(() -> new ModuleException(ResponseEnum.INVALID_PARAM)))
                                 .build();

@@ -5,30 +5,28 @@ import { callBackend } from "../utils/api";
 export default defineEventHandler(async (event) => {
   const method = getMethod(event);
 
-  if (method === "POST") {
-    const body = await readBody(event);
-    const result = await callBackend<Category>(
+  if (method === "GET") {
+    const query = getQuery(event);
+    return await callBackend<PaginationResponse<Category>>(
       event,
       "/api/v1/master/category",
       {
-        method: "POST",
-        body,
+        method: "GET",
+        query: {
+          ...query,
+          search: query.search || "",
+        },
       },
     );
-    return result;
   }
 
-  const query = getQuery(event);
-  const result = await callBackend<PaginationResponse<Category>>(
-    event,
-    "/api/v1/master/category",
-    {
-      method: "GET",
-      query: {
-        ...query,
-        search: query.search || "",
-      },
-    },
-  );
-  return result;
+  if (method === "POST") {
+    const body = await readBody(event);
+    // Backend expects a List<CategoryDto>
+    const payload = Array.isArray(body) ? body : [body];
+    return await callBackend<Category>(event, "/api/v1/master/category", {
+      method: "POST",
+      body: payload,
+    });
+  }
 });

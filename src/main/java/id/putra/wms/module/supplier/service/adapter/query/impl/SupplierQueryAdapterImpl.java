@@ -24,8 +24,8 @@ public class SupplierQueryAdapterImpl implements SupplierQueryAdapter {
     }
 
     @Override
-    public SupplierDto getById(String id) {
-        String safeId = java.util.Objects.requireNonNull(id);
+    public SupplierDto getById(Long id) {
+        Long safeId = java.util.Objects.requireNonNull(id);
         var entity = repository.findById(safeId).orElseThrow();
         return mapper.toDto(entity);
     }

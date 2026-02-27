@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class LocationDto extends BaseDto {
-    private String id;
+    private Long id;
     private String name;
     private String type;
     private Boolean isActive;

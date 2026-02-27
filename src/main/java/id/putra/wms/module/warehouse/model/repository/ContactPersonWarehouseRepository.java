@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import id.putra.wms.module.warehouse.model.entity.ContactPersonWarehouse;
 
 public interface ContactPersonWarehouseRepository
-        extends JpaRepository<ContactPersonWarehouse, String>, JpaSpecificationExecutor<ContactPersonWarehouse> {
+                extends JpaRepository<ContactPersonWarehouse, Long>, JpaSpecificationExecutor<ContactPersonWarehouse> {
 
 }

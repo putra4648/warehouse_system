@@ -1,16 +1,16 @@
 export type Category = {
-  id: string;
+  id: number;
   name: string;
   description: string;
 };
 
 export type Product = {
-  id: string;
+  id: number;
   name: string;
   description: string;
-  minStock: number;
-  maxStock: number;
+  min_stock: number;
+  max_stock: number;
   quantity: number;
-  isActive: boolean;
+  is_active: boolean;
   category: Category;
 };

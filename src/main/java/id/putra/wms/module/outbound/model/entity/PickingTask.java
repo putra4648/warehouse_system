@@ -14,11 +14,11 @@ import lombok.Data;
 @Data
 public class PickingTask {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "sales_order_line_id")
     private SalesOrderLine salesOrderLine;
-    
+
 }

@@ -36,12 +36,10 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
 
         zones = new ArrayList<Zone>();
         var z = new Zone();
-        z.setId("zone-1");
         z.setName("Zone 1");
         zones.add(z);
         z.setWarehouse(entity);
 
-        entity.setId("wh-1");
         entity.setName("Warehouse 1");
         entity.setZones(zones);
 
@@ -63,7 +61,7 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenZone_whenSearchById_shouldReturnData() {
-        var zn = zoneRepository.findById("zone-1");
+        var zn = zoneRepository.findById(entity.getId());
 
         assertThat(zn.isPresent()).isTrue();
         assertThat(zn.get().getName()).isEqualTo("Zone 1");
@@ -75,7 +73,7 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenZone_whenUpdated_shouldReturnUpdatedEntity() {
-        var zn = zoneRepository.findById("zone-1");
+        var zn = zoneRepository.findById(entity.getId());
 
         assertThat(zn).isNotNull();
 
@@ -83,7 +81,7 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setName("Zone 2");
         zoneRepository.save(updatedEntity);
 
-        Optional<Zone> newWh = zoneRepository.findById("zone-1");
+        Optional<Zone> newWh = zoneRepository.findById(entity.getId());
 
         assertThat(newWh.get().getName()).isEqualTo("Zone 2");
     }
@@ -92,8 +90,8 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
     void givenZone_whenDeleted_shouldReturnEmptyData() {
         // Assume page = 1, size per page = 20
 
-        zoneRepository.deleteById("zone-1");
-        var zn = zoneRepository.findById("zone-1");
+        zoneRepository.deleteById(entity.getId());
+        var zn = zoneRepository.findById(entity.getId());
 
         assertThat(zn).isEmpty();
 

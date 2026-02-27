@@ -44,7 +44,7 @@ public class ZoneServiceImplTest {
     @BeforeEach
     public void setup() {
         zoneDto = ZoneDto.builder()
-                .id("zone-1")
+                .id(1L)
                 .name("Zone 1")
                 .build();
 
@@ -64,7 +64,7 @@ public class ZoneServiceImplTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
-        assertThat(result.getContent().get(0).getId()).isEqualTo("zone-1");
+        assertThat(result.getContent().get(0).getId()).isEqualTo(1L);
         verify(zoneQueryAdapter, times(1)).getZones(any(ZoneDto.class), eq(pageable));
     }
 
@@ -75,7 +75,7 @@ public class ZoneServiceImplTest {
         ZoneDto result = zoneService.getZone(zoneDto);
 
         assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo("zone-1");
+        assertThat(result.getId()).isEqualTo(1L);
         verify(zoneQueryAdapter, times(1)).getZone(zoneDto);
     }
 
