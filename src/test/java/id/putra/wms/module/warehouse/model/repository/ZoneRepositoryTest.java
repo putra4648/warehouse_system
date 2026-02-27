@@ -34,15 +34,16 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
     @BeforeEach
     public void setup() {
         entity = new Warehouse();
+        entity.setName("Warehouse 1");
 
         zones = new ArrayList<Zone>();
+
         var z = new Zone();
         z.setName("Zone 1");
         z.setWarehouse(entity);
 
         zones.add(z);
 
-        entity.setName("Warehouse 1");
         entity.setZones(zones);
 
         warehouseRepository.save(entity);
