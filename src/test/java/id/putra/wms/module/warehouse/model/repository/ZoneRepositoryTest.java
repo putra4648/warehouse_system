@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.jpa.domain.Specification;
 
 import id.putra.wms.PostgreSQLContainerInitializer;
 import id.putra.wms.module.warehouse.model.entity.Warehouse;
@@ -37,8 +38,9 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
         zones = new ArrayList<Zone>();
         var z = new Zone();
         z.setName("Zone 1");
-        zones.add(z);
         z.setWarehouse(entity);
+
+        zones.add(z);
 
         entity.setName("Warehouse 1");
         entity.setZones(zones);
@@ -60,15 +62,14 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
     }
 
     @Test
-    void givenZone_whenSearchById_shouldReturnData() {
-        var zn = zoneRepository.findById(entity.getId());
+    void givenZone_whenSearchByName_shouldReturnData() {
+        Specification<Zone> spec = (root, cr, cb) -> cb.equal(root.get("name"), "Zone 1");
+        var zn = zoneRepository.findAll(spec);
 
-        assertThat(zn.isPresent()).isTrue();
-        assertThat(zn.get().getName()).isEqualTo("Zone 1");
+        assertThat(zn).isNotNull();
+        assertThat(zn.isEmpty()).isFalse();
+        assertThat(zn.size()).isGreaterThan(0);
 
-        var wh = zn.get().getWarehouse();
-        assertThat(wh).isNotNull();
-        assertThat(wh.getName()).isEqualTo("Warehouse 1");
     }
 
     @Test

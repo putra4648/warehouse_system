@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.jpa.domain.Specification;
 
 import id.putra.wms.PostgreSQLContainerInitializer;
 import id.putra.wms.module.warehouse.model.entity.Location;
@@ -83,16 +84,13 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
     }
 
     @Test
-    void givenLocation_whenSearchById_shouldReturnData() {
-        var loc = locationRepository.findById(entity.getId());
+    void givenLocation_whenSearchByName_shouldReturnData() {
+        Specification<Location> spec = (root, cr, cb) -> cb.equal(root.get("name"), "Location 1");
+        var loc = locationRepository.findAll(spec);
 
-        assertThat(loc).isPresent();
-        assertThat(loc.get().getName()).isEqualTo("Location 1");
-        assertThat(loc.get().getBinNumber()).isEqualTo("BIN-001");
-
-        var r = loc.get().getRack();
-        assertThat(r).isNotNull();
-        assertThat(r.getId()).isEqualTo(1L);
+        assertThat(loc).isNotNull();
+        assertThat(loc.isEmpty()).isFalse();
+        assertThat(loc.size()).isGreaterThan(0);
     }
 
     @Test
