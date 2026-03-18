@@ -54,8 +54,11 @@
         <div class="flex items-center gap-4">
           <UDropdownMenu :items="userMenuItems">
             <UButton color="secondary" variant="ghost">
-              <UAvatar src="https://i.pravatar.cc/150?u=john-doe" :alt="username" size="sm" />
-              <span class="text-sm font-medium text-gray-700 dark:text-gray-200">{{ username }}</span>
+              <UUser :ui="{ name: 'text-left' }" :name="user?.name" :description="user?.email" :avatar="{
+                src: user?.image,
+                loading: 'lazy',
+                icon: 'i-lucide-image'
+              }" size="sm" />
               <UIcon name="i-heroicons-chevron-down-20-solid" class="w-5 h-5 text-gray-400" />
             </UButton>
           </UDropdownMenu>
@@ -74,30 +77,13 @@
 <script setup lang="ts">
 import type { DropdownMenuItem } from '@nuxt/ui'
 
-const { data, signOut } = useAuth()
-const username = ref(data.value?.user?.name ?? '')
+const { user, clear } = useUserSession()
 const isOpen = ref(false);
-const config = useRuntimeConfig()
-
 
 const signout = async () => {
-  console.log("Log out")
-  const idToken = data.value?.idToken
 
-  // 2. Clear local session first
-  await signOut({ redirect: false })
-
-  // 3. Redirect to Keycloak's logout endpoint
-  const keycloakLogoutUrl = `${config.public.keycloakUrl}/realms/wms/protocol/openid-connect/logout`
-
-  // Construct the URL with required params
-  const url = new URL(keycloakLogoutUrl)
-  url.searchParams.append('client_id', config.public.clientId)
-  url.searchParams.append('post_logout_redirect_uri', window.location.origin) // Where to go after Keycloak logs out
-  if (idToken) url.searchParams.append('id_token_hint', idToken)
-
-  window.location.href = url.toString()
-
+  await clear()
+  window.location.href = "/auth/auth0"
 }
 
 const userMenuItems = ref<DropdownMenuItem[]>([

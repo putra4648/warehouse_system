@@ -1,4 +1,4 @@
-package id.putra.wms.config.controller;
+package id.putra.wms.config;
 
 import java.util.ArrayList;
 import java.util.List;

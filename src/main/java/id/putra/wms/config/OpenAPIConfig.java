@@ -1,4 +1,4 @@
-package id.putra.wms.config.openapi;
+package id.putra.wms.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ import io.swagger.v3.oas.models.servers.Server;
 @Configuration
 public class OpenAPIConfig {
 
-        @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+        @Value("${okta.oauth2.issuer}")
         private String issuerUri;
 
         @Bean

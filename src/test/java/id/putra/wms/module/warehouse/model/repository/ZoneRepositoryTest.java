@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -48,7 +49,7 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
 
     @AfterEach
     public void tearDown() {
-        zoneRepository.deleteAll(List.of(entity));
+        zoneRepository.deleteAll(Objects.requireNonNull(List.of(entity)));
     }
 
     @Test
@@ -72,7 +73,7 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenZone_whenUpdated_shouldReturnUpdatedEntity() {
-        var zn = zoneRepository.findById(entity.getId());
+        var zn = zoneRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(zn).isNotNull();
 
@@ -80,7 +81,7 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setName("Zone 2");
         zoneRepository.save(updatedEntity);
 
-        Optional<Zone> newWh = zoneRepository.findById(entity.getId());
+        Optional<Zone> newWh = zoneRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(newWh.get().getName()).isEqualTo("Zone 2");
     }
@@ -89,8 +90,8 @@ public class ZoneRepositoryTest extends PostgreSQLContainerInitializer {
     void givenZone_whenDeleted_shouldReturnEmptyData() {
         // Assume page = 1, size per page = 20
 
-        zoneRepository.deleteById(entity.getId());
-        var zn = zoneRepository.findById(entity.getId());
+        zoneRepository.deleteById(Objects.requireNonNull(entity.getId()));
+        var zn = zoneRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(zn).isEmpty();
 

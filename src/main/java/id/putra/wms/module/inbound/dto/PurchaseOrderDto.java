@@ -13,7 +13,6 @@ public class PurchaseOrderDto {
     private String status;
     private Date orderDate;
 
-    
     private List<PurchaseOrderLineDto> purchaseOrderLines;
     private List<ReceivingDto> receivings;
     private SupplierDto supplier;

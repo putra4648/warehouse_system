@@ -2,6 +2,8 @@ package id.putra.wms.module.warehouse.model.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Objects;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +49,7 @@ public class ContactPersonWarehouseRepositoryTest extends PostgreSQLContainerIni
 
     @Test
     void givenContactPerson_whenSearchById_shouldReturnData() {
-        var contactPerson = contactPersonWarehouseRepository.findById(entity.getId());
+        var contactPerson = contactPersonWarehouseRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(contactPerson).isPresent();
         assertThat(contactPerson.get().getName()).isEqualTo("Contact Person 1");
@@ -56,23 +58,23 @@ public class ContactPersonWarehouseRepositoryTest extends PostgreSQLContainerIni
 
     @Test
     void givenContactPerson_whenUpdated_shouldReturnUpdatedEntity() {
-        var contactPerson = contactPersonWarehouseRepository.findById(entity.getId());
+        var contactPerson = contactPersonWarehouseRepository.findById(Objects.requireNonNull(entity.getId()));
         assertThat(contactPerson).isPresent();
 
         var updatedEntity = contactPerson.get();
         updatedEntity.setName("Updated Contact Person");
         contactPersonWarehouseRepository.save(updatedEntity);
 
-        var result = contactPersonWarehouseRepository.findById(entity.getId());
+        var result = contactPersonWarehouseRepository.findById(Objects.requireNonNull(entity.getId()));
         assertThat(result).isPresent();
         assertThat(result.get().getName()).isEqualTo("Updated Contact Person");
     }
 
     @Test
     void givenContactPerson_whenDeleted_shouldReturnEmptyData() {
-        contactPersonWarehouseRepository.deleteById(entity.getId());
+        contactPersonWarehouseRepository.deleteById(Objects.requireNonNull(entity.getId()));
 
-        var result = contactPersonWarehouseRepository.findById(entity.getId());
+        var result = contactPersonWarehouseRepository.findById(Objects.requireNonNull(entity.getId()));
         assertThat(result).isEmpty();
     }
 }
