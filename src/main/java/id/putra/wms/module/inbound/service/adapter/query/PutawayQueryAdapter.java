@@ -2,8 +2,10 @@ package id.putra.wms.module.inbound.service.adapter.query;
 
 import java.util.List;
 
-public interface PutawayQueryAdapter {
-    Object getById(Long id);
+import id.putra.wms.module.inbound.dto.PutawayDto;
 
-    List<Object> getAll(Object filter);
+public interface PutawayQueryAdapter {
+    PutawayDto getById(Long id);
+
+    List<PutawayDto> getAll(PutawayDto filter);
 }

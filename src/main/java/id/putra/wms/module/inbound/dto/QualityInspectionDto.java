@@ -5,9 +5,8 @@ import lombok.Data;
 @Data
 public class QualityInspectionDto {
     private Long id;
-    private String result;
-    private String remarks;
-
-    private ReceivingLineDto receivingLine;
-
+    private String comments;
+    private String status;
+    private Long receivingLineId;
+    private Long inspectorId;
 }

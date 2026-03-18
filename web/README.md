@@ -2,6 +2,18 @@
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+## Authentication
+
+This application uses Auth0 for authentication. Make sure to configure the following in your `.env` file:
+
+```bash
+AUTH_ORIGIN=http://localhost:3000/api/auth
+NUXT_OAUTH_AUTH0_CLIENT_ID=your-client-id
+NUXT_OAUTH_AUTH0_CLIENT_SECRET=your-client-secret
+NUXT_OAUTH_AUTH0_DOMAIN=your-auth0-domain
+NUXT_SESSION_PASSWORD=at-least-32-character-long-password
+```
+
 ## Setup
 
 Make sure to install dependencies:

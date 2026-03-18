@@ -7,12 +7,8 @@ declare module "#auth-utils" {
     image: string;
   }
 
-  interface UserSession {
-    // Add your own fields
-  }
-
   interface SecureSessionData {
-    // Add your own fields
+    accessToken: string;
   }
 }
 

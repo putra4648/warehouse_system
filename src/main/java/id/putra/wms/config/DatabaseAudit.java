@@ -18,7 +18,6 @@ public class DatabaseAudit {
             @Override
             public @NonNull Optional<String> getCurrentAuditor() {
                 String username = SecurityContextHolder.getContext().getAuthentication().getName();
-                // Fallback to username
                 return java.util.Objects.requireNonNull(Optional.ofNullable(username));
             }
         };
