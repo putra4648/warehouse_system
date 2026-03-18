@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class PickingTaskDto {
     private Long id;
-    private SalesOrderLineDto salesOrderLine;
+    private Long salesOrderLineId;
+    private String status;
 }
