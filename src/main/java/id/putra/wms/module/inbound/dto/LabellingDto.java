@@ -4,5 +4,8 @@ import lombok.Data;
 
 @Data
 public class LabellingDto {
-    
+    private Long id;
+    private String labelContent;
+    private String status;
+    private Long receivingLineId;
 }

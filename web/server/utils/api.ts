@@ -15,8 +15,11 @@ export const callBackend = async <T>(
     baseURL: String(config.public.serverUrl),
     ...options,
     onRequest: ({ options }) => {
-      if (session?.accessToken) {
-        options.headers.set("Authorization", `Bearer ${session.accessToken}`);
+      if (session?.secure?.accessToken) {
+        options.headers.set(
+          "Authorization",
+          `Bearer ${session.secure.accessToken}`,
+        );
       }
     },
   });

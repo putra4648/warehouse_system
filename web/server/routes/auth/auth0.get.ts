@@ -11,7 +11,7 @@ export default defineOAuthAuth0EventHandler({
         image: user.picture,
       },
       secure: {
-        access_token: tokens.access_token,
+        accessToken: tokens.access_token,
       },
     });
     return sendRedirect(event, "/");

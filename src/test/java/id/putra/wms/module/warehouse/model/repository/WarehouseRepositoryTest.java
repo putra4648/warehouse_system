@@ -59,7 +59,6 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         cp.setWarehouses(List.of(entity));
 
         entity.setZones(zones);
-        // entity.setContactPersonWarehouse(cp);
         warehouseRepository.saveAndFlush(java.util.Objects.requireNonNull(entity));
     }
 
@@ -91,7 +90,6 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         Optional<Warehouse> newWh = warehouseRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(newWh).isNotEmpty();
-        // assertThat(newWh.get().getUpdatedDate()).isNotNull();
         assertThat(newWh.get().getName()).isEqualTo("Warehouse 2");
     }
 
