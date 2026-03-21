@@ -355,10 +355,24 @@ function resetLocation() {
 }
 
 function openAddModal() {
-	if (activeTab.value === '0') { resetWarehouse(); isWarehouseModalOpen.value = true; }
-	else if (activeTab.value === '1') { resetZone(); isZoneModalOpen.value = true; }
-	else if (activeTab.value === '2') { resetRack(); isRackModalOpen.value = true; }
-	else if (activeTab.value === '3') { resetLocation(); isLocationModalOpen.value = true; }
+	switch (activeTab.value) {
+		case '0':
+			resetWarehouse();
+			isWarehouseModalOpen.value = true;
+			break;
+		case '1':
+			resetZone();
+			isZoneModalOpen.value = true;
+			break;
+		case '2':
+			resetRack();
+			isRackModalOpen.value = true;
+			break;
+		case '3':
+			resetLocation();
+			isLocationModalOpen.value = true;
+			break;
+	}
 }
 
 async function saveWarehouse() {
