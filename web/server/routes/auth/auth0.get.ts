@@ -6,8 +6,6 @@ export default defineOAuthAuth0EventHandler({
     },
   },
   async onSuccess(event, { user, tokens }) {
-    console.log("USER", user);
-    console.log("TOKENS", tokens);
     await setUserSession(event, {
       user: {
         id: user.sub,

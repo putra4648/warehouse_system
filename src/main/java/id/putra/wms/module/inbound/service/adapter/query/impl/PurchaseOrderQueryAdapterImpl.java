@@ -35,7 +35,7 @@ public class PurchaseOrderQueryAdapterImpl implements PurchaseOrderQueryAdapter 
             if (search == null || search.isEmpty()) {
                 return criteriaBuilder.conjunction();
             }
-            return criteriaBuilder.like(root.get("name"), "%" + search + "%");
+            return criteriaBuilder.like(root.get("poNumber"), "%" + search + "%");
         };
         return purchaseOrderRepository.findAll(spec, pageable).map(purchaseOrderMapper::toDto);
     }

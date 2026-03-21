@@ -8,7 +8,7 @@
 
     <UPageBody>
       <!-- KPI Statistics Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <UCard v-for="(stat, index) in stats" :key="index">
           <div class="flex items-center justify-between">
             <div>
@@ -165,6 +165,7 @@
 <script setup lang="ts">
 import type { InventoryItem } from '~~/types/inventory'
 import type PaginationResponse from '~~/server/utils/pagination'
+import type { Warehouse } from '~~/types/warehouse';
 
 // Reactive state
 const q = ref('');
@@ -174,7 +175,7 @@ const size = ref(10);
 const isAdjustModalOpen = ref(false);
 const selectedItem = ref<InventoryItem | null>(null);
 
-const { data, status, refresh } = await useFetch<PaginationResponse<InventoryItem>>("/api/inventory", {
+const { data, status } = await useFetch<PaginationResponse<InventoryItem>>("/api/inventory", {
   query: {
     page: computed(() => page.value - 1),
     size,
@@ -186,7 +187,7 @@ const { data, status, refresh } = await useFetch<PaginationResponse<InventoryIte
 const inventory = computed(() => data.value?.data ?? [])
 const total = computed(() => data.value?.meta.total || 0)
 
-const { data: warehouseData } = await useFetch<PaginationResponse<any>>("/api/warehouses", {
+const { data: warehouseData } = await useFetch<PaginationResponse<Warehouse>>("/api/warehouses", {
   query: { page: 0, size: 100 }
 })
 

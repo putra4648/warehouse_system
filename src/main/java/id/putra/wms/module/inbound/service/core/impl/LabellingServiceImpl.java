@@ -19,22 +19,19 @@ public class LabellingServiceImpl implements LabellingService {
 
     @Override
     public LabellingDto create(LabellingDto dto) {
-        labellingCommandAdapter.add(List.of(dto));
-        return dto;
+        return labellingCommandAdapter.add(dto);
     }
 
     @Override
     public LabellingDto update(LabellingDto dto) {
-        labellingCommandAdapter.update(List.of(dto));
-        return dto;
+        return labellingCommandAdapter.update(dto);
     }
 
     @Override
     public Boolean delete(Long id) {
         LabellingDto dto = new LabellingDto();
         dto.setId(id);
-        labellingCommandAdapter.delete(List.of(dto));
-        return true;
+        return labellingCommandAdapter.delete(dto);
     }
 
     @Override

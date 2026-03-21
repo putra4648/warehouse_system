@@ -1,15 +1,12 @@
 package id.putra.wms.module.customer.model.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import id.putra.wms.shared.base.entity.BaseEntity;
-import id.putra.wms.shared.base.entity.Customer;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +24,4 @@ public class ContactPersonCustomer extends BaseEntity implements Serializable {
     private String phone;
     private String address;
 
-    @OneToMany(mappedBy = "contactPerson")
-    private List<Customer> customers;
 }

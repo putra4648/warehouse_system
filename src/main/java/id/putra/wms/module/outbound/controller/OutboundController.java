@@ -1,11 +1,15 @@
 package id.putra.wms.module.outbound.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.putra.wms.module.outbound.dto.CarrierDto;
@@ -19,6 +23,7 @@ import id.putra.wms.module.outbound.service.core.PickingService;
 import id.putra.wms.module.outbound.service.core.SalesOrderService;
 import id.putra.wms.module.outbound.service.core.ShippingService;
 import id.putra.wms.shared.base.dto.response.ResponseData;
+import id.putra.wms.shared.base.dto.response.ResponseMeta;
 import id.putra.wms.shared.enums.ResponseEnum;
 import id.putra.wms.shared.helpers.ResponseHelper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,6 +52,14 @@ public class OutboundController {
     @Operation(summary = "Create Sales Order")
     public ResponseEntity<ResponseData<SalesOrderDto>> createSO(@RequestBody @Valid SalesOrderDto body) {
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, salesOrderService.create(body));
+    }
+
+    @GetMapping("/so")
+    @Operation(summary = "Get all SO")
+    public ResponseEntity<ResponseMeta<SalesOrderDto>> getAllSO(@RequestParam String search,
+            @PageableDefault Pageable pageable) {
+        Page<SalesOrderDto> result = salesOrderService.getAll(search, pageable);
+        return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, result);
     }
 
     @GetMapping("/so/{id}")

@@ -1,11 +1,11 @@
 package id.putra.wms.module.inbound.service.adapter.command;
 
-import java.util.List;
+import id.putra.wms.module.inbound.dto.ReturnDto;
 
 public interface ReturnInboundCommandAdapter {
-    void add(List<Object> dtos);
+    ReturnDto add(ReturnDto dto);
 
-    void update(List<Object> dtos);
+    ReturnDto update(ReturnDto dto);
 
-    void delete(List<Object> dtos);
+    Boolean delete(ReturnDto dto);
 }
