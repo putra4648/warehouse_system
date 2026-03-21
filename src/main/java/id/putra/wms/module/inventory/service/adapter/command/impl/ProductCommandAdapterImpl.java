@@ -1,7 +1,5 @@
 package id.putra.wms.module.inventory.service.adapter.command.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,21 +18,24 @@ public class ProductCommandAdapterImpl implements ProductCommandAdapter {
     private final ProductMapper productMapper;
 
     @Override
-    public void save(List<ProductDto> dtos) {
-        var entities = dtos.stream().map(d -> productMapper.toEntity(d)).toList();
-        productRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public ProductDto save(ProductDto dto) {
+        var entity = productMapper.toEntity(dto);
+        return productMapper.toDto(productRepository.save(entity));
     }
 
     @Override
-    public void update(List<ProductDto> dtos) {
-        var entities = dtos.stream().map(d -> productMapper.toEntity(d)).toList();
-        productRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public ProductDto update(ProductDto dto) {
+        var entity = productMapper.toEntity(dto);
+        return productMapper.toDto(productRepository.save(entity));
     }
 
     @Override
-    public void delete(List<ProductDto> dtos) {
-        var ids = dtos.stream().map(d -> d.getId()).toList();
-        productRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
+    public Boolean delete(Long id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }

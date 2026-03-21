@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import id.putra.wms.module.inbound.dto.ReceivingDto;
 import id.putra.wms.module.inbound.mapper.ReceivingMapper;
+import id.putra.wms.module.inbound.model.entity.Receiving;
 import id.putra.wms.module.inbound.model.repository.ReceivingRepository;
 import id.putra.wms.module.inbound.service.adapter.command.impl.ReceivingCommandAdapterImpl;
 
@@ -42,6 +43,10 @@ public class ReceivingCommandAdapterTest {
         dto.setReceivedDate(new Date(System.currentTimeMillis()));
         dto.setStatus("NEW");
 
+        Receiving entity = new Receiving();
+        when(receivingMapper.toEntity(any(ReceivingDto.class))).thenReturn(entity);
+        when(receivingRepository.save(any(Receiving.class))).thenReturn(entity);
+
         receivingCommandAdapter.add(dto);
 
         verify(receivingRepository).save(any());
@@ -53,6 +58,10 @@ public class ReceivingCommandAdapterTest {
         dto.setId(1L);
         dto.setReceivingNumber("RCV-CMD-2-UPDATED");
         dto.setStatus("UPDATED");
+
+        Receiving entity = new Receiving();
+        when(receivingMapper.toEntity(any(ReceivingDto.class))).thenReturn(entity);
+        when(receivingRepository.save(any(Receiving.class))).thenReturn(entity);
 
         receivingCommandAdapter.update(dto);
 
