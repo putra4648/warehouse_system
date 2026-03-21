@@ -165,7 +165,7 @@ function handleSupplierChange() {
 async function savePurchaseOrder() {
   try {
     const method = state.id ? 'PUT' : 'POST';
-    const body = state.id ? state : state; // Assuming backend accepts array for new records
+    const body = state;
 
     await $fetch("/api/inbound/po", {
       method,
