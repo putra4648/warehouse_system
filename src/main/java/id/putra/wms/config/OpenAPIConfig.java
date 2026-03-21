@@ -21,7 +21,7 @@ public class OpenAPIConfig {
         private String issuerUri;
 
         @Bean
-        public OpenAPI customOpenAPI() {
+        OpenAPI customOpenAPI() {
                 return new OpenAPI()
                                 .info(new Info()
                                                 .title("Warehouse Management System API")

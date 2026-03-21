@@ -1,37 +1,37 @@
 export interface PurchaseOrder {
   id: number | null;
-  poNumber: string;
-  orderDate: string;
+  po_number: string;
+  order_date: string;
   status: string;
-  supplierId: number | null;
+  supplier_id: number | null;
   purchaseOrderLines: PurchaseOrderLine[];
 }
 
 export interface PurchaseOrderLine {
   id: number | null;
-  productId: number;
+  product_id: number;
   quantity: number;
-  purchaseOrderId: number | null;
+  purchase_order_id: number | null;
 }
 
 export interface Receiving {
   id: number | null;
-  receivingNumber: string;
-  receivedDate: string;
+  receiving_number: string;
+  received_date: string;
   status: string;
-  userId: number | null;
-  purchaseOrderId: number | null;
-  receivingLines: ReceivingLine[];
+  user_id: number | null;
+  purchase_order_id: number | null;
+  receiving_lines: ReceivingLine[];
 }
 
 export interface ReceivingLine {
   id: number | null;
-  productId: number;
-  receivedQuantity: number;
-  lotNumber: string;
-  expiryDate: string;
+  product_id: number;
+  received_quantity: number;
+  lot_number: string;
+  expiry_date: string;
   status: string;
-  receivingId: number | null;
+  receiving_id: number | null;
 }
 
 // Keeping legacy type for compatibility
@@ -41,5 +41,5 @@ export interface Inbound {
   date: string;
   quantity: number;
   status: string;
-  poNumber?: string;
+  po_number?: string;
 }

@@ -18,13 +18,11 @@
                 {{ stat.value }}
               </h3>
             </div>
-            <UIcon
-              :name="stat.icon"
+            <UIcon :name="stat.icon"
               class="w-8 h-8 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-1.5" />
           </div>
           <p :class="['text-xs mt-2 flex items-center', stat.trendPositive ? 'text-green-500' : 'text-gray-500']">
-            <UIcon
-              :name="stat.trendPositive ? 'i-heroicons-arrow-trending-up' : 'i-heroicons-minus'"
+            <UIcon :name="stat.trendPositive ? 'i-heroicons-arrow-trending-up' : 'i-heroicons-minus'"
               class="w-4 h-4 mr-1" />
             {{ stat.trend }}
           </p>
@@ -42,13 +40,12 @@
 
         <UTable :columns="columns" :data="purchaseOrders" :loading="status === 'pending'">
           <template #status-cell="{ row }">
-            <UBadge
-              :color="row.original.status === 'Completed'
-                ? 'success'
-                : row.original.status === 'Pending'
-                  ? 'primary'
-                  : 'secondary'
-                " variant="subtle">
+            <UBadge :color="row.original.status === 'Completed'
+              ? 'success'
+              : row.original.status === 'Pending'
+                ? 'primary'
+                : 'secondary'
+              " variant="subtle">
               {{ row.original.status }}
             </UBadge>
           </template>
@@ -69,13 +66,14 @@
         <template #body>
           <UForm :state="state" class="space-y-4" @submit="savePurchaseOrder">
             <UFormField label="PO Number" name="poNumber">
-              <UInput v-model="state.poNumber" class="w-full" placeholder="Enter PO number" />
+              <UInput v-model="state.po_number" class="w-full" placeholder="Enter PO number" />
             </UFormField>
-            <UFormField label="Supplier ID" name="supplierId">
-              <UInput v-model="state.supplierId" type="number" class="w-full" />
+            <UFormField label="Supplier" name="supplierId">
+              <USelectMenu v-model="supplierSearch" class="w-full" value-key="id" label-key="name"
+                :items="supplierResponse?.data" @update:open="execute()" @change="handleSupplierChange" />
             </UFormField>
             <UFormField label="Date" name="orderDate">
-              <UInput v-model="state.orderDate" type="date" class="w-full" />
+              <UInput v-model="state.order_date" type="date" class="w-full" />
             </UFormField>
             <UFormField label="Status" name="status">
               <USelect v-model="state.status" class="w-full" :items="['Pending', 'Completed', 'Cancelled']" />
@@ -92,9 +90,11 @@
 import type { PurchaseOrder } from '~~/types/inbound'
 import type PaginationResponse from '~~/server/utils/pagination'
 import type { TableColumn } from '@nuxt/ui'
+import type { Supplier } from '~~/types/supplier';
 
 const isOpen = ref(false);
 const q = ref("");
+const supplierSearch = ref();
 const page = ref(1);
 const size = ref(10);
 
@@ -105,6 +105,16 @@ const { data, status, refresh } = await useFetch<PaginationResponse<PurchaseOrde
     search: q
   },
   watch: [page, size, q]
+});
+
+const { data: supplierResponse, execute } = await useFetch<PaginationResponse<Supplier>>("/api/suppliers", {
+  key: "suppliers",
+  immediate: false,
+  query: {
+    page: 0,
+    size: 10,
+    search: supplierSearch
+  }
 });
 
 const purchaseOrders = computed(() => data.value?.data ?? []);
@@ -130,31 +140,35 @@ const stats = computed(() => [
 
 const columns: TableColumn<PurchaseOrder>[] = [
   { accessorKey: "id", header: "ID" },
-  { accessorKey: "poNumber", header: "PO Number" },
-  { accessorKey: "orderDate", header: "Order Date" },
+  { accessorKey: "po_number", header: "PO Number" },
+  { accessorKey: "order_date", header: "Order Date" },
   { accessorKey: "status", header: "Status" },
   { accessorKey: "actions", header: "" },
 ];
 
 const state = reactive({
   id: null as number | null,
-  poNumber: "",
-  orderDate: new Date().toISOString().split('T')[0],
+  po_number: "",
+  order_date: new Date().toISOString().split('T')[0],
   status: "Pending",
-  supplierId: null as number | null,
-  purchaseOrderLines: []
+  supplier_id: null as number | null,
+  purchase_order_lines: []
 });
+
+function handleSupplierChange() {
+  state.supplier_id = supplierResponse.value?.data.find(s => s.id === supplierSearch.value)?.id || null;
+}
 
 async function savePurchaseOrder() {
   try {
     const method = state.id ? 'PUT' : 'POST';
-    const body = state.id ? state : [state]; // Assuming backend accepts array for new records
-    
+    const body = state.id ? state : state; // Assuming backend accepts array for new records
+
     await $fetch("/api/inbound/po", {
       method,
       body
     });
-    
+
     isOpen.value = false;
     resetForm();
     refresh();
@@ -165,11 +179,11 @@ async function savePurchaseOrder() {
 
 function resetForm() {
   state.id = null;
-  state.poNumber = "";
-  state.orderDate = new Date().toISOString().split('T')[0];
+  state.po_number = "";
+  state.order_date = new Date().toISOString().split('T')[0];
   state.status = "Pending";
-  state.supplierId = null;
-  state.purchaseOrderLines = [];
+  state.supplier_id = null;
+  state.purchase_order_lines = [];
 }
 
 const items = (row: PurchaseOrder) => [
@@ -186,4 +200,5 @@ const items = (row: PurchaseOrder) => [
     },
   ],
 ];
+
 </script>
