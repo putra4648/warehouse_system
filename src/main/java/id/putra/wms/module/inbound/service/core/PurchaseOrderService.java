@@ -1,14 +1,18 @@
 package id.putra.wms.module.inbound.service.core;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
-import id.putra.wms.shared.base.dto.response.ResponseData;
 
 public interface PurchaseOrderService {
-    ResponseData<PurchaseOrderDto> create(PurchaseOrderDto dto);
-    ResponseData<PurchaseOrderDto> update(PurchaseOrderDto dto);
-    ResponseData<Boolean> delete(Long id);
-    ResponseData<PurchaseOrderDto> getById(Long id);
-    ResponseData<List<PurchaseOrderDto>> getAll(PurchaseOrderDto filter);
+    PurchaseOrderDto create(PurchaseOrderDto dto);
+
+    PurchaseOrderDto update(PurchaseOrderDto dto);
+
+    Boolean delete(Long id);
+
+    PurchaseOrderDto getById(Long id);
+
+    Page<PurchaseOrderDto> getAll(String search, Pageable pageable);
 }

@@ -1,4 +1,5 @@
 import { defineNuxtConfig } from "nuxt/config";
+import type { NuxtPage } from "nuxt/schema";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -9,9 +10,9 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxt/eslint",
     "@nuxt/scripts",
-    "@sidebase/nuxt-auth",
     "@nuxtjs/color-mode",
     "nuxt-charts",
+    "nuxt-auth-utils",
   ],
   icon: {
     mode: "css",
@@ -28,20 +29,24 @@ export default defineNuxtConfig({
       title: "WMS PRO",
     },
   },
-  auth: {
-    provider: {
-      type: "authjs",
-      trustHost: false,
-      defaultProvider: "keycloak",
-      addDefaultCallbackUrl: true,
-    },
-    globalAppMiddleware: true,
-  },
   runtimeConfig: {
     public: {
-      serverUrl: "http://localhost:8080",
-      keycloakUrl: process.env.KEYCLOAK_URL,
-      clientId: process.env.KEYCLOAK_CLIENT_ID,
+      serverUrl: process.env.SERVER_URL || "http://localhost:8080",
+    },
+  },
+  hooks: {
+    "pages:extend"(pages) {
+      function setMiddleware(pages: NuxtPage[]) {
+        for (const page of pages) {
+          page.meta ||= {};
+          page.meta.middleware = ["auth"];
+
+          if (page.children) {
+            setMiddleware(page.children);
+          }
+        }
+      }
+      setMiddleware(pages);
     },
   },
 });

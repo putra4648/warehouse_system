@@ -1,10 +1,9 @@
 package id.putra.wms.module.inbound.service.adapter.command.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.inbound.dto.LabellingDto;
 import id.putra.wms.module.inbound.service.adapter.command.LabellingCommandAdapter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,17 +13,20 @@ import lombok.RequiredArgsConstructor;
 public class LabellingCommandAdapterImpl implements LabellingCommandAdapter {
 
     @Override
-    public void add(List<Object> dtos) {
-        // Placeholder - implement when LabelDto and repository are ready
+    public LabellingDto add(LabellingDto dto) {
+        // TODO: Placeholder - implement when repository is ready
+        return dto;
     }
 
     @Override
-    public void update(List<Object> dtos) {
-        // Placeholder - implement when LabelDto and repository are ready
+    public LabellingDto update(LabellingDto dto) {
+        // TODO: Placeholder - implement when repository is ready
+        return dto;
     }
 
     @Override
-    public void delete(List<Object> dtos) {
-        // Placeholder - implement when LabelDto and repository are ready
+    public Boolean delete(LabellingDto dto) {
+        // TODO: Placeholder - implement when repository is ready
+        return false;
     }
 }

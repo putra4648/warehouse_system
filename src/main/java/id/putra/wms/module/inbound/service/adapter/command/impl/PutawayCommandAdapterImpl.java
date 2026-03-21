@@ -1,10 +1,9 @@
 package id.putra.wms.module.inbound.service.adapter.command.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.inbound.dto.PutawayDto;
 import id.putra.wms.module.inbound.service.adapter.command.PutawayCommandAdapter;
 import lombok.RequiredArgsConstructor;
 
@@ -14,17 +13,20 @@ import lombok.RequiredArgsConstructor;
 public class PutawayCommandAdapterImpl implements PutawayCommandAdapter {
 
     @Override
-    public void add(List<Object> dtos) {
-        // Placeholder - implement when PutawayDto and repository are ready
+    public PutawayDto add(PutawayDto dto) {
+        // TODO: Placeholder - implement when repository is ready
+        return dto;
     }
 
     @Override
-    public void update(List<Object> dtos) {
-        // Placeholder - implement when PutawayDto and repository are ready
+    public PutawayDto update(PutawayDto dto) {
+        // TODO: Placeholder - implement when repository is ready
+        return dto;
     }
 
     @Override
-    public void delete(List<Object> dtos) {
-        // Placeholder - implement when PutawayDto and repository are ready
+    public Boolean delete(PutawayDto dto) {
+        // TODO: Placeholder - implement when repository is ready
+        return false;
     }
 }

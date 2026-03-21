@@ -1,7 +1,5 @@
 package id.putra.wms.module.inbound.service.adapter.command.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,20 +18,24 @@ public class PurchaseOrderCommandAdapterImpl implements PurchaseOrderCommandAdap
     private final PurchaseOrderMapper purchaseOrderMapper;
 
     @Override
-    public void add(List<PurchaseOrderDto> dtos) {
-        var entities = dtos.stream().map(purchaseOrderMapper::toEntity).toList();
-        purchaseOrderRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public PurchaseOrderDto add(PurchaseOrderDto dto) {
+        var entity = purchaseOrderMapper.toEntity(dto);
+        return purchaseOrderMapper.toDto(purchaseOrderRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override
-    public void update(List<PurchaseOrderDto> dtos) {
-        var entities = dtos.stream().map(purchaseOrderMapper::toEntity).toList();
-        purchaseOrderRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public PurchaseOrderDto update(PurchaseOrderDto dto) {
+        var entity = purchaseOrderMapper.toEntity(dto);
+        return purchaseOrderMapper.toDto(purchaseOrderRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override
-    public void delete(List<PurchaseOrderDto> dtos) {
-        var ids = dtos.stream().map(d -> d.getId()).toList();
-        purchaseOrderRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
+    public Boolean delete(PurchaseOrderDto dto) {
+        var id = java.util.Objects.requireNonNull(dto.getId());
+        if (purchaseOrderRepository.existsById(id)) {
+            purchaseOrderRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

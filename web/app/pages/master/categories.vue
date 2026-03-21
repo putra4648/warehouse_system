@@ -1,47 +1,49 @@
 <template>
-    <div>
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Product Categories</h1>
-            <UButton icon="i-heroicons-plus" color="primary" label="Add Category" @click="openAddModal" />
-        </div>
-
-        <UCard>
-            <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
-                <UInput v-model="q" placeholder="Filter categories..." icon="i-heroicons-magnifying-glass"
-                    class="max-w-xs" />
+    <UPage>
+        <UPageHeader title="Categories" description="Manage your categories" />
+        <UPageBody>
+            <div class="flex items-center justify-betweens">
+                <UButton icon="i-heroicons-plus" color="primary" label="Add Category" @click="openAddModal" />
             </div>
 
-            <UTable :columns="columns" :data="categories" :loading="status === 'pending'">
-                <template #actions-cell="{ row }">
-                    <UDropdownMenu :items="actions(row.original as any)">
-                        <UButton color="neutral" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
-                    </UDropdownMenu>
+            <UCard>
+                <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+                    <UInput v-model="q" placeholder="Filter categories..." icon="i-heroicons-magnifying-glass"
+                        class="max-w-xs" />
+                </div>
+
+                <UTable :columns="columns" :data="categories" :loading="status === 'pending'">
+                    <template #actions-cell="{ row }">
+                        <UDropdownMenu :items="actions(row.original as any)">
+                            <UButton color="neutral" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+                        </UDropdownMenu>
+                    </template>
+                </UTable>
+
+                <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+                    <UPagination v-model="page" :items-per-page="size" :total="total" />
+                </div>
+            </UCard>
+
+            <UModal v-model:open="isOpen" :title="isEditing ? 'Edit Category' : 'Add Category'" scrollable>
+                <template #body>
+                    <UForm :state="state" class="space-y-4" @submit="saveCategory">
+                        <UFormField label="Name" name="name">
+                            <UInput v-model="state.name" placeholder="Category name" class="w-full" />
+                        </UFormField>
+                        <UFormField label="Description" name="description">
+                            <UTextarea v-model="state.description" placeholder="Short description" class="w-full" />
+                        </UFormField>
+                        <div class="flex justify-end gap-2 pt-4">
+                            <UButton color="neutral" variant="ghost" label="Cancel" @click="isOpen = false" />
+                            <UButton type="submit" color="primary"
+                                :label="isEditing ? 'Update Category' : 'Save Category'" />
+                        </div>
+                    </UForm>
                 </template>
-            </UTable>
-
-            <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-                <UPagination v-model="page" :items-per-page="size" :total="total" />
-            </div>
-        </UCard>
-
-        <UModal v-model:open="isOpen" :title="isEditing ? 'Edit Category' : 'Add Category'" scrollable>
-            <template #body>
-                <UForm :state="state" class="space-y-4" @submit="saveCategory">
-                    <UFormField label="Name" name="name">
-                        <UInput v-model="state.name" placeholder="Category name" class="w-full" />
-                    </UFormField>
-                    <UFormField label="Description" name="description">
-                        <UTextarea v-model="state.description" placeholder="Short description" class="w-full" />
-                    </UFormField>
-                    <div class="flex justify-end gap-2 pt-4">
-                        <UButton color="neutral" variant="ghost" label="Cancel" @click="isOpen = false" />
-                        <UButton type="submit" color="primary"
-                            :label="isEditing ? 'Update Category' : 'Save Category'" />
-                    </div>
-                </UForm>
-            </template>
-        </UModal>
-    </div>
+            </UModal>
+        </UPageBody>
+    </UPage>
 </template>
 
 <script setup lang="ts">

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -95,7 +96,7 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenLocation_whenUpdated_shouldReturnUpdatedEntity() {
-        var loc = locationRepository.findById(entity.getId());
+        var loc = locationRepository.findById(Objects.requireNonNull(entity.getId()));
         assertThat(loc).isPresent();
 
         var updatedEntity = loc.get();
@@ -103,7 +104,7 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setIsActive(false);
         locationRepository.save(updatedEntity);
 
-        var result = locationRepository.findById(entity.getId());
+        var result = locationRepository.findById(Objects.requireNonNull(entity.getId()));
         assertThat(result).isPresent();
         assertThat(result.get().getName()).isEqualTo("Updated Location");
         assertThat(result.get().getIsActive()).isFalse();
@@ -111,9 +112,9 @@ public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenLocation_whenDeleted_shouldReturnEmptyData() {
-        locationRepository.deleteById(entity.getId());
+        locationRepository.deleteById(Objects.requireNonNull(entity.getId()));
 
-        var result = locationRepository.findById(entity.getId());
+        var result = locationRepository.findById(Objects.requireNonNull(entity.getId()));
         assertThat(result).isEmpty();
     }
 }

@@ -20,7 +20,6 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Page<SupplierDto> getAll(Pageable pageable, String search) {
-        // Implement search logic if needed
         return supplierQueryAdapter.getAll(pageable, search);
     }
 

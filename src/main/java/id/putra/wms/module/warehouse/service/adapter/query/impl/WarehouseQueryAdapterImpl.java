@@ -20,9 +20,6 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
 
-    // private final JdbcTemplate jdbcTemplate;
-    // private final TaskExecutor virtualThreadExecutor;
-
     private final WarehouseRepository warehouseRepository;
     private final WarehouseMapper warehouseMapper;
 

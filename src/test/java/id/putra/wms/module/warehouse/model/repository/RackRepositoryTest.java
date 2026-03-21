@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -81,7 +82,7 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenRack_whenUpdated_shouldReturnUpdatedEntity() {
-        var r = rackRepository.findById(entity.getId());
+        var r = rackRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(r).isNotNull();
 
@@ -89,7 +90,7 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setName("Rack 2");
         rackRepository.save(updatedEntity);
 
-        Optional<Rack> newR = rackRepository.findById(entity.getId());
+        Optional<Rack> newR = rackRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(newR.get().getName()).isEqualTo("Rack 2");
     }
@@ -98,8 +99,8 @@ public class RackRepositoryTest extends PostgreSQLContainerInitializer {
     void givenRack_whenDeleted_shouldReturnEmptyData() {
         // Assume page = 1, size per page = 20
 
-        rackRepository.deleteById(entity.getId());
-        var zn = rackRepository.findById(entity.getId());
+        rackRepository.deleteById(Objects.requireNonNull(entity.getId()));
+        var zn = rackRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(zn).isEmpty();
 

@@ -10,5 +10,4 @@ import lombok.EqualsAndHashCode;
 public class ProductSupplierDto extends BaseDto {
     private ProductSupplierIdDto id;
     private ProductDto product;
-    // Add other fields as needed
 }

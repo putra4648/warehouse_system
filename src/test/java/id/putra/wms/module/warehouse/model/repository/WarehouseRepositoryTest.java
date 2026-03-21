@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -58,7 +59,6 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         cp.setWarehouses(List.of(entity));
 
         entity.setZones(zones);
-        // entity.setContactPersonWarehouse(cp);
         warehouseRepository.saveAndFlush(java.util.Objects.requireNonNull(entity));
     }
 
@@ -79,7 +79,7 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenWarehouse_whenUpdated_shouldReturnUpdatedEntity() {
-        Optional<Warehouse> wh = warehouseRepository.findById(entity.getId());
+        Optional<Warehouse> wh = warehouseRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(wh).isNotNull();
 
@@ -87,16 +87,15 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         updatedEntity.setName("Warehouse 2");
         warehouseRepository.saveAndFlush(updatedEntity);
 
-        Optional<Warehouse> newWh = warehouseRepository.findById(entity.getId());
+        Optional<Warehouse> newWh = warehouseRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(newWh).isNotEmpty();
-        // assertThat(newWh.get().getUpdatedDate()).isNotNull();
         assertThat(newWh.get().getName()).isEqualTo("Warehouse 2");
     }
 
     @Test
     void givenWarehouse_whenReadByZones_shouldReturnZonesDataSize() {
-        Optional<Warehouse> wh = warehouseRepository.findById(entity.getId());
+        Optional<Warehouse> wh = warehouseRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(wh).isNotNull();
         var zones = wh.get().getZones();
@@ -110,7 +109,7 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
         assertThat(entity).isNotNull();
         warehouseRepository.delete(java.util.Objects.requireNonNull(entity));
 
-        Optional<Warehouse> wh = warehouseRepository.findById(entity.getId());
+        Optional<Warehouse> wh = warehouseRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(wh).isEmpty();
     }
@@ -165,7 +164,7 @@ public class WarehouseRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Test
     void givenWarehouse_whenSearchByIdAndExist_shouldReturnDetail() {
-        var wh = warehouseRepository.findById(entity.getId());
+        var wh = warehouseRepository.findById(Objects.requireNonNull(entity.getId()));
 
         assertThat(wh).isNotEmpty();
         assertThat(wh.get()).isNotNull();

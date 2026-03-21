@@ -31,8 +31,4 @@ public class ProductSupplier extends BaseEntity {
     @MapsId("supplierId")
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
-
-    // This join table could be extended with additional columns,
-    // such as the price the supplier charges for the product.
-    // private Double price;
 }

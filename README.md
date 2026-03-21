@@ -1,15 +1,15 @@
 # Warehouse Management System (WMS)
 
-A full-stack, comprehensive Warehouse Management System (WMS) built with Spring Boot, Nuxt 3, and PostgreSQL. It uses OAuth2 with Keycloak for authentication and provides full inventory management components.
+A full-stack, comprehensive Warehouse Management System (WMS) built with Spring Boot, Nuxt 3, and PostgreSQL. It uses OAuth2 with Auth0 for authentication and provides full inventory management components.
 
 ## Features
 
 - **Inventory Tracking:** Full CRUD for tracking categories, products, suppliers, and items.
 - **Warehouse Management:** Manage warehouses, zones, racks, locations, and bin numbers.
 - **Stock Control:** Capabilities for inventory tracking, adjustments, inbound, and outbound management.
-- **Authentication & Security:** Robust OAuth2 implementation via Keycloak instance.
+- **Authentication & Security:** Robust OAuth2 implementation via Auth0 and Okta Spring Boot Starter.
 - **API Documentation:** Interactive Swagger UI and OpenAPI documentation for backend APIs.
-- **Dockerized Infrastructure:** PostgreSQL database and Keycloak setup easily through Docker Compose.
+- **Dockerized Infrastructure:** PostgreSQL database setup easily through Docker Compose.
 - **Testing:** Spring Boot Testcontainers config for database integration tests.
 
 ## Technology Stack
@@ -18,7 +18,7 @@ A full-stack, comprehensive Warehouse Management System (WMS) built with Spring 
 
 - Java 21
 - Spring Boot 3.5.x
-- Spring Security (OAuth2 Resource Server)
+- Spring Security (OAuth2 / Okta Spring Boot Starter)
 - Spring Data JPA
 - PostgreSQL
 - MapStruct & Lombok
@@ -35,7 +35,7 @@ A full-stack, comprehensive Warehouse Management System (WMS) built with Spring 
 ### Infrastructure
 
 - Docker & Docker Compose
-- Keycloak
+- Auth0 (Identity Provider)
 
 ## Getting Started
 
@@ -48,9 +48,7 @@ A full-stack, comprehensive Warehouse Management System (WMS) built with Spring 
 
 ### Quickstart
 
-#### 1. Start Infrastructure (PostgreSQL & Keycloak)
-
-Run Docker Compose to start the WMS database and Keycloak services:
+Run Docker Compose to start the WMS database:
 
 ```sh
 docker compose up -d
@@ -78,9 +76,7 @@ pnpm dev
 
 The frontend application will be available at `http://localhost:3000`.
 
-## Usage & Authentication Guide
-
-Please refer to the complete [GUIDE.md](./GUIDE.md) for details on how to set up Keycloak authentication, Postman REST API tokens, and access parameters.
+Please refer to the [Swagger Documentation](./docs/SWAGGER.md) for details on how to test authenticated APIs with Auth0.
 
 ## Directory Structure
 
@@ -97,8 +93,8 @@ With the backend running locally, you can view the fully documented REST API via
 - Swagger Interactive UI: `http://localhost:7000/swagger-ui.html`
 - OpenAPI JSON Spec: `http://localhost:7000/v3/api-docs`
 
-To test authenticated endpoints in Swagger, see the instructions provided in [GUIDE.md](./GUIDE.md).
+To test authenticated endpoints in Swagger, see the instructions provided in [SWAGGER.md](./docs/SWAGGER.md).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GNU General Public License v3.0 License - see the [LICENSE](LICENSE) file for details.

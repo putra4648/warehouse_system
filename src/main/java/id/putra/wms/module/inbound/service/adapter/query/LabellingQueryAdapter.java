@@ -2,8 +2,10 @@ package id.putra.wms.module.inbound.service.adapter.query;
 
 import java.util.List;
 
-public interface LabellingQueryAdapter {
-    Object getById(Long id);
+import id.putra.wms.module.inbound.dto.LabellingDto;
 
-    List<Object> getAll(Object filter);
+public interface LabellingQueryAdapter {
+    LabellingDto getById(Long id);
+
+    List<LabellingDto> getAll(LabellingDto filter);
 }
