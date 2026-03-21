@@ -224,6 +224,7 @@ const qWarehouse = ref("");
 const warehousePage = ref(1);
 const isWarehouseModalOpen = ref(false);
 const warehouseState = reactive({
+	id: undefined as string | undefined,
 	name: "",
 	location: "",
 	area: 0,
@@ -253,10 +254,11 @@ const qZone = ref("");
 const zonePage = ref(1);
 const isZoneModalOpen = ref(false);
 const zoneState = reactive({
+	id: undefined as string | undefined,
 	name: "",
 	code: "",
 	type: "Storage",
-	warehouse_id: undefined,
+	warehouse_id: undefined as string | undefined,
 	is_active: true
 });
 
@@ -282,10 +284,11 @@ const qRack = ref("");
 const rackPage = ref(1);
 const isRackModalOpen = ref(false);
 const rackState = reactive({
+	id: undefined as string | undefined,
 	name: "",
 	rows: 0,
 	cols: 0,
-	zone_id: undefined,
+	zone_id: undefined as string | undefined,
 	is_active: true
 });
 
@@ -312,10 +315,11 @@ const qLocation = ref("");
 const locationPage = ref(1);
 const isLocationModalOpen = ref(false);
 const locationState = reactive({
+	id: undefined as string | undefined,
 	name: "",
 	type: "Storage",
 	bin_number: "",
-	rack_id: undefined,
+	rack_id: undefined as string | undefined,
 	is_active: true
 });
 
@@ -337,16 +341,31 @@ const locationColumns = [
 ];
 
 // Helpers & Actions
+function resetWarehouse() {
+	Object.assign(warehouseState, { id: undefined, name: "", location: "", area: 0, is_active: true })
+}
+function resetZone() {
+	Object.assign(zoneState, { id: undefined, name: "", code: "", type: "Storage", warehouse_id: undefined, is_active: true })
+}
+function resetRack() {
+	Object.assign(rackState, { id: undefined, name: "", rows: 0, cols: 0, zone_id: undefined, is_active: true })
+}
+function resetLocation() {
+	Object.assign(locationState, { id: undefined, name: "", type: "Storage", bin_number: "", rack_id: undefined, is_active: true })
+}
+
 function openAddModal() {
-	if (activeTab.value === '0') isWarehouseModalOpen.value = true;
-	else if (activeTab.value === '1') isZoneModalOpen.value = true;
-	else if (activeTab.value === '2') isRackModalOpen.value = true;
-	else if (activeTab.value === '3') isLocationModalOpen.value = true;
+	if (activeTab.value === '0') { resetWarehouse(); isWarehouseModalOpen.value = true; }
+	else if (activeTab.value === '1') { resetZone(); isZoneModalOpen.value = true; }
+	else if (activeTab.value === '2') { resetRack(); isRackModalOpen.value = true; }
+	else if (activeTab.value === '3') { resetLocation(); isLocationModalOpen.value = true; }
 }
 
 async function saveWarehouse() {
 	try {
-		await $fetch('/api/warehouses', { method: 'POST', body: [warehouseState] })
+		const method = warehouseState.id ? 'PUT' : 'POST'
+		const url = warehouseState.id ? `/api/warehouses/${warehouseState.id}` : '/api/warehouses'
+		await $fetch(url, { method, body: [warehouseState] })
 		isWarehouseModalOpen.value = false;
 		refreshWarehouses();
 	} catch (e) {
@@ -356,7 +375,9 @@ async function saveWarehouse() {
 
 async function saveZone() {
 	try {
-		await $fetch('/api/zones', { method: 'POST', body: [zoneState] })
+		const method = zoneState.id ? 'PUT' : 'POST'
+		const url = zoneState.id ? `/api/zones/${zoneState.id}` : '/api/zones'
+		await $fetch(url, { method, body: [zoneState] })
 		isZoneModalOpen.value = false;
 		refreshZones();
 	} catch (e) {
@@ -366,7 +387,9 @@ async function saveZone() {
 
 async function saveRack() {
 	try {
-		await $fetch('/api/racks', { method: 'POST', body: [rackState] })
+		const method = rackState.id ? 'PUT' : 'POST'
+		const url = rackState.id ? `/api/racks/${rackState.id}` : '/api/racks'
+		await $fetch(url, { method, body: [rackState] })
 		isRackModalOpen.value = false;
 		refreshRacks();
 	} catch (e) {
@@ -376,7 +399,9 @@ async function saveRack() {
 
 async function saveLocation() {
 	try {
-		await $fetch('/api/locations', { method: 'POST', body: [locationState] })
+		const method = locationState.id ? 'PUT' : 'POST'
+		const url = locationState.id ? `/api/locations/${locationState.id}` : '/api/locations'
+		await $fetch(url, { method, body: [locationState] })
 		isLocationModalOpen.value = false;
 		refreshLocations();
 	} catch (e) {
@@ -384,23 +409,71 @@ async function saveLocation() {
 	}
 }
 
+function editWarehouse(row: Warehouse) {
+	Object.assign(warehouseState, { ...row });
+	isWarehouseModalOpen.value = true;
+}
+
+async function deleteWarehouse(id: string) {
+	if (confirm('Are you sure you want to delete this warehouse?')) {
+		await $fetch(`/api/warehouses/${id}`, { method: 'DELETE' });
+		refreshWarehouses();
+	}
+}
+
 const warehouseActions = (row: Warehouse) => [[
-	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => console.log("Edit", row.id) },
-	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => console.log("Delete", row.id) }
+	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => editWarehouse(row) },
+	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => deleteWarehouse(row.id) }
 ]];
+
+function editZone(row: Zone) {
+	Object.assign(zoneState, { ...row });
+	isZoneModalOpen.value = true;
+}
+
+async function deleteZone(id: string) {
+	if (confirm('Are you sure you want to delete this zone?')) {
+		await $fetch(`/api/zones/${id}`, { method: 'DELETE' });
+		refreshZones();
+	}
+}
 
 const zoneActions = (row: Zone) => [[
-	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => console.log("Edit", row.id) },
-	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => console.log("Delete", row.id) }
+	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => editZone(row) },
+	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => deleteZone(row.id) }
 ]];
+
+function editRack(row: Rack) {
+	Object.assign(rackState, { ...row });
+	isRackModalOpen.value = true;
+}
+
+async function deleteRack(id: string) {
+	if (confirm('Are you sure you want to delete this rack?')) {
+		await $fetch(`/api/racks/${id}`, { method: 'DELETE' });
+		refreshRacks();
+	}
+}
 
 const rackActions = (row: Rack) => [[
-	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => console.log("Edit", row.id) },
-	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => console.log("Delete", row.id) }
+	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => editRack(row) },
+	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => deleteRack(row.id) }
 ]];
 
+function editLocation(row: Location) {
+	Object.assign(locationState, { ...row });
+	isLocationModalOpen.value = true;
+}
+
+async function deleteLocation(id: string) {
+	if (confirm('Are you sure you want to delete this location?')) {
+		await $fetch(`/api/locations/${id}`, { method: 'DELETE' });
+		refreshLocations();
+	}
+}
+
 const locationActions = (row: Location) => [[
-	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => console.log("Edit", row.id) },
-	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => console.log("Delete", row.id) }
+	{ label: "Edit", icon: "i-heroicons-pencil-square-20-solid", onSelect: () => editLocation(row) },
+	{ label: "Delete", icon: "i-heroicons-trash-20-solid", onSelect: () => deleteLocation(row.id) }
 ]];
 </script>
