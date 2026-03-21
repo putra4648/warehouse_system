@@ -3,12 +3,13 @@ package id.putra.wms.shared.base.entity;
 import java.io.Serializable;
 
 import id.putra.wms.module.customer.model.entity.ContactPersonCustomer;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,7 +26,7 @@ public class Customer extends BaseEntity implements Serializable {
     private String name;
     private Boolean isActive;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "contact_person_id")
     private ContactPersonCustomer contactPerson;
 }

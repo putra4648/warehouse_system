@@ -13,7 +13,7 @@
   "dependencies": {
     "@nuxt/eslint": "1.8.0",
     "@nuxt/scripts": "0.11.10",
-    "@nuxt/ui": "^4.3.0",
+    "@nuxt/ui": "^4.5.1",
     "@nuxtjs/color-mode": "4.0.0",
     "@unhead/vue": "^2.0.14",
     "eslint": "^9.33.0",

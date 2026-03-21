@@ -19,22 +19,19 @@ public class InspectionServiceImpl implements InspectionService {
 
     @Override
     public QualityInspectionDto create(QualityInspectionDto dto) {
-        inspectionCommandAdapter.add(List.of(dto));
-        return dto;
+        return inspectionCommandAdapter.add(dto);
     }
 
     @Override
     public QualityInspectionDto update(QualityInspectionDto dto) {
-        inspectionCommandAdapter.update(List.of(dto));
-        return dto;
+        return inspectionCommandAdapter.update(dto);
     }
 
     @Override
     public Boolean delete(Long id) {
         QualityInspectionDto dto = new QualityInspectionDto();
         dto.setId(id);
-        inspectionCommandAdapter.delete(List.of(dto));
-        return true;
+        return inspectionCommandAdapter.delete(dto);
     }
 
     @Override

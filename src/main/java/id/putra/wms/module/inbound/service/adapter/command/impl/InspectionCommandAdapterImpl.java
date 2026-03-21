@@ -1,7 +1,5 @@
 package id.putra.wms.module.inbound.service.adapter.command.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,20 +18,24 @@ public class InspectionCommandAdapterImpl implements InspectionCommandAdapter {
     private final QualityInspectionMapper qualityInspectionMapper;
 
     @Override
-    public void add(List<QualityInspectionDto> dtos) {
-        var entities = dtos.stream().map(qualityInspectionMapper::toEntity).toList();
-        qualityInspectionRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public QualityInspectionDto add(QualityInspectionDto dto) {
+        var entity = qualityInspectionMapper.toEntity(dto);
+        return qualityInspectionMapper.toDto(qualityInspectionRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override
-    public void update(List<QualityInspectionDto> dtos) {
-        var entities = dtos.stream().map(qualityInspectionMapper::toEntity).toList();
-        qualityInspectionRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public QualityInspectionDto update(QualityInspectionDto dto) {
+        var entity = qualityInspectionMapper.toEntity(dto);
+        return qualityInspectionMapper.toDto(qualityInspectionRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override
-    public void delete(List<QualityInspectionDto> dtos) {
-        var ids = dtos.stream().map(d -> d.getId()).toList();
-        qualityInspectionRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
+    public Boolean delete(QualityInspectionDto dto) {
+        var id = java.util.Objects.requireNonNull(dto.getId());
+        if (qualityInspectionRepository.existsById(id)) {
+            qualityInspectionRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

@@ -7,7 +7,9 @@
     </UPageHeader>
 
     <UPageBody>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <UCard v-for="(stat, index) in stats" :key="index">
           <div class="flex items-center justify-between">
             <div>
@@ -28,7 +30,8 @@
           </p>
         </UCard>
       </div>
-      <div class="flex items-center justify-between mb-6">
+
+      <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white" />
         <UButton icon="i-heroicons-plus" color="primary" label="Create Inbound" @click="isOpen = true" />
       </div>
@@ -69,7 +72,7 @@
               <UInput v-model="state.po_number" class="w-full" placeholder="Enter PO number" />
             </UFormField>
             <UFormField label="Supplier" name="supplierId">
-              <USelectMenu v-model="supplierSearch" class="w-full" value-key="id" label-key="name"
+              <USelectMenu clear v-model="supplierSearch" class="w-full" value-key="name" label-key="name"
                 :items="supplierResponse?.data" @update:open="execute()" @change="handleSupplierChange" />
             </UFormField>
             <UFormField label="Date" name="orderDate">
@@ -156,13 +159,13 @@ const state = reactive({
 });
 
 function handleSupplierChange() {
-  state.supplier_id = supplierResponse.value?.data.find(s => s.id === supplierSearch.value)?.id || null;
+  state.supplier_id = supplierResponse.value?.data.find(s => s.name === supplierSearch.value)?.id || null;
 }
 
 async function savePurchaseOrder() {
   try {
     const method = state.id ? 'PUT' : 'POST';
-    const body = state.id ? state : state; // Assuming backend accepts array for new records
+    const body = state;
 
     await $fetch("/api/inbound/po", {
       method,

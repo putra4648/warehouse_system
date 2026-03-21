@@ -19,22 +19,19 @@ public class ReturnInboundServiceImpl implements ReturnInboundService {
 
     @Override
     public ReturnDto create(ReturnDto dto) {
-        returnInboundCommandAdapter.add(List.of(dto));
-        return dto;
+        return returnInboundCommandAdapter.add(dto);
     }
 
     @Override
     public ReturnDto update(ReturnDto dto) {
-        returnInboundCommandAdapter.update(List.of(dto));
-        return dto;
+        return returnInboundCommandAdapter.update(dto);
     }
 
     @Override
     public Boolean delete(Long id) {
         ReturnDto dto = new ReturnDto();
         dto.setId(id);
-        returnInboundCommandAdapter.delete(List.of(dto));
-        return true;
+        return returnInboundCommandAdapter.delete(dto);
     }
 
     @Override

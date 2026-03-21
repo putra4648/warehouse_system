@@ -1,7 +1,9 @@
 package id.putra.wms.module.outbound.service.core.impl;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import id.putra.wms.module.outbound.dto.SalesOrderDto;
 import id.putra.wms.module.outbound.service.adapter.command.SalesOrderCommandAdapter;
 import id.putra.wms.module.outbound.service.adapter.query.SalesOrderQueryAdapter;
@@ -16,22 +18,17 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 
     @Override
     public SalesOrderDto create(SalesOrderDto dto) {
-        salesOrderCommandAdapter.add(List.of(dto));
-        return dto;
+        return salesOrderCommandAdapter.add(dto);
     }
 
     @Override
     public SalesOrderDto update(SalesOrderDto dto) {
-        salesOrderCommandAdapter.update(List.of(dto));
-        return dto;
+        return salesOrderCommandAdapter.update(dto);
     }
 
     @Override
     public Boolean delete(Long id) {
-        SalesOrderDto dto = new SalesOrderDto();
-        dto.setId(id);
-        salesOrderCommandAdapter.delete(List.of(dto));
-        return true;
+        return salesOrderCommandAdapter.delete(id);
     }
 
     @Override
@@ -40,7 +37,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
     }
 
     @Override
-    public List<SalesOrderDto> getAll(SalesOrderDto filter) {
-        return salesOrderQueryAdapter.getAll(filter);
+    public Page<SalesOrderDto> getAll(String search, Pageable pageable) {
+        return salesOrderQueryAdapter.getAll(search, pageable);
     }
 }
