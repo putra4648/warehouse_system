@@ -7,7 +7,7 @@
     </UPageHeader>
     <UPageBody>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <UCard v-for="(stat, index) in stats" :key="index">
           <div class="flex items-center justify-between">
             <div>
@@ -18,19 +18,17 @@
                 {{ stat.value }}
               </h3>
             </div>
-            <UIcon
-              :name="stat.icon"
+            <UIcon :name="stat.icon"
               class="w-8 h-8 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-1.5" />
           </div>
           <p :class="['text-xs mt-2 flex items-center', stat.trendPositive ? 'text-green-500' : 'text-gray-500']">
-            <UIcon
-              :name="stat.trendPositive ? 'i-heroicons-arrow-trending-up' : 'i-heroicons-minus'"
+            <UIcon :name="stat.trendPositive ? 'i-heroicons-arrow-trending-up' : 'i-heroicons-minus'"
               class="w-4 h-4 mr-1" />
             {{ stat.trend }}
           </p>
         </UCard>
       </div>
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold text-gray-900 dark:text-white" />
         <UButton icon="i-heroicons-plus" color="primary" label="Create Outbound" @click="isOpen = true" />
       </div>
@@ -42,13 +40,12 @@
 
         <UTable :columns="columns" :data="salesOrders" :loading="status === 'pending'">
           <template #status-cell="{ row }">
-            <UBadge
-              :color="row.original.status === 'Completed'
-                ? 'success'
-                : row.original.status === 'Processing'
-                  ? 'primary'
-                  : 'secondary'
-                " variant="subtle">
+            <UBadge :color="row.original.status === 'Completed'
+              ? 'success'
+              : row.original.status === 'Processing'
+                ? 'primary'
+                : 'secondary'
+              " variant="subtle">
               {{ row.original.status }}
             </UBadge>
           </template>
@@ -69,16 +66,17 @@
         <template #body>
           <UForm :state="state" class="space-y-4" @submit="saveSalesOrder">
             <UFormField label="SO Number" name="soNumber">
-              <UInput v-model="state.soNumber" placeholder="Enter SO number" />
+              <UInput v-model="state.so_number" placeholder="Enter SO number" class="w-full" />
             </UFormField>
             <UFormField label="Date" name="orderDate">
-              <UInput v-model="state.orderDate" type="date" />
+              <UInput v-model="state.order_date" type="date" class="w-full" />
             </UFormField>
             <UFormField label="Customer ID" name="customerId">
-              <UInput v-model="state.customerId" type="number" />
+              <USelectMenu clear v-model="customerSearch" :items="customers?.data" value-key="name" label-key="name"
+                class="w-full" @update:open="execute()" @change="handleCustomerChange" />
             </UFormField>
             <UFormField label="Status" name="status">
-              <USelect v-model="state.status" :items="['Processing', 'Completed', 'Cancelled']" />
+              <USelect v-model="state.status" :items="['Processing', 'Completed', 'Cancelled']" class="w-full" />
             </UFormField>
             <UButton type="submit" block color="primary">Create Outbound SO</UButton>
           </UForm>
@@ -92,9 +90,11 @@
 import type { TableColumn } from '@nuxt/ui';
 import type { SalesOrder } from '~~/types/outbound';
 import type PaginationResponse from '~~/server/utils/pagination';
+import type { Customer } from '~~/types/customer';
 
 const isOpen = ref(false);
 const q = ref("");
+const customerSearch = ref();
 const page = ref(1);
 const size = ref(10);
 
@@ -105,6 +105,16 @@ const { data, status, refresh } = await useFetch<PaginationResponse<SalesOrder>>
     search: q
   },
   watch: [page, size, q]
+});
+
+const { data: customers, execute } = await useLazyFetch<PaginationResponse<Customer>>("/api/customers", {
+  key: 'customer',
+  immediate: false,
+  query: {
+    page: 0,
+    size: 10,
+    search: customerSearch
+  }
 });
 
 const salesOrders = computed(() => data.value?.data ?? []);
@@ -130,31 +140,36 @@ const stats = computed(() => [
 
 const columns: TableColumn<SalesOrder>[] = [
   { accessorKey: "id", header: "ID" },
-  { accessorKey: "soNumber", header: "SO Number" },
-  { accessorKey: "orderDate", header: "Order Date" },
+  { accessorKey: "so_number", header: "SO Number" },
+  { accessorKey: "order_date", header: "Order Date" },
   { accessorKey: "status", header: "Status" },
   { accessorKey: "actions", header: "" },
 ];
 
 const state = reactive({
   id: null as number | null,
-  soNumber: "",
-  orderDate: new Date().toISOString().split('T')[0],
+  so_number: "",
+  order_date: new Date().toISOString().split('T')[0],
   status: "Processing",
-  customerId: null as number | null,
-  salesOrderLines: []
+  customer_id: null as number | null,
+  sales_order_lines: []
 });
+
+function handleCustomerChange() {
+  state.customer_id = customers.value?.data.find(c => c.name === customerSearch.value)?.id || null;
+  console.log(state.customer_id)
+}
 
 async function saveSalesOrder() {
   try {
     const method = state.id ? 'PUT' : 'POST';
-    const body = state.id ? state : [state]; // Assuming backend accepts array for new records
-    
+    const body = state.id ? state : state
+
     await $fetch("/api/outbound/so", {
       method,
       body
     });
-    
+
     isOpen.value = false;
     resetForm();
     refresh();
@@ -165,11 +180,11 @@ async function saveSalesOrder() {
 
 function resetForm() {
   state.id = null;
-  state.soNumber = "";
-  state.orderDate = new Date().toISOString().split('T')[0];
+  state.so_number = "";
+  state.order_date = new Date().toISOString().split('T')[0];
   state.status = "Processing";
-  state.customerId = null;
-  state.salesOrderLines = [];
+  state.customer_id = null;
+  state.sales_order_lines = [];
 }
 
 const items = (row: SalesOrder) => [

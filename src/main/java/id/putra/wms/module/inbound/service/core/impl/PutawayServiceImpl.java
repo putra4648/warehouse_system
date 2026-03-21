@@ -19,22 +19,19 @@ public class PutawayServiceImpl implements PutawayService {
 
     @Override
     public PutawayDto create(PutawayDto dto) {
-        putawayCommandAdapter.add(List.of(dto));
-        return dto;
+        return putawayCommandAdapter.add(dto);
     }
 
     @Override
     public PutawayDto update(PutawayDto dto) {
-        putawayCommandAdapter.update(List.of(dto));
-        return dto;
+        return putawayCommandAdapter.update(dto);
     }
 
     @Override
     public Boolean delete(Long id) {
         PutawayDto dto = new PutawayDto();
         dto.setId(id);
-        putawayCommandAdapter.delete(List.of(dto));
-        return true;
+        return putawayCommandAdapter.delete(dto);
     }
 
     @Override

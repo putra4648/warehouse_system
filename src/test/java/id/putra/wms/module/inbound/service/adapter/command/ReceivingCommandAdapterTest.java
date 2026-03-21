@@ -1,10 +1,10 @@
 package id.putra.wms.module.inbound.service.adapter.command;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 
 import java.sql.Date;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,16 +34,16 @@ public class ReceivingCommandAdapterTest {
         receivingCommandAdapter = new ReceivingCommandAdapterImpl(receivingRepository, receivingMapper);
     }
 
-        @Test
+    @Test
     void whenAddReceivingDtos_thenSaved() {
         ReceivingDto dto = new ReceivingDto();
         dto.setReceivingNumber("RCV-TEST-ADD");
         dto.setReceivedDate(new Date(System.currentTimeMillis()));
         dto.setStatus("NEW");
 
-        receivingCommandAdapter.add(List.of(dto));
+        receivingCommandAdapter.add(dto);
 
-        verify(receivingRepository).saveAll(anyList());
+        verify(receivingRepository).save(any());
     }
 
     @Test
@@ -53,9 +53,9 @@ public class ReceivingCommandAdapterTest {
         dto.setReceivingNumber("RCV-CMD-2-UPDATED");
         dto.setStatus("UPDATED");
 
-        receivingCommandAdapter.update(List.of(dto));
+        receivingCommandAdapter.update(dto);
 
-        verify(receivingRepository).saveAll(anyList());
+        verify(receivingRepository).save(any());
     }
 
     @Test
@@ -63,9 +63,9 @@ public class ReceivingCommandAdapterTest {
         ReceivingDto dto = new ReceivingDto();
         dto.setId(1L);
 
-        receivingCommandAdapter.delete(List.of(dto));
+        receivingCommandAdapter.delete(dto);
 
-        verify(receivingRepository).deleteAllById(anyIterable());
+        verify(receivingRepository).deleteById(anyLong());
     }
 
 }

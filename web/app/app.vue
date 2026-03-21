@@ -40,7 +40,7 @@ const signout = async () => {
   window.location.href = "/auth/auth0"
 }
 
-const userMenuItems = ref<DropdownMenuItem[]>([
+const userMenuItems = computed<DropdownMenuItem[]>(() => [
   [
     {
       label: user.value?.name,
@@ -87,6 +87,11 @@ const items = [
     label: "Master Data",
     icon: "i-heroicons-circle-stack",
     children: [
+      {
+        label: "Customer",
+        to: "/master/customer",
+        icon: "i-heroicons-user",
+      },
       {
         label: "Product",
         to: "/master/products",

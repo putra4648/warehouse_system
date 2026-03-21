@@ -31,8 +31,11 @@ public class PurchaseOrderCommandAdapterImpl implements PurchaseOrderCommandAdap
 
     @Override
     public Boolean delete(PurchaseOrderDto dto) {
-        var id = dto.getId();
-        purchaseOrderRepository.deleteById(java.util.Objects.requireNonNull(id));
-        return true;
+        var id = java.util.Objects.requireNonNull(dto.getId());
+        if (purchaseOrderRepository.existsById(id)) {
+            purchaseOrderRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

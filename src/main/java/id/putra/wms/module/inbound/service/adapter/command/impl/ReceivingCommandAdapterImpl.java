@@ -1,7 +1,5 @@
 package id.putra.wms.module.inbound.service.adapter.command.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,20 +18,24 @@ public class ReceivingCommandAdapterImpl implements ReceivingCommandAdapter {
     private final ReceivingMapper receivingMapper;
 
     @Override
-    public void add(List<ReceivingDto> dtos) {
-        var entities = dtos.stream().map(receivingMapper::toEntity).toList();
-        receivingRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public ReceivingDto add(ReceivingDto dto) {
+        var entity = receivingMapper.toEntity(dto);
+        return receivingMapper.toDto(receivingRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override
-    public void update(List<ReceivingDto> dtos) {
-        var entities = dtos.stream().map(receivingMapper::toEntity).toList();
-        receivingRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public ReceivingDto update(ReceivingDto dto) {
+        var entity = receivingMapper.toEntity(dto);
+        return receivingMapper.toDto(receivingRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override
-    public void delete(List<ReceivingDto> dtos) {
-        var ids = dtos.stream().map(d -> d.getId()).toList();
-        receivingRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
+    public Boolean delete(ReceivingDto dto) {
+        var id = java.util.Objects.requireNonNull(dto.getId());
+        if (receivingRepository.existsById(id)) {
+            receivingRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

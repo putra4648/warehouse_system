@@ -1,11 +1,11 @@
 package id.putra.wms.module.inbound.service.adapter.command;
 
-import java.util.List;
+import id.putra.wms.module.inbound.dto.LabellingDto;
 
 public interface LabellingCommandAdapter {
-    void add(List<Object> dtos);
+    LabellingDto add(LabellingDto dto);
 
-    void update(List<Object> dtos);
+    LabellingDto update(LabellingDto dto);
 
-    void delete(List<Object> dtos);
+    Boolean delete(LabellingDto dto);
 }

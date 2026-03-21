@@ -19,22 +19,19 @@ public class ReceivingOrderServiceImpl implements ReceivingOrderService {
 
     @Override
     public ReceivingDto create(ReceivingDto dto) {
-        receivingCommandAdapter.add(List.of(dto));
-        return dto;
+        return receivingCommandAdapter.add(dto);
     }
 
     @Override
     public ReceivingDto update(ReceivingDto dto) {
-        receivingCommandAdapter.update(List.of(dto));
-        return dto;
+        return receivingCommandAdapter.update(dto);
     }
 
     @Override
     public Boolean delete(Long id) {
         ReceivingDto dto = new ReceivingDto();
         dto.setId(id);
-        receivingCommandAdapter.delete(List.of(dto));
-        return true;
+        return receivingCommandAdapter.delete(dto);
     }
 
     @Override

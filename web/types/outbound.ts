@@ -1,55 +1,55 @@
 export interface SalesOrder {
   id: number | null;
-  soNumber: string;
-  orderDate: string;
+  so_number: string;
+  order_date: string;
   status: string;
-  customerId: number | null;
-  salesOrderLines: SalesOrderLine[];
+  customer_id: number | null;
+  sales_order_lines: SalesOrderLine[];
 }
 
 export interface SalesOrderLine {
   id: number | null;
-  productId: number;
+  product_id: number;
   quantity: number;
-  salesOrderId: number | null;
+  sales_order_id: number | null;
 }
 
 export interface PickingTask {
   id: number | null;
-  salesOrderLineId: number;
+  sales_order_line_id: number;
   status: string;
 }
 
 export interface Packing {
   id: number | null;
-  packageNumber: string;
+  package_number: string;
   weight: number;
   dimension: string;
-  shipmentIds: number[];
+  shipment_ids: number[];
 }
 
 export interface Shipment {
   id: number | null;
-  shipmentNumber: string;
-  shipDate: string;
+  shipment_number: string;
+  ship_date: string;
   status: string;
-  packingId: number | null;
-  carrierId: number | null;
+  packing_id: number | null;
+  carrier_id: number | null;
 }
 
 export interface Carrier {
   id: number | null;
   name: string;
-  serviceType: string;
+  service_type: string;
 }
 
 // Keeping legacy type for compatibility if needed, but we should use the new ones
 export interface Outbound {
-    id: string | number;
-    customer?: string;
-    destination?: string;
-    date: string;
-    quantity: number;
-    status: string;
-    soNumber?: string;
+  id: string | number;
+  customer?: string;
+  destination?: string;
+  date: string;
+  quantity: number;
+  status: string;
+  so_number?: string;
 }

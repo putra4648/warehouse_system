@@ -1,153 +1,151 @@
 <template>
-  <div>
-    <div class="flex items-center justify-between mb-6">
-      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
-        Suppliers
-      </h1>
-      <UButton icon="i-heroicons-plus" color="primary" label="Add Supplier" @click="isOpen = true" />
-    </div>
-
-    <UCard>
-      <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
-        <UInput v-model="q" placeholder="Filter suppliers..." icon="i-heroicons-magnifying-glass" />
+  <UPage>
+    <UPageHeader title="Suppliers" description="Manage your suppliers" />
+    <UPageBody>
+      <div class="flex items-center justify-between">
+        <UButton icon="i-heroicons-plus" color="primary" label="Add Supplier" @click="isOpen = true" />
       </div>
+      <UCard>
+        <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+          <UInput v-model="q" placeholder="Filter suppliers..." icon="i-heroicons-magnifying-glass" />
+        </div>
 
-      <UTable :columns="columns" :data="suppliers" :loading="status === 'pending'">
-        <template #name-cell="{ row }">
-          <span class="font-medium text-gray-900 dark:text-white">{{
-            row.original.name
-          }}</span>
-        </template>
+        <UTable :columns="columns" :data="suppliers" :loading="status === 'pending'">
+          <template #name-cell="{ row }">
+            <span class="font-medium text-gray-900 dark:text-white">{{
+              row.original.name
+            }}</span>
+          </template>
 
-        <template #is_active-cell="{ row }">
-          <UBadge :color="row.original.is_active ? 'success' : 'error'" variant="subtle">
-            {{ row.original.is_active ? "Active" : "Inactive" }}
-          </UBadge>
-        </template>
+          <template #is_active-cell="{ row }">
+            <UBadge :color="row.original.is_active ? 'success' : 'error'" variant="subtle">
+              {{ row.original.is_active ? "Active" : "Inactive" }}
+            </UBadge>
+          </template>
 
-        <template #contact_person_suppliers-cell="{ row }">
-          <div class="flex flex-col gap-1">
-            <span class="text-xs text-gray-500">
-              <UIcon name="i-heroicons-users" class="inline-block mr-1" />{{
-                row.original.contact_person_suppliers?.length || 0 }} contacts
-            </span>
-            <span class="text-xs text-gray-500">
-              <UIcon name="i-heroicons-shopping-bag" class="inline-block mr-1" />
-              {{ row.original.products?.length || 0 }} products
-            </span>
-          </div>
-        </template>
+          <template #contact_person_suppliers-cell="{ row }">
+            <div class="flex flex-col gap-1">
+              <span class="text-xs text-gray-500">
+                <UIcon name="i-heroicons-users" class="inline-block mr-1" />{{
+                  row.original.contact_person_suppliers?.length || 0 }} contacts
+              </span>
+              <span class="text-xs text-gray-500">
+                <UIcon name="i-heroicons-shopping-bag" class="inline-block mr-1" />
+                {{ row.original.products?.length || 0 }} products
+              </span>
+            </div>
+          </template>
 
-        <template #actions-cell="{ row }">
-          <UDropdownMenu :items="items(row.original)">
-            <UButton color="neutral" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
-          </UDropdownMenu>
-        </template>
-      </UTable>
+          <template #actions-cell="{ row }">
+            <UDropdownMenu :items="items(row.original)">
+              <UButton color="neutral" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+            </UDropdownMenu>
+          </template>
+        </UTable>
 
-      <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-        <UPagination v-model="page" :items-per-page="size" :total="total" />
-      </div>
-    </UCard>
+        <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+          <UPagination v-model="page" :items-per-page="size" :total="total" />
+        </div>
+      </UCard>
 
-    <UModal v-model:open="isOpen" :title="state.id ? 'Edit Supplier' : 'Add Supplier'" scrollable>
-      <template #body>
-        <UForm :state="state" class="space-y-6" @submit="saveSupplier">
-          <UTabs :items="formTabs" class="w-full">
-            <template #general>
-              <div class="space-y-4 py-4">
-                <UFormField label="Name" name="name">
-                  <UInput v-model="state.name" class="w-full" placeholder="Enter supplier name" />
-                </UFormField>
-                <UFormField label="Code" name="code">
-                  <UInput v-model="state.code" class="w-full" placeholder="Enter supplier code" />
-                </UFormField>
-                <UFormField label="Active Status" name="is_active">
-                  <USwitch v-model="state.is_active" />
-                </UFormField>
-              </div>
-            </template>
-
-            <template #contacts>
-              <div class="space-y-4 py-4">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-sm font-medium">Manage Contact Persons</h3>
-                  <UButton icon="i-heroicons-plus" color="neutral" variant="outline" size="xs" label="Add Contact"
-                    @click="addContactPerson" />
+      <UModal v-model:open="isOpen" :title="state.id ? 'Edit Supplier' : 'Add Supplier'" scrollable>
+        <template #body>
+          <UForm :state="state" class="space-y-6" @submit="saveSupplier">
+            <UTabs :items="formTabs" class="w-full">
+              <template #general>
+                <div class="space-y-4 py-4">
+                  <UFormField label="Name" name="name">
+                    <UInput v-model="state.name" class="w-full" placeholder="Enter supplier name" />
+                  </UFormField>
+                  <UFormField label="Code" name="code">
+                    <UInput v-model="state.code" class="w-full" placeholder="Enter supplier code" />
+                  </UFormField>
+                  <UFormField label="Active Status" name="is_active">
+                    <USwitch v-model="state.is_active" />
+                  </UFormField>
                 </div>
+              </template>
 
-                <div class="space-y-4 max-h-80 overflow-y-auto pr-2">
-                  <div v-for="(contact, index) in state.contact_person_suppliers" :key="index"
-                    class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg relative">
-                    <UButton icon="i-heroicons-trash" color="error" variant="ghost" size="xs"
-                      class="absolute top-2 right-2" @click="removeContactPerson(index)" />
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <UFormField label="Name" :name="`contact-${index}-name`">
-                        <UInput v-model="contact.name" placeholder="Name" />
-                      </UFormField>
-                      <UFormField label="Email" :name="`contact-${index}-email`">
-                        <UInput v-model="contact.email" placeholder="Email" />
-                      </UFormField>
-                      <UFormField label="Phone" :name="`contact-${index}-phone`">
-                        <UInput v-model="contact.phone" placeholder="Phone" />
-                      </UFormField>
-                      <UFormField label="Address" :name="`contact-${index}-address`">
-                        <UInput v-model="contact.address" placeholder="Address" />
-                      </UFormField>
-                    </div>
+              <template #contacts>
+                <div class="space-y-4 py-4">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-medium">Manage Contact Persons</h3>
+                    <UButton icon="i-heroicons-plus" color="neutral" variant="outline" size="xs" label="Add Contact"
+                      @click="addContactPerson" />
                   </div>
-                  <div v-if="state.contact_person_suppliers.length === 0"
-                    class="text-center py-8 text-gray-500 text-sm italic border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-lg">
-                    No contact persons added yet.
-                  </div>
-                </div>
-              </div>
-            </template>
 
-            <template #products>
-              <div class="space-y-4 py-4">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-sm font-medium">Supplied Products</h3>
-                  <div class="flex gap-2">
-                    <USelectMenu v-model="selectedProduct" value-key="id" label-key="name" :items="availableProducts"
-                      placeholder="Select product to add..." class="w-64" />
-                    <UButton :disabled="!selectedProduct" icon="i-heroicons-plus" color="neutral" variant="solid"
-                      size="xs" label="Add" @click="addProduct" />
-                  </div>
-                </div>
+                  <div class="space-y-4 max-h-80 overflow-y-auto pr-2">
+                    <div v-for="(contact, index) in state.contact_person_suppliers" :key="index"
+                      class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg relative">
+                      <UButton icon="i-heroicons-trash" color="error" variant="ghost" size="xs"
+                        class="absolute top-2 right-2" @click="removeContactPerson(index)" />
 
-                <div class="space-y-2 max-h-80 overflow-y-auto pr-2">
-                  <div v-for="(ps, index) in state.products" :key="index"
-                    class="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                    <div class="flex items-center gap-3">
-                      <div
-                        class="w-10 h-10 rounded bg-primary-100 dark:bg-primary-900 flex items-center justify-center text-primary-600 dark:text-primary-400 font-bold text-xs">
-                        {{ ps.product?.name.substring(0, 2).toUpperCase() }}
-                      </div>
-                      <div>
-                        <div class="font-medium text-sm">{{ ps.product?.name }}</div>
-                        <div class="text-xs text-gray-500">ID: {{ ps.product?.id }}</div>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <UFormField label="Name" :name="`contact-${index}-name`">
+                          <UInput v-model="contact.name" placeholder="Name" />
+                        </UFormField>
+                        <UFormField label="Email" :name="`contact-${index}-email`">
+                          <UInput v-model="contact.email" placeholder="Email" />
+                        </UFormField>
+                        <UFormField label="Phone" :name="`contact-${index}-phone`">
+                          <UInput v-model="contact.phone" placeholder="Phone" />
+                        </UFormField>
+                        <UFormField label="Address" :name="`contact-${index}-address`">
+                          <UInput v-model="contact.address" placeholder="Address" />
+                        </UFormField>
                       </div>
                     </div>
-                    <UButton icon="i-heroicons-trash" color="error" variant="ghost" size="xs"
-                      @click="removeProduct(index)" />
-                  </div>
-                  <div v-if="state.products.length === 0"
-                    class="text-center py-8 text-gray-500 text-sm italic border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-lg">
-                    No products assigned to this supplier.
+                    <div v-if="state.contact_person_suppliers.length === 0"
+                      class="text-center py-8 text-gray-500 text-sm italic border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-lg">
+                      No contact persons added yet.
+                    </div>
                   </div>
                 </div>
-              </div>
-            </template>
-          </UTabs>
+              </template>
 
-          <UButton type="submit" block color="primary">Save Supplier</UButton>
-        </UForm>
-      </template>
-    </UModal>
+              <template #products>
+                <div class="space-y-4 py-4">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-medium">Supplied Products</h3>
+                    <div class="flex gap-2">
+                      <USelectMenu v-model="selectedProduct" value-key="id" label-key="name" :items="availableProducts"
+                        placeholder="Select product to add..." class="w-64" />
+                      <UButton :disabled="!selectedProduct" icon="i-heroicons-plus" color="neutral" variant="solid"
+                        size="xs" label="Add" @click="addProduct" />
+                    </div>
+                  </div>
 
-  </div>
+                  <div class="space-y-2 max-h-80 overflow-y-auto pr-2">
+                    <div v-for="(ps, index) in state.products" :key="index"
+                      class="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                      <div class="flex items-center gap-3">
+                        <div
+                          class="w-10 h-10 rounded bg-primary-100 dark:bg-primary-900 flex items-center justify-center text-primary-600 dark:text-primary-400 font-bold text-xs">
+                          {{ ps.product?.name.substring(0, 2).toUpperCase() }}
+                        </div>
+                        <div>
+                          <div class="font-medium text-sm">{{ ps.product?.name }}</div>
+                          <div class="text-xs text-gray-500">ID: {{ ps.product?.id }}</div>
+                        </div>
+                      </div>
+                      <UButton icon="i-heroicons-trash" color="error" variant="ghost" size="xs"
+                        @click="removeProduct(index)" />
+                    </div>
+                    <div v-if="state.products.length === 0"
+                      class="text-center py-8 text-gray-500 text-sm italic border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-lg">
+                      No products assigned to this supplier.
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </UTabs>
+
+            <UButton type="submit" block color="primary">Save Supplier</UButton>
+          </UForm>
+        </template>
+      </UModal>
+    </UPageBody>
+  </UPage>
 </template>
 
 <script setup lang="ts">

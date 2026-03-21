@@ -1,13 +1,11 @@
 package id.putra.wms.module.inbound.service.adapter.command;
 
-import java.util.List;
-
 import id.putra.wms.module.inbound.dto.QualityInspectionDto;
 
 public interface InspectionCommandAdapter {
-    void add(List<QualityInspectionDto> dtos);
+    QualityInspectionDto add(QualityInspectionDto dto);
 
-    void update(List<QualityInspectionDto> dtos);
+    QualityInspectionDto update(QualityInspectionDto dto);
 
-    void delete(List<QualityInspectionDto> dtos);
+    Boolean delete(QualityInspectionDto dto);
 }

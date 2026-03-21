@@ -1,7 +1,5 @@
 package id.putra.wms.module.outbound.service.adapter.command.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,20 +18,20 @@ public class SalesOrderCommandAdapterImpl implements SalesOrderCommandAdapter {
     private final SalesOrderMapper salesOrderMapper;
 
     @Override
-    public void add(List<SalesOrderDto> dtos) {
-        var entities = dtos.stream().map(salesOrderMapper::toEntity).toList();
-        salesOrderRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public SalesOrderDto add(SalesOrderDto dto) {
+        var entity = salesOrderMapper.toEntity(dto);
+        return salesOrderMapper.toDto(salesOrderRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override
-    public void update(List<SalesOrderDto> dtos) {
-        var entities = dtos.stream().map(salesOrderMapper::toEntity).toList();
-        salesOrderRepository.saveAll(java.util.Objects.requireNonNull(entities));
+    public SalesOrderDto update(SalesOrderDto dto) {
+        var entity = salesOrderMapper.toEntity(dto);
+        return salesOrderMapper.toDto(salesOrderRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override
-    public void delete(List<SalesOrderDto> dtos) {
-        var ids = dtos.stream().map(d -> d.getId()).toList();
-        salesOrderRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
+    public Boolean delete(Long id) {
+        salesOrderRepository.deleteById(id);
+        return true;
     }
 }

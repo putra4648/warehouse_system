@@ -1,11 +1,11 @@
 package id.putra.wms.module.inbound.service.adapter.command;
 
-import java.util.List;
+import id.putra.wms.module.inbound.dto.PutawayDto;
 
 public interface PutawayCommandAdapter {
-    void add(List<Object> dtos);
+    PutawayDto add(PutawayDto dto);
 
-    void update(List<Object> dtos);
+    PutawayDto update(PutawayDto dto);
 
-    void delete(List<Object> dtos);
+    Boolean delete(PutawayDto dto);
 }

@@ -1,13 +1,11 @@
 package id.putra.wms.module.outbound.service.adapter.command;
 
-import java.util.List;
-
 import id.putra.wms.module.outbound.dto.SalesOrderDto;
 
 public interface SalesOrderCommandAdapter {
-    void add(List<SalesOrderDto> dtos);
+    SalesOrderDto add(SalesOrderDto dto);
 
-    void update(List<SalesOrderDto> dtos);
+    SalesOrderDto update(SalesOrderDto dto);
 
-    void delete(List<SalesOrderDto> dtos);
+    Boolean delete(Long id);
 }
