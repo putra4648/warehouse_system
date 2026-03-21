@@ -31,7 +31,7 @@ public class SalesOrderQueryAdapterImpl implements SalesOrderQueryAdapter {
             if (search == null || search.isEmpty()) {
                 return criteriaBuilder.conjunction();
             }
-            return criteriaBuilder.like(root.get("code"), "%" + search + "%");
+            return criteriaBuilder.like(root.get("soNumber"), "%" + search + "%");
         };
         return salesOrderRepository.findAll(spec, pageable).map(salesOrderMapper::toDto);
     }
