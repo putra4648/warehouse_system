@@ -1,0 +1,28 @@
+export default defineOAuthAuth0EventHandler({
+  config: {
+    scope: ["openid", "profile", "email"],
+    authorizationParams: {
+      audience: process.env.AUTH0_AUDIENCE!,
+    },
+  },
+  async onSuccess(event, { user, tokens }) {
+    console.log("USER", user);
+    console.log("TOKENS", tokens);
+    await setUserSession(event, {
+      user: {
+        id: user.sub,
+        name: user.nickname,
+        email: user.email,
+        image: user.picture,
+      },
+      secure: {
+        accessToken: tokens.access_token,
+      },
+    });
+    return sendRedirect(event, "/");
+  },
+  onError(event, error) {
+    console.error("Auth0 Login Error:", error);
+    return sendRedirect(event, "/");
+  },
+});

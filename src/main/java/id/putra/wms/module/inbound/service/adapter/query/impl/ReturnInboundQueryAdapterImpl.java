@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.inbound.dto.ReturnDto;
 import id.putra.wms.module.inbound.service.adapter.query.ReturnInboundQueryAdapter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,16 +13,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReturnInboundQueryAdapterImpl implements ReturnInboundQueryAdapter {
-
     @Override
-    public Object getById(Long id) {
-        // Placeholder - implement when ReturnInboundDto and repository are ready
-        return null;
+    public ReturnDto getById(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getById'");
     }
 
     @Override
-    public List<Object> getAll(Object filter) {
-        // Placeholder - implement when ReturnInboundDto and repository are ready
-        return List.of();
+    public List<ReturnDto> getAll(ReturnDto filter) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }
+
 }

@@ -18,40 +18,6 @@ services:
       timeout: 5s
       retries: 5
 
-  keycloak:
-    container_name: wms-keycloak
-    build:
-      context: docker/keycloak
-    ports:
-      - 9000:8080
-    environment:
-      - KC_DB_URL=jdbc:postgresql://wms_db:5432/wms_keycloak
-      - KC_DB_USERNAME=admin
-      - KC_DB_PASSWORD=admin123
-      - KC_HTTP_ENABLED=true
-      - KC_HOSTNAME=${KC_HOSTNAME:-localhost}
-    volumes:
-      - ./config/keycloak:/opt/keycloak/data/import
-      - ./config/server.keystore:/opt/keycloak/server.keystore
-    command:
-      [
-        "start",
-        "--optimized",
-        "--import-realm",
-        "--https-key-store-file=/opt/keycloak/server.keystore",
-        "--https-key-store-password=password",
-      ]
-    networks:
-      - wms-network
-    depends_on:
-      wms_db:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://keycloak:8080/health/ready || exit 1"]
-      interval: 15s
-      timeout: 10s
-      retries: 30
-
   backend:
     image: putra4648/backend
     depends_on:
@@ -68,7 +34,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://wms_db:5432/wms_db
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=admin123
-      - spring.security.oauth2.client.provider.wms-provider.issuer_uri=http://keycloak:8080/realms/wms
     networks:
       - wms-network
 

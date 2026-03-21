@@ -18,7 +18,6 @@ public class SupplierQueryAdapterImpl implements SupplierQueryAdapter {
 
     @Override
     public Page<SupplierDto> getAll(Pageable pageable, String search) {
-        // Implement search logic here
         Pageable safePageable = java.util.Objects.requireNonNull(pageable);
         return repository.findAll(safePageable).map(mapper::toDto);
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.inbound.dto.LabellingDto;
 import id.putra.wms.module.inbound.service.adapter.query.LabellingQueryAdapter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,16 +13,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class LabellingQueryAdapterImpl implements LabellingQueryAdapter {
-
     @Override
-    public Object getById(Long id) {
-        // Placeholder - implement when LabelDto and repository are ready
-        return null;
+    public LabellingDto getById(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getById'");
     }
 
     @Override
-    public List<Object> getAll(Object filter) {
-        // Placeholder - implement when LabelDto and repository are ready
-        return List.of();
+    public List<LabellingDto> getAll(LabellingDto filter) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }
+
 }

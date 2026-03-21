@@ -30,5 +30,4 @@ public class TransactionDto extends BaseDto {
     private SupplierDto supplier;
     private CustomerDto customer;
     private List<TransactionItemDto> items;
-    // Add other fields as needed
 }

@@ -1,13 +1,11 @@
 package id.putra.wms.module.inbound.service.adapter.command;
 
-import java.util.List;
-
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 
 public interface PurchaseOrderCommandAdapter {
-    void add(List<PurchaseOrderDto> dtos);
+    PurchaseOrderDto add(PurchaseOrderDto dto);
 
-    void update(List<PurchaseOrderDto> dtos);
+    PurchaseOrderDto update(PurchaseOrderDto dto);
 
-    void delete(List<PurchaseOrderDto> dtos);
+    Boolean delete(PurchaseOrderDto dto);
 }
