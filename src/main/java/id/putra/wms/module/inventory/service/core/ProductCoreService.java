@@ -1,7 +1,5 @@
 package id.putra.wms.module.inventory.service.core;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,10 +11,10 @@ public interface ProductCoreService {
 
     ProductDto getProduct(ProductDto dto);
 
-    void save(List<ProductDto> dtos);
+    ProductDto save(ProductDto dto);
 
-    void update(List<ProductDto> dtos);
+    ProductDto update(ProductDto dto);
 
-    void delete(List<ProductDto> dtos);
+    Boolean delete(Long id);
 
 }

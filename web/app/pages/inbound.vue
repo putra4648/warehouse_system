@@ -72,8 +72,8 @@
               <UInput v-model="state.po_number" class="w-full" placeholder="Enter PO number" />
             </UFormField>
             <UFormField label="Supplier" name="supplierId">
-              <USelectMenu clear v-model="supplierSearch" class="w-full" value-key="name" label-key="name"
-                :items="supplierResponse?.data" @update:open="execute()" @change="handleSupplierChange" />
+              <USelectMenu clear v-model="supplierSearch" class="w-full" value-key="id" label-key="name"
+                :items="supplierResponse?.data" @update:open="execute()" />
             </UFormField>
             <UFormField label="Date" name="orderDate">
               <UInput v-model="state.order_date" type="date" class="w-full" />
@@ -158,14 +158,14 @@ const state = reactive({
   purchase_order_lines: []
 });
 
-function handleSupplierChange() {
-  state.supplier_id = supplierResponse.value?.data.find(s => s.name === supplierSearch.value)?.id || null;
-}
 
 async function savePurchaseOrder() {
   try {
     const method = state.id ? 'PUT' : 'POST';
-    const body = state;
+    const body = {
+      ...state,
+      supplier_id: supplierSearch.value
+    }; // Assuming backend accepts array for new records
 
     await $fetch("/api/inbound/po", {
       method,

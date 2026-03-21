@@ -3,8 +3,7 @@
     <UPageHeader title="Products" description="Manage your products" />
     <UPageBody>
       <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Products</h1>
-        <UButton icon="i-heroicons-plus" color="primary" label="Add Product" @click="isOpen = true" />
+        <UButton icon="i-heroicons-plus" color="primary" label="Add Product" @click="openAddModal" />
       </div>
 
       <UCard>
@@ -31,7 +30,7 @@
         </div>
       </UCard>
 
-      <UModal v-model:open="isOpen" title="Add Product" scrollable>
+      <UModal v-model:open="isOpen" :title="state.id ? 'Edit Product' : 'Add Product'" scrollable>
         <template #body>
           <UForm :state="state" class="space-y-4" @submit="saveProduct">
             <UFormField label="Name" name="name">
@@ -45,6 +44,9 @@
             </UFormField>
             <UFormField label="Stock" name="quantity">
               <UInput v-model="state.quantity" type="number" class="w-full" />
+            </UFormField>
+            <UFormField label="Active Status" name="is_active">
+              <USwitch v-model="state.is_active" />
             </UFormField>
             <UButton type="submit" block>Save Product</UButton>
           </UForm>
@@ -95,19 +97,57 @@ const columns = [
 ];
 
 const state = reactive({
+  id: null as number | null,
   name: "",
   sku: "",
   category: {
     id: 0
   },
   quantity: 0,
+  is_active: true,
 });
+
+function resetProduct() {
+  state.id = null;
+  state.name = "";
+  state.sku = "";
+  state.category = { id: (categories.value[0]?.id || 0) };
+  state.quantity = 0;
+}
+
+function openAddModal() {
+  resetProduct();
+  isOpen.value = true;
+}
+
+function editProduct(row: Product) {
+  Object.assign(state, {
+    ...row,
+    category: { id: row.category?.id || 0 }
+  });
+  isOpen.value = true;
+}
+
+async function deleteProduct(id: number) {
+  if (!confirm("Are you sure you want to delete this product?")) return;
+  try {
+    await $fetch(`/api/products/${id}`, {
+      method: 'DELETE'
+    });
+    refresh();
+  } catch (error) {
+    console.error('Failed to delete product', error);
+  }
+}
 
 async function saveProduct() {
   try {
-    await $fetch('/api/products', {
-      method: 'POST',
-      body: [state] // Backend expects a list
+    const method = state.id ? 'PUT' : 'POST';
+    const body = state;
+    const url = state.id ? `/api/products/${state.id}` : '/api/products';
+    await $fetch(url, {
+      method,
+      body
     })
     isOpen.value = false
     refresh()
@@ -121,12 +161,14 @@ const items = (row: Product) => [
     {
       label: "Edit",
       icon: "i-heroicons-pencil-square-20-solid",
-      onSelect: () => console.log("Edit", row.id),
+      onSelect: () => editProduct(row),
     },
     {
       label: "Delete",
       icon: "i-heroicons-trash-20-solid",
-      onSelect: () => console.log("Delete", row.id),
+      variant: "neutral" as const,
+      color: "error" as const,
+      onSelect: () => deleteProduct(row.id),
     },
   ],
 ];

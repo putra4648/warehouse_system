@@ -1,7 +1,5 @@
 package id.putra.wms.module.inventory.service.core.impl;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,18 +27,18 @@ public class ProductServiceImpl implements ProductCoreService {
     }
 
     @Override
-    public void save(List<ProductDto> dtos) {
-        productCommandAdapter.save(dtos);
+    public ProductDto save(ProductDto dto) {
+        return productCommandAdapter.save(dto);
     }
 
     @Override
-    public void update(List<ProductDto> dtos) {
-        productCommandAdapter.update(dtos);
+    public ProductDto update(ProductDto dto) {
+        return productCommandAdapter.update(dto);
     }
 
     @Override
-    public void delete(List<ProductDto> dtos) {
-        productCommandAdapter.delete(dtos);
+    public Boolean delete(Long id) {
+        return productCommandAdapter.delete(id);
     }
 
 }
