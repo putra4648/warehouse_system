@@ -3,6 +3,7 @@ package id.putra.wms.module.inbound.service.adapter.command;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.sql.Date;
 
@@ -62,6 +63,8 @@ public class ReceivingCommandAdapterTest {
     void whenDeleteReceivingDto_thenEntityRemoved() {
         ReceivingDto dto = new ReceivingDto();
         dto.setId(1L);
+
+        when(receivingRepository.existsById(1L)).thenReturn(true);
 
         receivingCommandAdapter.delete(dto);
 

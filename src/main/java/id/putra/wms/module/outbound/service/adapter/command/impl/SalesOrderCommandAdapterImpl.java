@@ -31,7 +31,10 @@ public class SalesOrderCommandAdapterImpl implements SalesOrderCommandAdapter {
 
     @Override
     public Boolean delete(Long id) {
-        salesOrderRepository.deleteById(id);
-        return true;
+        if (salesOrderRepository.existsById(id)) {
+            salesOrderRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

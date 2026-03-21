@@ -9,10 +9,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "customers")
 @Data
@@ -25,7 +26,7 @@ public class Customer extends BaseEntity implements Serializable {
     private String name;
     private Boolean isActive;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "contact_person_id")
     private ContactPersonCustomer contactPerson;
 }
