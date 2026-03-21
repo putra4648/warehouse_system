@@ -1,8 +1,13 @@
 export default defineOAuthAuth0EventHandler({
   config: {
-    scope: ["openid", "profile", "email", "offline_access"],
+    scope: ["openid", "profile", "email"],
+    authorizationParams: {
+      audience: process.env.AUTH0_AUDIENCE!,
+    },
   },
   async onSuccess(event, { user, tokens }) {
+    console.log("USER", user);
+    console.log("TOKENS", tokens);
     await setUserSession(event, {
       user: {
         id: user.sub,

@@ -9,8 +9,6 @@ export const callBackend = async <T>(
 ): Promise<T> => {
   const session = await getUserSession(event);
   const config = useRuntimeConfig(event);
-  // Logika auth bisa ditaruh di sini agar terpusat
-
   return $fetch<T>(url, {
     baseURL: String(config.public.serverUrl),
     ...options,
