@@ -157,7 +157,6 @@ const state = reactive({
 
 function handleCustomerChange() {
   state.customer_id = customers.value?.data.find(c => c.name === customerSearch.value)?.id || null;
-  console.log(state.customer_id)
 }
 
 async function saveSalesOrder() {
