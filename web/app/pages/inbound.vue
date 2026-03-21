@@ -158,13 +158,14 @@ const state = reactive({
   purchase_order_lines: []
 });
 
+
 async function savePurchaseOrder() {
   try {
     const method = state.id ? 'PUT' : 'POST';
     const body = {
       ...state,
       supplier_id: supplierSearch.value
-    };
+    }; // Assuming backend accepts array for new records
 
     await $fetch("/api/inbound/po", {
       method,
