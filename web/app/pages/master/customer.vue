@@ -15,7 +15,7 @@
                     <template #name-cell="{ row }">
                         <span class="font-medium text-gray-900 dark:text-white">{{
                             row.original.name
-                        }}</span>
+                            }}</span>
                     </template>
 
                     <template #is_active-cell="{ row }">
@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import type { Customer } from '~~/types/customer'
-import type PaginationResponse from '~~/server/utils/pagination'
+import type { PaginationResponse } from '~~/server/utils/response'
 import type { TableColumn, DropdownMenuItem } from '@nuxt/ui'
 
 const UButton = resolveComponent('UButton')

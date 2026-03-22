@@ -4,7 +4,11 @@ import java.sql.Date;
 import java.util.List;
 
 import id.putra.wms.shared.base.entity.Supplier;
+import id.putra.wms.shared.enums.OrderStatus;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,10 +26,13 @@ public class PurchaseOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String poNumber;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     private Date orderDate;
 
-    @OneToMany(mappedBy = "purchaseOrder")
+    @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchaseOrderLine> purchaseOrderLines;
 
     @OneToMany(mappedBy = "purchaseOrder")

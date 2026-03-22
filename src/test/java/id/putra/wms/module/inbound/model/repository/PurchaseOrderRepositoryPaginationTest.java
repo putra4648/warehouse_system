@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import id.putra.wms.PostgreSQLContainerInitializer;
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.model.entity.PurchaseOrder;
+import id.putra.wms.shared.enums.OrderStatus;
 import jakarta.persistence.criteria.Predicate;
 
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -33,7 +34,7 @@ public class PurchaseOrderRepositoryPaginationTest extends PostgreSQLContainerIn
         var po = new PurchaseOrder();
         po.setPoNumber("PO-PAG-1");
         po.setOrderDate(new Date(System.currentTimeMillis()));
-        po.setStatus("OPEN");
+        po.setStatus(OrderStatus.OPEN);
         purchaseOrderRepository.saveAndFlush(java.util.Objects.requireNonNull(po));
     }
 
@@ -45,7 +46,8 @@ public class PurchaseOrderRepositoryPaginationTest extends PostgreSQLContainerIn
         dto.setPoNumber("PO-PAG-1");
 
         Specification<PurchaseOrder> byPoNumber = (root, criteria, builder) -> {
-            Predicate p = builder.like(root.get("poNumber"), "%" + (dto.getPoNumber() != null ? dto.getPoNumber() : "") + "%");
+            Predicate p = builder.like(root.get("poNumber"),
+                    "%" + (dto.getPoNumber() != null ? dto.getPoNumber() : "") + "%");
             return builder.and(p);
         };
 

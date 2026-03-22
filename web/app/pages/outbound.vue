@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui';
 import type { SalesOrder } from '~~/types/outbound';
-import type PaginationResponse from '~~/server/utils/pagination';
+import type { PaginationResponse } from '~~/server/utils/response';
 import type { Customer } from '~~/types/customer';
 
 const isOpen = ref(false);

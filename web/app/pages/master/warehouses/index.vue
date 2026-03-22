@@ -203,7 +203,7 @@ import type { Warehouse } from '~~/types/warehouse'
 import type { Zone } from '~~/types/zone'
 import type { Rack } from '~~/types/rack'
 import type { Location } from '~~/types/location'
-import type PaginationResponse from '~~/server/utils/pagination';
+import type { PaginationResponse } from '~~/server/utils/response';
 
 definePageMeta({
 	layout: "default",

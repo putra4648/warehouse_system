@@ -1,4 +1,4 @@
-import { callBackend } from "../../utils/api";
+import { callBackend } from "../../../utils/api";
 
 export default defineEventHandler(async (event) => {
   const method = getMethod(event);

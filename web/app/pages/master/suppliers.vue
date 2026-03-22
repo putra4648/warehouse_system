@@ -151,7 +151,7 @@
 <script setup lang="ts">
 import type { Supplier, ContactPersonSupplier, ProductSupplier } from '~~/types/supplier'
 import type { Product } from '~~/types/product'
-import type PaginationResponse from '~~/server/utils/pagination'
+import type { PaginationResponse } from '~~/server/utils/response'
 import type { TableColumn, DropdownMenuItem } from '@nuxt/ui'
 
 const UButton = resolveComponent('UButton')

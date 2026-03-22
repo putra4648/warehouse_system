@@ -33,6 +33,7 @@ public class ResponseHelper {
                 return ResponseEntity
                                 .status(java.util.Objects.requireNonNull(responseEnum.getHttpStatus()))
                                 .body(ResponseData.<T>builder()
+                                                .responseSchema(this.getResponseSchema(responseEnum))
                                                 .data(data)
                                                 .build());
         }

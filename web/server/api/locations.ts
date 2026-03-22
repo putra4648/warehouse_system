@@ -1,5 +1,5 @@
 import type { Location } from "~~/types/location";
-import type PaginationResponse from "../utils/pagination";
+import type PaginationResponse from "../utils/response";
 import { callBackend } from "../utils/api";
 
 export default defineEventHandler(async (event) => {

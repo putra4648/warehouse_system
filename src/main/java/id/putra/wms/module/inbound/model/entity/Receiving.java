@@ -4,7 +4,10 @@ import java.sql.Date;
 import java.util.List;
 
 import id.putra.wms.shared.base.entity.User;
+import id.putra.wms.shared.enums.OrderStatus;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +26,8 @@ public class Receiving {
     private Long id;
     private String receivingNumber;
     private Date receivedDate;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     @OneToMany(mappedBy = "receiving")
     private List<ReceivingLine> receivingLines;

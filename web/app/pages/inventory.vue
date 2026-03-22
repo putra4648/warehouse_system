@@ -164,7 +164,7 @@
 
 <script setup lang="ts">
 import type { InventoryItem } from '~~/types/inventory'
-import type PaginationResponse from '~~/server/utils/pagination'
+import type { PaginationResponse } from '~~/server/utils/response'
 import type { Warehouse } from '~~/types/warehouse';
 
 // Reactive state

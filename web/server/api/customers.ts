@@ -1,5 +1,5 @@
 import { callBackend } from "../utils/api";
-import type PaginationResponse from "../utils/pagination";
+import type PaginationResponse from "../utils/response";
 import type { Customer } from "~~/types/customer";
 
 export default defineEventHandler(async (event) => {

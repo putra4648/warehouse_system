@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import type { Product, Category } from '~~/types/product'
-import type PaginationResponse from '~~/server/utils/pagination'
+import type { PaginationResponse } from '~~/server/utils/response'
 
 const isOpen = ref(false);
 const q = ref("");

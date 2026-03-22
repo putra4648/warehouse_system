@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import type { Category } from '~~/types/product'
-import type PaginationResponse from '~~/server/utils/pagination'
+import type { PaginationResponse } from '~~/server/utils/response'
 import type { DropdownMenuItem } from '@nuxt/ui';
 
 definePageMeta({

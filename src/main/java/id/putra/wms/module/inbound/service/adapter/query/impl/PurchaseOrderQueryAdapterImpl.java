@@ -26,7 +26,7 @@ public class PurchaseOrderQueryAdapterImpl implements PurchaseOrderQueryAdapter 
     public PurchaseOrderDto getById(@Nullable Long id) {
         if (id == null)
             return null;
-        return purchaseOrderRepository.findById(id).map(purchaseOrderMapper::toDto).orElse(null);
+        return purchaseOrderRepository.findById(id).map(purchaseOrderMapper::toDtoWithLines).orElse(null);
     }
 
     @Override

@@ -1,5 +1,5 @@
 import type { InventoryItem } from "~~/types/inventory";
-import type PaginationResponse from "../utils/pagination";
+import type PaginationResponse from "../utils/response";
 import { callBackend } from "../utils/api";
 
 export default defineEventHandler(async (event) => {

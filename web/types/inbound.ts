@@ -1,17 +1,21 @@
+import type { OrderStatus } from "./enums/order_enum";
+import type { Product } from "./product";
+
 export interface PurchaseOrder {
   id: number | null;
   po_number: string;
   order_date: string;
-  status: string;
+  status: OrderStatus;
   supplier_id: number | null;
-  purchaseOrderLines: PurchaseOrderLine[];
+  purchase_order_lines: PurchaseOrderLine[];
 }
 
 export interface PurchaseOrderLine {
   id: number | null;
-  product_id: number;
+  product: Product;
   quantity: number;
   purchase_order_id: number | null;
+  price: number;
 }
 
 export interface Receiving {
