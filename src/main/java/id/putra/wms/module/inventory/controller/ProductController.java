@@ -1,6 +1,5 @@
 package id.putra.wms.module.inventory.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springdoc.core.annotations.ParameterObject;
@@ -43,14 +42,14 @@ public class ProductController {
 
     @PostMapping
     @Operation(summary = "Add new products", description = "Create one or more new product records")
-    public ResponseEntity<ResponseData<String>> addProduct(@RequestBody @Valid List<ProductDto> body) {
+    public ResponseEntity<ResponseData<String>> addProduct(@RequestBody @Valid ProductDto body) {
         productCoreService.save(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 
     @PutMapping
     @Operation(summary = "Update products", description = "Update one or more existing product records")
-    public ResponseEntity<ResponseData<String>> updateProduct(@RequestBody @Valid List<ProductDto> body) {
+    public ResponseEntity<ResponseData<String>> updateProduct(@RequestBody @Valid ProductDto body) {
         productCoreService.update(body);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
@@ -58,8 +57,8 @@ public class ProductController {
     @DeleteMapping
     @Operation(summary = "Delete products", description = "Delete one or more product records by IDs")
     public ResponseEntity<ResponseData<String>> deleteProduct(
-            @Parameter(description = "List of product IDs to delete") @RequestParam @Valid List<Long> id) {
-        productCoreService.delete(id.stream().map(i -> ProductDto.builder().id(i).build()).toList());
+            @Parameter(description = "List of product IDs to delete") @RequestParam @Valid Long id) {
+        productCoreService.delete(id);
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, "SUCCESS");
     }
 

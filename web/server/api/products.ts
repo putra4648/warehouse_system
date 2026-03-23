@@ -18,10 +18,9 @@ export default defineEventHandler(async (event) => {
 
   if (method === "POST") {
     const body = await readBody(event);
-    const payload = Array.isArray(body) ? body : [body];
     return await callBackend<Product>(event, "/api/v1/master/product", {
       method: "POST",
-      body: payload,
+      body: body,
     });
   }
 });

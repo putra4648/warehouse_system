@@ -2,7 +2,7 @@
     <UPage>
         <UPageHeader title="Categories" description="Manage your categories" />
         <UPageBody>
-            <div class="flex items-center justify-betweens">
+            <div class="flex items-center justify-between">
                 <UButton icon="i-heroicons-plus" color="primary" label="Add Category" @click="openAddModal" />
             </div>
 
