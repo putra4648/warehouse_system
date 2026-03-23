@@ -1,14 +1,8 @@
 <template>
     <UPage>
-        <UPageHeader title="Receiving">
-            <template #description>
-                Manage Receiving
-            </template>
-        </UPageHeader>
-
+        <UPageHeader title="Receiving" description="Manage Receiving Goods" />
         <UPageBody>
             <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white" />
                 <UButton icon="i-heroicons-plus" color="primary" label="Create Receiving" @click="isOpen = true" />
             </div>
             <UCard>
@@ -30,7 +24,7 @@
                     </template>
                 </UTable>
                 <div class="flex px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-                    <UPagination v-model="page" :total="size" @update:page="(p) => page = p" />
+                    <UPagination v-model="page" :total="total" @update:page="(p) => page = p" />
                 </div>
             </UCard>
         </UPageBody>
@@ -89,11 +83,11 @@
             </template>
 
             <template #body>
-                <UCard>
+                <UCard v-if="detailModal.data">
                     <template #header>
                         <div class="flex items-center justify-between">
                             <h2 class="text-lg font-medium">Receiving Order Details</h2>
-                            <StatusBadge :status="detailModal.data?.status!" />
+                            <StatusBadge :status="detailModal.data.status!" />
                         </div>
                     </template>
 
@@ -102,21 +96,21 @@
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Receiving Number</p>
                                 <p class="text-base font-semibold text-gray-900 dark:text-white">{{
-                                    detailModal.data?.receiving_number
+                                    detailModal.data.receiving_number
                                 }}</p>
                             </div>
                             <div>
                                 <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Receiving Date</p>
                                 <p class="text-base font-semibold text-gray-900 dark:text-white">{{
-                                    detailModal.data?.received_date }}
+                                    detailModal.data.received_date }}
                                 </p>
                             </div>
                         </div>
 
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
                             <h3 class="text-lg font-medium mb-4">Products</h3>
-                            <UTable :data="detailModal.data?.receiving_lines || []" :columns="receivingLineColumns">
-                                <template #product-cell="{ row }">
+                            <UTable :data="detailModal.data.receiving_lines || []" :columns="receivingLineColumns">
+                                <template #productName-cell="{ row }">
                                     {{ row.original.product?.name }}
                                 </template>
 
@@ -152,6 +146,7 @@ const page = ref(1)
 const size = ref(10)
 const detailPage = ref(1)
 const detailSize = ref(0)
+const total = computed(() => receivingResponse.value?.meta?.total || 0)
 const state = reactive<Receiving>({
     id: null,
     receiving_number: "",
@@ -248,23 +243,21 @@ const receivingLineColumns: TableColumn<ReceivingLine>[] = [
 ]
 
 const { data: receivingResponse, refresh } = useFetch<PaginationResponse<Receiving>>(`/api/inbound/receiving`, {
-    query: {
-        page: computed(() => page.value),
-        size,
+    query: computed(() => ({
+        page: page.value,
+        size: size.value,
         search: q.value
-    },
+    })),
 })
 
 const { data: purchaseOrderResponse, execute: executePurchaseOrder } = useLazyFetch<PaginationResponse<PurchaseOrder>>(`/api/inbound/po`, {
     key: `purchase-order`,
-    query: {
+    query: computed(() => ({
         page: 1,
-        size,
-        ...{
-            id: state.purchase_order!.id,
-            status: OrderStatus.OPEN
-        } as PurchaseOrder
-    },
+        size: size.value,
+        id: state.purchase_order!.id,
+        status: OrderStatus.OPEN
+    })),
     immediate: false,
 })
 
@@ -341,7 +334,7 @@ async function saveReceiving() {
                         qty: line.product.quantity,
                     }
                 }),
-                received_date: new Date().toISOString().split('T')[0],
+                received_date: new Date().toISOString().split('T')[0] ?? "",
             } as Receiving,
         })
         resetForm()
@@ -367,7 +360,7 @@ function addItem() {
         qty_received: 0,
         lot_batch: '',
         expiry_date: '',
-        received_date: new Date().toISOString().split('T')[0],
+        received_date: new Date().toISOString().split('T')[0] ?? "",
         status: ReceivingStatus.RECEIVED
     })
 }

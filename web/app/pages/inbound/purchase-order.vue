@@ -1,36 +1,8 @@
 <template>
   <UPage>
-    <UPageHeader title="Purchase Order">
-      <template #description>
-        Manage Purchase Order
-      </template>
-    </UPageHeader>
-
+    <UPageHeader title="Purchase Order" description="Manage Purchase Order" />
     <UPageBody>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <UCard v-for="(stat, index) in stats" :key="index">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                {{ stat.label }}
-              </p>
-              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-1">
-                {{ stat.value }}
-              </h3>
-            </div>
-            <UIcon :name="stat.icon"
-              class="w-8 h-8 text-primary-500 bg-primary-100 dark:bg-primary-900 rounded-full p-1.5" />
-          </div>
-          <p :class="['text-xs mt-2 flex items-center', stat.trendPositive ? 'text-green-500' : 'text-gray-500']">
-            <UIcon :name="stat.trendPositive ? 'i-heroicons-arrow-trending-up' : 'i-heroicons-minus'"
-              class="w-4 h-4 mr-1" />
-            {{ stat.trend }}
-          </p>
-        </UCard>
-      </div>
-
       <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white" />
         <UButton icon="i-heroicons-plus" color="primary" label="Create PO" @click="isOpen = true" />
       </div>
 
@@ -55,93 +27,93 @@
           <UPagination v-model="page" :total="total" @update:page="(p) => page = p" />
         </div>
       </UCard>
-    </UPageBody>
 
-    <!-- Create Modal -->
-    <UModal fullscreen v-model:open="isOpen" title="Create PO" scrollable>
-      <template #body>
-        <UForm :state="state" class="space-y-4" @submit="savePurchaseOrder">
-          <UFormField label="PO Number" name="poNumber">
-            <UInput v-model="state.po_number" class="w-full" placeholder="Enter PO number" />
-          </UFormField>
-          <UFormField label="Supplier" name="supplierId">
-            <USelectMenu v-model.number="supplierSearch" class="w-full" value-key="id" label-key="name" clear
-              :items="supplierResponse?.data" @update:open="executeSupplier()" />
-          </UFormField>
-          <UFormField label="Date" name="orderDate">
-            <UInput v-model="state.order_date" type="date" class="w-full" />
-          </UFormField>
-          <UFormField label="Items" name="purchaseOrderLines">
-            <UButton label="Add Item" icon="i-heroicons-plus" color="primary" @click="addItem" />
-            <UTable :data="state.purchase_order_lines" :columns="productColumns">
-              <template #product-cell="{ row }">
-                <USelectMenu v-model="row.original.product.id" class="w-full" value-key="id" label-key="name" clear
-                  :items="productResponse?.data" @update:open="executeProduct()" />
-              </template>
-              <template #quantity-cell="{ row }">
-                <UInput v-model="row.original.quantity" type="number" class="w-full" min="1" />
-              </template>
-              <template #price-cell="{ row }">
-                <UInput v-model="row.original.price" type="number" class="w-full" />
-              </template>
-              <template #actions-cell="{ row }">
-                <UButton color="error" variant="ghost" icon="i-heroicons-trash" @click="deleteItem(row.original)" />
-              </template>
-            </UTable>
-          </UFormField>
-          <UButton type="submit" block color="primary">Create PO</UButton>
-        </UForm>
-      </template>
-    </UModal>
 
-    <!-- Detail Modal -->
-    <UModal fullscreen ref="detailModal" v-model:open="isShowDetail">
-      <template #title>
-        {{ detailModal.title }}
-      </template>
-
-      <template #description>
-        Detail Purchase Order
-      </template>
-
-      <template #body>
-        <UCard>
-          <template #header>
-            <div class="flex items-center justify-between">
-              <h2 class="text-lg font-medium">Purchase Order Details</h2>
-              <StatusBadge :status="detailModal.data!.status!" />
-            </div>
-          </template>
-
-          <div class="space-y-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">PO Number</p>
-                <p class="text-base font-semibold text-gray-900 dark:text-white">{{ detailModal.data?.po_number }}</p>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Order Date</p>
-                <p class="text-base font-semibold text-gray-900 dark:text-white">{{ detailModal.data?.order_date }}
-                </p>
-              </div>
-            </div>
-
-            <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
-              <h3 class="text-lg font-medium mb-4">Products</h3>
-              <UTable :data="detailModal.data?.purchase_order_lines || []" :columns="productColumns">
+      <!-- Create Modal -->
+      <UModal fullscreen v-model:open="isOpen" title="Create PO" scrollable>
+        <template #body>
+          <UForm :state="state" class="space-y-4" @submit="savePurchaseOrder">
+            <UFormField label="PO Number" name="poNumber">
+              <UInput v-model="state.po_number" class="w-full" placeholder="Enter PO number" />
+            </UFormField>
+            <UFormField label="Supplier" name="supplierId">
+              <USelectMenu v-model.number="supplierSearch" class="w-full" value-key="id" label-key="name" clear
+                :items="supplierResponse?.data" @update:open="executeSupplier()" />
+            </UFormField>
+            <UFormField label="Date" name="orderDate">
+              <UInput v-model="state.order_date" type="date" class="w-full" />
+            </UFormField>
+            <UFormField label="Items" name="purchaseOrderLines">
+              <UButton label="Add Item" icon="i-heroicons-plus" color="primary" @click="addItem" />
+              <UTable :data="state.purchase_order_lines" :columns="productColumns">
                 <template #product-cell="{ row }">
-                  {{ row.original.product?.name }}
+                  <USelectMenu v-model="row.original.product.id" class="w-full" value-key="id" label-key="name" clear
+                    :items="productResponse?.data" @update:open="executeProduct()" />
+                </template>
+                <template #quantity-cell="{ row }">
+                  <UInput v-model="row.original.quantity" type="number" class="w-full" min="1" />
+                </template>
+                <template #price-cell="{ row }">
+                  <UInput v-model="row.original.price" type="number" class="w-full" />
+                </template>
+                <template #actions-cell="{ row }">
+                  <UButton color="error" variant="ghost" icon="i-heroicons-trash" @click="deleteItem(row.original)" />
                 </template>
               </UTable>
-              <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
-                <UPagination v-model="detailPage" :total="detailTotal" @update:page="(p) => detailPage = p" />
+            </UFormField>
+            <UButton type="submit" block color="primary">Create PO</UButton>
+          </UForm>
+        </template>
+      </UModal>
+
+      <!-- Detail Modal -->
+      <UModal fullscreen ref="detailModal" v-model:open="isShowDetail">
+        <template #title>
+          {{ detailModal.title }}
+        </template>
+
+        <template #description>
+          Detail Purchase Order
+        </template>
+
+        <template #body>
+          <UCard v-if="detailModal.data">
+            <template #header>
+              <div class="flex items-center justify-between">
+                <h2 class="text-lg font-medium">Purchase Order Details</h2>
+                <StatusBadge :status="detailModal.data.status!" />
+              </div>
+            </template>
+
+            <div class="space-y-4">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">PO Number</p>
+                  <p class="text-base font-semibold text-gray-900 dark:text-white">{{ detailModal.data.po_number }}</p>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Order Date</p>
+                  <p class="text-base font-semibold text-gray-900 dark:text-white">{{ detailModal.data.order_date }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+                <h3 class="text-lg font-medium mb-4">Products</h3>
+                <UTable :data="detailModal.data.purchase_order_lines || []" :columns="productColumns">
+                  <template #product-cell="{ row }">
+                    {{ row.original.product?.name }}
+                  </template>
+                </UTable>
+                <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+                  <UPagination v-model="detailPage" :total="detailTotal" @update:page="(p) => detailPage = p" />
+                </div>
               </div>
             </div>
-          </div>
-        </UCard>
-      </template>
-    </UModal>
-
+          </UCard>
+        </template>
+      </UModal>
+    </UPageBody>
   </UPage>
 </template>
 
@@ -173,31 +145,33 @@ const detailTotal = computed(() => detailModal.value.data?.meta?.total || 0);
 
 
 const { data, status, refresh } = await useFetch<PaginationResponse<PurchaseOrder>>("/api/inbound/po", {
-  query: {
-    page: computed(() => page.value),
+  query: computed(() => ({
+    page: page.value,
     size: 10,
-    ...q.value
-  },
-  watch: [page, q]
+    po_number: q.value.po_number,
+    order_date: q.value.order_date,
+    id: q.value.id
+  })),
+  watch: [page]
 });
 
-const { data: supplierResponse, execute: executeSupplier } = await useLazyFetch<PaginationResponse<Supplier>>("/api/suppliers", {
+const { data: supplierResponse, execute: executeSupplier } = useLazyFetch<PaginationResponse<Supplier>>("/api/suppliers", {
   key: "suppliers",
   immediate: false,
   query: {
     page: 0,
     size: 10,
-    search: supplierSearch.value ?? ''
+    search: computed(() => supplierSearch.value ?? '')
   }
 });
 
-const { data: productResponse, execute: executeProduct } = await useLazyFetch<PaginationResponse<Product>>("/api/products", {
+const { data: productResponse, execute: executeProduct } = useLazyFetch<PaginationResponse<Product>>("/api/products", {
   key: "products",
   immediate: false,
   query: {
     page: 0,
     size: 10,
-    search: productSearch.value ?? ''
+    search: computed(() => productSearch.value ?? '')
   }
 });
 
@@ -212,22 +186,6 @@ const productColumns: TableColumn<PurchaseOrderLine>[] = [
   { header: "Total", cell: ({ row }) => row.original.quantity * row.original.price },
   { accessorKey: "actions", header: "" },
 ];
-const stats = computed(() => [
-  {
-    label: 'Total PO',
-    value: total.value.toString(),
-    icon: 'i-heroicons-cube',
-    trend: 'Purchase orders',
-    trendPositive: true,
-  },
-  {
-    label: 'Open',
-    value: purchaseOrders.value.filter(p => p.status === OrderStatus.OPEN).length.toString(),
-    icon: 'i-heroicons-clock',
-    trend: 'Requires receiving',
-    trendPositive: false,
-  },
-]);
 
 const columns: TableColumn<PurchaseOrder>[] = [
   { header: "No.", cell: ({ row }) => row.index + 1 },
@@ -240,10 +198,14 @@ const columns: TableColumn<PurchaseOrder>[] = [
 const state = reactive({
   id: null as number | null,
   po_number: "",
-  order_date: new Date().toISOString().split('T')[0],
+  order_date: "",
   status: OrderStatus.PENDING,
   supplier_id: null as number | null,
   purchase_order_lines: [] as PurchaseOrderLine[]
+});
+
+onMounted(() => {
+  state.order_date = new Date().toISOString().split('T')[0] ?? "";
 });
 
 function addItem() {
@@ -314,7 +276,7 @@ async function savePurchaseOrder() {
 function resetForm() {
   state.id = null;
   state.po_number = "";
-  state.order_date = new Date().toISOString().split('T')[0];
+  state.order_date = new Date().toISOString().split('T')[0] ?? "";
   state.status = OrderStatus.OPEN;
   state.supplier_id = null;
   state.purchase_order_lines = [];
