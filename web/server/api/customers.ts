@@ -1,9 +1,8 @@
-import { callBackend } from "../utils/api";
 import type PaginationResponse from "../utils/response";
 import type { Customer } from "~~/types/customer";
 
 export default defineEventHandler(async (event) => {
-  const method = getMethod(event);
+  const method = event.method;
 
   if (method === "GET") {
     const query = getQuery(event);

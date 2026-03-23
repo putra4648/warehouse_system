@@ -2,10 +2,15 @@ package id.putra.wms.module.inbound.model.entity;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
-import id.putra.wms.shared.base.entity.User;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import id.putra.wms.shared.enums.OrderStatus;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -20,21 +25,21 @@ import lombok.Data;
 @Entity
 @Table
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class Receiving {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String receivingNumber;
+    private final String receivingNumber = UUID.randomUUID().toString();
     private Date receivedDate;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    @OneToMany(mappedBy = "receiving")
+    @OneToMany(mappedBy = "receiving", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReceivingLine> receivingLines;
 
-    @ManyToOne
-    @JoinColumn(name = "received_by_user_id")
-    private User user;
+    @CreatedBy
+    private String receivedBy;
 
     @ManyToOne
     @JoinColumn(name = "purchase_order_id")

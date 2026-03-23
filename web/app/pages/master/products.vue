@@ -75,7 +75,7 @@ const categories = computed(() => (categoriesData.value?.data ?? []))
 
 const { data, status, refresh } = await useFetch<PaginationResponse<Product>>("/api/products", {
   query: {
-    page: computed(() => page.value - 1), // Spring Data uses 0-based page
+    page: computed(() => page.value), // Spring Data uses 0-based page
     size,
     search: q
   },

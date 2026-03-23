@@ -3,7 +3,7 @@ export interface PaginationResponse<T> {
   meta: Meta;
 }
 
-interface Meta {
+export interface Meta {
   page: number;
   size: number;
   total: number;

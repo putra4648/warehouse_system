@@ -165,7 +165,7 @@ const selectedProduct = ref<number>();
 
 const { data, status, refresh } = await useFetch<PaginationResponse<Supplier>>("/api/suppliers", {
   query: {
-    page: computed(() => page.value - 1),
+    page: computed(() => page.value),
     size,
     search: q
   },

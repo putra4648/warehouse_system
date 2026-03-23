@@ -7,6 +7,9 @@ import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.mapper.PurchaseOrderMapper;
 import id.putra.wms.module.inbound.model.repository.PurchaseOrderRepository;
 import id.putra.wms.module.inbound.service.adapter.command.PurchaseOrderCommandAdapter;
+import id.putra.wms.shared.enums.OrderStatus;
+import id.putra.wms.shared.enums.ResponseEnum;
+import id.putra.wms.shared.exceptions.ModuleException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,12 +33,19 @@ public class PurchaseOrderCommandAdapterImpl implements PurchaseOrderCommandAdap
     }
 
     @Override
-    public Boolean delete(PurchaseOrderDto dto) {
-        var id = java.util.Objects.requireNonNull(dto.getId());
+    public Boolean delete(Long id) {
         if (purchaseOrderRepository.existsById(id)) {
             purchaseOrderRepository.deleteById(id);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public PurchaseOrderDto updateStatus(Long id, OrderStatus status) {
+        var entity = purchaseOrderRepository.findById(id)
+                .orElseThrow(() -> new ModuleException(ResponseEnum.DATA_NOT_FOUND));
+        entity.setStatus(status);
+        return purchaseOrderMapper.toDto(purchaseOrderRepository.save(entity));
     }
 }

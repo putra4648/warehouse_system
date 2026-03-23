@@ -1,13 +1,14 @@
 package id.putra.wms.module.inbound.service.core.impl;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import id.putra.wms.module.inbound.dto.ReceivingDto;
 import id.putra.wms.module.inbound.service.adapter.command.ReceivingCommandAdapter;
 import id.putra.wms.module.inbound.service.adapter.query.ReceivingQueryAdapter;
 import id.putra.wms.module.inbound.service.core.ReceivingOrderService;
+import id.putra.wms.shared.enums.OrderStatus;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -35,12 +36,17 @@ public class ReceivingOrderServiceImpl implements ReceivingOrderService {
     }
 
     @Override
-    public ReceivingDto getById(Long id) {
-        return receivingQueryAdapter.getById(id);
+    public ReceivingDto getById(Long id, Pageable pageable) {
+        return receivingQueryAdapter.getById(id, pageable);
     }
 
     @Override
-    public List<ReceivingDto> getAll(ReceivingDto filter) {
-        return receivingQueryAdapter.getAll(filter);
+    public Page<ReceivingDto> getAll(String search, Pageable pageable) {
+        return receivingQueryAdapter.getAll(search, pageable);
+    }
+
+    @Override
+    public ReceivingDto updateStatus(Long id, OrderStatus status) {
+        return receivingCommandAdapter.updateStatus(id, status);
     }
 }

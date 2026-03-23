@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 
 public interface PurchaseOrderQueryAdapter {
-    PurchaseOrderDto getById(Long id);
+    PurchaseOrderDto getById(Long id, Pageable pageable);
 
-    Page<PurchaseOrderDto> getAll(String search, Pageable pageable);
+    Page<PurchaseOrderDto> getAll(PurchaseOrderDto dto, Pageable pageable);
 }

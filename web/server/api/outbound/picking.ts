@@ -1,7 +1,7 @@
 import { callBackend } from "../../utils/api";
 
 export default defineEventHandler(async (event) => {
-  const method = getMethod(event);
+  const method = event.method;
 
   if (method === "POST") {
     const body = await readBody(event);
@@ -14,8 +14,8 @@ export default defineEventHandler(async (event) => {
   if (method === "GET") {
     const query = getQuery(event);
     return await callBackend(event, "/api/v1/outbound/picking", {
-        method: "GET",
-        query,
+      method: "GET",
+      query,
     });
   }
 });

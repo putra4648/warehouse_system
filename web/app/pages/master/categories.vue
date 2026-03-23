@@ -69,7 +69,7 @@ const state = reactive({
 
 const { data, status, refresh } = await useFetch<PaginationResponse<Category>>("/api/categories", {
     query: {
-        page: computed(() => page.value - 1),
+        page: computed(() => page.value),
         size,
         search: q
     },

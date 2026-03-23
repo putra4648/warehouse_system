@@ -177,7 +177,7 @@ const selectedItem = ref<InventoryItem | null>(null);
 
 const { data, status } = await useFetch<PaginationResponse<InventoryItem>>("/api/inventory", {
   query: {
-    page: computed(() => page.value - 1),
+    page: computed(() => page.value),
     size,
     search: q
   },

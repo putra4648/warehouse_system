@@ -8,6 +8,7 @@ import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.service.adapter.command.PurchaseOrderCommandAdapter;
 import id.putra.wms.module.inbound.service.adapter.query.PurchaseOrderQueryAdapter;
 import id.putra.wms.module.inbound.service.core.PurchaseOrderService;
+import id.putra.wms.shared.enums.OrderStatus;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,18 +30,21 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     @Override
     public Boolean delete(Long id) {
-        PurchaseOrderDto dto = new PurchaseOrderDto();
-        dto.setId(id);
-        return purchaseOrderCommandAdapter.delete(dto);
+        return purchaseOrderCommandAdapter.delete(id);
     }
 
     @Override
-    public PurchaseOrderDto getById(Long id) {
-        return purchaseOrderQueryAdapter.getById(id);
+    public PurchaseOrderDto getById(Long id, Pageable pageable) {
+        return purchaseOrderQueryAdapter.getById(id, pageable);
     }
 
     @Override
-    public Page<PurchaseOrderDto> getAll(String search, Pageable pageable) {
-        return purchaseOrderQueryAdapter.getAll(search, pageable);
+    public Page<PurchaseOrderDto> getAll(PurchaseOrderDto dto, Pageable pageable) {
+        return purchaseOrderQueryAdapter.getAll(dto, pageable);
+    }
+
+    @Override
+    public PurchaseOrderDto updateStatus(Long id, OrderStatus status) {
+        return purchaseOrderCommandAdapter.updateStatus(id, status);
     }
 }

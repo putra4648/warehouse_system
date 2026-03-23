@@ -1,9 +1,8 @@
 import type { Rack } from "~~/types/rack";
 import type PaginationResponse from "../utils/response";
-import { callBackend } from "../utils/api";
 
 export default defineEventHandler(async (event) => {
-  const method = getMethod(event);
+  const method = event.method;
 
   if (method === "GET") {
     const query = getQuery(event);

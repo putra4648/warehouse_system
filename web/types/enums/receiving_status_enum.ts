@@ -1,0 +1,5 @@
+export enum ReceivingStatus {
+  RECEIVED = "RECEIVED",
+  PARTIALLY_RECEIVED = "PARTIALLY_RECEIVED",
+  OVER_RECEIVE = "OVER_RECEIVE",
+}

@@ -11,6 +11,6 @@ export type Product = {
   min_stock?: number;
   max_stock?: number;
   quantity?: number;
-  is_active: boolean;
+  is_active?: boolean;
   category?: Category;
 };

@@ -100,7 +100,7 @@ const size = ref(10);
 
 const { data, status, refresh } = await useFetch<PaginationResponse<SalesOrder>>("/api/outbound/so", {
   query: {
-    page: computed(() => page.value - 1),
+    page: computed(() => page.value),
     size,
     search: q
   },

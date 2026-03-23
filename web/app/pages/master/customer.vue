@@ -15,7 +15,7 @@
                     <template #name-cell="{ row }">
                         <span class="font-medium text-gray-900 dark:text-white">{{
                             row.original.name
-                            }}</span>
+                        }}</span>
                     </template>
 
                     <template #is_active-cell="{ row }">
@@ -111,7 +111,7 @@ const size = ref(10);
 
 const { data, status, refresh } = await useFetch<PaginationResponse<Customer>>("/api/customers", {
     query: {
-        page: computed(() => page.value - 1),
+        page: computed(() => page.value),
         size,
         search: q
     },

@@ -232,7 +232,7 @@ const warehouseState = reactive({
 });
 
 const { data: warehouseData, status: warehouseStatus, refresh: refreshWarehouses } = await useFetch<PaginationResponse<Warehouse>>("/api/warehouses", {
-	query: { page: computed(() => warehousePage.value - 1), size, search: qWarehouse },
+	query: { page: computed(() => warehousePage.value), size, search: qWarehouse },
 	watch: [warehousePage, size, qWarehouse]
 })
 
@@ -262,7 +262,7 @@ const zoneState = reactive({
 });
 
 const { data: zoneData, status: zoneStatus, refresh: refreshZones } = await useFetch<PaginationResponse<Zone>>("/api/zones", {
-	query: { page: computed(() => zonePage.value - 1), size, search: qZone },
+	query: { page: computed(() => zonePage.value), size, search: qZone },
 	watch: [zonePage, size, qZone]
 })
 
@@ -291,7 +291,7 @@ const rackState = reactive({
 });
 
 const { data: rackData, status: rackStatus, refresh: refreshRacks } = await useFetch<PaginationResponse<Rack>>("/api/racks", {
-	query: { page: computed(() => rackPage.value - 1), size, search: qRack },
+	query: { page: computed(() => rackPage.value), size, search: qRack },
 	watch: [rackPage, size, qRack]
 })
 
@@ -321,7 +321,7 @@ const locationState = reactive({
 });
 
 const { data: locationData, status: locationStatus, refresh: refreshLocations } = await useFetch<PaginationResponse<Location>>("/api/locations", {
-	query: { page: computed(() => locationPage.value - 1), size, search: qLocation },
+	query: { page: computed(() => locationPage.value), size, search: qLocation },
 	watch: [locationPage, size, qLocation]
 })
 

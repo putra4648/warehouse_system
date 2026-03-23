@@ -29,6 +29,9 @@ public class ReceivingLine {
     @Column(precision = 12, scale = 2)
     private BigDecimal qtyReceived;
 
+    @Column(precision = 12, scale = 2, name = "ordered_qty")
+    private BigDecimal qty;
+
     @ManyToOne
     @JoinColumn(name = "receiving_id")
     private Receiving receiving;

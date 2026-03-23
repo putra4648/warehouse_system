@@ -19,7 +19,8 @@ import id.putra.wms.shared.base.dto.ProductDto;
 import id.putra.wms.shared.base.entity.Product;
 import id.putra.wms.shared.base.entity.Supplier;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { SupplierMapper.class })
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {
+        SupplierMapper.class })
 public abstract class PurchaseOrderMapper {
 
     @Mapping(target = "supplier", source = "supplierId", qualifiedByName = "mapIdToSupplier")
