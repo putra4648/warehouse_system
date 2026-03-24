@@ -1,5 +1,4 @@
 import type { Product } from "~~/types/product";
-import type PaginationResponse from "../utils/response";
 
 export default defineEventHandler(async (event) => {
   const method = event.method;

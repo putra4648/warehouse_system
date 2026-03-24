@@ -1,4 +1,3 @@
-import type PaginationResponse from "../utils/response";
 import type { Customer } from "~~/types/customer";
 
 export default defineEventHandler(async (event) => {

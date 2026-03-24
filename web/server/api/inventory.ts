@@ -1,5 +1,4 @@
 import type { InventoryItem } from "~~/types/inventory";
-import type PaginationResponse from "../utils/response";
 
 export default defineEventHandler(async (event) => {
   const method = event.method;

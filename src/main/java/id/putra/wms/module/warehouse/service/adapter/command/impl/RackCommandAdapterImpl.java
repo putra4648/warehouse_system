@@ -1,6 +1,7 @@
 package id.putra.wms.module.warehouse.service.adapter.command.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,19 +22,19 @@ public class RackCommandAdapterImpl implements RackCommandAdapter {
     @Override
     public void add(List<RackDto> dtos) {
         var entities = dtos.stream().map(rackMapper::toEntity).toList();
-        rackRepository.saveAll(java.util.Objects.requireNonNull(entities));
+        rackRepository.saveAll(Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<RackDto> dtos) {
         var entities = dtos.stream().map(rackMapper::toEntity).toList();
-        rackRepository.saveAll(java.util.Objects.requireNonNull(entities));
+        rackRepository.saveAll(Objects.requireNonNull(entities));
     }
 
     @Override
     public void delete(List<RackDto> dtos) {
         var ids = dtos.stream().map(d -> d.getId()).toList();
-        rackRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
+        rackRepository.deleteAllById(Objects.requireNonNull(ids));
     }
 
 }

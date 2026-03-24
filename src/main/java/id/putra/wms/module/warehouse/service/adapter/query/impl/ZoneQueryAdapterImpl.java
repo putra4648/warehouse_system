@@ -1,5 +1,7 @@
 package id.putra.wms.module.warehouse.service.adapter.query.impl;
 
+import java.util.Objects;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,13 +32,13 @@ public class ZoneQueryAdapterImpl implements ZoneQueryAdapter {
                     "%" + (StringUtils.hasText(dto.getName()) ? dto.getName() : "") + "%");
             return builder.and(name);
         };
-        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Pageable safePageable = Objects.requireNonNull(pageable);
         return zoneRepository.findAll(specs, safePageable).map(zoneMapper::toDto);
     }
 
     @Override
     public ZoneDto getZone(ZoneDto dto) {
-        Long safeId = java.util.Objects.requireNonNull(dto.getId());
+        Long safeId = Objects.requireNonNull(dto.getId());
         var z = zoneRepository.findById(safeId);
         return z.map(zoneMapper::toDto).orElse(null);
     }

@@ -1,5 +1,7 @@
 package id.putra.wms.module.warehouse.service.adapter.query.impl;
 
+import java.util.Objects;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,13 +31,13 @@ public class ContactPersonnWarehouseQueryAdapterImpl implements ContactPersonWar
                     "%" + (StringUtils.hasText(dto.getName()) ? dto.getName() : "") + "%");
             return builder.and(name);
         };
-        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Pageable safePageable = Objects.requireNonNull(pageable);
         return contactPersonWarehouseRepository.findAll(specs, safePageable).map(contactPersonWarehouseMapper::toDto);
     }
 
     @Override
     public ContactPersonWarehouseDto getContact(ContactPersonWarehouseDto dto) {
-        Long safeId = java.util.Objects.requireNonNull(dto.getId());
+        Long safeId = Objects.requireNonNull(dto.getId());
         return contactPersonWarehouseRepository.findById(safeId).map(contactPersonWarehouseMapper::toDto)
                 .orElse(null);
     }

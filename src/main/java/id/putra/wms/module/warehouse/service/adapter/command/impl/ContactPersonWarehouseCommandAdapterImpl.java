@@ -1,6 +1,7 @@
 package id.putra.wms.module.warehouse.service.adapter.command.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,19 +23,19 @@ public class ContactPersonWarehouseCommandAdapterImpl implements ContactPersonWa
     @Override
     public void add(List<ContactPersonWarehouseDto> dtos) {
         var entities = dtos.stream().map(contactPersonWarehouseMapper::toEntity).toList();
-        contactPersonWarehouseRepository.saveAll(java.util.Objects.requireNonNull(entities));
+        contactPersonWarehouseRepository.saveAll(Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<ContactPersonWarehouseDto> dtos) {
         var entities = dtos.stream().map(contactPersonWarehouseMapper::toEntity).toList();
-        contactPersonWarehouseRepository.saveAll(java.util.Objects.requireNonNull(entities));
+        contactPersonWarehouseRepository.saveAll(Objects.requireNonNull(entities));
     }
 
     @Override
     public void delete(List<ContactPersonWarehouseDto> dtos) {
         var ids = dtos.stream().map(d -> d.getId()).toList();
-        contactPersonWarehouseRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
+        contactPersonWarehouseRepository.deleteAllById(Objects.requireNonNull(ids));
     }
 
 }

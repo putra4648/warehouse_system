@@ -1,6 +1,7 @@
 package id.putra.wms.module.warehouse.service.adapter.command.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,19 +22,19 @@ public class LocationCommandAdapterImpl implements LocationCommandAdapter {
     @Override
     public void add(List<LocationDto> dtos) {
         var entities = dtos.stream().map(locationMapper::toEntity).toList();
-        locationRepository.saveAll(java.util.Objects.requireNonNull(entities));
+        locationRepository.saveAll(Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<LocationDto> dtos) {
         var entities = dtos.stream().map(locationMapper::toEntity).toList();
-        locationRepository.saveAll(java.util.Objects.requireNonNull(entities));
+        locationRepository.saveAll(Objects.requireNonNull(entities));
     }
 
     @Override
     public void delete(List<LocationDto> dtos) {
         var ids = dtos.stream().map(d -> d.getId()).toList();
-        locationRepository.deleteAllById(java.util.Objects.requireNonNull(ids));
+        locationRepository.deleteAllById(Objects.requireNonNull(ids));
     }
 
 }

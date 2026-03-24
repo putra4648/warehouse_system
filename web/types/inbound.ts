@@ -2,6 +2,7 @@ import type { Meta } from "~~/server/utils/response";
 import type { OrderStatus } from "./enums/order_enum";
 import type { Product } from "./product";
 import type { ReceivingStatus } from "./enums/receiving_status_enum";
+import type { Location } from "./location";
 
 export interface PurchaseOrder {
   id: number | null;
@@ -41,4 +42,5 @@ export interface ReceivingLine {
   expiry_date?: string;
   received_date?: string;
   status?: ReceivingStatus;
+  location: Location;
 }

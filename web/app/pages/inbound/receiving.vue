@@ -58,8 +58,10 @@
                             <template #lot_number-cell="{ row }">
                                 <UInput v-model="row.original.lot_batch" type="text" class="w-full" />
                             </template>
-                            <template #expiry_date-cell="{ row }">
-                                <UInput v-model="row.original.expiry_date" type="date" class="w-full" />
+                            <template #location-cell="{ row }">
+                                <USelectMenu v-model="row.original.location.id" class="w-full" value-key="id"
+                                    label-key="name" clear :items="locationResponse?.data"
+                                    @update:open="executeLocation()" />
                             </template>
                             <template #actions-cell="{ row }">
                                 <UButton color="error" variant="ghost" icon="i-heroicons-trash"
@@ -113,6 +115,9 @@
                                 <template #productName-cell="{ row }">
                                     {{ row.original.product?.name }}
                                 </template>
+                                <template #location-cell="{ row }">
+                                    {{ row.original.location?.name }}
+                                </template>
 
                                 <template #status-cell="{ row }">
                                     <StatusBadge :status="row.original.status!" />
@@ -126,6 +131,13 @@
                     </div>
                 </UCard>
             </template>
+
+            <template #footer>
+                <div class="flex justify-end">
+                    <UButton color="primary" variant="subtle" icon="i-heroicons-check-circle"
+                        @click="finishReceiving()">Finish</UButton>
+                </div>
+            </template>
         </UModal>
     </UPage>
 </template>
@@ -138,6 +150,7 @@ import type { PurchaseOrder, Receiving, ReceivingLine, } from '~~/types/inbound'
 import type { Product } from '~~/types/product';
 import type { Row } from '@tanstack/vue-table';
 import { OrderStatus } from '~~/types/enums/order_enum';
+import type { Location } from '~~/types/location';
 
 
 const isOpen = ref(false);
@@ -229,12 +242,8 @@ const receivingLineColumns: TableColumn<ReceivingLine>[] = [
         header: 'Received Quantity',
     },
     {
-        accessorKey: 'lot_batch',
-        header: 'Lot Number',
-    },
-    {
-        accessorKey: 'expiry_date',
-        header: 'Expiry Date',
+        accessorKey: 'location',
+        header: 'Rack Location',
     },
     {
         accessorKey: 'status',
@@ -279,6 +288,17 @@ const { data: productResponse, execute: executeProduct } = useLazyFetch(() => `/
     immediate: state.purchase_order!.id! != null,
     watch: [() => state.purchase_order!.id!]
 })
+
+const { data: locationResponse, execute: executeLocation } = useLazyFetch<PaginationResponse<Location>>(`/api/locations`, {
+    key: `location`,
+    query: {
+        page: 1,
+        limit: 100,
+        search: ""
+    },
+    immediate: false,
+})
+
 const items = (row: Receiving): DropdownMenuItem[][] => {
     const menu: DropdownMenuItem[][] = [];
     menu.push([
@@ -345,6 +365,22 @@ async function saveReceiving() {
     }
 }
 
+async function finishReceiving() {
+    try {
+        await $fetch<ResponseData<Receiving>>(`/api/inbound/receiving`, {
+            method: "PATCH",
+            body: {
+                id: detailModal.value.data?.id,
+                status: OrderStatus.COMPLETED,
+            }
+        })
+        detailModal.value.open = false
+        await refresh()
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 function deleteItem(item: ReceivingLine) {
     state.receiving_lines = state.receiving_lines?.filter((i) => i !== item)
 }
@@ -361,7 +397,11 @@ function addItem() {
         lot_batch: '',
         expiry_date: '',
         received_date: new Date().toISOString().split('T')[0] ?? "",
-        status: ReceivingStatus.RECEIVED
+        status: ReceivingStatus.RECEIVED,
+        location: {
+            id: null,
+            name: ""
+        }
     })
 }
 
@@ -396,9 +436,10 @@ async function handleShowDetail(row: Receiving) {
 
 function cancelReceiving(id: number) {
     try {
-        $fetch<ResponseData<Receiving>>(`/api/inbound/receiving/${id}`, {
+        $fetch<ResponseData<Receiving>>(`/api/inbound/receiving`, {
             method: "PATCH",
             query: {
+                id,
                 status: OrderStatus.CANCELLED
             }
         })

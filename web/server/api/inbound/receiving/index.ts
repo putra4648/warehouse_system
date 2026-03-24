@@ -9,6 +9,22 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  if (method === "PATCH") {
+    const body = await readBody(event);
+    return await callBackend(event, `/api/v1/inbound/receiving`, {
+      method: "PATCH",
+      body,
+    });
+  }
+
+  if (method === "PUT") {
+    const body = await readBody(event);
+    return await callBackend(event, `/api/v1/inbound/receiving`, {
+      method: "PUT",
+      body,
+    });
+  }
+
   if (method === "POST") {
     const body = await readBody(event);
     return await callBackend(event, "/api/v1/inbound/receiving", {

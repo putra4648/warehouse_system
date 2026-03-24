@@ -3,7 +3,7 @@
     <UPageHeader title="Purchase Order" description="Manage Purchase Order" />
     <UPageBody>
       <div class="flex items-center justify-between">
-        <UButton icon="i-heroicons-plus" color="primary" label="Create PO" @click="isOpen = true" />
+        <UButton icon="i-heroicons-plus" color="primary" label="Create PO" @click="handleCreate" />
       </div>
 
       <UCard>
@@ -30,7 +30,7 @@
 
 
       <!-- Create Modal -->
-      <UModal fullscreen v-model:open="isOpen" title="Create PO" scrollable>
+      <UModal fullscreen v-model:open="isOpen" :title="state.id ? 'Edit PO' : 'Create PO'" scrollable>
         <template #body>
           <UForm :state="state" class="space-y-4" @submit="savePurchaseOrder">
             <UFormField label="PO Number" name="poNumber">
@@ -61,7 +61,7 @@
                 </template>
               </UTable>
             </UFormField>
-            <UButton type="submit" block color="primary">Create PO</UButton>
+            <UButton type="submit" block color="primary">{{ state.id ? 'Update PO' : 'Create PO' }}</UButton>
           </UForm>
         </template>
       </UModal>
@@ -208,6 +208,11 @@ onMounted(() => {
   state.order_date = new Date().toISOString().split('T')[0] ?? "";
 });
 
+function handleCreate() {
+  resetForm();
+  isOpen.value = true;
+}
+
 function addItem() {
   state.purchase_order_lines.push({
     id: null,
@@ -224,9 +229,10 @@ function addItem() {
 async function cancelPurchaseOrder(id: number | null) {
   if (id === null) return;
   try {
-    await $fetch(`/api/inbound/po/${id}`, {
+    await $fetch(`/api/inbound/po`, {
       method: "PATCH",
-      query: {
+      body: {
+        id,
         status: OrderStatus.CANCELLED
       }
     });
@@ -252,18 +258,50 @@ async function handleShowDetail(row: PurchaseOrder) {
   isShowDetail.value = true;
 }
 
+async function handleShowEdit(row: PurchaseOrder) {
+  resetForm();
+  try {
+    const detail = await $fetch<ResponseData<PurchaseOrder>>(`/api/inbound/po/${row.id}`);
+    const po = detail.data;
+
+    state.id = po.id;
+    state.po_number = po.po_number ?? "";
+    state.order_date = po.order_date ?? "";
+    state.status = po.status ?? OrderStatus.OPEN;
+    state.supplier_id = po.supplier_id ?? null;
+    supplierSearch.value = po.supplier_id;
+    state.purchase_order_lines = po.purchase_order_lines?.map(line => ({
+      ...line,
+      product: { ...line.product }
+    })) ?? [];
+
+    isOpen.value = true;
+  } catch (error) {
+    console.error("Failed to fetch Purchase Order for edit", error);
+  }
+}
+
 async function savePurchaseOrder() {
   try {
     const body = {
       ...state,
-      status: OrderStatus.OPEN,
       supplier_id: supplierSearch.value
     };
 
-    await $fetch("/api/inbound/po", {
-      method: "POST",
-      body
-    });
+    if (state.id) {
+      await $fetch(`/api/inbound/po`, {
+        method: "PUT",
+        body
+      });
+    } else {
+      await $fetch("/api/inbound/po", {
+        method: "POST",
+        body: {
+          ...body,
+          status: OrderStatus.OPEN
+        }
+      });
+    }
 
     isOpen.value = false;
     resetForm();
@@ -280,6 +318,7 @@ function resetForm() {
   state.status = OrderStatus.OPEN;
   state.supplier_id = null;
   state.purchase_order_lines = [];
+  supplierSearch.value = null;
 }
 
 const items = (row: PurchaseOrder): DropdownMenuItem[][] => {
@@ -304,7 +343,7 @@ const items = (row: PurchaseOrder): DropdownMenuItem[][] => {
       {
         label: "Edit",
         icon: "i-heroicons-pencil-square-20-solid",
-        onSelect: () => Object.assign(state, row),
+        onSelect: () => handleShowEdit(row),
       },
     ])
   }

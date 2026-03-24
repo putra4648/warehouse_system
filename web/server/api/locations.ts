@@ -1,5 +1,4 @@
 import type { Location } from "~~/types/location";
-import type PaginationResponse from "../utils/response";
 
 export default defineEventHandler(async (event) => {
   const method = event.method;
@@ -11,10 +10,7 @@ export default defineEventHandler(async (event) => {
       "/api/v1/master/location",
       {
         method: "GET",
-        query: {
-          ...query,
-          search: query.search || "",
-        },
+        query,
       },
     );
   }
