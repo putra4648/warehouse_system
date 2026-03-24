@@ -2,13 +2,13 @@ package id.putra.wms.module.inbound.service.core.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import id.putra.wms.module.inbound.dto.ReceivingDto;
 import id.putra.wms.module.inbound.service.adapter.command.ReceivingCommandAdapter;
 import id.putra.wms.module.inbound.service.adapter.query.ReceivingQueryAdapter;
 import id.putra.wms.module.inbound.service.core.ReceivingOrderService;
-import id.putra.wms.shared.enums.OrderStatus;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,24 +29,22 @@ public class ReceivingOrderServiceImpl implements ReceivingOrderService {
     }
 
     @Override
-    public Boolean delete(Long id) {
-        ReceivingDto dto = new ReceivingDto();
-        dto.setId(id);
-        return receivingCommandAdapter.delete(dto);
+    public Boolean delete(@NonNull Long id) {
+        return receivingCommandAdapter.delete(id);
     }
 
     @Override
-    public ReceivingDto getById(Long id, Pageable pageable) {
+    public ReceivingDto getById(@NonNull Long id, @NonNull Pageable pageable) {
         return receivingQueryAdapter.getById(id, pageable);
     }
 
     @Override
-    public Page<ReceivingDto> getAll(String search, Pageable pageable) {
+    public Page<ReceivingDto> getAll(String search, @NonNull Pageable pageable) {
         return receivingQueryAdapter.getAll(search, pageable);
     }
 
     @Override
-    public ReceivingDto updateStatus(Long id, OrderStatus status) {
-        return receivingCommandAdapter.updateStatus(id, status);
+    public ReceivingDto patch(ReceivingDto body) {
+        return receivingCommandAdapter.patch(body);
     }
 }

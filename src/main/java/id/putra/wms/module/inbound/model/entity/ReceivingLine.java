@@ -3,6 +3,7 @@ package id.putra.wms.module.inbound.model.entity;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import id.putra.wms.module.warehouse.model.entity.Location;
 import id.putra.wms.shared.base.entity.Product;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,4 +40,8 @@ public class ReceivingLine {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 }

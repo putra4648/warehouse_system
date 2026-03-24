@@ -7,5 +7,5 @@ public interface InspectionCommandAdapter {
 
     QualityInspectionDto update(QualityInspectionDto dto);
 
-    Boolean delete(QualityInspectionDto dto);
+    Boolean delete(Long id);
 }

@@ -2,13 +2,13 @@ package id.putra.wms.module.inbound.service.core.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.service.adapter.command.PurchaseOrderCommandAdapter;
 import id.putra.wms.module.inbound.service.adapter.query.PurchaseOrderQueryAdapter;
 import id.putra.wms.module.inbound.service.core.PurchaseOrderService;
-import id.putra.wms.shared.enums.OrderStatus;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -29,22 +29,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public Boolean delete(Long id) {
+    public Boolean delete(@NonNull Long id) {
         return purchaseOrderCommandAdapter.delete(id);
     }
 
     @Override
-    public PurchaseOrderDto getById(Long id, Pageable pageable) {
+    public PurchaseOrderDto getById(@NonNull Long id, @NonNull Pageable pageable) {
         return purchaseOrderQueryAdapter.getById(id, pageable);
     }
 
     @Override
-    public Page<PurchaseOrderDto> getAll(PurchaseOrderDto dto, Pageable pageable) {
+    public Page<PurchaseOrderDto> getAll(PurchaseOrderDto dto, @NonNull Pageable pageable) {
         return purchaseOrderQueryAdapter.getAll(dto, pageable);
     }
 
     @Override
-    public PurchaseOrderDto updateStatus(Long id, OrderStatus status) {
-        return purchaseOrderCommandAdapter.updateStatus(id, status);
+    public PurchaseOrderDto patch(PurchaseOrderDto dto) {
+        return purchaseOrderCommandAdapter.patch(dto);
     }
 }

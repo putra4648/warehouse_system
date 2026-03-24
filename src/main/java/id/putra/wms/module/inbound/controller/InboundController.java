@@ -4,10 +4,12 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,8 +29,8 @@ import id.putra.wms.module.inbound.service.core.ReceivingOrderService;
 import id.putra.wms.module.inbound.service.core.ReturnInboundService;
 import id.putra.wms.shared.base.dto.response.ResponseData;
 import id.putra.wms.shared.base.dto.response.ResponseMeta;
-import id.putra.wms.shared.enums.OrderStatus;
 import id.putra.wms.shared.enums.ResponseEnum;
+import id.putra.wms.shared.exceptions.ModuleException;
 import id.putra.wms.shared.helpers.ResponseHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -54,32 +56,41 @@ public class InboundController {
 
     // --- Purchase Order ---
 
+    @GetMapping("/po")
+    @Operation(summary = "Get all Purchase Order", description = "Get all purchase orders")
+    public ResponseEntity<ResponseMeta<PurchaseOrderDto>> getAllPO(
+            @Parameter(description = "Search term for PO") PurchaseOrderDto dto,
+            @ParameterObject @PageableDefault @NonNull Pageable pageable) {
+        return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, purchaseOrderService.getAll(dto, pageable));
+    }
+
     @PostMapping("/po")
     @Operation(summary = "Create Purchase Order", description = "Create a new purchase order")
     public ResponseEntity<ResponseData<PurchaseOrderDto>> createPO(@RequestBody @Valid PurchaseOrderDto body) {
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, purchaseOrderService.create(body));
     }
 
-    @GetMapping("/po")
-    @Operation(summary = "Get all Purchase Order", description = "Get all purchase orders")
-    public ResponseEntity<ResponseMeta<PurchaseOrderDto>> getAllPO(
-            @Parameter(description = "Search term for PO") PurchaseOrderDto dto,
-            @ParameterObject @PageableDefault Pageable pageable) {
-        return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, purchaseOrderService.getAll(dto, pageable));
+    @PatchMapping("/po")
+    @Operation(summary = "Update PO Status", description = "Update the status of a purchase order")
+    public ResponseEntity<ResponseData<PurchaseOrderDto>> patchPO(@RequestBody @Valid PurchaseOrderDto body) {
+        return responseHelper.createResponseData(ResponseEnum.SUCCESS,
+                purchaseOrderService.patch(body));
+    }
+
+    @PutMapping("/po")
+    @Operation(summary = "Update Purchase Order", description = "Update an existing purchase order")
+    public ResponseEntity<ResponseData<PurchaseOrderDto>> updatePO(@RequestBody @Valid PurchaseOrderDto body) {
+        return responseHelper.createResponseData(ResponseEnum.SUCCESS, purchaseOrderService.update(body));
     }
 
     @GetMapping("/po/{id}")
     @Operation(summary = "Get PO by ID", description = "Retrieve a purchase order by its ID")
     public ResponseEntity<ResponseData<PurchaseOrderDto>> getPOById(@PathVariable Long id,
-            @ParameterObject @PageableDefault Pageable pageable) {
+            @ParameterObject @PageableDefault @NonNull Pageable pageable) {
+        if (id == null) {
+            throw new ModuleException(ResponseEnum.INVALID_PARAM);
+        }
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, purchaseOrderService.getById(id, pageable));
-    }
-
-    @PatchMapping("/po/{id}")
-    @Operation(summary = "Update PO Status", description = "Update the status of a purchase order")
-    public ResponseEntity<ResponseData<PurchaseOrderDto>> updatePOStatus(@PathVariable Long id,
-            @RequestParam(value = "status") OrderStatus status) {
-        return responseHelper.createResponseData(ResponseEnum.SUCCESS, purchaseOrderService.updateStatus(id, status));
     }
 
     // --- Receiving ---
@@ -88,15 +99,14 @@ public class InboundController {
     @Operation(summary = "Get all Receiving", description = "Get all receiving records")
     public ResponseEntity<ResponseMeta<ReceivingDto>> getAllReceiving(
             @Parameter(description = "Search term for Receiving") @RequestParam(value = "search", defaultValue = "") String search,
-            @ParameterObject @PageableDefault Pageable pageable) {
+            @ParameterObject @PageableDefault @NonNull Pageable pageable) {
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, receivingOrderService.getAll(search, pageable));
     }
 
-    @PatchMapping("/receiving/{id}")
+    @PatchMapping("/receiving")
     @Operation(summary = "Update Receiving Status", description = "Update the status of a receiving record")
-    public ResponseEntity<ResponseData<ReceivingDto>> updateReceivingStatus(@PathVariable Long id,
-            @RequestParam(value = "status") OrderStatus status) {
-        return responseHelper.createResponseData(ResponseEnum.SUCCESS, receivingOrderService.updateStatus(id, status));
+    public ResponseEntity<ResponseData<ReceivingDto>> patchReceiving(@RequestBody @Valid ReceivingDto body) {
+        return responseHelper.createResponseData(ResponseEnum.SUCCESS, receivingOrderService.patch(body));
     }
 
     @PostMapping("/receiving")
@@ -108,7 +118,10 @@ public class InboundController {
     @GetMapping("/receiving/{id}")
     @Operation(summary = "Get Receiving by ID")
     public ResponseEntity<ResponseData<ReceivingDto>> getReceivingById(@PathVariable Long id,
-            @ParameterObject @PageableDefault Pageable pageable) {
+            @ParameterObject @PageableDefault @NonNull Pageable pageable) {
+        if (id == null) {
+            throw new ModuleException(ResponseEnum.INVALID_PARAM);
+        }
         return responseHelper.createResponseData(ResponseEnum.SUCCESS, receivingOrderService.getById(id, pageable));
     }
 

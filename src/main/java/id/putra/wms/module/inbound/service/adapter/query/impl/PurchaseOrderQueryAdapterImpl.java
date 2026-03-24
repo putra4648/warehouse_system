@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.Nullable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +18,8 @@ import id.putra.wms.module.inbound.model.repository.PurchaseOrderLineRepository;
 import id.putra.wms.module.inbound.model.repository.PurchaseOrderRepository;
 import id.putra.wms.module.inbound.service.adapter.query.PurchaseOrderQueryAdapter;
 import id.putra.wms.shared.base.dto.response.attribute.MetaAttribute;
+import id.putra.wms.shared.enums.ResponseEnum;
+import id.putra.wms.shared.exceptions.ModuleException;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 
@@ -31,13 +33,10 @@ public class PurchaseOrderQueryAdapterImpl implements PurchaseOrderQueryAdapter 
     private final PurchaseOrderMapper purchaseOrderMapper;
 
     @Override
-    public PurchaseOrderDto getById(@Nullable Long id, Pageable pageable) {
-        if (id == null)
-            return null;
-        PurchaseOrder po = purchaseOrderRepository.findById(id).orElse(null);
-        if (po == null) {
-            return null;
-        }
+    public PurchaseOrderDto getById(@NonNull Long id, @NonNull Pageable pageable) {
+
+        PurchaseOrder po = purchaseOrderRepository.findById(id)
+                .orElseThrow(() -> new ModuleException(ResponseEnum.DATA_NOT_FOUND));
 
         PurchaseOrderDto dto = purchaseOrderMapper.toDto(po);
         Page<id.putra.wms.module.inbound.model.entity.PurchaseOrderLine> linesPage = purchaseOrderLineRepository
@@ -58,7 +57,7 @@ public class PurchaseOrderQueryAdapterImpl implements PurchaseOrderQueryAdapter 
     }
 
     @Override
-    public Page<PurchaseOrderDto> getAll(PurchaseOrderDto dto, Pageable pageable) {
+    public Page<PurchaseOrderDto> getAll(PurchaseOrderDto dto, @NonNull Pageable pageable) {
         Specification<PurchaseOrder> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (dto != null) {

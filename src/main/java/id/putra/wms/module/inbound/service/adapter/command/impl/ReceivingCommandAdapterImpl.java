@@ -1,5 +1,7 @@
 package id.putra.wms.module.inbound.service.adapter.command.impl;
 
+import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,24 +26,26 @@ public class ReceivingCommandAdapterImpl implements ReceivingCommandAdapter {
 
     @Override
     public ReceivingDto add(ReceivingDto dto) {
-        var po = purchaseOrderRepository.findById(dto.getPurchaseOrder().getId())
+        var po = purchaseOrderRepository.findById(Objects.requireNonNull(dto.getPurchaseOrder().getId()))
                 .orElseThrow(() -> new ModuleException(ResponseEnum.DATA_NOT_FOUND));
         po.setStatus(OrderStatus.PENDING);
         purchaseOrderRepository.save(po);
 
         var entity = receivingMapper.toEntity(dto);
-        return receivingMapper.toDto(receivingRepository.save(java.util.Objects.requireNonNull(entity)));
+        return receivingMapper.toDto(receivingRepository.save(Objects.requireNonNull(entity)));
     }
 
     @Override
     public ReceivingDto update(ReceivingDto dto) {
         var entity = receivingMapper.toEntity(dto);
-        return receivingMapper.toDto(receivingRepository.save(java.util.Objects.requireNonNull(entity)));
+        return receivingMapper.toDto(receivingRepository.save(Objects.requireNonNull(entity)));
     }
 
     @Override
-    public Boolean delete(ReceivingDto dto) {
-        var id = java.util.Objects.requireNonNull(dto.getId());
+    public Boolean delete(Long id) {
+        if (id == null) {
+            throw new ModuleException(ResponseEnum.INVALID_PARAM);
+        }
         if (receivingRepository.existsById(id)) {
             receivingRepository.deleteById(id);
             return true;
@@ -50,10 +54,10 @@ public class ReceivingCommandAdapterImpl implements ReceivingCommandAdapter {
     }
 
     @Override
-    public ReceivingDto updateStatus(Long id, OrderStatus status) {
-        var entity = receivingRepository.findById(id)
+    public ReceivingDto patch(ReceivingDto body) {
+        var entity = receivingRepository.findById(Objects.requireNonNull(body.getId()))
                 .orElseThrow(() -> new ModuleException(ResponseEnum.DATA_NOT_FOUND));
-        entity.setStatus(status);
-        return receivingMapper.toDto(receivingRepository.save(entity));
+        receivingMapper.patchDtoToEntity(body, entity);
+        return receivingMapper.toDto(receivingRepository.save(Objects.requireNonNull(entity)));
     }
 }

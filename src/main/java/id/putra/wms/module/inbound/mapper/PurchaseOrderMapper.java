@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mapstruct.AfterMapping;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.dto.PurchaseOrderLineDto;
@@ -24,21 +26,28 @@ import id.putra.wms.shared.base.entity.Supplier;
 public abstract class PurchaseOrderMapper {
 
     @Mapping(target = "supplier", source = "supplierId", qualifiedByName = "mapIdToSupplier")
+    @Mapping(target = "receivings", ignore = true)
     public abstract PurchaseOrder toEntity(PurchaseOrderDto dto);
 
     @Mapping(target = "supplierId", source = "supplier", qualifiedByName = "mapSupplierToId")
     @Mapping(target = "purchaseOrderLines", ignore = true)
+    @Mapping(target = "meta", ignore = true)
     public abstract PurchaseOrderDto toDto(PurchaseOrder entity);
 
     @Mapping(target = "supplierId", source = "supplier", qualifiedByName = "mapSupplierToId")
     @Mapping(target = "purchaseOrderLines", source = "purchaseOrderLines", qualifiedByName = "mapLinesToDto")
+    @Mapping(target = "meta", ignore = true)
     public abstract PurchaseOrderDto toDtoWithLines(PurchaseOrder entity);
 
     @Mapping(target = "product", source = "product", qualifiedByName = "mapDtoToProduct")
+    @Mapping(target = "purchaseOrder", ignore = true)
     public abstract PurchaseOrderLine toLineEntity(PurchaseOrderLineDto dto);
 
     @Mapping(target = "product", source = "product", qualifiedByName = "mapProductToDto")
     public abstract PurchaseOrderLineDto toLineDto(PurchaseOrderLine entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    public abstract void patchDtoToEntity(PurchaseOrderDto dto, @MappingTarget PurchaseOrder entity);
 
     @AfterMapping
     protected void linkLines(@MappingTarget PurchaseOrder purchaseOrder) {

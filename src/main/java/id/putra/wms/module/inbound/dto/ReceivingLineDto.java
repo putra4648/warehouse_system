@@ -3,6 +3,7 @@ package id.putra.wms.module.inbound.dto;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import id.putra.wms.module.warehouse.dto.LocationDto;
 import id.putra.wms.shared.base.dto.ProductDto;
 import id.putra.wms.shared.enums.ReceivingStatus;
 import lombok.Data;
@@ -17,4 +18,5 @@ public class ReceivingLineDto {
     private BigDecimal qty;
     private BigDecimal qtyReceived;
     private ProductDto product;
+    private LocationDto location;
 }

@@ -3,7 +3,7 @@ package id.putra.wms.module.inbound.service.adapter.query.impl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.Nullable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +15,8 @@ import id.putra.wms.module.inbound.model.repository.ReceivingLineRepository;
 import id.putra.wms.module.inbound.model.repository.ReceivingRepository;
 import id.putra.wms.module.inbound.service.adapter.query.ReceivingQueryAdapter;
 import id.putra.wms.shared.base.dto.response.attribute.MetaAttribute;
+import id.putra.wms.shared.enums.ResponseEnum;
+import id.putra.wms.shared.exceptions.ModuleException;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 
@@ -28,12 +30,9 @@ public class ReceivingQueryAdapterImpl implements ReceivingQueryAdapter {
     private final ReceivingMapper receivingMapper;
 
     @Override
-    public ReceivingDto getById(@Nullable Long id, Pageable pageable) {
-        if (id == null)
-            return null;
-        Receiving receiving = receivingRepository.findById(id).orElse(null);
-        if (receiving == null)
-            return null;
+    public ReceivingDto getById(@NonNull Long id, @NonNull Pageable pageable) {
+        Receiving receiving = receivingRepository.findById(id)
+                .orElseThrow(() -> new ModuleException(ResponseEnum.DATA_NOT_FOUND));
 
         ReceivingDto dto = receivingMapper.toDto(receiving);
         Page<ReceivingLine> linesPage = receivingLineRepository.findByReceivingId(id, pageable);
@@ -53,7 +52,7 @@ public class ReceivingQueryAdapterImpl implements ReceivingQueryAdapter {
     }
 
     @Override
-    public Page<ReceivingDto> getAll(String search, Pageable pageable) {
+    public Page<ReceivingDto> getAll(String search, @NonNull Pageable pageable) {
         Specification<Receiving> spec = (root, query, criteriaBuilder) -> {
             if (search == null || search.isEmpty()) {
                 return criteriaBuilder.conjunction();
