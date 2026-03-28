@@ -1,5 +1,7 @@
 package id.putra.wms.module.inbound.model.entity;
 
+import java.math.BigDecimal;
+
 import id.putra.wms.shared.base.entity.Product;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +24,8 @@ public class PurchaseOrderLine {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    private Integer quantity;
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "purchase_order_id")

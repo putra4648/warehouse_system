@@ -1,7 +1,8 @@
 package id.putra.wms.module.inbound.service.core.impl;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import id.putra.wms.module.inbound.dto.ReceivingDto;
@@ -28,19 +29,22 @@ public class ReceivingOrderServiceImpl implements ReceivingOrderService {
     }
 
     @Override
-    public Boolean delete(Long id) {
-        ReceivingDto dto = new ReceivingDto();
-        dto.setId(id);
-        return receivingCommandAdapter.delete(dto);
+    public Boolean delete(@NonNull Long id) {
+        return receivingCommandAdapter.delete(id);
     }
 
     @Override
-    public ReceivingDto getById(Long id) {
-        return receivingQueryAdapter.getById(id);
+    public ReceivingDto getById(@NonNull Long id, @NonNull Pageable pageable) {
+        return receivingQueryAdapter.getById(id, pageable);
     }
 
     @Override
-    public List<ReceivingDto> getAll(ReceivingDto filter) {
-        return receivingQueryAdapter.getAll(filter);
+    public Page<ReceivingDto> getAll(String search, @NonNull Pageable pageable) {
+        return receivingQueryAdapter.getAll(search, pageable);
+    }
+
+    @Override
+    public ReceivingDto patch(ReceivingDto body) {
+        return receivingCommandAdapter.patch(body);
     }
 }

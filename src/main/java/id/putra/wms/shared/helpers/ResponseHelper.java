@@ -1,6 +1,7 @@
 package id.putra.wms.shared.helpers;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,9 @@ public class ResponseHelper {
                         ResponseEnum responseEnum,
                         T data) {
                 return ResponseEntity
-                                .status(java.util.Objects.requireNonNull(responseEnum.getHttpStatus()))
+                                .status(Objects.requireNonNull(responseEnum.getHttpStatus()))
                                 .body(ResponseData.<T>builder()
+                                                .responseSchema(this.getResponseSchema(responseEnum))
                                                 .data(data)
                                                 .build());
         }
@@ -41,7 +43,7 @@ public class ResponseHelper {
                         ResponseEnum responseEnum,
                         List<T> list) {
                 return ResponseEntity
-                                .status(java.util.Objects.requireNonNull(responseEnum.getHttpStatus()))
+                                .status(Objects.requireNonNull(responseEnum.getHttpStatus()))
                                 .body(ResponseList.<T>builder()
                                                 .responseSchemaAttribute(this.getResponseSchema(responseEnum))
                                                 .data(list)
@@ -52,7 +54,7 @@ public class ResponseHelper {
                         ResponseEnum responseEnum,
                         List<ErrorAttribute> errorAttributes) {
                 return ResponseEntity
-                                .status(java.util.Objects.requireNonNull(responseEnum.getHttpStatus()))
+                                .status(Objects.requireNonNull(responseEnum.getHttpStatus()))
                                 .body(ResponseError.builder()
                                                 .responseSchema(this.getResponseSchema(responseEnum))
                                                 .errors(errorAttributes)
@@ -64,7 +66,7 @@ public class ResponseHelper {
                         Page<T> page) {
 
                 return ResponseEntity
-                                .status(java.util.Objects.requireNonNull(responseEnum.getHttpStatus()))
+                                .status(Objects.requireNonNull(responseEnum.getHttpStatus()))
                                 .body(ResponseMeta.<T>builder()
                                                 .responseSchema(this.getResponseSchema(responseEnum))
                                                 .meta(MetaAttribute.builder().page(page.getNumber())

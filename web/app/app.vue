@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DropdownMenuItem } from '@nuxt/ui'
+import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
 
 const { user, clear } = useUserSession()
 const signout = async () => {
@@ -62,7 +62,7 @@ const userMenuItems = computed<DropdownMenuItem[]>(() => [
   ]
 ])
 
-const items = [
+const items: NavigationMenuItem[] = [
   {
     label: "Dashboard",
     icon: "i-heroicons-squares-2x2",
@@ -76,7 +76,18 @@ const items = [
   {
     label: "Inbound",
     icon: "i-heroicons-arrow-down-on-square-stack",
-    to: "/inbound",
+    children: [
+      {
+        label: "Purchase Order",
+        to: "/inbound/purchase-order",
+        icon: "i-heroicons-shopping-cart",
+      },
+      {
+        label: "Receiving",
+        to: "/inbound/receiving",
+        icon: "i-heroicons-truck",
+      },
+    ]
   },
   {
     label: "Outbound",

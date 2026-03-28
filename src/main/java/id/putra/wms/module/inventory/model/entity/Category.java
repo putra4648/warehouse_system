@@ -1,5 +1,6 @@
 package id.putra.wms.module.inventory.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import id.putra.wms.shared.base.entity.Product;
@@ -24,7 +25,7 @@ public class Category {
 
     private String description;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
+    @OneToMany
+    private List<Product> products = new ArrayList<>();
 
 }

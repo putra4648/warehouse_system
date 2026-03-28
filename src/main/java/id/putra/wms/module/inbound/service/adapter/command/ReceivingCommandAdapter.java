@@ -7,5 +7,7 @@ public interface ReceivingCommandAdapter {
 
     ReceivingDto update(ReceivingDto dto);
 
-    Boolean delete(ReceivingDto dto);
+    Boolean delete(Long id);
+
+    ReceivingDto patch(ReceivingDto body);
 }

@@ -2,6 +2,7 @@ package id.putra.wms.module.inbound.service.core.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
@@ -28,19 +29,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public Boolean delete(Long id) {
-        PurchaseOrderDto dto = new PurchaseOrderDto();
-        dto.setId(id);
-        return purchaseOrderCommandAdapter.delete(dto);
+    public Boolean delete(@NonNull Long id) {
+        return purchaseOrderCommandAdapter.delete(id);
     }
 
     @Override
-    public PurchaseOrderDto getById(Long id) {
-        return purchaseOrderQueryAdapter.getById(id);
+    public PurchaseOrderDto getById(@NonNull Long id, @NonNull Pageable pageable) {
+        return purchaseOrderQueryAdapter.getById(id, pageable);
     }
 
     @Override
-    public Page<PurchaseOrderDto> getAll(String search, Pageable pageable) {
-        return purchaseOrderQueryAdapter.getAll(search, pageable);
+    public Page<PurchaseOrderDto> getAll(PurchaseOrderDto dto, @NonNull Pageable pageable) {
+        return purchaseOrderQueryAdapter.getAll(dto, pageable);
+    }
+
+    @Override
+    public PurchaseOrderDto patch(PurchaseOrderDto dto) {
+        return purchaseOrderCommandAdapter.patch(dto);
     }
 }

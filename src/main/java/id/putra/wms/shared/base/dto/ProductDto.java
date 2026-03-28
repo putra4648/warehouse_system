@@ -2,7 +2,6 @@ package id.putra.wms.shared.base.dto;
 
 import java.util.List;
 
-import id.putra.wms.module.inventory.dto.CategoryDto;
 import id.putra.wms.module.inventory.dto.InventoryItemDto;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +19,5 @@ public class ProductDto extends BaseDto {
     private Long maxStock;
     private Long quantity;
     private Boolean isActive;
-    private CategoryDto category;
     private List<InventoryItemDto> inventories;
 }

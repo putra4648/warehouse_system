@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import type { Customer } from '~~/types/customer'
-import type PaginationResponse from '~~/server/utils/pagination'
+import type { PaginationResponse } from '~~/server/utils/response'
 import type { TableColumn, DropdownMenuItem } from '@nuxt/ui'
 
 const UButton = resolveComponent('UButton')
@@ -111,7 +111,7 @@ const size = ref(10);
 
 const { data, status, refresh } = await useFetch<PaginationResponse<Customer>>("/api/customers", {
     query: {
-        page: computed(() => page.value - 1),
+        page: computed(() => page.value),
         size,
         search: q
     },

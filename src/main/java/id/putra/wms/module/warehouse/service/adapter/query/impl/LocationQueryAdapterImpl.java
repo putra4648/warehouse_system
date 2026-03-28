@@ -1,5 +1,9 @@
 package id.putra.wms.module.warehouse.service.adapter.query.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,17 +29,22 @@ public class LocationQueryAdapterImpl implements LocationQueryAdapter {
     @Override
     public Page<LocationDto> getLocations(LocationDto dto, Pageable pageable) {
         Specification<Location> specs = (root, criteria, builder) -> {
-            Predicate name = builder.like(root.get("name"),
-                    "%" + (StringUtils.hasText(dto.getName()) ? dto.getName() : "") + "%");
-            return builder.and(name);
+            List<Predicate> predicates = new ArrayList<>();
+            if (dto != null) {
+                if (StringUtils.hasText(dto.getName())) {
+                    predicates.add(builder.like(root.get("name"),
+                            "%" + dto.getName() + "%"));
+                }
+            }
+            return builder.and(predicates.toArray(new Predicate[0]));
         };
-        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Pageable safePageable = Objects.requireNonNull(pageable);
         return locationRepository.findAll(specs, safePageable).map(locationMapper::toDto);
     }
 
     @Override
     public LocationDto getLocation(LocationDto dto) {
-        Long safeId = java.util.Objects.requireNonNull(dto.getId());
+        Long safeId = Objects.requireNonNull(dto.getId());
         return locationRepository.findById(safeId).map(locationMapper::toDto).orElse(null);
     }
 

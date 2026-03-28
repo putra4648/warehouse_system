@@ -1,9 +1,7 @@
 import type { Location } from "~~/types/location";
-import type PaginationResponse from "../utils/pagination";
-import { callBackend } from "../utils/api";
 
 export default defineEventHandler(async (event) => {
-  const method = getMethod(event);
+  const method = event.method;
 
   if (method === "GET") {
     const query = getQuery(event);
@@ -12,10 +10,7 @@ export default defineEventHandler(async (event) => {
       "/api/v1/master/location",
       {
         method: "GET",
-        query: {
-          ...query,
-          search: query.search || "",
-        },
+        query,
       },
     );
   }

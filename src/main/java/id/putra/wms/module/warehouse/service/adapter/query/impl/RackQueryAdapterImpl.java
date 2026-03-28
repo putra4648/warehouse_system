@@ -1,5 +1,7 @@
 package id.putra.wms.module.warehouse.service.adapter.query.impl;
 
+import java.util.Objects;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,13 +32,13 @@ public class RackQueryAdapterImpl implements RackQueryAdapter {
             return builder.and(name);
         };
 
-        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Pageable safePageable = Objects.requireNonNull(pageable);
         return rackRepository.findAll(specs, safePageable).map(rackMapper::toDto);
     }
 
     @Override
     public RackDto getRackById(RackDto rackDto) {
-        Long safeId = java.util.Objects.requireNonNull(rackDto.getId());
+        Long safeId = Objects.requireNonNull(rackDto.getId());
         return rackRepository.findById(safeId).map(rackMapper::toDto).orElse(null);
     }
 

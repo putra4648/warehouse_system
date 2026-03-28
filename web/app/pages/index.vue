@@ -81,7 +81,7 @@
 <script setup lang="ts">
 import type { Product } from '~~/types/product'
 import type { Warehouse } from '~~/types/warehouse'
-import type PaginationResponse from '~~/server/utils/pagination'
+import type { PaginationResponse } from '~~/server/utils/response'
 
 const { data: productsData } = await useFetch<PaginationResponse<Product>>("/api/products", {
   query: { page: 0, size: 1 }

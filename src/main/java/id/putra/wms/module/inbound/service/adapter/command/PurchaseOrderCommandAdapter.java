@@ -7,5 +7,7 @@ public interface PurchaseOrderCommandAdapter {
 
     PurchaseOrderDto update(PurchaseOrderDto dto);
 
-    Boolean delete(PurchaseOrderDto dto);
+    Boolean delete(Long id);
+
+    PurchaseOrderDto patch(PurchaseOrderDto dto);
 }

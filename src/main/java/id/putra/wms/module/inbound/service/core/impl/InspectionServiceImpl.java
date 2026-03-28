@@ -29,9 +29,7 @@ public class InspectionServiceImpl implements InspectionService {
 
     @Override
     public Boolean delete(Long id) {
-        QualityInspectionDto dto = new QualityInspectionDto();
-        dto.setId(id);
-        return inspectionCommandAdapter.delete(dto);
+        return inspectionCommandAdapter.delete(id);
     }
 
     @Override

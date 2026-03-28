@@ -1,9 +1,8 @@
 import type { Category } from "~~/types/product";
-import type PaginationResponse from "../utils/pagination";
-import { callBackend } from "../utils/api";
+import type { PaginationResponse } from "../utils/response";
 
 export default defineEventHandler(async (event) => {
-  const method = getMethod(event);
+  const method = event.method;
 
   if (method === "GET") {
     const query = getQuery(event);

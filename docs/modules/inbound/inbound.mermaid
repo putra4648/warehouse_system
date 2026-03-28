@@ -1,0 +1,91 @@
+erDiagram
+    PurchaseOrder ||--o{ PurchaseOrderLine : "memiliki"
+    PurchaseOrder ||--o{ Receiving : "diproses_menjadi"
+    PurchaseOrderLine ||--o{ ReceivingLine : "direferensi_oleh"
+    
+    Receiving ||--o{ ReceivingLine : "terdiri_dari"
+    ReceivingLine ||--o| QualityInspection : "diperiksa_melalui"
+    
+    QualityInspection ||--o| ReturnToVendor : "memicu_jika_reject"
+    
+    Warehouse ||--o{ Zone : "memiliki"
+    Zone ||--o{ Rack : "terdiri_dari"
+    Rack ||--o{ Location : "memiliki"
+    
+    ReceivingLine }o--o| Location : "ditempatkan_di"
+
+    PurchaseOrder {
+        string id PK
+        string po_number
+        string vendor_id
+        date order_date
+        string status
+    }
+
+    PurchaseOrderLine {
+        string id PK
+        string po_id FK
+        string product_id
+        int quantity
+        decimal price
+    }
+
+    Receiving {
+        string id PK
+        string po_id FK
+        string receiving_number
+        date received_date
+        string received_by
+    }
+
+    ReceivingLine {
+        string id PK
+        string receiving_id FK
+        string po_line_id FK
+        string product_id
+        int qty_received
+        string location_id FK
+    }
+
+    QualityInspection {
+        string id PK
+        string receiving_line_id FK
+        string status
+        int qty_passed
+        int qty_failed
+        string notes
+    }
+
+    ReturnToVendor {
+        string id PK
+        string quality_inspection_id FK
+        int qty_returned
+        string reason
+        date return_date
+    }
+
+    Warehouse {
+        string id PK
+        string name
+        string address
+    }
+
+    Zone {
+        string id PK
+        string warehouse_id FK
+        string zone_name
+        string zone_type
+    }
+
+    Rack {
+        string id PK
+        string zone_id FK
+        string rack_code
+    }
+
+    Location {
+        string id PK
+        string rack_id FK
+        string bin_code
+        int capacity
+    }

@@ -1,5 +1,7 @@
 package id.putra.wms.module.warehouse.service.adapter.query.impl;
 
+import java.util.Objects;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,7 +27,7 @@ public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
 
     @Override
     public WarehouseDto getWarehouseById(WarehouseDto dto) {
-        Long id = java.util.Objects.requireNonNull(dto.getId());
+        Long id = Objects.requireNonNull(dto.getId());
         var wh = warehouseRepository.findById(id);
         return wh.map(warehouseMapper::toDto).orElse(null);
     }
@@ -37,7 +39,7 @@ public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
                     "%" + (StringUtils.hasText(dto.getName()) ? dto.getName() : "") + "%");
             return builder.and(name);
         };
-        Pageable safePageable = java.util.Objects.requireNonNull(pageable);
+        Pageable safePageable = Objects.requireNonNull(pageable);
         return warehouseRepository.findAll(specs, safePageable).map(warehouseMapper::toDto);
     }
 

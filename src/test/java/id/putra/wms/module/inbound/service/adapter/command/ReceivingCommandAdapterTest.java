@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import id.putra.wms.module.inbound.dto.ReceivingDto;
 import id.putra.wms.module.inbound.mapper.ReceivingMapper;
-import id.putra.wms.module.inbound.model.entity.Receiving;
+import id.putra.wms.module.inbound.model.repository.PurchaseOrderRepository;
 import id.putra.wms.module.inbound.model.repository.ReceivingRepository;
 import id.putra.wms.module.inbound.service.adapter.command.impl.ReceivingCommandAdapterImpl;
 
@@ -27,13 +27,17 @@ public class ReceivingCommandAdapterTest {
     private ReceivingRepository receivingRepository;
 
     @Mock
+    private PurchaseOrderRepository purchaseOrderRepository;
+
+    @Mock
     private ReceivingMapper receivingMapper;
 
     private ReceivingCommandAdapter receivingCommandAdapter;
 
     @BeforeEach
     void setUp() {
-        receivingCommandAdapter = new ReceivingCommandAdapterImpl(receivingRepository, receivingMapper);
+        receivingCommandAdapter = new ReceivingCommandAdapterImpl(receivingRepository, purchaseOrderRepository,
+                receivingMapper);
     }
 
     @Test
@@ -41,11 +45,6 @@ public class ReceivingCommandAdapterTest {
         ReceivingDto dto = new ReceivingDto();
         dto.setReceivingNumber("RCV-TEST-ADD");
         dto.setReceivedDate(new Date(System.currentTimeMillis()));
-        dto.setStatus("NEW");
-
-        Receiving entity = new Receiving();
-        when(receivingMapper.toEntity(any(ReceivingDto.class))).thenReturn(entity);
-        when(receivingRepository.save(any(Receiving.class))).thenReturn(entity);
 
         receivingCommandAdapter.add(dto);
 
@@ -57,11 +56,6 @@ public class ReceivingCommandAdapterTest {
         ReceivingDto dto = new ReceivingDto();
         dto.setId(1L);
         dto.setReceivingNumber("RCV-CMD-2-UPDATED");
-        dto.setStatus("UPDATED");
-
-        Receiving entity = new Receiving();
-        when(receivingMapper.toEntity(any(ReceivingDto.class))).thenReturn(entity);
-        when(receivingRepository.save(any(Receiving.class))).thenReturn(entity);
 
         receivingCommandAdapter.update(dto);
 

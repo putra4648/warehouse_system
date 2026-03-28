@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import type { Category } from '~~/types/product'
-import type PaginationResponse from '~~/server/utils/pagination'
+import type { PaginationResponse } from '~~/server/utils/response'
 import type { DropdownMenuItem } from '@nuxt/ui';
 
 definePageMeta({
@@ -69,7 +69,7 @@ const state = reactive({
 
 const { data, status, refresh } = await useFetch<PaginationResponse<Category>>("/api/categories", {
     query: {
-        page: computed(() => page.value - 1),
+        page: computed(() => page.value),
         size,
         search: q
     },
