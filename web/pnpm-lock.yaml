@@ -21,13 +21,13 @@ importers:
         specifier: 4.0.0
         version: 4.0.0(magicast@0.5.1)
       '@unhead/vue':
-        specifier: ^2.1.12
+        specifier: ^2.0.14
         version: 2.1.12(vue@3.5.25(typescript@5.9.3))
       eslint:
-        specifier: ^9.39.1
+        specifier: ^9.33.0
         version: 9.39.1(jiti@2.6.1)
       nuxt:
-        specifier: ^4.2.1
+        specifier: ^4.0.3
         version: 4.2.1(@biomejs/biome@2.2.5)(@parcel/watcher@2.5.1)(@types/node@24.10.1)(@vue/compiler-sfc@3.5.25)(db0@0.3.4)(eslint@9.39.1(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.32.0)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.53.3)(sass@1.94.2)(terser@5.44.1)(typescript@5.9.3)(vite@7.2.6(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.32.0)(sass@1.94.2)(terser@5.44.1)(yaml@2.8.2))(yaml@2.8.2)
       nuxt-auth-utils:
         specifier: 0.5.29
@@ -36,10 +36,10 @@ importers:
         specifier: 2.0.0
         version: 2.0.0(vue@3.5.25(typescript@5.9.3))
       vue:
-        specifier: ^3.5.25
+        specifier: ^3.5.18
         version: 3.5.25(typescript@5.9.3)
       vue-router:
-        specifier: ^4.6.3
+        specifier: ^4.5.1
         version: 4.6.3(vue@3.5.25(typescript@5.9.3))
     devDependencies:
       '@biomejs/biome':
@@ -52,16 +52,16 @@ importers:
         specifier: ^24.10.1
         version: 24.10.1
       '@types/tabulator-tables':
-        specifier: ^6.3.0
+        specifier: ^6.2.11
         version: 6.3.0
       sass:
-        specifier: ^1.94.2
+        specifier: ^1.93.2
         version: 1.94.2
       sass-loader:
-        specifier: ^16.0.6
+        specifier: ^16.0.5
         version: 16.0.6(sass@1.94.2)
       typescript:
-        specifier: ^5.9.3
+        specifier: ^5.9.2
         version: 5.9.3
 
 packages:
@@ -11066,7 +11066,7 @@ snapshots:
   pkg-types@1.3.1:
     dependencies:
       confbox: 0.1.8
-      mlly: 1.8.0
+      mlly: 1.8.1
       pathe: 2.0.3
 
   pkg-types@2.3.0:
