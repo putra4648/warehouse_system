@@ -1,3 +1,6 @@
+vaadin:
+  excludeUrls: /swagger-ui/**
+
 spring:
   main:
     banner-mode: off

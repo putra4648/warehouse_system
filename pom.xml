@@ -30,8 +30,14 @@
     <properties>
         <java.version>21</java.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
+        <vaadin.version>24.6.1</vaadin.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-boot-starter</artifactId>
+            <version>${vaadin.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -121,6 +127,15 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-bom</artifactId>
+                <!-- declare the latest Vaadin version
+                 as a property or directly here -->
+                <version>${vaadin.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -159,6 +174,25 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <!--
+            Takes care of synchronizing java
+            dependencies and imports in package.json and
+            main.js files. It also creates
+            vite.config.ts if doesn't exist yet.
+        -->
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-frontend</goal>
+                            <goal>build-frontend</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
