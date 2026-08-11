@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.dto.ReceivingDto;
+import id.putra.wms.module.inbound.dto.ReceivingLineDto;
 import id.putra.wms.module.inbound.mapper.ReceivingMapper;
 import id.putra.wms.module.inbound.model.repository.PurchaseOrderRepository;
 import id.putra.wms.module.inbound.model.repository.ReceivingRepository;
@@ -55,6 +58,11 @@ public class ReceivingCommandAdapterTest {
         ReceivingDto dto = new ReceivingDto();
         dto.setId(1L);
         dto.setReceivingNumber("RCV-CMD-2-UPDATED");
+        dto.setPurchaseOrder(new PurchaseOrderDto());
+        var lines = new ArrayList<ReceivingLineDto>();
+        dto.setReceivingLines(lines);
+
+        when(receivingRepository.existsById(1L)).thenReturn(true);
 
         receivingCommandAdapter.update(dto);
 

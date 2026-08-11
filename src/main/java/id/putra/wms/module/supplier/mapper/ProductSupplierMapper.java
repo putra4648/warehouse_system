@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import id.putra.wms.module.inventory.model.repository.ProductRepository;
 import id.putra.wms.module.supplier.dto.ProductSupplierDto;
@@ -17,11 +18,8 @@ import id.putra.wms.shared.mapper.ProductMapper;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { ProductMapper.class })
 public abstract class ProductSupplierMapper {
 
-    protected final ProductRepository productRepository;
-
-    ProductSupplierMapper(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    @Autowired
+    private ProductRepository productRepository;
 
     public abstract ProductSupplierDto toDto(ProductSupplier entity);
 
