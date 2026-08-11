@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +16,6 @@ import id.putra.wms.module.outbound.dto.SalesOrderDto;
 import id.putra.wms.module.outbound.model.entity.SalesOrder;
 import jakarta.persistence.criteria.Predicate;
 
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DataJpaTest
 @Transactional
 public class SalesOrderRepositoryPaginationTest extends PostgreSQLContainerInitializer {
 
@@ -42,7 +38,8 @@ public class SalesOrderRepositoryPaginationTest extends PostgreSQLContainerIniti
         dto.setSoNumber("SO-PAG-1");
 
         Specification<SalesOrder> bySoNumber = (root, criteria, builder) -> {
-            Predicate p = builder.like(root.get("soNumber"), "%" + (dto.getSoNumber() != null ? dto.getSoNumber() : "") + "%");
+            Predicate p = builder.like(root.get("soNumber"),
+                    "%" + (dto.getSoNumber() != null ? dto.getSoNumber() : "") + "%");
             return builder.and(p);
         };
 

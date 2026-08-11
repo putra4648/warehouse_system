@@ -1,7 +1,7 @@
 package id.putra.wms.views.login;
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -14,7 +14,6 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @PageTitle("Login")
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
-    private Button login = new Button("Login");
 
     public LoginView() {
         addClassName("login-view");
@@ -22,19 +21,19 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         setJustifyContentMode(JustifyContentMode.CENTER);
         setAlignItems(Alignment.CENTER);
-        login.addClickListener(e -> {
-            UI.getCurrent().getPage().open("/oauth2/authorization/okta", "_self");
-        });
+        Button loginButton = new Button("Login with Auth0");
+        Anchor loginAnchor = new Anchor("/oauth2/authorization/auth0", loginButton);
+        loginAnchor.setRouterIgnore(true);
 
-        add(new H1("Test Application"), login);
+        add(new H1("Test Application"), loginAnchor);
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        if(beforeEnterEvent.getLocation()
-            .getQueryParameters()
-            .getParameters()
-            .containsKey("error")) {
+        if (beforeEnterEvent.getLocation()
+                .getQueryParameters()
+                .getParameters()
+                .containsKey("error")) {
         }
     }
 }

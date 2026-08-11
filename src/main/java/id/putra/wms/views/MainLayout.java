@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Span;
@@ -36,7 +37,9 @@ import id.putra.wms.views.master.WarehouseView;
 import id.putra.wms.views.outbound.OutboundView;
 import id.putra.wms.views.reports.ReportsView;
 import id.putra.wms.views.settings.SettingsView;
+import jakarta.annotation.security.PermitAll;
 
+@PermitAll
 public class MainLayout extends AppLayout {
 
     private final SecurityService securityService;
@@ -51,8 +54,8 @@ public class MainLayout extends AppLayout {
         DrawerToggle toggle = new DrawerToggle();
         toggle.setAriaLabel("Menu toggle");
 
-        H1 title = new H1("WMS Pro");
-        title.addClassNames("text-l", "m-0", "font-bold");
+        H2 title = new H2("WMS Pro");
+        title.getStyle().setMarginRight("auto");
 
         Button themeToggle = new Button(VaadinIcon.MOON.create(), click -> {
             ThemeList themeList = UI.getCurrent().getElement().getThemeList();
@@ -75,18 +78,18 @@ public class MainLayout extends AppLayout {
             Avatar avatar = new Avatar(user.name(), user.pictureUrl());
             MenuItem item = userMenu.addItem(avatar);
             SubMenu subMenu = item.getSubMenu();
-            
+
             Span nameSpan = new Span(user.name());
             nameSpan.addClassNames("font-semibold", "px-m");
             subMenu.addItem(nameSpan).setEnabled(false);
-            
+
             if (!user.email().isBlank()) {
                 Span emailSpan = new Span(user.email());
                 emailSpan.addClassNames("text-xs", "text-secondary", "px-m");
                 subMenu.addItem(emailSpan).setEnabled(false);
             }
-            
-            subMenu.add(new Hr());
+
+            subMenu.addComponent(new Hr());
             subMenu.addItem("Sign Out", e -> securityService.logout());
         }, () -> {
             Avatar avatar = new Avatar("User");
@@ -97,10 +100,16 @@ public class MainLayout extends AppLayout {
 
         userLayout.add(themeToggle, userMenu);
 
-        Header header = new Header(toggle, title, userLayout);
+        Header header = new Header(toggle);
         header.addClassNames("flex", "items-center", "justify-between", "w-full", "px-m");
 
-        addToNavbar(header);
+        HorizontalLayout headerLayout = new HorizontalLayout(header, title, userLayout);
+        headerLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        headerLayout.setWidthFull();
+        headerLayout.setPadding(true);
+        headerLayout.setSpacing(true);
+
+        addToNavbar(headerLayout);
     }
 
     private void createDrawer() {

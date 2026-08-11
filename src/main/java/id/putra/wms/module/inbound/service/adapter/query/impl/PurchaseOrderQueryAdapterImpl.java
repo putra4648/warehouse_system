@@ -3,13 +3,13 @@ package id.putra.wms.module.inbound.service.adapter.query.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.mapper.PurchaseOrderMapper;
@@ -61,7 +61,7 @@ public class PurchaseOrderQueryAdapterImpl implements PurchaseOrderQueryAdapter 
         Specification<PurchaseOrder> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (dto != null) {
-                if (StringUtils.isNotBlank(dto.getPoNumber())) {
+                if (StringUtils.hasText(dto.getPoNumber())) {
                     predicates.add(cb.like(root.get("poNumber"), "%" + dto.getPoNumber() + "%"));
                 }
 
