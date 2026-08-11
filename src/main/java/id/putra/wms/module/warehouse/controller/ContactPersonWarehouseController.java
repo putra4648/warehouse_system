@@ -3,7 +3,6 @@ package id.putra.wms.module.warehouse.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -70,7 +69,7 @@ public class ContactPersonWarehouseController {
     @Operation(summary = "Get warehouse contact persons", description = "Retrieve a paginated list of warehouse contact persons with search functionality")
     public ResponseEntity<ResponseMeta<ContactPersonWarehouseDto>> getWarehouses(
             @Parameter(description = "Search term for contact person name") @RequestParam String search,
-            @ParameterObject @PageableDefault Pageable pageable) {
+             @PageableDefault Pageable pageable) {
         var dto = ContactPersonWarehouseDto.builder().name(search).build();
         Page<ContactPersonWarehouseDto> cp = contactPersonWarehouseCoreService.getContacts(dto, pageable);
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, cp);

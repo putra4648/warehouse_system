@@ -18,36 +18,36 @@ services:
       timeout: 5s
       retries: 5
 
-  backend:
-    image: putra4648/backend
-    depends_on:
-      wms_db:
-        condition: service_healthy
-      # keycloak:
-      #   condition: service_healthy
-    build:
-      context: .
-    container_name: backend
-    ports:
-      - 7000:7000
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://wms_db:5432/wms_db
-      - SPRING_DATASOURCE_USERNAME=admin
-      - SPRING_DATASOURCE_PASSWORD=admin123
-    networks:
-      - wms-network
+  # backend:
+  #   image: putra4648/backend
+  #   depends_on:
+  #     wms_db:
+  #       condition: service_healthy
+  #     # keycloak:
+  #     #   condition: service_healthy
+  #   build:
+  #     context: .
+  #   container_name: backend
+  #   ports:
+  #     - 7000:7000
+  #   environment:
+  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://wms_db:5432/wms_db
+  #     - SPRING_DATASOURCE_USERNAME=admin
+  #     - SPRING_DATASOURCE_PASSWORD=admin123
+  #   networks:
+  #     - wms-network
 
-  frontend:
-    image: putra4648/frontend
-    build:
-      context: ./web
-    container_name: wms-web
-    ports:
-      - 3001:3000
-    networks:
-      - wms-network
-    depends_on:
-      - backend
+  # frontend:
+  #   image: putra4648/frontend
+  #   build:
+  #     context: ./web
+  #   container_name: wms-web
+  #   ports:
+  #     - 3001:3000
+  #   networks:
+  #     - wms-network
+  #   depends_on:
+  #     - backend
 
 networks:
   wms-network:

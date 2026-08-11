@@ -20,7 +20,6 @@ import id.putra.wms.module.inbound.model.repository.ReceivingRepository;
 import id.putra.wms.module.inbound.service.adapter.command.impl.ReceivingCommandAdapterImpl;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 public class ReceivingCommandAdapterTest {
 
     @Mock
@@ -69,7 +68,7 @@ public class ReceivingCommandAdapterTest {
 
         when(receivingRepository.existsById(1L)).thenReturn(true);
 
-        receivingCommandAdapter.delete(dto);
+        receivingCommandAdapter.delete(dto.getId());
 
         verify(receivingRepository).deleteById(anyLong());
     }

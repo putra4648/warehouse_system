@@ -3,7 +3,6 @@ package id.putra.wms.module.customer.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -68,7 +67,7 @@ public class CustomerController {
     @Operation(summary = "Get customers", description = "Retrieve a paginated list of customers with search functionality")
     public ResponseEntity<ResponseMeta<CustomerDto>> getCustomers(
             @Parameter(description = "Search term for customer name") @RequestParam(value = "search", defaultValue = "") String search,
-            @ParameterObject @PageableDefault Pageable pageable) {
+             @PageableDefault Pageable pageable) {
         Page<CustomerDto> customers = customerService.getAll(search, pageable);
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, customers);
     }

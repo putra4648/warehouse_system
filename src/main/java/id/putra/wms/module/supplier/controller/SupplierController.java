@@ -3,7 +3,6 @@ package id.putra.wms.module.supplier.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -69,7 +68,7 @@ public class SupplierController {
 
     public ResponseEntity<ResponseMeta<SupplierDto>> getSuppliers(
             @Parameter(description = "Search term for supplier name") @RequestParam(value = "search", defaultValue = "") String search,
-            @ParameterObject @PageableDefault Pageable pageable) {
+             @PageableDefault Pageable pageable) {
         Page<SupplierDto> suppliers = supplierService.getAll(pageable, search);
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, suppliers);
     }

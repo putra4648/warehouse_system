@@ -3,7 +3,6 @@ package id.putra.wms.module.warehouse.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -67,7 +66,7 @@ public class ZoneController {
     @Operation(summary = "Get zones", description = "Retrieve a paginated list of zones")
     public ResponseEntity<ResponseMeta<ZoneDto>> getZones(
             @Parameter(description = "Zone Name") @RequestParam("search") Optional<String> name,
-            @ParameterObject @PageableDefault Pageable pageable) {
+             @PageableDefault Pageable pageable) {
         var dto = ZoneDto.builder()
                 .name(name.orElse(null))
                 .build();

@@ -1,6 +1,5 @@
 package id.putra.wms.module.inbound.controller;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +59,7 @@ public class InboundController {
     @Operation(summary = "Get all Purchase Order", description = "Get all purchase orders")
     public ResponseEntity<ResponseMeta<PurchaseOrderDto>> getAllPO(
             @Parameter(description = "Search term for PO") PurchaseOrderDto dto,
-            @ParameterObject @PageableDefault @NonNull Pageable pageable) {
+             @PageableDefault @NonNull Pageable pageable) {
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, purchaseOrderService.getAll(dto, pageable));
     }
 
@@ -86,7 +85,7 @@ public class InboundController {
     @GetMapping("/po/{id}")
     @Operation(summary = "Get PO by ID", description = "Retrieve a purchase order by its ID")
     public ResponseEntity<ResponseData<PurchaseOrderDto>> getPOById(@PathVariable Long id,
-            @ParameterObject @PageableDefault @NonNull Pageable pageable) {
+             @PageableDefault @NonNull Pageable pageable) {
         if (id == null) {
             throw new ModuleException(ResponseEnum.INVALID_PARAM);
         }
@@ -99,7 +98,7 @@ public class InboundController {
     @Operation(summary = "Get all Receiving", description = "Get all receiving records")
     public ResponseEntity<ResponseMeta<ReceivingDto>> getAllReceiving(
             @Parameter(description = "Search term for Receiving") @RequestParam(value = "search", defaultValue = "") String search,
-            @ParameterObject @PageableDefault @NonNull Pageable pageable) {
+             @PageableDefault @NonNull Pageable pageable) {
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, receivingOrderService.getAll(search, pageable));
     }
 
@@ -118,7 +117,7 @@ public class InboundController {
     @GetMapping("/receiving/{id}")
     @Operation(summary = "Get Receiving by ID")
     public ResponseEntity<ResponseData<ReceivingDto>> getReceivingById(@PathVariable Long id,
-            @ParameterObject @PageableDefault @NonNull Pageable pageable) {
+             @PageableDefault @NonNull Pageable pageable) {
         if (id == null) {
             throw new ModuleException(ResponseEnum.INVALID_PARAM);
         }

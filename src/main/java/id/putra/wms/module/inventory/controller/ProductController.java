@@ -2,7 +2,6 @@ package id.putra.wms.module.inventory.controller;
 
 import java.util.Optional;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -66,7 +65,7 @@ public class ProductController {
     @Operation(summary = "Get products", description = "Retrieve a paginated list of products with search functionality")
     public ResponseEntity<ResponseMeta<ProductDto>> getProducts(
             @Parameter(description = "Search term for product name") @RequestParam("search") String search,
-            @ParameterObject @PageableDefault Pageable pageable) {
+             @PageableDefault Pageable pageable) {
         var dto = ProductDto.builder().name(search).build();
         Page<ProductDto> products = productCoreService.getProducts(dto, pageable);
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, products);

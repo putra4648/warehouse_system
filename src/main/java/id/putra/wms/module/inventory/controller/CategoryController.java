@@ -3,7 +3,6 @@ package id.putra.wms.module.inventory.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -67,7 +66,7 @@ public class CategoryController {
     @Operation(summary = "Get categories", description = "Retrieve a paginated list of categories with search functionality")
     public ResponseEntity<ResponseMeta<CategoryDto>> getCategories(
             @Parameter(description = "Search term for category name") @RequestParam("search") String search,
-            @ParameterObject @PageableDefault Pageable pageable) {
+             @PageableDefault Pageable pageable) {
         var dto = CategoryDto.builder().name(search).build();
         Page<CategoryDto> categories = categoryCoreService.getCategories(dto, pageable);
         return responseHelper.createResponseMeta(ResponseEnum.SUCCESS, categories);
