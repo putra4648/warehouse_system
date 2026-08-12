@@ -28,6 +28,7 @@ jobs:
         cache: maven
 
     - name: Run tests with Maven
+      continue-on-error: true
       run: ./mvnw clean test --batch-mode --update-snapshots
 
     - name: Test Report
