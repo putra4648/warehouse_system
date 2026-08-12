@@ -122,9 +122,9 @@ public class WarehouseView extends VerticalLayout {
         toolbar.setFlexGrow(1, search);
 
         grid.setSizeFull();
-        grid.addColumn(WarehouseDto::getId).setHeader("ID").setAutoWidth(true);
-        grid.addColumn(WarehouseDto::getName).setHeader("Warehouse Name").setFlexGrow(1);
-        grid.addColumn(WarehouseDto::getLocation).setHeader("Location/Address").setFlexGrow(1);
+        grid.addColumn(w -> w.getId() != null ? w.getId().toString() : "").setHeader("ID").setAutoWidth(true);
+        grid.addColumn(w -> w.getName() != null ? w.getName() : "").setHeader("Warehouse Name").setFlexGrow(1);
+        grid.addColumn(w -> w.getLocation() != null ? w.getLocation() : "").setHeader("Location/Address").setFlexGrow(1);
         grid.addColumn(w -> w.getArea() != null ? w.getArea() + " m²" : "-").setHeader("Area").setAutoWidth(true);
 
         grid.addComponentColumn(wh -> {
@@ -219,9 +219,9 @@ public class WarehouseView extends VerticalLayout {
         toolbar.setFlexGrow(1, search);
 
         grid.setSizeFull();
-        grid.addColumn(ZoneDto::getCode).setHeader("Zone Code").setAutoWidth(true);
-        grid.addColumn(ZoneDto::getName).setHeader("Zone Name").setFlexGrow(1);
-        grid.addColumn(ZoneDto::getType).setHeader("Type").setAutoWidth(true);
+        grid.addColumn(z -> z.getCode() != null ? z.getCode() : "").setHeader("Zone Code").setAutoWidth(true);
+        grid.addColumn(z -> z.getName() != null ? z.getName() : "").setHeader("Zone Name").setFlexGrow(1);
+        grid.addColumn(z -> z.getType() != null ? z.getType() : "").setHeader("Type").setAutoWidth(true);
 
         grid.addComponentColumn(z -> {
             Button delete = new Button(VaadinIcon.TRASH.create(), e -> {
@@ -276,9 +276,9 @@ public class WarehouseView extends VerticalLayout {
         toolbar.setFlexGrow(1, search);
 
         grid.setSizeFull();
-        grid.addColumn(RackDto::getName).setHeader("Rack Name").setFlexGrow(1);
-        grid.addColumn(RackDto::getRows).setHeader("Rows").setAutoWidth(true);
-        grid.addColumn(RackDto::getCols).setHeader("Columns").setAutoWidth(true);
+        grid.addColumn(r -> r.getName() != null ? r.getName() : "").setHeader("Rack Name").setFlexGrow(1);
+        grid.addColumn(r -> r.getRows() != null ? r.getRows().toString() : "").setHeader("Rows").setAutoWidth(true);
+        grid.addColumn(r -> r.getCols() != null ? r.getCols().toString() : "").setHeader("Columns").setAutoWidth(true);
 
         contentArea.add(toolbar, grid);
         refresh.run();
@@ -327,9 +327,9 @@ public class WarehouseView extends VerticalLayout {
         toolbar.setFlexGrow(1, search);
 
         grid.setSizeFull();
-        grid.addColumn(LocationDto::getName).setHeader("Location Name").setFlexGrow(1);
-        grid.addColumn(LocationDto::getBinNumber).setHeader("Bin Number").setAutoWidth(true);
-        grid.addColumn(LocationDto::getType).setHeader("Type").setAutoWidth(true);
+        grid.addColumn(l -> l.getName() != null ? l.getName() : "").setHeader("Location Name").setFlexGrow(1);
+        grid.addColumn(l -> l.getBinNumber() != null ? l.getBinNumber() : "").setHeader("Bin Number").setAutoWidth(true);
+        grid.addColumn(l -> l.getType() != null ? l.getType() : "").setHeader("Type").setAutoWidth(true);
 
         contentArea.add(toolbar, grid);
         refresh.run();

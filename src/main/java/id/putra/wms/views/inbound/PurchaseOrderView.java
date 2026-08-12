@@ -1,5 +1,7 @@
 package id.putra.wms.views.inbound;
 
+import org.springframework.data.domain.PageRequest;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -16,11 +18,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.service.core.PurchaseOrderService;
 import id.putra.wms.views.MainLayout;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.data.domain.PageRequest;
 
 @Route(value = "inbound/purchase-order", layout = MainLayout.class)
 @PageTitle("Purchase Orders | WMS Pro")
@@ -72,7 +74,7 @@ public class PurchaseOrderView extends VerticalLayout {
 
     private void configureGrid() {
         grid.setSizeFull();
-        grid.addColumn(PurchaseOrderDto::getPoNumber).setHeader("PO Number").setAutoWidth(true).setSortable(true);
+        grid.addColumn(p -> p.getPoNumber() != null ? p.getPoNumber() : "").setHeader("PO Number").setAutoWidth(true).setSortable(true);
         grid.addColumn(p -> p.getOrderDate() != null ? p.getOrderDate().toString() : "-").setHeader("Order Date").setAutoWidth(true);
         grid.addColumn(p -> p.getSupplierId() != null ? "Supplier #" + p.getSupplierId() : "-").setHeader("Supplier").setFlexGrow(1);
 

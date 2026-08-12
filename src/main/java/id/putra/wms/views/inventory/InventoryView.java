@@ -1,5 +1,9 @@
 package id.putra.wms.views.inventory;
 
+import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -17,13 +21,11 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import id.putra.wms.module.inventory.dto.InventoryItemDto;
 import id.putra.wms.module.inventory.service.core.InventoryItemCoreService;
 import id.putra.wms.views.MainLayout;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.data.domain.PageRequest;
-
-import java.util.List;
 
 @Route(value = "inventory", layout = MainLayout.class)
 @PageTitle("Inventory | WMS Pro")
@@ -75,10 +77,10 @@ public class InventoryView extends VerticalLayout {
 
     private void configureGrid() {
         grid.setSizeFull();
-        grid.addColumn(InventoryItemDto::getName).setHeader("Item Name").setFlexGrow(1).setSortable(true);
+        grid.addColumn(item -> item.getName() != null ? item.getName() : "").setHeader("Item Name").setFlexGrow(1).setSortable(true);
         grid.addColumn(item -> item.getProduct() != null ? item.getProduct().getSku() : "-").setHeader("Product SKU").setAutoWidth(true);
-        grid.addColumn(InventoryItemDto::getLotNumber).setHeader("Lot Number").setAutoWidth(true);
-        grid.addColumn(InventoryItemDto::getSerialNumber).setHeader("Serial Number").setAutoWidth(true);
+        grid.addColumn(item -> item.getLotNumber() != null ? item.getLotNumber() : "").setHeader("Lot Number").setAutoWidth(true);
+        grid.addColumn(item -> item.getSerialNumber() != null ? item.getSerialNumber() : "").setHeader("Serial Number").setAutoWidth(true);
         grid.addColumn(item -> item.getQuantity() != null ? item.getQuantity() : 0).setHeader("Quantity").setAutoWidth(true);
         grid.addColumn(item -> item.getReservedQty() != null ? item.getReservedQty() : 0).setHeader("Reserved Qty").setAutoWidth(true);
 

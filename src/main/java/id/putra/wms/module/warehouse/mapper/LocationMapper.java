@@ -3,11 +3,12 @@ package id.putra.wms.module.warehouse.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.InjectionStrategy;
 
 import id.putra.wms.module.warehouse.dto.LocationDto;
 import id.putra.wms.module.warehouse.model.entity.Location;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface LocationMapper {
 
     @Mapping(target = "rackId", source = "rack.id")

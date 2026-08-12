@@ -7,12 +7,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
+import org.mapstruct.InjectionStrategy;
 
 import id.putra.wms.module.outbound.dto.PackingDto;
 import id.putra.wms.module.outbound.model.entity.Packing;
 import id.putra.wms.module.outbound.model.entity.Shipment;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface PackingMapper {
     @Mapping(source = "shipmentIds", target = "shipments", qualifiedByName = "mapIdsToShipments")
     Packing toEntity(PackingDto dto);

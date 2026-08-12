@@ -1,8 +1,12 @@
 package id.putra.wms.views.master;
 
-import com.vaadin.flow.component.checkbox.Checkbox;
+import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -20,14 +24,12 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import id.putra.wms.module.customer.dto.ContactPersonCustomerDto;
 import id.putra.wms.module.customer.dto.CustomerDto;
 import id.putra.wms.module.customer.service.core.CustomerService;
 import id.putra.wms.views.MainLayout;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.data.domain.PageRequest;
-
-import java.util.List;
 
 @Route(value = "master/customer", layout = MainLayout.class)
 @PageTitle("Customers | WMS Pro")
@@ -79,8 +81,8 @@ public class CustomerView extends VerticalLayout {
 
     private void configureGrid() {
         grid.setSizeFull();
-        grid.addColumn(CustomerDto::getCode).setHeader("Customer Code").setAutoWidth(true).setSortable(true);
-        grid.addColumn(CustomerDto::getName).setHeader("Customer Name").setFlexGrow(1).setSortable(true);
+        grid.addColumn(c -> c.getCode() != null ? c.getCode() : "").setHeader("Customer Code").setAutoWidth(true).setSortable(true);
+        grid.addColumn(c -> c.getName() != null ? c.getName() : "").setHeader("Customer Name").setFlexGrow(1).setSortable(true);
         grid.addColumn(c -> c.getContactPerson() != null ? c.getContactPerson().getName() : "-")
                 .setHeader("Contact Person").setFlexGrow(1);
         grid.addColumn(c -> c.getContactPerson() != null ? c.getContactPerson().getEmail() : "-")

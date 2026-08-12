@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.InjectionStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import id.putra.wms.module.inventory.model.repository.ProductRepository;
@@ -15,7 +16,7 @@ import id.putra.wms.module.supplier.model.entity.ProductSupplier;
 import id.putra.wms.module.supplier.model.entity.ProductSupplierId;
 import id.putra.wms.shared.mapper.ProductMapper;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { ProductMapper.class })
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { ProductMapper.class }, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class ProductSupplierMapper {
 
     @Autowired

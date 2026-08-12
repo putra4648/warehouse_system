@@ -2,13 +2,15 @@ package id.putra.wms.module.warehouse.mapper;
 
 import java.util.List;
 
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
 import id.putra.wms.module.warehouse.dto.WarehouseDto;
 import id.putra.wms.module.warehouse.model.entity.Warehouse;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { ZoneMapper.class })
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, injectionStrategy = InjectionStrategy.CONSTRUCTOR, uses = {
+        ZoneMapper.class })
 public interface WarehouseMapper {
 
     Warehouse toEntity(WarehouseDto dto);

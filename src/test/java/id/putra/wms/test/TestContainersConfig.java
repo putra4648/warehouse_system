@@ -1,17 +1,17 @@
 package id.putra.wms.test;
 
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.utility.DockerImageName;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.postgresql.PostgreSQLContainer;
+import org.testcontainers.utility.DockerImageName;
 
 public class TestContainersConfig {
 
-    public static final PostgreSQLContainer<?> POSTGRES_CONTAINER;
+    public static final PostgreSQLContainer POSTGRES_CONTAINER;
 
     static {
         @SuppressWarnings("resource")
-        PostgreSQLContainer<?> container = new PostgreSQLContainer<>(DockerImageName.parse("postgres:17"))
+        PostgreSQLContainer container = new PostgreSQLContainer(DockerImageName.parse("postgres:17"))
                 .withDatabaseName("wms-test-db")
                 .withUsername("test")
                 .withPassword("test");

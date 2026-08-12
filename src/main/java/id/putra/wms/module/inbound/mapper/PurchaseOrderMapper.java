@@ -11,6 +11,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.InjectionStrategy;
 
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.dto.PurchaseOrderLineDto;
@@ -22,7 +23,7 @@ import id.putra.wms.shared.base.entity.Product;
 import id.putra.wms.shared.base.entity.Supplier;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {
-        SupplierMapper.class })
+        SupplierMapper.class }, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class PurchaseOrderMapper {
 
     @Mapping(target = "supplier", source = "supplierId", qualifiedByName = "mapIdToSupplier")

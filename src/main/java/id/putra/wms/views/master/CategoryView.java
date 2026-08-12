@@ -1,5 +1,9 @@
 package id.putra.wms.views.master;
 
+import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -18,13 +22,11 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import id.putra.wms.module.inventory.dto.CategoryDto;
 import id.putra.wms.module.inventory.service.core.CategoryCoreService;
 import id.putra.wms.views.MainLayout;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.data.domain.PageRequest;
-
-import java.util.List;
 
 @Route(value = "master/categories", layout = MainLayout.class)
 @PageTitle("Categories | WMS Pro")
@@ -77,9 +79,9 @@ public class CategoryView extends VerticalLayout {
 
     private void configureGrid() {
         grid.setSizeFull();
-        grid.addColumn(CategoryDto::getId).setHeader("ID").setAutoWidth(true);
-        grid.addColumn(CategoryDto::getName).setHeader("Category Name").setSortable(true).setFlexGrow(1);
-        grid.addColumn(CategoryDto::getDescription).setHeader("Description").setFlexGrow(2);
+        grid.addColumn(c -> c.getId() != null ? c.getId().toString() : "").setHeader("ID").setAutoWidth(true);
+        grid.addColumn(c -> c.getName() != null ? c.getName() : "").setHeader("Category Name").setSortable(true).setFlexGrow(1);
+        grid.addColumn(c -> c.getDescription() != null ? c.getDescription() : "").setHeader("Description").setFlexGrow(2);
 
         grid.addComponentColumn(category -> {
             Button editBtn = new Button(VaadinIcon.EDIT.create(), e -> openCategoryDialog(category));

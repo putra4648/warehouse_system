@@ -1,8 +1,10 @@
 package id.putra.wms.module.outbound.service.adapter.command.impl;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import id.putra.wms.module.outbound.dto.ShipmentDto;
 import id.putra.wms.module.outbound.mapper.ShipmentMapper;
 import id.putra.wms.module.outbound.model.repository.ShipmentRepository;
@@ -30,7 +32,7 @@ public class ShipmentCommandAdapterImpl implements ShipmentCommandAdapter {
 
     @Override
     public void delete(List<ShipmentDto> dtos) {
-        var ids = dtos.stream().map(ShipmentDto::getId).toList();
+        var ids = dtos.stream().map(item -> item.getId()).toList();
         shipmentRepository.deleteAllById(ids);
     }
 }

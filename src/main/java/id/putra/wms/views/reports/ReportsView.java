@@ -1,5 +1,9 @@
 package id.putra.wms.views.reports;
 
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -15,13 +19,11 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.StreamResource;
+import com.vaadin.flow.server.streams.DownloadHandler;
+import com.vaadin.flow.server.streams.DownloadResponse;
+
 import id.putra.wms.views.MainLayout;
 import jakarta.annotation.security.PermitAll;
-
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 
 @Route(value = "reports", layout = MainLayout.class)
 @PageTitle("Reports | WMS Pro")
@@ -47,7 +49,8 @@ public class ReportsView extends VerticalLayout {
 
     private void addReportGeneratorSection() {
         ComboBox<String> reportType = new ComboBox<>("Report Type");
-        reportType.setItems("Inventory Stock Valuation", "Inbound Receipts Summary", "Outbound Fulfillment Rate", "Stock Audit History");
+        reportType.setItems("Inventory Stock Valuation", "Inbound Receipts Summary", "Outbound Fulfillment Rate",
+                "Stock Audit History");
         reportType.setValue("Inventory Stock Valuation");
         reportType.setRequired(true);
 
@@ -62,14 +65,17 @@ public class ReportsView extends VerticalLayout {
                     .addThemeVariants(NotificationVariant.LUMO_SUCCESS);
         });
         generateBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        StreamResource resource = new StreamResource("wms_report.csv", () -> {
+        
+        DownloadHandler downloadHandler = DownloadHandler.fromInputStream((event) -> {
             String csvContent = "Report Type,Start Date,End Date,Generated At\n" +
-                    "\"" + reportType.getValue() + "\",\"" + startDate.getValue() + "\",\"" + endDate.getValue() + "\",\"" + LocalDate.now() + "\"\n";
-            return new ByteArrayInputStream(csvContent.getBytes(StandardCharsets.UTF_8));
+                    "\"" + reportType.getValue() + "\",\"" + startDate.getValue() + "\",\"" + endDate.getValue()
+                    + "\",\"" + LocalDate.now() + "\"\n";
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+                    csvContent.getBytes(StandardCharsets.UTF_8));
+            return new DownloadResponse(byteArrayInputStream, "wms_report.csv", "text/csv", -1);
         });
 
-        Anchor downloadLink = new Anchor(resource, "Export CSV");
+        Anchor downloadLink = new Anchor(downloadHandler, "Export CSV");
         downloadLink.getElement().setAttribute("download", true);
         Button downloadBtn = new Button("Export CSV", VaadinIcon.DOWNLOAD.create());
         downloadLink.removeAll();

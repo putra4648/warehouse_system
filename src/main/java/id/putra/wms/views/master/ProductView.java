@@ -1,5 +1,7 @@
 package id.putra.wms.views.master;
 
+import org.springframework.data.domain.PageRequest;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -21,11 +23,11 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import id.putra.wms.module.inventory.service.core.ProductCoreService;
 import id.putra.wms.shared.base.dto.ProductDto;
 import id.putra.wms.views.MainLayout;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.data.domain.PageRequest;
 
 @Route(value = "master/products", layout = MainLayout.class)
 @PageTitle("Products | WMS Pro")
@@ -77,8 +79,8 @@ public class ProductView extends VerticalLayout {
 
     private void configureGrid() {
         grid.setSizeFull();
-        grid.addColumn(ProductDto::getSku).setHeader("SKU").setAutoWidth(true).setSortable(true);
-        grid.addColumn(ProductDto::getName).setHeader("Product Name").setFlexGrow(1).setSortable(true);
+        grid.addColumn(p -> p.getSku() != null ? p.getSku() : "").setHeader("SKU").setAutoWidth(true).setSortable(true);
+        grid.addColumn(p -> p.getName() != null ? p.getName() : "").setHeader("Product Name").setFlexGrow(1).setSortable(true);
         grid.addColumn(p -> p.getQuantity() != null ? p.getQuantity() : 0).setHeader("Total Stock").setAutoWidth(true);
         grid.addColumn(p -> p.getMinStock() != null ? p.getMinStock() : 0).setHeader("Min Stock").setAutoWidth(true);
         grid.addColumn(p -> p.getMaxStock() != null ? p.getMaxStock() : 0).setHeader("Max Stock").setAutoWidth(true);

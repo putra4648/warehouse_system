@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.InjectionStrategy;
 
 import id.putra.wms.module.inventory.mapper.InventoryItemMapper;
 import id.putra.wms.module.outbound.dto.PickingTaskDto;
 import id.putra.wms.module.outbound.model.entity.PickingTask;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { InventoryItemMapper.class,
-        SalesOrderLineMapper.class })
+        SalesOrderLineMapper.class }, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface PickingTaskMapper {
 
     PickingTask toEntity(PickingTaskDto dto);

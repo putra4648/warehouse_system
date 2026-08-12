@@ -5,11 +5,12 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.InjectionStrategy;
 
 import id.putra.wms.module.outbound.dto.ShipmentDto;
 import id.putra.wms.module.outbound.model.entity.Shipment;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { PackingMapper.class, CarrierMapper.class })
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { PackingMapper.class, CarrierMapper.class }, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface ShipmentMapper {
     @Mapping(source = "packingId", target = "packing.id")
     @Mapping(source = "carrierId", target = "carrier.id")

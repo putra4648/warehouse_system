@@ -6,12 +6,13 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.InjectionStrategy;
 
 import id.putra.wms.module.supplier.dto.SupplierDto;
 import id.putra.wms.shared.base.entity.Supplier;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {
-        ContactPersonSupplierMapper.class })
+        ContactPersonSupplierMapper.class }, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class SupplierMapper {
 
     public abstract SupplierDto toDto(Supplier entity);

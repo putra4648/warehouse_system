@@ -5,11 +5,12 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.InjectionStrategy;
 
 import id.putra.wms.module.supplier.dto.ContactPersonSupplierDto;
 import id.putra.wms.module.supplier.model.entity.ContactPersonSupplier;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class ContactPersonSupplierMapper {
 
     public abstract ContactPersonSupplierDto toDto(ContactPersonSupplier entity);

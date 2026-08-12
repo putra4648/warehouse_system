@@ -2,11 +2,11 @@ package id.putra.wms;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 
 public abstract class PostgreSQLContainerInitializer {
     @SuppressWarnings("resource") // TestContainer managed by framework lifecycle
-    static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:17")
+    static final PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:17")
             .withDatabaseName("wms-test-db")
             .withUsername("wms")
             .withPassword("wms-password");

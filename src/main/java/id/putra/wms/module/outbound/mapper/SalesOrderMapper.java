@@ -6,12 +6,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Named;
+import org.mapstruct.InjectionStrategy;
 
 import id.putra.wms.module.outbound.dto.SalesOrderDto;
 import id.putra.wms.module.outbound.model.entity.SalesOrder;
 import id.putra.wms.shared.base.entity.Customer;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { SalesOrderLineMapper.class })
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { SalesOrderLineMapper.class }, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface SalesOrderMapper {
 
     @Mapping(target = "customer", source = "customerId", qualifiedByName = "customerIdToCustomer")

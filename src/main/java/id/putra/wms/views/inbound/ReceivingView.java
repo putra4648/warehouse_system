@@ -1,5 +1,7 @@
 package id.putra.wms.views.inbound;
 
+import org.springframework.data.domain.PageRequest;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -16,11 +18,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import id.putra.wms.module.inbound.dto.ReceivingDto;
 import id.putra.wms.module.inbound.service.core.ReceivingOrderService;
 import id.putra.wms.views.MainLayout;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.data.domain.PageRequest;
 
 @Route(value = "inbound/receiving", layout = MainLayout.class)
 @PageTitle("Receiving | WMS Pro")
@@ -72,7 +74,7 @@ public class ReceivingView extends VerticalLayout {
 
     private void configureGrid() {
         grid.setSizeFull();
-        grid.addColumn(ReceivingDto::getReceivingNumber).setHeader("Receiving #").setAutoWidth(true).setSortable(true);
+        grid.addColumn(r -> r.getReceivingNumber() != null ? r.getReceivingNumber() : "").setHeader("Receiving #").setAutoWidth(true).setSortable(true);
         grid.addColumn(r -> r.getReceivedDate() != null ? r.getReceivedDate().toString() : "-").setHeader("Received Date").setAutoWidth(true);
         grid.addColumn(r -> r.getPurchaseOrder() != null ? r.getPurchaseOrder().getPoNumber() : "-").setHeader("PO Number").setFlexGrow(1);
 

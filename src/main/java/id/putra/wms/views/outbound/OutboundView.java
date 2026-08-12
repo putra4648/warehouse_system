@@ -1,5 +1,7 @@
 package id.putra.wms.views.outbound;
 
+import org.springframework.data.domain.PageRequest;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -16,11 +18,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import id.putra.wms.module.outbound.dto.SalesOrderDto;
 import id.putra.wms.module.outbound.service.core.SalesOrderService;
 import id.putra.wms.views.MainLayout;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.data.domain.PageRequest;
 
 @Route(value = "outbound", layout = MainLayout.class)
 @PageTitle("Outbound | WMS Pro")
@@ -72,7 +74,7 @@ public class OutboundView extends VerticalLayout {
 
     private void configureGrid() {
         grid.setSizeFull();
-        grid.addColumn(SalesOrderDto::getSoNumber).setHeader("SO Number").setAutoWidth(true).setSortable(true);
+        grid.addColumn(so -> so.getSoNumber() != null ? so.getSoNumber() : "").setHeader("SO Number").setAutoWidth(true).setSortable(true);
         grid.addColumn(so -> so.getOrderDate() != null ? so.getOrderDate().toString() : "-").setHeader("Order Date").setAutoWidth(true);
         grid.addColumn(so -> so.getCustomerId() != null ? "Customer #" + so.getCustomerId() : "-").setHeader("Customer").setFlexGrow(1);
 
