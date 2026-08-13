@@ -1,8 +1,16 @@
 package id.putra.wms.module.outbound.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PickingTaskDto {
     private Long id;
     private Long salesOrderLineId;

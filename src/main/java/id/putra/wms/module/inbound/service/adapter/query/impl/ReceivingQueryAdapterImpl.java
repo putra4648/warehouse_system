@@ -1,14 +1,14 @@
 package id.putra.wms.module.inbound.service.adapter.query.impl;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import id.putra.wms.module.inbound.dto.ReceivingDto;
-import id.putra.wms.module.inbound.mapper.ReceivingMapper;
+import id.putra.wms.module.inbound.converter.ReceivingConverter;
 import id.putra.wms.module.inbound.model.entity.Receiving;
 import id.putra.wms.module.inbound.model.entity.ReceivingLine;
 import id.putra.wms.module.inbound.model.repository.ReceivingLineRepository;
@@ -27,18 +27,17 @@ public class ReceivingQueryAdapterImpl implements ReceivingQueryAdapter {
 
     private final ReceivingRepository receivingRepository;
     private final ReceivingLineRepository receivingLineRepository;
-    private final ReceivingMapper receivingMapper;
 
     @Override
     public ReceivingDto getById(@NonNull Long id, @NonNull Pageable pageable) {
         Receiving receiving = receivingRepository.findById(id)
                 .orElseThrow(() -> new ModuleException(ResponseEnum.DATA_NOT_FOUND));
 
-        ReceivingDto dto = receivingMapper.toDto(receiving);
+        ReceivingDto dto = ReceivingConverter.toDto(receiving);
         Page<ReceivingLine> linesPage = receivingLineRepository.findByReceivingId(id, pageable);
 
         dto.setReceivingLines(linesPage.getContent().stream()
-                .map(receivingMapper::toLineDto)
+                .map(ReceivingConverter::toLineDto)
                 .collect(java.util.stream.Collectors.toList()));
 
         dto.setMeta(MetaAttribute.builder()
@@ -61,6 +60,6 @@ public class ReceivingQueryAdapterImpl implements ReceivingQueryAdapter {
             Predicate poCode = criteriaBuilder.like(root.get("purchaseOrder").get("code"), "%" + search + "%");
             return criteriaBuilder.or(code, poCode);
         };
-        return receivingRepository.findAll(spec, pageable).map(receivingMapper::toDto);
+        return receivingRepository.findAll(spec, pageable).map(ReceivingConverter::toDto);
     }
 }

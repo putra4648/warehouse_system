@@ -1,7 +1,9 @@
 package id.putra.wms.module.outbound.service.core.impl;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+
 import id.putra.wms.module.outbound.dto.CarrierDto;
 import id.putra.wms.module.outbound.service.adapter.command.CarrierCommandAdapter;
 import id.putra.wms.module.outbound.service.adapter.query.CarrierQueryAdapter;
@@ -28,8 +30,7 @@ public class CarrierServiceImpl implements CarrierService {
 
     @Override
     public Boolean delete(Long id) {
-        CarrierDto dto = new CarrierDto();
-        dto.setId(id);
+        CarrierDto dto = CarrierDto.builder().id(id).build();
         carrierCommandAdapter.delete(List.of(dto));
         return true;
     }

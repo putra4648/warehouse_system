@@ -4,9 +4,17 @@ import java.sql.Date;
 import java.util.List;
 
 import id.putra.wms.shared.base.dto.response.attribute.MetaAttribute;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ReceivingDto {
     private Long id;
     private String receivingNumber;

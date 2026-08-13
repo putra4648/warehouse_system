@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import id.putra.wms.module.outbound.dto.PickingTaskDto;
-import id.putra.wms.module.outbound.mapper.PickingTaskMapper;
 import id.putra.wms.module.outbound.model.repository.PickingTaskRepository;
 import id.putra.wms.module.outbound.service.adapter.command.impl.PickingTaskCommandAdapterImpl;
 
@@ -23,14 +22,11 @@ public class PickingTaskCommandAdapterTest {
     @Mock
     private PickingTaskRepository pickingTaskRepository;
 
-    @Mock
-    private PickingTaskMapper pickingTaskMapper;
-
     private PickingTaskCommandAdapter pickingTaskCommandAdapter;
 
     @BeforeEach
     void setUp() {
-        pickingTaskCommandAdapter = new PickingTaskCommandAdapterImpl(pickingTaskRepository, pickingTaskMapper);
+        pickingTaskCommandAdapter = new PickingTaskCommandAdapterImpl(pickingTaskRepository);
     }
 
     @Test

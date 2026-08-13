@@ -2,23 +2,29 @@ package id.putra.wms.module.transaction.dto;
 
 import java.math.BigDecimal;
 
-import id.putra.wms.module.inventory.dto.InventoryItemDto;
 import id.putra.wms.shared.base.dto.BaseDto;
-import id.putra.wms.shared.base.dto.ProductDto;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@Builder
 public class TransactionItemDto extends BaseDto {
-    private String id;
+    private Long id;
 
-    private TransactionDto transaction;
-    private ProductDto product;
-    private InventoryItemDto sourceInventoryItem;
-    private InventoryItemDto destInventoryItem;
+    private Long transactionId;
+    private Long productId;
+    private Long sourceInventoryItemId;
+    private Long destInventoryItemId;
 
-    private Integer quantity;
+    private Long quantity;
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
     private String lotNumber;

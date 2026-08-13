@@ -1,3 +1,6 @@
+server:
+  port: 7000
+
 vaadin:
   excludeUrls: /swagger-ui/**
 
@@ -27,10 +30,18 @@ spring:
         "[format_sql]": true
   security:
     oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:9000/realms/wms
-          jwk-set-uri: http://localhost:9000/realms/wms/protocol/openid-connect/certs
+      client:
+        registration:
+          auth0:
+            provider: auth0
+            client-id: BbHkKCcwY6WVX8s9OAtV6jxsv4WE0lZH
+            client-secret: i5Ov7eFk8rFNuFc7HMPDQH5HaA8Ixg47NHyupZwBftTr8CEgKTjkmN4QWyEhqDiM
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid,profile
+        provider:
+          auth0:
+            issuer-uri: https://dev-t6rkpv6j.au.auth0.com/
 logging:
   level:
     "[org.springframework.security]": DEBUG
@@ -61,14 +72,3 @@ management:
           - health
           - metrics
           - info
-
-springdoc:
-  api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-    oauth:
-      client-id: wms-client
-      use-pkce-with-authorization-code-grant: true
-    tags-sorter: alpha
-    operations-sorter: alpha

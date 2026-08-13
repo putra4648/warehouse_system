@@ -1,19 +1,25 @@
 package id.putra.wms.module.customer.dto;
 
-import java.util.List;
-
 import id.putra.wms.shared.base.dto.BaseDto;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@Builder
 public class ContactPersonCustomerDto extends BaseDto {
     private Long id;
     private String name;
     private String email;
     private String phone;
     private String address;
-    private List<CustomerDto> customers;
+    private Long customerId;
     // Add other fields as needed
 }

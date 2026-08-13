@@ -1,13 +1,9 @@
 package id.putra.wms.config;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.core.task.support.TaskExecutorAdapter;
+import org.springframework.core.task.VirtualThreadTaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -27,11 +23,9 @@ public class ThreadConfig {
         return executor;
     }
 
-    @Bean
+    @Bean("VaadinTaskExecutor")
     TaskExecutor virtualThreadExecutor() {
-        ThreadFactory virtualThreadFactory = Thread.ofVirtual().name("virtual-thread-", 0).factory();
-        ExecutorService executorService = Executors.newThreadPerTaskExecutor(virtualThreadFactory);
-        return new TaskExecutorAdapter(java.util.Objects.requireNonNull(executorService));
+        return new VirtualThreadTaskExecutor();
     }
 
 }

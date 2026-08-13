@@ -1,7 +1,0 @@
-@import "tailwindcss";
-@plugin "daisyui" {
-	themes:
-		cupcake --default,
-		abyss --prefersdark,
-		dracula;
-}

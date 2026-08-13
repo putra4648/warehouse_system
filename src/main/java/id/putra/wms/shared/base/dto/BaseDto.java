@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class BaseDto {
-    private LocalTime createdDate;
+    private LocalTime createdAt;
     private String createdBy;
-    private LocalTime updatedDate;
+    private LocalTime updatedAt;
     private String updatedBy;
 }

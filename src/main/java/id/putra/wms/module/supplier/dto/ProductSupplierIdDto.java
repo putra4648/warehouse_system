@@ -1,8 +1,16 @@
 package id.putra.wms.module.supplier.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductSupplierIdDto {
     private Long productId;
     private Long supplierId;

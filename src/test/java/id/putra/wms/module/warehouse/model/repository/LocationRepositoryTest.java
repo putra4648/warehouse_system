@@ -10,8 +10,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.domain.Specification;
 
 import id.putra.wms.PostgreSQLContainerInitializer;
@@ -19,8 +17,6 @@ import id.putra.wms.module.warehouse.model.entity.Location;
 import id.putra.wms.module.warehouse.model.entity.Rack;
 import id.putra.wms.module.warehouse.model.entity.Zone;
 
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DataJpaTest(showSql = true)
 public class LocationRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Autowired

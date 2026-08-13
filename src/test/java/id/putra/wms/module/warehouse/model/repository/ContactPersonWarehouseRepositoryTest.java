@@ -8,14 +8,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import id.putra.wms.PostgreSQLContainerInitializer;
 import id.putra.wms.module.warehouse.model.entity.ContactPersonWarehouse;
 
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DataJpaTest(showSql = true)
 public class ContactPersonWarehouseRepositoryTest extends PostgreSQLContainerInitializer {
 
     @Autowired

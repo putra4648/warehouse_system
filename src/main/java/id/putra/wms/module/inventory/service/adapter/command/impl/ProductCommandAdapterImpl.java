@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import id.putra.wms.module.inventory.model.repository.ProductRepository;
 import id.putra.wms.module.inventory.service.adapter.command.ProductCommandAdapter;
 import id.putra.wms.shared.base.dto.ProductDto;
-import id.putra.wms.shared.mapper.ProductMapper;
+import id.putra.wms.shared.converter.ProductConverter;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -15,18 +15,17 @@ import lombok.RequiredArgsConstructor;
 public class ProductCommandAdapterImpl implements ProductCommandAdapter {
 
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
 
     @Override
     public ProductDto save(ProductDto dto) {
-        var entity = productMapper.toEntity(dto);
-        return productMapper.toDto(productRepository.save(entity));
+        var entity = ProductConverter.toEntity(dto);
+        return ProductConverter.toDto(productRepository.save(entity));
     }
 
     @Override
     public ProductDto update(ProductDto dto) {
-        var entity = productMapper.toEntity(dto);
-        return productMapper.toDto(productRepository.save(entity));
+        var entity = ProductConverter.toEntity(dto);
+        return ProductConverter.toDto(productRepository.save(entity));
     }
 
     @Override
