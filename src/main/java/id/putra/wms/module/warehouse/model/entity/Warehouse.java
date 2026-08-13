@@ -12,13 +12,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Table(name = "warehouses")
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@SuperBuilder
 public class Warehouse extends BaseEntity implements Serializable {
 
     @Id
@@ -35,9 +44,11 @@ public class Warehouse extends BaseEntity implements Serializable {
 
     private Integer total;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "warehouse", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
     private List<Zone> zones;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "contact_person_id", referencedColumnName = "id")
     private ContactPersonWarehouse contactPersonWarehouse;

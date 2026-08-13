@@ -6,9 +6,17 @@ import java.sql.Date;
 import id.putra.wms.module.warehouse.dto.LocationDto;
 import id.putra.wms.shared.base.dto.ProductDto;
 import id.putra.wms.shared.enums.ReceivingStatus;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ReceivingLineDto {
     private Long id;
     private Date receivedDate;

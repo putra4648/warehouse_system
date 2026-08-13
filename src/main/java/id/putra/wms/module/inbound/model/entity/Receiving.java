@@ -20,27 +20,39 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.ToString;
 
 @Entity
 @Table
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Receiving {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private final String receivingNumber = UUID.randomUUID().toString();
+    @Builder.Default
+    private String receivingNumber = UUID.randomUUID().toString();
     private Date receivedDate;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "receiving", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReceivingLine> receivingLines;
 
     @CreatedBy
     private String receivedBy;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "purchase_order_id")
     private PurchaseOrder purchaseOrder;

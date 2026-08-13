@@ -11,28 +11,32 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Data
+@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public class BaseEntity {
 
     @CreatedDate
-    @Column(name = "created_date")
-    private LocalTime createdDate;
+    @Column(name = "created_at")
+    private LocalTime createdAt;
 
     @CreatedBy
     @Column(name = "created_by")
     private String createdBy;
 
     @LastModifiedDate
-    @Column(name = "updated_date")
-    private LocalTime updatedDate;
+    @Column(name = "updated_at")
+    private LocalTime updatedAt;
 
     @LastModifiedBy
     @Column(name = "updated_by")

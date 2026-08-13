@@ -5,8 +5,8 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.inbound.converter.ReceivingConverter;
 import id.putra.wms.module.inbound.dto.ReceivingDto;
-import id.putra.wms.module.inbound.mapper.ReceivingMapper;
 import id.putra.wms.module.inbound.model.repository.PurchaseOrderRepository;
 import id.putra.wms.module.inbound.model.repository.ReceivingRepository;
 import id.putra.wms.module.inbound.service.adapter.command.ReceivingCommandAdapter;
@@ -22,7 +22,6 @@ public class ReceivingCommandAdapterImpl implements ReceivingCommandAdapter {
 
     private final ReceivingRepository receivingRepository;
     private final PurchaseOrderRepository purchaseOrderRepository;
-    private final ReceivingMapper receivingMapper;
 
     @Override
     public ReceivingDto add(ReceivingDto dto) {
@@ -31,14 +30,14 @@ public class ReceivingCommandAdapterImpl implements ReceivingCommandAdapter {
         po.setStatus(OrderStatus.PENDING);
         purchaseOrderRepository.save(po);
 
-        var entity = receivingMapper.toEntity(dto);
-        return receivingMapper.toDto(receivingRepository.save(Objects.requireNonNull(entity)));
+        var entity = ReceivingConverter.toEntity(dto);
+        return ReceivingConverter.toDto(receivingRepository.save(Objects.requireNonNull(entity)));
     }
 
     @Override
     public ReceivingDto update(ReceivingDto dto) {
-        var entity = receivingMapper.toEntity(dto);
-        return receivingMapper.toDto(receivingRepository.save(Objects.requireNonNull(entity)));
+        var entity = ReceivingConverter.toEntity(dto);
+        return ReceivingConverter.toDto(receivingRepository.save(Objects.requireNonNull(entity)));
     }
 
     @Override
@@ -57,7 +56,7 @@ public class ReceivingCommandAdapterImpl implements ReceivingCommandAdapter {
     public ReceivingDto patch(ReceivingDto body) {
         var entity = receivingRepository.findById(Objects.requireNonNull(body.getId()))
                 .orElseThrow(() -> new ModuleException(ResponseEnum.DATA_NOT_FOUND));
-        receivingMapper.patchDtoToEntity(body, entity);
-        return receivingMapper.toDto(receivingRepository.save(Objects.requireNonNull(entity)));
+        ReceivingConverter.patchDtoToEntity(body, entity);
+        return ReceivingConverter.toDto(receivingRepository.save(Objects.requireNonNull(entity)));
     }
 }

@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
 import id.putra.wms.module.inbound.dto.ReceivingDto;
 import id.putra.wms.module.inbound.dto.ReceivingLineDto;
-import id.putra.wms.module.inbound.mapper.ReceivingMapper;
+import id.putra.wms.module.inbound.model.entity.PurchaseOrder;
 import id.putra.wms.module.inbound.model.repository.PurchaseOrderRepository;
 import id.putra.wms.module.inbound.model.repository.ReceivingRepository;
 import id.putra.wms.module.inbound.service.adapter.command.impl.ReceivingCommandAdapterImpl;
@@ -31,15 +31,11 @@ public class ReceivingCommandAdapterTest {
     @Mock
     private PurchaseOrderRepository purchaseOrderRepository;
 
-    @Mock
-    private ReceivingMapper receivingMapper;
-
     private ReceivingCommandAdapter receivingCommandAdapter;
 
     @BeforeEach
     void setUp() {
-        receivingCommandAdapter = new ReceivingCommandAdapterImpl(receivingRepository, purchaseOrderRepository,
-                receivingMapper);
+        receivingCommandAdapter = new ReceivingCommandAdapterImpl(receivingRepository, purchaseOrderRepository);
     }
 
     @Test
@@ -47,6 +43,11 @@ public class ReceivingCommandAdapterTest {
         ReceivingDto dto = new ReceivingDto();
         dto.setReceivingNumber("RCV-TEST-ADD");
         dto.setReceivedDate(new Date(System.currentTimeMillis()));
+        PurchaseOrderDto poDto = new PurchaseOrderDto();
+        poDto.setId(1L);
+        dto.setPurchaseOrder(poDto);
+
+        when(purchaseOrderRepository.findById(1L)).thenReturn(java.util.Optional.of(new PurchaseOrder()));
 
         receivingCommandAdapter.add(dto);
 
@@ -60,10 +61,6 @@ public class ReceivingCommandAdapterTest {
         dto.setReceivingNumber("RCV-CMD-2-UPDATED");
         dto.setPurchaseOrder(new PurchaseOrderDto());
         var lines = new ArrayList<ReceivingLineDto>();
-        dto.setReceivingLines(lines);
-
-        when(receivingRepository.existsById(1L)).thenReturn(true);
-
         receivingCommandAdapter.update(dto);
 
         verify(receivingRepository).save(any());

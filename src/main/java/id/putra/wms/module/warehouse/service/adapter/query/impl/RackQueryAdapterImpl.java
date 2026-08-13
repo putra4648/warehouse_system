@@ -8,8 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import id.putra.wms.module.warehouse.converter.RackConverter;
 import id.putra.wms.module.warehouse.dto.RackDto;
-import id.putra.wms.module.warehouse.mapper.RackMapper;
 import id.putra.wms.module.warehouse.model.entity.Rack;
 import id.putra.wms.module.warehouse.model.repository.RackRepository;
 import id.putra.wms.module.warehouse.service.adapter.query.RackQueryAdapter;
@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class RackQueryAdapterImpl implements RackQueryAdapter {
     private final RackRepository rackRepository;
-    private final RackMapper rackMapper;
 
     @Override
     public Page<RackDto> getRacks(RackDto dto, Pageable pageable) {
@@ -33,13 +32,13 @@ public class RackQueryAdapterImpl implements RackQueryAdapter {
         };
 
         Pageable safePageable = Objects.requireNonNull(pageable);
-        return rackRepository.findAll(specs, safePageable).map(rackMapper::toDto);
+        return rackRepository.findAll(specs, safePageable).map(RackConverter::toDto);
     }
 
     @Override
     public RackDto getRackById(RackDto rackDto) {
         Long safeId = Objects.requireNonNull(rackDto.getId());
-        return rackRepository.findById(safeId).map(rackMapper::toDto).orElse(null);
+        return rackRepository.findById(safeId).map(RackConverter::toDto).orElse(null);
     }
 
 }

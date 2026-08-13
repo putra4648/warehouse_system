@@ -4,8 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import id.putra.wms.module.supplier.converter.SupplierConverter;
 import id.putra.wms.module.supplier.dto.SupplierDto;
-import id.putra.wms.module.supplier.mapper.SupplierMapper;
 import id.putra.wms.module.supplier.model.repository.SupplierRepository;
 import id.putra.wms.module.supplier.service.adapter.query.SupplierQueryAdapter;
 import lombok.RequiredArgsConstructor;
@@ -14,18 +14,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SupplierQueryAdapterImpl implements SupplierQueryAdapter {
     private final SupplierRepository repository;
-    private final SupplierMapper mapper;
 
     @Override
     public Page<SupplierDto> getAll(Pageable pageable, String search) {
         Pageable safePageable = java.util.Objects.requireNonNull(pageable);
-        return repository.findAll(safePageable).map(mapper::toDto);
+        return repository.findAll(safePageable).map(SupplierConverter::toDto);
     }
 
     @Override
     public SupplierDto getById(Long id) {
         Long safeId = java.util.Objects.requireNonNull(id);
         var entity = repository.findById(safeId).orElseThrow();
-        return mapper.toDto(entity);
+        return SupplierConverter.toDto(entity);
     }
 }

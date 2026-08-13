@@ -16,11 +16,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.ToString;
 
 @Entity
 @Table
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PurchaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +41,15 @@ public class PurchaseOrder {
 
     private Date orderDate;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "purchaseOrder", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchaseOrderLine> purchaseOrderLines;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "purchaseOrder")
     private List<Receiving> receivings;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;

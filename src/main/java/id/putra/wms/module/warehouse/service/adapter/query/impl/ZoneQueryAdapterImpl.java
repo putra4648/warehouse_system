@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import id.putra.wms.module.warehouse.converter.ZoneConverter;
 import id.putra.wms.module.warehouse.dto.ZoneDto;
-import id.putra.wms.module.warehouse.mapper.ZoneMapper;
 import id.putra.wms.module.warehouse.model.entity.Zone;
 import id.putra.wms.module.warehouse.model.repository.ZoneRepository;
 import id.putra.wms.module.warehouse.service.adapter.query.ZoneQueryAdapter;
@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class ZoneQueryAdapterImpl implements ZoneQueryAdapter {
 
     private final ZoneRepository zoneRepository;
-    private final ZoneMapper zoneMapper;
 
     @Override
     public Page<ZoneDto> getZones(ZoneDto dto, Pageable pageable) {
@@ -33,14 +32,14 @@ public class ZoneQueryAdapterImpl implements ZoneQueryAdapter {
             return builder.and(name);
         };
         Pageable safePageable = Objects.requireNonNull(pageable);
-        return zoneRepository.findAll(specs, safePageable).map(zoneMapper::toDto);
+        return zoneRepository.findAll(specs, safePageable).map(ZoneConverter::toDto);
     }
 
     @Override
     public ZoneDto getZone(ZoneDto dto) {
         Long safeId = Objects.requireNonNull(dto.getId());
         var z = zoneRepository.findById(safeId);
-        return z.map(zoneMapper::toDto).orElse(null);
+        return z.map(ZoneConverter::toDto).orElse(null);
     }
 
 }

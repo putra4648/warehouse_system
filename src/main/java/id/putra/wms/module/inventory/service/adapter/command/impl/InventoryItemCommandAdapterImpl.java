@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.inventory.converter.InventoryItemConverter;
 import id.putra.wms.module.inventory.dto.InventoryItemDto;
-import id.putra.wms.module.inventory.mapper.InventoryItemMapper;
 import id.putra.wms.module.inventory.model.repository.InventoryItemRepository;
 import id.putra.wms.module.inventory.service.adapter.command.InventoryItemCommandAdapter;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +17,16 @@ import lombok.RequiredArgsConstructor;
 public class InventoryItemCommandAdapterImpl implements InventoryItemCommandAdapter {
 
     private final InventoryItemRepository inventoryItemRepository;
-    private final InventoryItemMapper inventoryItemMapper;
 
     @Override
     public void save(List<InventoryItemDto> dtos) {
-        var entities = dtos.stream().map(d -> inventoryItemMapper.toEntity(d)).toList();
+        var entities = dtos.stream().map(d -> InventoryItemConverter.toEntity(d)).toList();
         inventoryItemRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<InventoryItemDto> dtos) {
-        var entities = dtos.stream().map(d -> inventoryItemMapper.toEntity(d)).toList();
+        var entities = dtos.stream().map(d -> InventoryItemConverter.toEntity(d)).toList();
         inventoryItemRepository.saveAll(java.util.Objects.requireNonNull(entities));
     }
 

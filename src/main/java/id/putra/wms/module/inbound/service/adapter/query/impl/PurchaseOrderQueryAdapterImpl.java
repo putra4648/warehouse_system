@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import id.putra.wms.module.inbound.converter.PurchaseOrderConverter;
 import id.putra.wms.module.inbound.dto.PurchaseOrderDto;
-import id.putra.wms.module.inbound.mapper.PurchaseOrderMapper;
 import id.putra.wms.module.inbound.model.entity.PurchaseOrder;
 import id.putra.wms.module.inbound.model.repository.PurchaseOrderLineRepository;
 import id.putra.wms.module.inbound.model.repository.PurchaseOrderRepository;
@@ -30,7 +30,6 @@ public class PurchaseOrderQueryAdapterImpl implements PurchaseOrderQueryAdapter 
 
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final PurchaseOrderLineRepository purchaseOrderLineRepository;
-    private final PurchaseOrderMapper purchaseOrderMapper;
 
     @Override
     public PurchaseOrderDto getById(@NonNull Long id, @NonNull Pageable pageable) {
@@ -38,12 +37,12 @@ public class PurchaseOrderQueryAdapterImpl implements PurchaseOrderQueryAdapter 
         PurchaseOrder po = purchaseOrderRepository.findById(id)
                 .orElseThrow(() -> new ModuleException(ResponseEnum.DATA_NOT_FOUND));
 
-        PurchaseOrderDto dto = purchaseOrderMapper.toDto(po);
+        PurchaseOrderDto dto = PurchaseOrderConverter.toDto(po);
         Page<id.putra.wms.module.inbound.model.entity.PurchaseOrderLine> linesPage = purchaseOrderLineRepository
                 .findByPurchaseOrderId(id, pageable);
 
         dto.setPurchaseOrderLines(linesPage.getContent().stream()
-                .map(purchaseOrderMapper::toLineDto)
+                .map(PurchaseOrderConverter::toLineDto)
                 .collect(java.util.stream.Collectors.toList()));
 
         dto.setMeta(MetaAttribute.builder()
@@ -71,6 +70,6 @@ public class PurchaseOrderQueryAdapterImpl implements PurchaseOrderQueryAdapter 
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        return purchaseOrderRepository.findAll(spec, pageable).map(purchaseOrderMapper::toDto);
+        return purchaseOrderRepository.findAll(spec, pageable).map(PurchaseOrderConverter::toDto);
     }
 }

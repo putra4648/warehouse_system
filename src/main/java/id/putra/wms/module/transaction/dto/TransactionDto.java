@@ -4,16 +4,22 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import id.putra.wms.module.customer.dto.CustomerDto;
-import id.putra.wms.module.supplier.dto.SupplierDto;
 import id.putra.wms.shared.base.dto.BaseDto;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@Builder
 public class TransactionDto extends BaseDto {
-    private String id;
+    private Long id;
 
     private String txnNumber;
     private String txnType;
@@ -27,7 +33,7 @@ public class TransactionDto extends BaseDto {
     private BigDecimal totalAmount;
     private Long quantity;
 
-    private SupplierDto supplier;
-    private CustomerDto customer;
+    private Long supplierId;
+    private Long customerId;
     private List<TransactionItemDto> items;
 }

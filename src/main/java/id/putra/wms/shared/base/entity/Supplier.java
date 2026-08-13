@@ -14,13 +14,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Table
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@SuperBuilder
 public class Supplier extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,12 +40,16 @@ public class Supplier extends BaseEntity implements Serializable {
 
     private String name;
 
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean isActive = true;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductSupplier> products;
 
+    @Builder.Default
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ContactPersonSupplier> contactPersonSuppliers = new ArrayList<>();
 }

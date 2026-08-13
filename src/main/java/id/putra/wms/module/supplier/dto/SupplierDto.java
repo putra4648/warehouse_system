@@ -3,11 +3,19 @@ package id.putra.wms.module.supplier.dto;
 import java.util.List;
 
 import id.putra.wms.shared.base.dto.BaseDto;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@Builder
 public class SupplierDto extends BaseDto {
     private Long id;
     private String name;

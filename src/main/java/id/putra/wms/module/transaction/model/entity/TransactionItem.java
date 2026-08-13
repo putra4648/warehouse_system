@@ -13,30 +13,43 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "transaction_items")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@SuperBuilder
 public class TransactionItem extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "source_inv_item_id")
     private InventoryItem sourceInventoryItem;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "dest_inv_item_id")
     private InventoryItem destInventoryItem;

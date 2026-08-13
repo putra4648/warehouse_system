@@ -61,7 +61,7 @@ public class PurchaseOrderView extends VerticalLayout {
         searchField.setPrefixComponent(VaadinIcon.SEARCH.create());
         searchField.addValueChangeListener(e -> refreshData());
 
-        Button addButton = new Button("New Purchase Order", VaadinIcon.PLUS.create(), e -> openPoDialog(new PurchaseOrderDto()));
+        Button addButton = new Button("New Purchase Order", VaadinIcon.PLUS.create(), e -> openPoDialog(PurchaseOrderDto.builder().build()));
         addButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         Button refreshButton = new Button(VaadinIcon.REFRESH.create(), e -> refreshData());
@@ -97,8 +97,7 @@ public class PurchaseOrderView extends VerticalLayout {
     }
 
     private void refreshData() {
-        PurchaseOrderDto searchParam = new PurchaseOrderDto();
-        searchParam.setPoNumber(searchField.getValue());
+        PurchaseOrderDto searchParam = PurchaseOrderDto.builder().poNumber(searchField.getValue()).build();
         var page = purchaseOrderService.getAll(searchParam, PageRequest.of(0, 100));
         grid.setItems(page.getContent());
     }

@@ -5,8 +5,8 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.inbound.converter.QualityInspectionConverter;
 import id.putra.wms.module.inbound.dto.QualityInspectionDto;
-import id.putra.wms.module.inbound.mapper.QualityInspectionMapper;
 import id.putra.wms.module.inbound.model.repository.QualityInspectionRepository;
 import id.putra.wms.module.inbound.service.adapter.command.InspectionCommandAdapter;
 import id.putra.wms.shared.enums.ResponseEnum;
@@ -19,18 +19,17 @@ import lombok.RequiredArgsConstructor;
 public class InspectionCommandAdapterImpl implements InspectionCommandAdapter {
 
     private final QualityInspectionRepository qualityInspectionRepository;
-    private final QualityInspectionMapper qualityInspectionMapper;
 
     @Override
     public QualityInspectionDto add(QualityInspectionDto dto) {
-        var entity = qualityInspectionMapper.toEntity(dto);
-        return qualityInspectionMapper.toDto(qualityInspectionRepository.save(Objects.requireNonNull(entity)));
+        var entity = QualityInspectionConverter.toEntity(dto);
+        return QualityInspectionConverter.toDto(qualityInspectionRepository.save(Objects.requireNonNull(entity)));
     }
 
     @Override
     public QualityInspectionDto update(QualityInspectionDto dto) {
-        var entity = qualityInspectionMapper.toEntity(dto);
-        return qualityInspectionMapper.toDto(qualityInspectionRepository.save(Objects.requireNonNull(entity)));
+        var entity = QualityInspectionConverter.toEntity(dto);
+        return QualityInspectionConverter.toDto(qualityInspectionRepository.save(Objects.requireNonNull(entity)));
     }
 
     @Override

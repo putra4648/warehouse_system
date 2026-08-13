@@ -6,8 +6,8 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.warehouse.converter.LocationConverter;
 import id.putra.wms.module.warehouse.dto.LocationDto;
-import id.putra.wms.module.warehouse.mapper.LocationMapper;
 import id.putra.wms.module.warehouse.model.repository.LocationRepository;
 import id.putra.wms.module.warehouse.service.adapter.command.LocationCommandAdapter;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +17,16 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = false)
 public class LocationCommandAdapterImpl implements LocationCommandAdapter {
     private final LocationRepository locationRepository;
-    private final LocationMapper locationMapper;
 
     @Override
     public void add(List<LocationDto> dtos) {
-        var entities = dtos.stream().map(locationMapper::toEntity).toList();
+        var entities = dtos.stream().map(LocationConverter::toEntity).toList();
         locationRepository.saveAll(Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<LocationDto> dtos) {
-        var entities = dtos.stream().map(locationMapper::toEntity).toList();
+        var entities = dtos.stream().map(LocationConverter::toEntity).toList();
         locationRepository.saveAll(Objects.requireNonNull(entities));
     }
 

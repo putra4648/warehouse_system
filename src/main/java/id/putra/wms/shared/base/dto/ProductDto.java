@@ -3,11 +3,17 @@ package id.putra.wms.shared.base.dto;
 import java.util.List;
 
 import id.putra.wms.module.inventory.dto.InventoryItemDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @EqualsAndHashCode(callSuper = false)
 public class ProductDto extends BaseDto {

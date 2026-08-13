@@ -11,7 +11,7 @@ import id.putra.wms.module.inventory.model.repository.ProductRepository;
 import id.putra.wms.module.inventory.service.adapter.query.ProductQueryAdapter;
 import id.putra.wms.shared.base.dto.ProductDto;
 import id.putra.wms.shared.base.entity.Product;
-import id.putra.wms.shared.mapper.ProductMapper;
+import id.putra.wms.shared.converter.ProductConverter;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 
@@ -21,13 +21,12 @@ import lombok.RequiredArgsConstructor;
 public class ProductQueryAdapterImpl implements ProductQueryAdapter {
 
     private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
 
     @Override
     public ProductDto getProductById(ProductDto dto) {
         Long id = java.util.Objects.requireNonNull(dto.getId());
         var product = productRepository.findById(id);
-        return product.map(productMapper::toDto).orElse(null);
+        return product.map(ProductConverter::toDto).orElse(null);
     }
 
     @Override
@@ -38,7 +37,7 @@ public class ProductQueryAdapterImpl implements ProductQueryAdapter {
             return builder.and(name);
         };
         Pageable safePageable = java.util.Objects.requireNonNull(pageable);
-        return productRepository.findAll(specs, safePageable).map(productMapper::toDto);
+        return productRepository.findAll(specs, safePageable).map(ProductConverter::toDto);
     }
 
 }

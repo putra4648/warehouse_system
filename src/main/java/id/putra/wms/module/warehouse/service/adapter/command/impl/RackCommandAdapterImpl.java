@@ -6,8 +6,8 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.warehouse.converter.RackConverter;
 import id.putra.wms.module.warehouse.dto.RackDto;
-import id.putra.wms.module.warehouse.mapper.RackMapper;
 import id.putra.wms.module.warehouse.model.repository.RackRepository;
 import id.putra.wms.module.warehouse.service.adapter.command.RackCommandAdapter;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +17,16 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = false)
 public class RackCommandAdapterImpl implements RackCommandAdapter {
     private final RackRepository rackRepository;
-    private final RackMapper rackMapper;
 
     @Override
     public void add(List<RackDto> dtos) {
-        var entities = dtos.stream().map(rackMapper::toEntity).toList();
+        var entities = dtos.stream().map(RackConverter::toEntity).toList();
         rackRepository.saveAll(Objects.requireNonNull(entities));
     }
 
     @Override
     public void update(List<RackDto> dtos) {
-        var entities = dtos.stream().map(rackMapper::toEntity).toList();
+        var entities = dtos.stream().map(RackConverter::toEntity).toList();
         rackRepository.saveAll(Objects.requireNonNull(entities));
     }
 

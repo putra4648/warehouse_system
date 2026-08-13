@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import id.putra.wms.module.warehouse.converter.ContactPersonWarehouseConverter;
 import id.putra.wms.module.warehouse.dto.ContactPersonWarehouseDto;
-import id.putra.wms.module.warehouse.mapper.ContactPersonWarehouseMapper;
 import id.putra.wms.module.warehouse.model.entity.ContactPersonWarehouse;
 import id.putra.wms.module.warehouse.model.repository.ContactPersonWarehouseRepository;
 import id.putra.wms.module.warehouse.service.adapter.query.ContactPersonWarehouseQueryAdapter;
@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class ContactPersonnWarehouseQueryAdapterImpl implements ContactPersonWarehouseQueryAdapter {
     private final ContactPersonWarehouseRepository contactPersonWarehouseRepository;
-    private final ContactPersonWarehouseMapper contactPersonWarehouseMapper;
 
     @Override
     public Page<ContactPersonWarehouseDto> getContacts(ContactPersonWarehouseDto dto, Pageable pageable) {
@@ -32,13 +31,13 @@ public class ContactPersonnWarehouseQueryAdapterImpl implements ContactPersonWar
             return builder.and(name);
         };
         Pageable safePageable = Objects.requireNonNull(pageable);
-        return contactPersonWarehouseRepository.findAll(specs, safePageable).map(contactPersonWarehouseMapper::toDto);
+        return contactPersonWarehouseRepository.findAll(specs, safePageable).map(ContactPersonWarehouseConverter::toDto);
     }
 
     @Override
     public ContactPersonWarehouseDto getContact(ContactPersonWarehouseDto dto) {
         Long safeId = Objects.requireNonNull(dto.getId());
-        return contactPersonWarehouseRepository.findById(safeId).map(contactPersonWarehouseMapper::toDto)
+        return contactPersonWarehouseRepository.findById(safeId).map(ContactPersonWarehouseConverter::toDto)
                 .orElse(null);
     }
 

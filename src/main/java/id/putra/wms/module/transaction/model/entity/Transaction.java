@@ -17,22 +17,33 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "transactions")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
+@SuperBuilder
 public class Transaction extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -49,6 +60,7 @@ public class Transaction extends BaseEntity implements Serializable {
     private BigDecimal totalAmount;
     private Long quantity;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     private List<TransactionItem> items;
 }

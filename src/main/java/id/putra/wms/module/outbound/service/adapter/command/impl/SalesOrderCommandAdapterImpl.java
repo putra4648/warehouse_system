@@ -3,8 +3,8 @@ package id.putra.wms.module.outbound.service.adapter.command.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import id.putra.wms.module.outbound.converter.SalesOrderConverter;
 import id.putra.wms.module.outbound.dto.SalesOrderDto;
-import id.putra.wms.module.outbound.mapper.SalesOrderMapper;
 import id.putra.wms.module.outbound.model.repository.SalesOrderRepository;
 import id.putra.wms.module.outbound.service.adapter.command.SalesOrderCommandAdapter;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +15,17 @@ import lombok.RequiredArgsConstructor;
 public class SalesOrderCommandAdapterImpl implements SalesOrderCommandAdapter {
 
     private final SalesOrderRepository salesOrderRepository;
-    private final SalesOrderMapper salesOrderMapper;
 
     @Override
     public SalesOrderDto add(SalesOrderDto dto) {
-        var entity = salesOrderMapper.toEntity(dto);
-        return salesOrderMapper.toDto(salesOrderRepository.save(java.util.Objects.requireNonNull(entity)));
+        var entity = SalesOrderConverter.toEntity(dto);
+        return SalesOrderConverter.toDto(salesOrderRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override
     public SalesOrderDto update(SalesOrderDto dto) {
-        var entity = salesOrderMapper.toEntity(dto);
-        return salesOrderMapper.toDto(salesOrderRepository.save(java.util.Objects.requireNonNull(entity)));
+        var entity = SalesOrderConverter.toEntity(dto);
+        return SalesOrderConverter.toDto(salesOrderRepository.save(java.util.Objects.requireNonNull(entity)));
     }
 
     @Override

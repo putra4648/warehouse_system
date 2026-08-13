@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import id.putra.wms.module.warehouse.converter.WarehouseConverter;
 import id.putra.wms.module.warehouse.dto.WarehouseDto;
-import id.putra.wms.module.warehouse.mapper.WarehouseMapper;
 import id.putra.wms.module.warehouse.model.entity.Warehouse;
 import id.putra.wms.module.warehouse.model.repository.WarehouseRepository;
 import id.putra.wms.module.warehouse.service.adapter.query.WarehouseQueryAdapter;
@@ -23,13 +23,12 @@ import lombok.RequiredArgsConstructor;
 public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
 
     private final WarehouseRepository warehouseRepository;
-    private final WarehouseMapper warehouseMapper;
 
     @Override
     public WarehouseDto getWarehouseById(WarehouseDto dto) {
         Long id = Objects.requireNonNull(dto.getId());
         var wh = warehouseRepository.findById(id);
-        return wh.map(warehouseMapper::toDto).orElse(null);
+        return wh.map(WarehouseConverter::toDto).orElse(null);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class WarehouseQueryAdapterImpl implements WarehouseQueryAdapter {
             return builder.and(name);
         };
         Pageable safePageable = Objects.requireNonNull(pageable);
-        return warehouseRepository.findAll(specs, safePageable).map(warehouseMapper::toDto);
+        return warehouseRepository.findAll(specs, safePageable).map(WarehouseConverter::toDto);
     }
 
 }
