@@ -1,6 +1,6 @@
 # Warehouse Management System (WMS)
 
-A full-stack, comprehensive Warehouse Management System (WMS) built with Spring Boot, Nuxt 3, and PostgreSQL. It uses OAuth2 with Auth0 for authentication and provides full inventory management components.
+A full-stack, comprehensive Warehouse Management System (WMS) built with Spring Boot, Vaadin, and PostgreSQL. It uses OAuth2 with Auth0 for authentication and provides full inventory management components with a modern, responsive Vaadin UI.
 
 ## Features
 
@@ -8,7 +8,7 @@ A full-stack, comprehensive Warehouse Management System (WMS) built with Spring 
 - **Warehouse Management:** Manage warehouses, zones, racks, locations, and bin numbers.
 - **Stock Control:** Capabilities for inventory tracking, adjustments, inbound, and outbound management.
 - **Authentication & Security:** Robust OAuth2 implementation via Auth0 and Okta Spring Boot Starter.
-- **API Documentation:** Interactive Swagger UI and OpenAPI documentation for backend APIs.
+- **Modern UI:** Responsive Vaadin-based user interface with full CRUD operations.
 - **Dockerized Infrastructure:** PostgreSQL database setup easily through Docker Compose.
 - **Testing:** Spring Boot Testcontainers config for database integration tests.
 
@@ -17,20 +17,19 @@ A full-stack, comprehensive Warehouse Management System (WMS) built with Spring 
 ### Backend
 
 - Java 21
-- Spring Boot 3.5.x
+- Spring Boot 4.0.x
 - Spring Security (OAuth2 / Okta Spring Boot Starter)
 - Spring Data JPA
+- Vaadin 25.2.x (Modern reactive web framework)
 - PostgreSQL
 - MapStruct & Lombok
-- OpenAPI & Swagger
 - JUnit 5 & Testcontainers
 
-### Frontend (web/)
+### Frontend
 
-- Vue 3 & Nuxt 3
-- Nuxt UI (Tailwind CSS, Headless UI)
-- Nuxt Auth (Next Auth) for authentication
-- Biome (Code Formatter)
+- Vaadin Flow (Server-side UI framework)
+- Responsive component library
+- OAuth2 integration with Vaadin Security
 
 ### Infrastructure
 
@@ -48,52 +47,31 @@ A full-stack, comprehensive Warehouse Management System (WMS) built with Spring 
 
 ### Quickstart
 
+#### 1. Start the Database
+
 Run Docker Compose to start the WMS database:
 
 ```sh
 docker compose up -d
 ```
 
-#### 2. Run the Backend
+#### 2. Run the Application
 
-Start the Spring Boot API backend:
+Start the Spring Boot application with Vaadin UI:
 
 ```sh
 ./mvnw spring-boot:run
 ```
 
-The backend API runs on `http://localhost:7000`.
-
-#### 3. Run the Frontend
-
-In a new terminal window, navigate to the `web/` directory, install dependencies and start the Nuxt app:
-
-```sh
-cd web
-pnpm install
-pnpm dev
-```
-
-The frontend application will be available at `http://localhost:3000`.
-
-Please refer to the [Swagger Documentation](./docs/SWAGGER.md) for details on how to test authenticated APIs with Auth0.
+The application will be available at `http://localhost:7000`.
 
 ## Directory Structure
 
-- `src/main/java/id/putra/wms`: Spring Boot backend roots containing controllers, domain logic, config, and repositories.
+- `src/main/java/id/putra/wms`: Spring Boot application containing Vaadin views, domain logic, config, and repositories.
+- `src/main/frontend`: Vaadin frontend components and styling.
 - `src/test`: Backend testing files and Testcontainer setups.
-- `web/`: Contains the complete frontend Nuxt 3 application code.
-- `docker/`: Custom configurations and overrides for docker environments.
 - `config/`: Contains standard or reference configurations.
-
-## API Documentation
-
-With the backend running locally, you can view the fully documented REST API via Swagger:
-
-- Swagger Interactive UI: `http://localhost:7000/swagger-ui.html`
-- OpenAPI JSON Spec: `http://localhost:7000/v3/api-docs`
-
-To test authenticated endpoints in Swagger, see the instructions provided in [SWAGGER.md](./docs/SWAGGER.md).
+- `docs/`: Documentation and module information.
 
 ## License
 
